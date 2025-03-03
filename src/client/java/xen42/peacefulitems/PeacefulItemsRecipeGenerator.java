@@ -1,0 +1,49 @@
+package xen42.peacefulitems;
+
+import java.util.concurrent.CompletableFuture;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import net.minecraft.data.recipe.RecipeExporter;
+import net.minecraft.data.recipe.RecipeGenerator;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
+import net.minecraft.recipe.book.RecipeCategory;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.RegistryWrapper.WrapperLookup;
+
+public class PeacefulItemsRecipeGenerator extends FabricRecipeProvider {
+	public PeacefulItemsRecipeGenerator(FabricDataOutput generator, CompletableFuture<WrapperLookup> registriesFuture) {
+        super(generator, registriesFuture);
+    }
+
+    @Override
+    public String getName() {
+        return "PeacefulItemsRecipeGenerator";
+    }
+
+    @Override
+    protected RecipeGenerator getRecipeGenerator(WrapperLookup registryLookup, RecipeExporter exporter) {
+        return new RecipeGenerator(registryLookup, exporter) {
+            @Override
+            public void generate() {
+				RegistryWrapper.Impl<Item> itemLookup = registries.getOrThrow(RegistryKeys.ITEM);
+
+                createShaped(RecipeCategory.MISC, Items.LEATHER)
+                        .pattern("XX")
+                        .pattern("XX")
+                        .input('X', PeacefulItems.BAT_WING)
+                        // Advancement that gives the recipe
+                        .criterion(hasItem(PeacefulItems.BAT_WING), conditionsFromItem(PeacefulItems.BAT_WING))
+                        .offerTo(exporter);
+                
+                createShapeless(RecipeCategory.MISC, Items.GUNPOWDER, 3)
+                        .input(Items.CHARCOAL) 
+                        .input(PeacefulItems.GUANO) 
+                        .input(PeacefulItems.SULPHUR) 
+                        .criterion(hasItem(PeacefulItems.SULPHUR), conditionsFromItem(PeacefulItems.SULPHUR))
+                        .offerTo(exporter);
+            }
+        };
+    }
+}
