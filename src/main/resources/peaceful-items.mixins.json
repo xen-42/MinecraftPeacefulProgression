@@ -3,7 +3,7 @@
 	"package": "xen42.peacefulitems.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ExampleMixin"
+		"BatEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
