@@ -1,11 +1,8 @@
 {
 	"required": true,
-	"package": "xen42.peacefulitems.mixin",
+	"package": "xen42.peacefulitems.mixin.client",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-
-	],
-	"injectors": {
-		"defaultRequire": 1
-	}
+		"BatEntityMixin"
+	]
 }
