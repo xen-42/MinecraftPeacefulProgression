@@ -4,6 +4,7 @@ import java.util.function.Function;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.MapColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -18,11 +19,32 @@ public class PeacefulModBlocks {
     public static void initialize() {}
 
     public static final Block SULPHUR_BLOCK = register(
-            "sulphur_block",
-            Block::new,
-            AbstractBlock.Settings.create().mapColor(MapColor.PALE_YELLOW).strength(3.0f, 3.0f).requiresTool(),
-            true
+		"sulphur_block",
+		Block::new,
+		AbstractBlock.Settings.create().mapColor(MapColor.PALE_YELLOW).strength(3.0f, 3.0f).requiresTool(),
+		true
     );
+
+	public static final Block FOSSIL_ORE = register(
+		"fossil_ore",
+		Block::new,
+		AbstractBlock.Settings.copy(Blocks.COAL_ORE),
+		true
+	);
+
+	public static final Block DEEPSLATE_FOSSIL_ORE = register(
+		"deepslate_fossil_ore",
+		Block::new,
+		AbstractBlock.Settings.copy(Blocks.DEEPSLATE_COAL_ORE),
+		true
+	);
+
+	public static final Block SOUL_SOIL_FOSSIL_ORE = register(
+		"soul_soil_fossil_ore",
+		Block::new,
+		AbstractBlock.Settings.copy(Blocks.SOUL_SOIL),
+		true
+	);
 
     private static Block register(String name, Function<AbstractBlock.Settings, Block> blockFactory, AbstractBlock.Settings settings, boolean shouldRegisterItem) {
 		// Create a registry key for the block

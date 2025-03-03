@@ -27,6 +27,9 @@ public class PeacefulModItems {
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register((itemGroup) -> { 
             itemGroup.add(PeacefulModBlocks.SULPHUR_BLOCK.asItem());
+            itemGroup.add(PeacefulModBlocks.FOSSIL_ORE.asItem());
+            itemGroup.add(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE.asItem());
+            itemGroup.add(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE.asItem());
         });
 
         CompostingChanceRegistry.INSTANCE.add(GUANO, 1f);

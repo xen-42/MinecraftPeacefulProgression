@@ -1,5 +1,7 @@
 {
   "values": [
-    "peaceful-items:sulphur_block"
+    "peaceful-items:sulphur_block",
+    "peaceful-items:fossil_ore",
+    "peaceful-items:deepslate_fossil_ore"
   ]
 }

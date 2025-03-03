@@ -43,6 +43,20 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .input(PeacefulModItems.SULPHUR) 
                         .criterion(hasItem(PeacefulModItems.SULPHUR), conditionsFromItem(PeacefulModItems.SULPHUR))
                         .offerTo(exporter);
+
+                createShaped(RecipeCategory.MISC, PeacefulModBlocks.SULPHUR_BLOCK)
+                        .pattern("XXX")
+                        .pattern("XXX")
+                        .pattern("XXX")
+                        .input('X', PeacefulModItems.SULPHUR)
+                        // Advancement that gives the recipe
+                        .criterion(hasItem(PeacefulModItems.SULPHUR), conditionsFromItem(PeacefulModItems.SULPHUR))
+                        .offerTo(exporter);
+
+                createShapeless(RecipeCategory.MISC, PeacefulModItems.SULPHUR, 9)
+                        .input(PeacefulModBlocks.SULPHUR_BLOCK) 
+                        .criterion(hasItem(PeacefulModBlocks.SULPHUR_BLOCK), conditionsFromItem(PeacefulModBlocks.SULPHUR_BLOCK))
+                        .offerTo(exporter);
             }
         };
     }

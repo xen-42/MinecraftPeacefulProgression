@@ -15,11 +15,13 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
         blockStateModelGenerator.registerSimpleCubeAll(PeacefulModBlocks.SULPHUR_BLOCK);
+        blockStateModelGenerator.registerSimpleCubeAll(PeacefulModBlocks.FOSSIL_ORE);
+        blockStateModelGenerator.registerSimpleCubeAll(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE);
+        blockStateModelGenerator.registerSimpleCubeAll(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE);
     }
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-        //itemModelGenerator.register(PeacefulModBlocks.SULPHUR_BLOCK.asItem(), Models.GENERATED);
         itemModelGenerator.register(PeacefulModItems.BAT_WING, Models.GENERATED);
         itemModelGenerator.register(PeacefulModItems.GUANO, Models.GENERATED);
         itemModelGenerator.register(PeacefulModItems.SULPHUR, Models.GENERATED);

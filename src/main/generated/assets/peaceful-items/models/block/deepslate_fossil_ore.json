@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "peaceful-items:block/deepslate_fossil_ore"
+  }
+}

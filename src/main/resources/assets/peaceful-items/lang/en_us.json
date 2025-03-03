@@ -3,5 +3,8 @@
     "item.peaceful-items.guano": "Guano",
     "item.peaceful-items.sulphur": "Sulphur",
     
-    "block.peaceful-items.sulphur_block": "Sulphur Block"
+    "item.peaceful-items.sulphur_block": "Sulphur Block",
+    "item.peaceful-items.fossil_ore": "Fossil Ore",
+    "item.peaceful-items.deepslate_fossil_ore": "Deepslate Fossil Ore",
+    "item.peaceful-items.soul_soil_fossil_ore": "Soul Soil Fossil Ore"
 }
