@@ -12,7 +12,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
-public class PeacefulItems {
+public class PeacefulModItems {
     public static final Item BAT_WING = register("bat_wing", Item::new, new Item.Settings());
     public static final Item GUANO = register("guano", Item::new, new Item.Settings());
     public static final Item SULPHUR = register("sulphur", Item::new, new Item.Settings());
@@ -25,12 +25,16 @@ public class PeacefulItems {
             itemGroup.add(SULPHUR);
         });
 
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register((itemGroup) -> { 
+            itemGroup.add(PeacefulModBlocks.SULPHUR_BLOCK.asItem());
+        });
+
         CompostingChanceRegistry.INSTANCE.add(GUANO, 1f);
     }
 
     public static Item register(String name, Function<Item.Settings, Item> itemFactory, Item.Settings settings) {
 		// Create the item key.
-		RegistryKey<Item> itemKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(PeacefulItemsMod.MOD_ID, name));
+		RegistryKey<Item> itemKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(PeacefulMod.MOD_ID, name));
 
 		// Create the item instance.
 		Item item = itemFactory.apply(settings.registryKey(itemKey));

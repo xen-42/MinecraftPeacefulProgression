@@ -3,9 +3,9 @@
 	"id": "peaceful-items",
 	"version": "${version}",
 	"name": "Peaceful Items",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Allow getting stuff in peaceful.",
 	"authors": [
-		"Me!"
+		"xen-42"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
@@ -16,13 +16,13 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"xen42.peacefulitems.PeacefulItemsMod"
+			"xen42.peacefulitems.PeacefulMod"
 		],
 		"client": [
-			"xen42.peacefulitems.PeacefulItemsClient"
+			"xen42.peacefulitems.PeacefulModClient"
 		],
 		"fabric-datagen": [
-			"xen42.peacefulitems.PeacefulItemsDataGenerator"
+			"xen42.peacefulitems.PeacefulModDataGenerator"
 		]
 	},
 	"mixins": [

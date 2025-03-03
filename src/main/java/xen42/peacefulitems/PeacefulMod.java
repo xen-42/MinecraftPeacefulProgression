@@ -5,7 +5,7 @@ import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PeacefulItemsMod implements ModInitializer {
+public class PeacefulMod implements ModInitializer {
 	public static final String MOD_ID = "peaceful-items";
 
 	// This logger is used to write text to the console and the log file.
@@ -21,6 +21,7 @@ public class PeacefulItemsMod implements ModInitializer {
 
 		LOGGER.info("Loading Peaceful Mod!");
 
-		PeacefulItems.initialize();
+		PeacefulModItems.initialize();
+		PeacefulModBlocks.initialize();
 	}
 }

@@ -1,5 +1,7 @@
 {
     "item.peaceful-items.bat_wing": "Bat Wing",
     "item.peaceful-items.guano": "Guano",
-    "item.peaceful-items.sulphur": "Sulphur"
+    "item.peaceful-items.sulphur": "Sulphur",
+    
+    "block.peaceful-items.sulphur_block": "Sulphur Block"
 }
