@@ -9,7 +9,7 @@ public class PeacefulModDataGenerator implements DataGeneratorEntrypoint {
 		FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
 		pack.addProvider(PeacefulModRecipeGenerator::new);
 		pack.addProvider(PeacefulModModelGenerator::new);
-		pack.addProvider(PeacefulModLootTableGenerator::new);
+		pack.addProvider(PeacefulModBlockLootTableGenerator::new);
 		pack.addProvider(PeacefulModBlockTagGenerator::new);
 	}
 }

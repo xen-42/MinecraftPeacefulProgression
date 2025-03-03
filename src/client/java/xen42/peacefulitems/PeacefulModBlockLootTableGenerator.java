@@ -18,9 +18,9 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 
-public class PeacefulModLootTableGenerator extends FabricBlockLootTableProvider {
+public class PeacefulModBlockLootTableGenerator extends FabricBlockLootTableProvider {
 
-    protected PeacefulModLootTableGenerator(FabricDataOutput dataOutput,
+    protected PeacefulModBlockLootTableGenerator(FabricDataOutput dataOutput,
             CompletableFuture<WrapperLookup> registryLookup) {
         super(dataOutput, registryLookup);
     }
