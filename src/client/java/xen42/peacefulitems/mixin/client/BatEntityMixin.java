@@ -31,6 +31,7 @@ public class BatEntityMixin {
 		}
 	}
 
+	// Injecting into onDeath didnt work, probably because thats an inherited method that the BatEntity class doesnt override
 	@Inject(at = @At("TAIL"), method = "damage")
 	private void damage(CallbackInfoReturnable<Boolean> info) {
 		var bat = ((BatEntity)(Object)this);
