@@ -16,7 +16,7 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"xen42.peacefulitems.PeacefulItems"
+			"xen42.peacefulitems.PeacefulItemsMod"
 		],
 		"client": [
 			"xen42.peacefulitems.PeacefulItemsClient"
