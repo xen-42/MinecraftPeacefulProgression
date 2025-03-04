@@ -72,7 +72,6 @@ public class PeacefulModBlocks {
 		false
 	);
 
-
     private static Block register(String name, Function<AbstractBlock.Settings, Block> blockFactory, AbstractBlock.Settings settings, boolean shouldRegisterItem) {
 		// Create a registry key for the block
 		RegistryKey<Block> blockKey = keyOfBlock(name);

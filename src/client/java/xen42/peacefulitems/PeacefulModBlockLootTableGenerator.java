@@ -11,10 +11,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
+import net.minecraft.loot.condition.BlockStatePropertyLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.ApplyBonusLootFunction;
 import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
+import net.minecraft.predicate.StatePredicate;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
@@ -34,6 +36,10 @@ public class PeacefulModBlockLootTableGenerator extends FabricBlockLootTableProv
         addDrop(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE, block -> fossilOreDrops(block));
         addDrop(PeacefulModBlocks.SULPHUR_ORE, block -> oreDrops(PeacefulModBlocks.SULPHUR_ORE, PeacefulModItems.SULPHUR));
         addDrop(PeacefulModBlocks.SULPHUR_CLUSTER, block -> dropItem(PeacefulModItems.SULPHUR, 1, 1));
+
+        BlockStatePropertyLootCondition.Builder flax_condition = BlockStatePropertyLootCondition.builder(PeacefulModBlocks.FLAX_CROP)
+            .properties(StatePredicate.Builder.create().exactMatch(FlaxCropBlock.AGE, 7));
+        addDrop(PeacefulModBlocks.FLAX_CROP, block -> this.cropDrops(block, Items.STRING, PeacefulModItems.FLAX, flax_condition));
     }
 
     private LootTable.Builder fossilOreDrops(Block block) {

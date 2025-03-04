@@ -14,7 +14,7 @@ import net.minecraft.world.BlockView;
 
 public class FlaxCropBlock extends CropBlock {
 
-    public static final IntProperty AGE = Properties.AGE_5;
+    public static final IntProperty AGE = Properties.AGE_7;
 
     private static final VoxelShape[] AGE_TO_SHAPE = new VoxelShape[] {
             Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D),
@@ -23,8 +23,9 @@ public class FlaxCropBlock extends CropBlock {
             Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 5.0D, 16.0D),
             Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D),
             Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D),
+            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D),
             Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)
-    };
+        };
  
     public FlaxCropBlock(AbstractBlock.Settings settings) {
         super(settings);
@@ -37,7 +38,7 @@ public class FlaxCropBlock extends CropBlock {
 
     @Override
     public int getMaxAge() {
-        return 5;
+        return 7;
     }
  
     @Override
