@@ -3,20 +3,23 @@ package xen42.peacefulitems;
 import java.util.function.Function;
 
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.AmethystBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.MapColor;
+import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 
 public class PeacefulModBlocks {
 
-    public static void initialize() {}
+    public static void initialize() { }
 
     public static final Block SULPHUR_BLOCK = register(
 		"sulphur_block",
@@ -24,6 +27,21 @@ public class PeacefulModBlocks {
 		AbstractBlock.Settings.create().mapColor(MapColor.PALE_YELLOW).strength(3.0f, 3.0f).requiresTool(),
 		true
     );
+
+	public static final Block SULPHUR_CLUSTER = register(
+		"sulphur_cluster",
+		setting -> new SulphurClusterBlock(7, 3, setting),
+		AbstractBlock.Settings.create().mapColor(MapColor.PALE_YELLOW).solid().nonOpaque().pistonBehavior(PistonBehavior.DESTROY)
+			.sounds(BlockSoundGroup.NETHERRACK).breakInstantly(),
+		true
+	);
+
+	public static final Block SULPHUR_ORE = register(
+		"sulphur_ore",
+		Block::new,
+		AbstractBlock.Settings.copy(Blocks.SOUL_SOIL),
+		true
+	);
 
 	public static final Block FOSSIL_ORE = register(
 		"fossil_ore",

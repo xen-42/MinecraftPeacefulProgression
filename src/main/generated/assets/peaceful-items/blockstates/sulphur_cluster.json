@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "peaceful-items:block/sulphur_cluster",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "peaceful-items:block/sulphur_cluster",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "peaceful-items:block/sulphur_cluster",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "peaceful-items:block/sulphur_cluster",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "peaceful-items:block/sulphur_cluster"
+    },
+    "facing=west": {
+      "model": "peaceful-items:block/sulphur_cluster",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

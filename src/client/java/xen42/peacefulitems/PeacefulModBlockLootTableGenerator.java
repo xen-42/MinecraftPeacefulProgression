@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
+import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
@@ -31,6 +32,8 @@ public class PeacefulModBlockLootTableGenerator extends FabricBlockLootTableProv
         addDrop(PeacefulModBlocks.FOSSIL_ORE, block -> fossilOreDrops(block));
         addDrop(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE, block -> fossilOreDrops(block));
         addDrop(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE, block -> fossilOreDrops(block));
+        addDrop(PeacefulModBlocks.SULPHUR_ORE, block -> oreDrops(PeacefulModBlocks.SULPHUR_ORE, PeacefulModItems.SULPHUR));
+        addDrop(PeacefulModBlocks.SULPHUR_CLUSTER, block -> dropItem(PeacefulModItems.SULPHUR, 1, 1));
     }
 
     private LootTable.Builder fossilOreDrops(Block block) {
@@ -47,5 +50,19 @@ public class PeacefulModBlockLootTableGenerator extends FabricBlockLootTableProv
             .pool(LootPool.builder().with(ItemEntry.builder(block)).conditionally(createSilkTouchCondition()));
 
         return normalDrop;
+    }
+
+    private LootTable.Builder silkTouch(Block block, Item item, int min, int max) {
+        var dropItem = (ItemEntry.builder(item).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(min, max))));
+
+        return (LootTable.Builder)LootTable.builder()
+            .pool(LootPool.builder().with(dropItem).conditionally(createWithoutSilkTouchCondition()))
+            .pool(LootPool.builder().with(ItemEntry.builder(block)).conditionally(createSilkTouchCondition()));
+    }
+
+    private LootTable.Builder dropItem(Item item, int min, int max) {
+        var dropItem = (ItemEntry.builder(item).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(min, max))));
+
+        return (LootTable.Builder)LootTable.builder().pool(LootPool.builder().with(dropItem));
     }
 }
