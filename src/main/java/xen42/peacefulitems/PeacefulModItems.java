@@ -5,6 +5,8 @@ import java.util.function.Function;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
+import net.minecraft.component.type.FoodComponent;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
@@ -17,6 +19,7 @@ public class PeacefulModItems {
     public static final Item BAT_WING = register("bat_wing", Item::new, new Item.Settings());
     public static final Item GUANO = register("guano", Item::new, new Item.Settings());
     public static final Item SULPHUR = register("sulphur", Item::new, new Item.Settings());
+    public static final Item FLAX = register("flax", (settings) -> new BlockItem(PeacefulModBlocks.FLAX_CROP, settings), new Item.Settings().food(new FoodComponent(2, 1, false)));
 
     public static void initialize() {
         // Add custom items to groups
@@ -35,7 +38,12 @@ public class PeacefulModItems {
             itemGroup.add(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE.asItem());
         });
 
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register((itemGroup) -> { 
+            itemGroup.add(FLAX);
+        });
+
         CompostingChanceRegistry.INSTANCE.add(GUANO, 1f);
+        CompostingChanceRegistry.INSTANCE.add(FLAX, 0.1f);
     }
 
     public static Item register(String name, Function<Item.Settings, Item> itemFactory, Item.Settings settings) {

@@ -8,5 +8,6 @@ public class PeacefulModClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		BlockRenderLayerMap.INSTANCE.putBlock(PeacefulModBlocks.SULPHUR_CLUSTER, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(PeacefulModBlocks.FLAX_CROP, RenderLayer.getCutout());
 	}
 }

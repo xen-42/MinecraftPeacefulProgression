@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.client.data.BlockStateModelGenerator;
 import net.minecraft.client.data.ItemModelGenerator;
 import net.minecraft.client.data.Models;
+import net.minecraft.state.property.Properties;
 
 public class PeacefulModModelGenerator extends FabricModelProvider {
 
@@ -20,6 +21,8 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
         blockStateModelGenerator.registerSimpleCubeAll(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE);
         blockStateModelGenerator.registerSimpleCubeAll(PeacefulModBlocks.SULPHUR_ORE);
         blockStateModelGenerator.registerAmethyst(PeacefulModBlocks.SULPHUR_CLUSTER);
+
+        //blockStateModelGenerator.registerCrop(PeacefulModBlocks.FLAX_CROP, Properties.AGE_5, 0, 1, 2, 3, 4, 5);
     }
 
     @Override
@@ -27,6 +30,7 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
         itemModelGenerator.register(PeacefulModItems.BAT_WING, Models.GENERATED);
         itemModelGenerator.register(PeacefulModItems.GUANO, Models.GENERATED);
         itemModelGenerator.register(PeacefulModItems.SULPHUR, Models.GENERATED);
+        //itemModelGenerator.register(PeacefulModItems.FLAX, Models.GENERATED);
     }
 
     @Override

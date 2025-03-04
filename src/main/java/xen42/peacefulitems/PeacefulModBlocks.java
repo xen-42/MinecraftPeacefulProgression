@@ -6,6 +6,7 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.AmethystBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.CropBlock;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.item.BlockItem;
@@ -63,6 +64,14 @@ public class PeacefulModBlocks {
 		AbstractBlock.Settings.copy(Blocks.SOUL_SOIL),
 		true
 	);
+
+	public static final FlaxCropBlock FLAX_CROP = (FlaxCropBlock)register(
+		"flax_crop",
+		FlaxCropBlock::new,
+		AbstractBlock.Settings.create().mapColor(MapColor.DARK_GREEN).nonOpaque().noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP),
+		false
+	);
+
 
     private static Block register(String name, Function<AbstractBlock.Settings, Block> blockFactory, AbstractBlock.Settings settings, boolean shouldRegisterItem) {
 		// Create a registry key for the block
