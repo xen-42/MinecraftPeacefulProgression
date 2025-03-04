@@ -23,8 +23,9 @@ public class BatEntityMixin {
 	private void tick(CallbackInfo info) {
 		var bat = ((BatEntity)(Object)this);
 
-		// On average once every five seconds, I think!
-		if (!bat.getWorld().isClient && bat.isAlive() && random.nextFloat() < 1f / (5f * 60f)) {
+		// On average once every X seconds, I think!
+		// 20 ticks per second
+		if (!bat.getWorld().isClient && bat.isAlive() && random.nextFloat() < 1f / (300f * 20f)) {
 			bat.emitGameEvent(GameEvent.ENTITY_PLACE);
 			bat.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0f, (random.nextFloat() - random.nextFloat()) * 0.2f + 1.0f);
             bat.dropItem((ServerWorld)bat.getWorld(), PeacefulModItems.GUANO);

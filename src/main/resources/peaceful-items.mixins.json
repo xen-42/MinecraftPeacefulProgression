@@ -3,6 +3,7 @@
 	"package": "xen42.peacefulitems.mixin.client",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"BatEntityMixin"
+		"BatEntityMixin",
+		"PandaEntityMixin"
 	]
 }
