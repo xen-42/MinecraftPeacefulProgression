@@ -3,6 +3,7 @@ package xen42.peacefulitems;
 import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import net.minecraft.block.Blocks;
 import net.minecraft.data.recipe.RecipeExporter;
 import net.minecraft.data.recipe.RecipeGenerator;
 import net.minecraft.item.Item;
@@ -51,6 +52,16 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .input('X', PeacefulModItems.SULPHUR)
                         // Advancement that gives the recipe
                         .criterion(hasItem(PeacefulModItems.SULPHUR), conditionsFromItem(PeacefulModItems.SULPHUR))
+                        .offerTo(exporter);
+
+                createShaped(RecipeCategory.MISC, Items.SADDLE)
+                        .pattern("XXX")
+                        .pattern("ZYZ")
+                        .input('X', Items.LEATHER)
+                        .input('Y', Items.STRING)
+                        .input('Z', Items.IRON_INGOT)
+                        // Advancement that gives the recipe
+                        .criterion(hasItem(Items.LEATHER), conditionsFromItem(Items.LEATHER))
                         .offerTo(exporter);
 
                 createShapeless(RecipeCategory.MISC, PeacefulModItems.SULPHUR, 9)
