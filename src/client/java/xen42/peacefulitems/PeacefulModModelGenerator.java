@@ -22,7 +22,7 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
         blockStateModelGenerator.registerSimpleCubeAll(PeacefulModBlocks.SULPHUR_ORE);
         blockStateModelGenerator.registerAmethyst(PeacefulModBlocks.SULPHUR_CLUSTER);
 
-        blockStateModelGenerator.registerCrop(PeacefulModBlocks.FLAX_CROP, Properties.AGE_7, 0, 1, 2, 3, 4, 5, 5, 5);
+        blockStateModelGenerator.registerCrop(PeacefulModBlocks.FLAX_CROP, Properties.AGE_7, 0, 1, 2, 3, 4, 4, 5, 6);
     }
 
     @Override
@@ -30,7 +30,6 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
         itemModelGenerator.register(PeacefulModItems.BAT_WING, Models.GENERATED);
         itemModelGenerator.register(PeacefulModItems.GUANO, Models.GENERATED);
         itemModelGenerator.register(PeacefulModItems.SULPHUR, Models.GENERATED);
-        //itemModelGenerator.register(PeacefulModItems.FLAX, Models.GENERATED);
     }
 
     @Override

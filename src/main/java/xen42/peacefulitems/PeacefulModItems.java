@@ -42,8 +42,8 @@ public class PeacefulModItems {
             itemGroup.add(FLAX);
         });
 
-        CompostingChanceRegistry.INSTANCE.add(GUANO, 1f);
-        CompostingChanceRegistry.INSTANCE.add(FLAX, 0.1f);
+        CompostingChanceRegistry.INSTANCE.add(GUANO, 2f);
+        CompostingChanceRegistry.INSTANCE.add(FLAX, 0.3f);
     }
 
     public static Item register(String name, Function<Item.Settings, Item> itemFactory, Item.Settings settings) {

@@ -16,13 +16,13 @@
       "model": "peaceful-items:block/flax_crop_stage4"
     },
     "age=5": {
-      "model": "peaceful-items:block/flax_crop_stage5"
+      "model": "peaceful-items:block/flax_crop_stage4"
     },
     "age=6": {
       "model": "peaceful-items:block/flax_crop_stage5"
     },
     "age=7": {
-      "model": "peaceful-items:block/flax_crop_stage5"
+      "model": "peaceful-items:block/flax_crop_stage6"
     }
   }
 }
