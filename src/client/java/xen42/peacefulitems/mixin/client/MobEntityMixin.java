@@ -4,20 +4,29 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityPose;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.entity.passive.FrogEntity;
 import net.minecraft.entity.passive.FrogVariant;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import xen42.peacefulitems.PeacefulMod;
 
 @Mixin(MobEntity.class)
 public class MobEntityMixin {
@@ -57,4 +66,28 @@ public class MobEntityMixin {
             }
         }
 	}
+
+    @Inject(at = @At("HEAD"), method = "interactMob", cancellable = true)
+    private void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> info) {
+        
+        if ((Object)this instanceof BatEntity) {
+            ItemStack item = player.getStackInHand(hand);
+            var bat = ((BatEntity)(Object)this);
+
+            if (item.isOf(Items.MELON_SLICE) && bat.getDataTracker().get(PeacefulMod.BAT_BREEDING_TICKS) <= 0f) {                
+                if (!player.getAbilities().creativeMode) {
+                    item.decrement(1);
+                }
+                for (int i = 0; i < 7; ++i) {
+                    double d = bat.getRandom().nextGaussian() * 0.02;
+                    double e = bat.getRandom().nextGaussian() * 0.02;
+                    double f = bat.getRandom().nextGaussian() * 0.02;
+                    bat.getWorld().addParticle(ParticleTypes.HEART, bat.getParticleX(1.0), bat.getRandomBodyY() + 0.5, bat.getParticleZ(1.0), d, e, f);
+                }
+                // 40 seconds I think?
+                bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_TICKS, 40*20);
+                info.setReturnValue(ActionResult.SUCCESS);
+            }
+        }
+    }
 }
