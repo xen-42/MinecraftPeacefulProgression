@@ -54,6 +54,21 @@ public class FlaxCropBlock extends CropBlock {
         }
     }
 
+    // Stop random ticking if its the second highest age but has a top block
+	@Override
+	protected void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        if (state.get(AGE) == this.getMaxAge() - 1 && world.getBlockState(pos.up()).isOf(this)) {
+            return;
+        }
+		super.randomTick(state, world, pos, random);
+        if (state.get(AGE) >= this.getMaxAge() - 1) {
+            if (world.getBlockState(pos.up()).isAir()) {
+                world.setBlockState(pos.up(), PeacefulModBlocks.FLAX_CROP.getDefaultState().with(AGE, this.getMaxAge()));
+            }
+            world.setBlockState(pos, this.withAge(this.getMaxAge() - 1), Block.NOTIFY_LISTENERS);
+        }
+	}
+
     @Override
     public BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView view, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
         if (!state.canPlaceAt(world, pos) && !world.getBlockState(pos.down()).isOf(this)) {
