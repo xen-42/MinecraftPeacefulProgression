@@ -5,6 +5,8 @@
 	"mixins": [
 		"BatEntityMixin",
 		"PandaEntityMixin",
-		"AmbientEntityMixin"
+		"AmbientEntityMixin",
+		"MobEntityMixin",
+		"FrogEntityMixin"
 	]
 }
