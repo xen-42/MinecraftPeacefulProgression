@@ -74,7 +74,8 @@ public class MobEntityMixin {
             ItemStack item = player.getStackInHand(hand);
             var bat = ((BatEntity)(Object)this);
 
-            if (item.isOf(Items.MELON_SLICE) && bat.getDataTracker().get(PeacefulMod.BAT_BREEDING_TICKS) <= 0f) {                
+            if (item.isOf(Items.MELON_SLICE) && bat.getDataTracker().get(PeacefulMod.BAT_BREEDING_TICKS) <= 0f 
+                    && bat.getDataTracker().get(PeacefulMod.BAT_BREEDING_COOLDOWN) <= 0f) {                
                 if (!player.getAbilities().creativeMode) {
                     item.decrement(1);
                 }

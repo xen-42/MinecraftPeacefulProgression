@@ -1,5 +1,7 @@
 package xen42.peacefulitems.mixin.client;
 
+import net.minecraft.client.render.entity.BatEntityRenderer;
+import net.minecraft.client.render.entity.state.BatEntityRenderState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -13,6 +15,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.world.ServerWorld;
@@ -25,6 +28,7 @@ import net.minecraft.world.GameRules;
 import net.minecraft.world.event.GameEvent;
 import xen42.peacefulitems.PeacefulMod;
 import xen42.peacefulitems.PeacefulModItems;
+import xen42.peacefulitems.entities.BatHelper;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,6 +47,8 @@ public class BatEntityMixin {
 	@Inject(at = @At("TAIL"), method = "initDataTracker")
     public void initDataTracker(DataTracker.Builder builder, CallbackInfo info) {
 		builder.add(PeacefulMod.BAT_BREEDING_TICKS, 0);
+		builder.add(PeacefulMod.BAT_IS_BABY, false);
+		builder.add(PeacefulMod.BAT_BREEDING_COOLDOWN, 0);
     }
 
 	@Inject(at = @At("HEAD"), method = "tick")
@@ -51,7 +57,7 @@ public class BatEntityMixin {
 
 		// On average once every X seconds, I think!
 		// 20 ticks per second
-		if (!bat.getWorld().isClient && bat.isAlive() && random.nextFloat() < 1f / (300f * 20f)) {
+		if (!bat.getWorld().isClient && bat.isAlive() && !bat.isBaby() && random.nextFloat() < 1f / (300f * 20f)) {
 			bat.emitGameEvent(GameEvent.ENTITY_PLACE);
 			bat.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0f, (random.nextFloat() - random.nextFloat()) * 0.2f + 1.0f);
             bat.dropItem((ServerWorld)bat.getWorld(), PeacefulModItems.GUANO);
@@ -108,7 +114,7 @@ public class BatEntityMixin {
 	private void damage(CallbackInfoReturnable<Boolean> info) {
 		var bat = ((BatEntity)(Object)this);
 
-		if (!bat.getWorld().isClient && !bat.isAlive()) {
+		if (!bat.getWorld().isClient && !bat.isAlive() && !bat.isBaby()) {
 			var r = random.nextFloat();
 			if (r > 0.8) {
 				bat.dropStack((ServerWorld)bat.getWorld(), new ItemStack(PeacefulModItems.BAT_WING, 2));
@@ -125,7 +131,14 @@ public class BatEntityMixin {
 		var player = bat.getWorld().getClosestPlayer(bat, 10);
 		if (!bat.isRoosting()) {
 			var breedingTicks = bat.getDataTracker().get(PeacefulMod.BAT_BREEDING_TICKS);
-			if (breedingTicks > 0) {
+			var batBreedingCooldown = bat.getDataTracker().get(PeacefulMod.BAT_BREEDING_COOLDOWN);
+			if (bat.isBaby() && batBreedingCooldown <= 0) {
+				bat.getDataTracker().set(PeacefulMod.BAT_IS_BABY, false);
+			}
+			if (batBreedingCooldown > 0) {
+				bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_COOLDOWN, batBreedingCooldown - 1);
+			}
+			if (!bat.isBaby() && breedingTicks > 0) {
 				bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_TICKS, breedingTicks - 1);
 
         		List<BatEntity> list = bat.getWorld().getNonSpectatingEntities(BatEntity.class, bat.getBoundingBox().expand(10.0));
@@ -148,10 +161,15 @@ public class BatEntityMixin {
 						}
 						bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_TICKS, 0);
 						mate.getDataTracker().set(PeacefulMod.BAT_BREEDING_TICKS, 0);
+						baby.getDataTracker().set(PeacefulMod.BAT_IS_BABY, true);
 
+						bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_COOLDOWN, PeacefulMod.BatBreedingCooldown);
+						mate.getDataTracker().set(PeacefulMod.BAT_BREEDING_COOLDOWN, PeacefulMod.BatBreedingCooldown);
+						// Breeding cooldown doubles as age timer because why not
+						baby.getDataTracker().set(PeacefulMod.BAT_BREEDING_COOLDOWN, PeacefulMod.BatGrowUpTicks);
 					}
 					else {
-						FlyTowards(bat, mate.getPos());
+						BatHelper.FlyTowards(bat, mate.getPos());
 					}
 					info.cancel();
 					return;
@@ -160,23 +178,27 @@ public class BatEntityMixin {
 			if (player != null && player.isHolding(Items.MELON_SLICE)) {
 				var playerPos = player.getPos().add(player.getHorizontalFacing().getDoubleVector());
 
-				FlyTowards(bat, playerPos.add(new Vec3d(0f, 1.0f, 0f)));
+				BatHelper.FlyTowards(bat, playerPos.add(new Vec3d(0f, 1.0f, 0f)));
 				info.cancel();
 			}
 		}
 	}
 
-	private void FlyTowards(BatEntity bat, Vec3d target) {
-		// Fly towards the player using similar logic as going to roost
-		double d = (double)target.getX() - bat.getX();
-		double e = (double)target.getY() - bat.getY();
-		double f = (double)target.getZ() - bat.getZ();
-		Vec3d lv3 = bat.getVelocity();
-		Vec3d lv4 = lv3.add((Math.signum(d) * 0.5 - lv3.x) * (double)0.1f, (Math.signum(e) * (double)0.7f - lv3.y) * (double)0.1f, (Math.signum(f) * 0.5 - lv3.z) * (double)0.1f);
-		bat.setVelocity(lv4);
-		float g = (float)(MathHelper.atan2(lv4.z, lv4.x) * 57.2957763671875) - 90.0f;
-		float h = MathHelper.wrapDegrees(g - bat.getYaw());
-		bat.forwardSpeed = 0.5f;
-		bat.setYaw(bat.getYaw() + h);
+	@Inject(at = @At("TAIL"), method = "writeCustomDataToNbt")
+	public void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo info) {
+		var bat = ((BatEntity)(Object)this);
+
+		nbt.putBoolean("IsBaby", bat.getDataTracker().get(PeacefulMod.BAT_IS_BABY));
+		nbt.putInt("BreedingTicks", bat.getDataTracker().get(PeacefulMod.BAT_BREEDING_TICKS));
+		nbt.putInt("BreedingCooldown", bat.getDataTracker().get(PeacefulMod.BAT_BREEDING_COOLDOWN));
+	}
+
+	@Inject(at = @At("TAIL"), method = "readCustomDataFromNbt")
+	public void readCustomDataFromNbt(NbtCompound nbt, CallbackInfo info) {
+		var bat = ((BatEntity)(Object)this);
+
+		bat.getDataTracker().set(PeacefulMod.BAT_IS_BABY, nbt.getBoolean("IsBaby"));
+		bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_TICKS, nbt.getInt("BreedingTicks"));
+		bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_COOLDOWN, nbt.getInt("BreedingCooldown"));
 	}
 }
