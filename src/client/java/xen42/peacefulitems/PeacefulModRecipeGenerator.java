@@ -1,5 +1,6 @@
 package xen42.peacefulitems;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
@@ -28,7 +29,7 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
         return new RecipeGenerator(registryLookup, exporter) {
             @Override
             public void generate() {
-				RegistryWrapper.Impl<Item> itemLookup = registries.getOrThrow(RegistryKeys.ITEM);
+                RegistryWrapper.Impl<Item> itemLookup = registries.getOrThrow(RegistryKeys.ITEM);
 
                 createShaped(RecipeCategory.MISC, Items.LEATHER)
                         .pattern("XX")
@@ -68,6 +69,8 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .input(PeacefulModBlocks.SULPHUR_BLOCK) 
                         .criterion(hasItem(PeacefulModBlocks.SULPHUR_BLOCK), conditionsFromItem(PeacefulModBlocks.SULPHUR_BLOCK))
                         .offerTo(exporter);
+
+                offerSmelting(List.of(PeacefulModBlocks.BLAZE_PICKLE), RecipeCategory.MISC, Items.BLAZE_ROD, 0.45f, 200, PeacefulModBlocks.BLAZE_PICKLE.getName().toString());
             }
         };
     }

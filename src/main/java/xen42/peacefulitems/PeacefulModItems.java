@@ -5,6 +5,7 @@ import java.util.function.Function;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
+import net.minecraft.block.Block;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -36,6 +37,7 @@ public class PeacefulModItems {
             itemGroup.add(PeacefulModBlocks.FOSSIL_ORE.asItem());
             itemGroup.add(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE.asItem());
             itemGroup.add(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE.asItem());
+            itemGroup.add(PeacefulModBlocks.BLAZE_PICKLE.asItem());
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register((itemGroup) -> { 

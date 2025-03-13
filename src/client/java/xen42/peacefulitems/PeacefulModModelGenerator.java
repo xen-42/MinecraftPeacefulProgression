@@ -1,11 +1,23 @@
 package xen42.peacefulitems;
 
+import java.util.Optional;
+
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.minecraft.block.Block;
 import net.minecraft.client.data.BlockStateModelGenerator;
+import net.minecraft.client.data.BlockStateVariant;
+import net.minecraft.client.data.BlockStateVariantMap;
 import net.minecraft.client.data.ItemModelGenerator;
 import net.minecraft.client.data.Models;
+import net.minecraft.client.data.TextureKey;
+import net.minecraft.client.data.TextureMap;
+import net.minecraft.client.data.VariantSettings;
+import net.minecraft.client.data.VariantsBlockStateSupplier;
+import net.minecraft.client.data.Model;
+import net.minecraft.item.Item;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.Identifier;
 
 public class PeacefulModModelGenerator extends FabricModelProvider {
 
@@ -21,6 +33,7 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
         blockStateModelGenerator.registerSimpleCubeAll(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE);
         blockStateModelGenerator.registerSimpleCubeAll(PeacefulModBlocks.SULPHUR_ORE);
         blockStateModelGenerator.registerAmethyst(PeacefulModBlocks.SULPHUR_CLUSTER);
+        registerSeaPickle(blockStateModelGenerator, PeacefulModBlocks.BLAZE_PICKLE.asItem(), PeacefulModBlocks.BLAZE_PICKLE);
 
         blockStateModelGenerator.registerCrop(PeacefulModBlocks.FLAX_CROP, Properties.AGE_7, 0, 1, 2, 3, 4, 4, 5, 6);
     }
@@ -36,5 +49,34 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
     public String getName() {
         return "PeacefulModModelGenerator";
     }
-    
+
+    private Model GetModel(String parent) {
+        return new Model(Optional.of(Identifier.ofVanilla("block/" + parent)), Optional.empty(), TextureKey.ALL, TextureKey.PARTICLE);
+    }
+
+    public void registerSeaPickle(BlockStateModelGenerator blockStateModelGenerator, Item item, Block block) {
+		blockStateModelGenerator.registerItemModel(item);
+        var textureMap = TextureMap.all(block);
+
+        var id1 = GetModel("dead_sea_pickle").upload(block, "_one", textureMap, blockStateModelGenerator.modelCollector);
+        var id2 = GetModel("two_dead_sea_pickles").upload(block, "_two", textureMap, blockStateModelGenerator.modelCollector);
+        var id3 = GetModel("three_dead_sea_pickles").upload(block, "_three", textureMap, blockStateModelGenerator.modelCollector);
+        var id4 = GetModel("four_dead_sea_pickles").upload(block, "_four", textureMap, blockStateModelGenerator.modelCollector);
+
+		blockStateModelGenerator.blockStateCollector
+			.accept(
+				VariantsBlockStateSupplier.create(block)
+					.coordinate(
+						BlockStateVariantMap.create(Properties.PICKLES, Properties.WATERLOGGED)
+							.register(1, true, BlockStateVariant.create().put(VariantSettings.MODEL, id1))
+							.register(2, true, BlockStateVariant.create().put(VariantSettings.MODEL, id2))
+							.register(3, true, BlockStateVariant.create().put(VariantSettings.MODEL, id3))
+							.register(4, true, BlockStateVariant.create().put(VariantSettings.MODEL, id4))
+                            .register(1, false, BlockStateVariant.create().put(VariantSettings.MODEL, id1))
+							.register(2, false, BlockStateVariant.create().put(VariantSettings.MODEL, id2))
+							.register(3, false, BlockStateVariant.create().put(VariantSettings.MODEL, id3))
+							.register(4, false, BlockStateVariant.create().put(VariantSettings.MODEL, id4))
+                    )
+			);
+	}
 }

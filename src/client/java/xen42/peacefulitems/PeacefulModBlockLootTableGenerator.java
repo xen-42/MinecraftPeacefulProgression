@@ -1,20 +1,28 @@
 package xen42.peacefulitems;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.CandleBlock;
+import net.minecraft.block.SeaPickleBlock;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.condition.BlockStatePropertyLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.entry.LootPoolEntry;
 import net.minecraft.loot.function.ApplyBonusLootFunction;
 import net.minecraft.loot.function.SetCountLootFunction;
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.predicate.StatePredicate;
 import net.minecraft.registry.RegistryKeys;
@@ -36,6 +44,13 @@ public class PeacefulModBlockLootTableGenerator extends FabricBlockLootTableProv
         addDrop(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE, block -> fossilOreDrops(block));
         addDrop(PeacefulModBlocks.SULPHUR_ORE, block -> oreDrops(PeacefulModBlocks.SULPHUR_ORE, PeacefulModItems.SULPHUR));
         addDrop(PeacefulModBlocks.SULPHUR_CLUSTER, block -> dropItem(PeacefulModItems.SULPHUR, 1, 1));
+        this.addDrop(PeacefulModBlocks.BLAZE_PICKLE, (Block block) 
+            -> LootTable.builder().pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f))
+            .with((LootPoolEntry.Builder)this.applyExplosionDecay(Blocks.SEA_PICKLE, ItemEntry.builder(block)
+            .apply(List.of(Integer.valueOf(2), Integer.valueOf(3), Integer.valueOf(4)), pickles 
+            -> SetCountLootFunction.builder(ConstantLootNumberProvider.create(pickles.intValue()))
+            .conditionally(BlockStatePropertyLootCondition.builder(block)
+            .properties(StatePredicate.Builder.create().exactMatch(SeaPickleBlock.PICKLES, pickles.intValue()))))))));
 
         BlockStatePropertyLootCondition.Builder flax_condition = BlockStatePropertyLootCondition.builder(PeacefulModBlocks.FLAX_CROP)
             .properties(StatePredicate.Builder.create().exactMatch(FlaxCropBlock.AGE, 7));

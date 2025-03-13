@@ -18,6 +18,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import xen42.peacefulitems.PeacefulMod;
+import xen42.peacefulitems.PeacefulModBlocks;
 
 @Mixin(SnifferEntity.class)
 public class SnifferEntityMixin {
@@ -40,7 +41,7 @@ public class SnifferEntityMixin {
 
             // If trying to dig soul sand or soul soil we'll drop nether-y things
             if (blockState.isOf(Blocks.SOUL_SAND) || blockState.isOf(Blocks.SOUL_SOIL)) {
-                var itemStack = new ItemStack(Items.BLAZE_ROD);
+                var itemStack = new ItemStack(PeacefulModBlocks.BLAZE_PICKLE.asItem());
                 ItemEntity itemEntity = new ItemEntity(sniffer.getWorld(), blockPos.getX(), blockPos.getY(), blockPos.getZ(), itemStack);
                 itemEntity.setToDefaultPickupDelay();
                 serverWorld.spawnEntity(itemEntity);

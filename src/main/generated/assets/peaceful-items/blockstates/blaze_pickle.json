@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "pickles=1,waterlogged=false": {
+      "model": "peaceful-items:block/blaze_pickle_one"
+    },
+    "pickles=1,waterlogged=true": {
+      "model": "peaceful-items:block/blaze_pickle_one"
+    },
+    "pickles=2,waterlogged=false": {
+      "model": "peaceful-items:block/blaze_pickle_two"
+    },
+    "pickles=2,waterlogged=true": {
+      "model": "peaceful-items:block/blaze_pickle_two"
+    },
+    "pickles=3,waterlogged=false": {
+      "model": "peaceful-items:block/blaze_pickle_three"
+    },
+    "pickles=3,waterlogged=true": {
+      "model": "peaceful-items:block/blaze_pickle_three"
+    },
+    "pickles=4,waterlogged=false": {
+      "model": "peaceful-items:block/blaze_pickle_four"
+    },
+    "pickles=4,waterlogged=true": {
+      "model": "peaceful-items:block/blaze_pickle_four"
+    }
+  }
+}

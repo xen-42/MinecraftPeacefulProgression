@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CropBlock;
 import net.minecraft.block.MapColor;
+import net.minecraft.block.SeaPickleBlock;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -70,6 +71,13 @@ public class PeacefulModBlocks {
 		FlaxCropBlock::new,
 		AbstractBlock.Settings.create().mapColor(MapColor.DARK_GREEN).nonOpaque().noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP),
 		false
+	);
+
+	public static final BlazePickleBlock BLAZE_PICKLE = (BlazePickleBlock)register(
+		"blaze_pickle",
+		BlazePickleBlock::new,
+		AbstractBlock.Settings.create().mapColor(MapColor.YELLOW).sounds(BlockSoundGroup.NETHER_WART).nonOpaque().pistonBehavior(PistonBehavior.DESTROY).luminance(state -> 3 + 3 * (Integer)state.get(SeaPickleBlock.PICKLES)),
+		true
 	);
 
     private static Block register(String name, Function<AbstractBlock.Settings, Block> blockFactory, AbstractBlock.Settings settings, boolean shouldRegisterItem) {

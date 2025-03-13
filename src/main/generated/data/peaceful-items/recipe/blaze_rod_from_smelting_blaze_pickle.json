@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.45,
+  "group": "translation{key='block.peaceful-items.blaze_pickle', args=[]}",
+  "ingredient": "peaceful-items:blaze_pickle",
+  "result": {
+    "id": "minecraft:blaze_rod"
+  }
+}

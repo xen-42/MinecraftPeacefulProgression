@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/dead_sea_pickle",
+  "textures": {
+    "all": "peaceful-items:block/blaze_pickle",
+    "particle": "peaceful-items:block/blaze_pickle"
+  }
+}
