@@ -81,6 +81,18 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .input(PeacefulModBlocks.BLAZE_PICKLE)
                         .criterion(hasItem(PeacefulModBlocks.BLAZE_PICKLE), conditionsFromItem(PeacefulModBlocks.BLAZE_PICKLE))
                         .offerTo(exporter);
+
+                // TODO: add the thing with groups for the different froglights
+                createShaped(RecipeCategory.MISC, Items.SADDLE)
+                        .pattern(" b ")
+                        .pattern("bab")
+                        .pattern("ddd")
+                        .input('a', Blocks.OCHRE_FROGLIGHT)
+                        .input('b', Items.GHAST_TEAR)
+                        .input('d', Items.DIAMOND)
+                        // Advancement that gives the recipe
+                        .criterion(hasItem(Items.DIAMOND), conditionsFromItem(Items.DIAMOND))
+                        .offerTo(exporter);
             }
         };
     }
