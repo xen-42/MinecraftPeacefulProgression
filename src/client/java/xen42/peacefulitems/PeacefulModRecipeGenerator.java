@@ -71,6 +71,16 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .offerTo(exporter);
 
                 offerSmelting(List.of(PeacefulModBlocks.BLAZE_PICKLE), RecipeCategory.MISC, Items.BLAZE_ROD, 0.45f, 200, PeacefulModBlocks.BLAZE_PICKLE.getName().toString());
+
+                createShapeless(RecipeCategory.MISC, Items.YELLOW_DYE, 1)
+                        .input(PeacefulModItems.SULPHUR)
+                        .criterion(hasItem(PeacefulModItems.SULPHUR), conditionsFromItem(PeacefulModItems.SULPHUR))
+                        .offerTo(exporter);
+
+                createShapeless(RecipeCategory.MISC, Items.ORANGE_DYE, 1)
+                        .input(PeacefulModBlocks.BLAZE_PICKLE)
+                        .criterion(hasItem(PeacefulModBlocks.BLAZE_PICKLE), conditionsFromItem(PeacefulModBlocks.BLAZE_PICKLE))
+                        .offerTo(exporter);
             }
         };
     }
