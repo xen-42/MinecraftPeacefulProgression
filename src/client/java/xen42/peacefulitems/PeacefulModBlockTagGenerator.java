@@ -34,6 +34,8 @@ public class PeacefulModBlockTagGenerator extends BlockTagProvider {
             .add(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE);
         
         this.getOrCreateTagBuilder(BlockTags.SNIFFER_DIGGABLE_BLOCK)
+            .add(Blocks.SAND)
+            .add(Blocks.GRAVEL)
             .add(Blocks.SOUL_SAND)
             .add(Blocks.SOUL_SOIL);
     }

@@ -11,6 +11,7 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.entity.passive.SnifferEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootTables;
@@ -39,9 +40,40 @@ public class SnifferEntityMixin {
 
             var blockState = sniffer.getWorld().getBlockState(blockPos.down());
 
-            // If trying to dig soul sand or soul soil we'll drop nether-y things
+            Item customDrop = null;
+            var r = sniffer.getRandom().nextFloat();
             if (blockState.isOf(Blocks.SOUL_SAND) || blockState.isOf(Blocks.SOUL_SOIL)) {
-                var itemStack = new ItemStack(PeacefulModBlocks.BLAZE_PICKLE.asItem());
+                if (r < 0.5) {
+                    customDrop = PeacefulModBlocks.BLAZE_PICKLE.asItem();
+                }
+                else {
+                    customDrop = Items.BONE;
+                }
+            }
+            else if (blockState.isOf(Blocks.SAND)) {
+                if (r < 0.01) {
+                    customDrop = Items.TRIDENT;
+                }
+                else if (r < 0.02) {
+                    customDrop = Items.TIDE_ARMOR_TRIM_SMITHING_TEMPLATE;
+                }
+                else if (r < 0.3) {
+                    customDrop = Items.NAUTILUS_SHELL;
+                }
+                else if (r < 0.6) {
+                    customDrop = Items.PRISMARINE_SHARD;
+                }
+                else {
+                    customDrop = Items.PRISMARINE_CRYSTALS;
+                }
+            }
+            else if (blockState.isOf(Blocks.GRAVEL)) {
+                customDrop = Items.FLINT;
+            }
+
+            // If trying to dig soul sand or soul soil we'll drop nether-y things
+            if (customDrop != null) {
+                var itemStack = new ItemStack(customDrop);
                 ItemEntity itemEntity = new ItemEntity(sniffer.getWorld(), blockPos.getX(), blockPos.getY(), blockPos.getZ(), itemStack);
                 itemEntity.setToDefaultPickupDelay();
                 serverWorld.spawnEntity(itemEntity);
