@@ -67,15 +67,11 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
 			.accept(
 				VariantsBlockStateSupplier.create(block)
 					.coordinate(
-						BlockStateVariantMap.create(Properties.PICKLES, Properties.WATERLOGGED)
-							.register(1, true, BlockStateVariant.create().put(VariantSettings.MODEL, id1))
-							.register(2, true, BlockStateVariant.create().put(VariantSettings.MODEL, id2))
-							.register(3, true, BlockStateVariant.create().put(VariantSettings.MODEL, id3))
-							.register(4, true, BlockStateVariant.create().put(VariantSettings.MODEL, id4))
-                            .register(1, false, BlockStateVariant.create().put(VariantSettings.MODEL, id1))
-							.register(2, false, BlockStateVariant.create().put(VariantSettings.MODEL, id2))
-							.register(3, false, BlockStateVariant.create().put(VariantSettings.MODEL, id3))
-							.register(4, false, BlockStateVariant.create().put(VariantSettings.MODEL, id4))
+						BlockStateVariantMap.create(Properties.PICKLES)
+							.register(1, BlockStateVariant.create().put(VariantSettings.MODEL, id1))
+							.register(2, BlockStateVariant.create().put(VariantSettings.MODEL, id2))
+							.register(3, BlockStateVariant.create().put(VariantSettings.MODEL, id3))
+							.register(4, BlockStateVariant.create().put(VariantSettings.MODEL, id4))
                     )
 			);
 	}

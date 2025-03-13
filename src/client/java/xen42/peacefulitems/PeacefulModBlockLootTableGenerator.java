@@ -46,11 +46,11 @@ public class PeacefulModBlockLootTableGenerator extends FabricBlockLootTableProv
         addDrop(PeacefulModBlocks.SULPHUR_CLUSTER, block -> dropItem(PeacefulModItems.SULPHUR, 1, 1));
         this.addDrop(PeacefulModBlocks.BLAZE_PICKLE, (Block block) 
             -> LootTable.builder().pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f))
-            .with((LootPoolEntry.Builder)this.applyExplosionDecay(Blocks.SEA_PICKLE, ItemEntry.builder(block)
+            .with((LootPoolEntry.Builder)this.applyExplosionDecay(PeacefulModBlocks.BLAZE_PICKLE, ItemEntry.builder(block)
             .apply(List.of(Integer.valueOf(2), Integer.valueOf(3), Integer.valueOf(4)), pickles 
             -> SetCountLootFunction.builder(ConstantLootNumberProvider.create(pickles.intValue()))
             .conditionally(BlockStatePropertyLootCondition.builder(block)
-            .properties(StatePredicate.Builder.create().exactMatch(SeaPickleBlock.PICKLES, pickles.intValue()))))))));
+            .properties(StatePredicate.Builder.create().exactMatch(BlazePickleBlock.PICKLES, pickles.intValue()))))))));
 
         BlockStatePropertyLootCondition.Builder flax_condition = BlockStatePropertyLootCondition.builder(PeacefulModBlocks.FLAX_CROP)
             .properties(StatePredicate.Builder.create().exactMatch(FlaxCropBlock.AGE, 7));
