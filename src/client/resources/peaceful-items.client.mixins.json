@@ -9,6 +9,7 @@
 		"MobEntityMixin",
 		"FrogEntityMixin",
 		"LivingEntityMixin",
-		"BatEntityRendererMixin"
+		"BatEntityRendererMixin",
+		"SnifferEntityMixin"
 	]
 }
