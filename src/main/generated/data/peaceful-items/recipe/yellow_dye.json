@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "peaceful-items:sulphur"
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:yellow_dye"
+  }
+}

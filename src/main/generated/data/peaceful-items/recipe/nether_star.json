@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "a": "minecraft:ochre_froglight",
+    "b": "minecraft:ghast_tear",
+    "d": "minecraft:diamond"
+  },
+  "pattern": [
+    " b ",
+    "bab",
+    "ddd"
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:nether_star"
+  }
+}

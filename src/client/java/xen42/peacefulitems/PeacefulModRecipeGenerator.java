@@ -43,6 +43,8 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .input(Items.CHARCOAL) 
                         .input(PeacefulModItems.GUANO) 
                         .input(PeacefulModItems.SULPHUR) 
+                        .criterion(hasItem(Items.CHARCOAL), conditionsFromItem(Items.CHARCOAL))
+                        .criterion(hasItem(PeacefulModItems.GUANO), conditionsFromItem(PeacefulModItems.GUANO))
                         .criterion(hasItem(PeacefulModItems.SULPHUR), conditionsFromItem(PeacefulModItems.SULPHUR))
                         .offerTo(exporter);
 
@@ -63,6 +65,8 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .input('Z', Items.IRON_INGOT)
                         // Advancement that gives the recipe
                         .criterion(hasItem(Items.LEATHER), conditionsFromItem(Items.LEATHER))
+                        .criterion(hasItem(Items.STRING), conditionsFromItem(Items.STRING))
+                        .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
                         .offerTo(exporter);
 
                 createShapeless(RecipeCategory.MISC, PeacefulModItems.SULPHUR, 9)
@@ -83,7 +87,7 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .offerTo(exporter);
 
                 // TODO: add the thing with groups for the different froglights
-                createShaped(RecipeCategory.MISC, Items.SADDLE)
+                createShaped(RecipeCategory.MISC, Items.NETHER_STAR)
                         .pattern(" b ")
                         .pattern("bab")
                         .pattern("ddd")
@@ -92,6 +96,15 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .input('d', Items.DIAMOND)
                         // Advancement that gives the recipe
                         .criterion(hasItem(Items.DIAMOND), conditionsFromItem(Items.DIAMOND))
+                        .criterion(hasItem(Items.GHAST_TEAR), conditionsFromItem(Items.GHAST_TEAR))
+                        .criterion(hasItem(Blocks.OCHRE_FROGLIGHT), conditionsFromItem(Blocks.OCHRE_FROGLIGHT))
+                        .offerTo(exporter);
+
+                createShapeless(RecipeCategory.MISC, Items.PHANTOM_MEMBRANE, 2)
+                        .input(PeacefulModItems.BAT_WING, 3) 
+                        .input(Items.GHAST_TEAR)
+                        .criterion(hasItem(PeacefulModItems.BAT_WING), conditionsFromItem(PeacefulModItems.BAT_WING))
+                        .criterion(hasItem(Items.GHAST_TEAR), conditionsFromItem(Items.GHAST_TEAR))
                         .offerTo(exporter);
             }
         };

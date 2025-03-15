@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "peaceful-items:bat_wing",
+    "peaceful-items:bat_wing",
+    "peaceful-items:bat_wing",
+    "minecraft:ghast_tear"
+  ],
+  "result": {
+    "count": 2,
+    "id": "minecraft:phantom_membrane"
+  }
+}
