@@ -3,6 +3,8 @@ package xen42.peacefulitems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
+import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.data.DataTracker;
@@ -17,8 +19,12 @@ import net.minecraft.util.Identifier;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradedItem;
 import net.minecraft.village.VillagerProfession;
+import net.minecraft.world.GameRules;
+import net.minecraft.world.GameRules.BooleanRule;
+import net.minecraft.world.GameRules.Category;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.PlacedFeature;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +46,9 @@ public class PeacefulMod implements ModInitializer {
 	public static final TrackedData<Integer> BAT_BREEDING_COOLDOWN = DataTracker.registerData(BatEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	public static int BatGrowUpTicks = 5 * 60 * 20; // Normal mobs its 20 minutes but I feel like bats can grow up fast maybe idk!
 	public static int BatBreedingCooldown = 5 * 60 * 20;
+
+	public static final GameRules.Key<BooleanRule> DISABLE_HUNGER_PEACEFUL =
+		GameRuleRegistry.register("disableHungerPeaceful", Category.PLAYER, GameRuleFactory.createBooleanRule(false));
 
 	@Override
 	public void onInitialize() {

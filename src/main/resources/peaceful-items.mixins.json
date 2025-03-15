@@ -10,6 +10,8 @@
 		"FrogEntityMixin",
 		"LivingEntityMixin",
 		"BatEntityRendererMixin",
-		"SnifferEntityMixin"
+		"SnifferEntityMixin",
+		"HungerManagerMixin",
+		"ServerPlayerEntityMixin"
 	]
 }
