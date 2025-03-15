@@ -43,7 +43,16 @@ public class SnifferEntityMixin {
             Item customDrop = null;
             var r = sniffer.getRandom().nextFloat();
             if (blockState.isOf(Blocks.SOUL_SAND) || blockState.isOf(Blocks.SOUL_SOIL)) {
-                if (r < 0.5) {
+                if (r < 0.01) {
+                    customDrop = Items.WITHER_SKELETON_SKULL;
+                }
+                else if (r < 0.03) {
+                    customDrop = Items.SKELETON_SKULL;
+                }
+                else if (r < 0.05) {
+                    customDrop = Items.WITHER_ROSE;
+                }
+                else if (r < 0.525) {
                     customDrop = PeacefulModBlocks.BLAZE_PICKLE.asItem();
                 }
                 else {
@@ -71,7 +80,7 @@ public class SnifferEntityMixin {
                 customDrop = Items.FLINT;
             }
 
-            // If trying to dig soul sand or soul soil we'll drop nether-y things
+            // Replacing the base game implementation with our custom drops if needed
             if (customDrop != null) {
                 var itemStack = new ItemStack(customDrop);
                 ItemEntity itemEntity = new ItemEntity(sniffer.getWorld(), blockPos.getX(), blockPos.getY(), blockPos.getZ(), itemStack);
