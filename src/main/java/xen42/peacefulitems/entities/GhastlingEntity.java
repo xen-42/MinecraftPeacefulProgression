@@ -1,8 +1,10 @@
 package xen42.peacefulitems.entities;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.Flutterer;
+import net.minecraft.entity.MovementType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.control.MoveControl;
@@ -29,8 +31,11 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 import xen42.peacefulitems.PeacefulMod;
 import xen42.peacefulitems.PeacefulModItems;
 
@@ -38,7 +43,7 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
 
     public GhastlingEntity(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
-        //this.moveControl = (MoveControl)new FlightMoveControl((MobEntity)this, 20, true);
+        //this.moveControl = new FlightMoveControl(this, 20, true);
     }
 
     @Override
@@ -55,6 +60,13 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
     public boolean isBreedingItem(ItemStack stack) {
         return stack.isOf(PeacefulModItems.SULPHUR);
     }
+
+    /*
+    @Override
+    public float getPathfindingFavor(BlockPos pos, WorldView world) {
+        return world.getBlockState(pos).isAir() ? 10.0F : world.getPhototaxisFavor(pos);
+    }
+    */
 
     @Override
     public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
@@ -91,6 +103,8 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
                 setBreedingAge(6000);
                 eat(player, hand, item);
                 playEatSound();
+                // Count this as hurting them so they run from you
+                this.damage((ServerWorld)getWorld(), getWorld().getDamageSources().playerAttack(player), 0f);
                 return (ActionResult)ActionResult.SUCCESS_SERVER;
             }
         }
@@ -113,6 +127,40 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
 
     @Override
     public boolean isInAir() {
+        return !isOnGround();
+    }
+
+    /*
+    @Override
+    public void travel(Vec3d movementInput) {
+        if (isLogicalSideForUpdatingMovement()) {
+            if (isTouchingWater()) {
+                updateVelocity(0.02f, movementInput);
+                move(MovementType.SELF, getVelocity());
+                setVelocity(getVelocity().multiply(0.8f));
+            } else if (isInLava()) {
+                updateVelocity(0.02f, movementInput);
+                move(MovementType.SELF, getVelocity());
+                setVelocity(getVelocity().multiply(0.5f));
+            } else {
+                updateVelocity(getMovementSpeed(), movementInput);
+                move(MovementType.SELF, getVelocity());
+                setVelocity(getVelocity().multiply(0.9f));
+            } 
+        }
+    }
+    */
+
+    @Override
+    protected void fall(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition) {}
+
+    @Override
+    protected float getSoundVolume() {
+        return 0.4f;
+    }
+
+    @Override
+    public boolean isFlappingWings() {
         return !isOnGround();
     }
 }
