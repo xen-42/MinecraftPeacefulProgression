@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:vegetation_patch",
+    "config": {
+      "surface": "floor",
+      "depth": 1,
+      "vertical_range": 5,
+      "extra_bottom_block_chance": 0.5,
+      "extra_edge_column_chance": 0.3,
+      "vegetation_chance": 0.3,
+      "xz_radius": {
+        "type": "minecraft:uniform",
+        "min_inclusive": 1,
+        "max_inclusive": 2
+      },
+      "replaceable": "#minecraft:soul_fire_base_blocks",
+      "ground_state": {
+        "type": "minecraft:simple_state_provider",
+        "state": {
+          "Name": "peaceful-items:sulphur_ore"
+        }
+      },
+      "vegetation_feature": "peaceful-items:sulphur_cluster_floor"
+    }
+  }

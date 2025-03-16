@@ -1,0 +1,9 @@
+{
+    "feature": "peaceful-items:sulphur_cluster_ceiling",
+    "placement": [
+      {
+        "type": "minecraft:count",
+        "count": 1
+      }
+    ]
+  }
