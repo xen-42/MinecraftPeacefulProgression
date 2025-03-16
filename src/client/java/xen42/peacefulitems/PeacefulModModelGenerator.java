@@ -43,6 +43,7 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
         itemModelGenerator.register(PeacefulModItems.BAT_WING, Models.GENERATED);
         itemModelGenerator.register(PeacefulModItems.GUANO, Models.GENERATED);
         itemModelGenerator.register(PeacefulModItems.SULPHUR, Models.GENERATED);
+        itemModelGenerator.register(PeacefulModItems.GHASTLING_SPAWN_EGG, new Model(Optional.of(Identifier.of("item/template_spawn_egg")), Optional.empty()));
     }
 
     @Override

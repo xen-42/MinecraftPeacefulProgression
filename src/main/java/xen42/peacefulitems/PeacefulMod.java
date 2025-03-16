@@ -5,10 +5,15 @@ import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.BatEntity;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
@@ -18,7 +23,7 @@ import net.minecraft.world.GameRules.Category;
 import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.PlacedFeature;
-
+import xen42.peacefulitems.entities.GhastlingEntity;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +52,12 @@ public class PeacefulMod implements ModInitializer {
 	public static final GameRules.Key<BooleanRule> DISABLE_HUNGER_PEACEFUL =
 		GameRuleRegistry.register("disableHungerPeaceful", Category.PLAYER, GameRuleFactory.createBooleanRule(false));
 
+	public static final RegistryKey<EntityType<?>> GHASTLING_ENTITY_KEY = RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(MOD_ID,"ghastling"));
+	public static final EntityType<GhastlingEntity> GHASTLING_ENTITY = Registry.register(
+		Registries.ENTITY_TYPE, 
+		Identifier.of(MOD_ID, "ghastling"), 
+		EntityType.Builder.create(GhastlingEntity::new, SpawnGroup.CREATURE).dimensions(0.5f, 0.5f).build(GHASTLING_ENTITY_KEY));
+
 	@Override
 	public void onInitialize() {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
@@ -65,5 +76,7 @@ public class PeacefulMod implements ModInitializer {
 		BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), GenerationStep.Feature.UNDERGROUND_ORES, SULPHUR_CLUSTER_CEILING_PLACED_KEY); 
 		BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), GenerationStep.Feature.UNDERGROUND_ORES, SULPHUR_CLUSTER_FLOOR_PLACED_KEY); 
 		BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.PLAINS, BiomeKeys.MEADOW, BiomeKeys.WINDSWEPT_HILLS), GenerationStep.Feature.VEGETAL_DECORATION, FLAX_PLACED_KEY);
+
+		FabricDefaultAttributeRegistry.register(GHASTLING_ENTITY, GhastlingEntity.createMobAttributes());
 	}
 }

@@ -10,6 +10,7 @@ import net.minecraft.component.type.FoodComponent;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -21,6 +22,7 @@ public class PeacefulModItems {
     public static final Item GUANO = register("guano", Item::new, new Item.Settings());
     public static final Item SULPHUR = register("sulphur", (settings) -> new BlockItem(PeacefulModBlocks.SULPHUR_CLUSTER, settings), new Item.Settings());
     public static final Item FLAX = register("flax", (settings) -> new BlockItem(PeacefulModBlocks.FLAX_CROP, settings), new Item.Settings().food(new FoodComponent(2, 1, false)));
+    public static final Item GHASTLING_SPAWN_EGG = register("ghastling_spawn_egg", (settings) -> new SpawnEggItem(PeacefulMod.GHASTLING_ENTITY, settings), new Item.Settings());
 
     public static void initialize() {
         // Add custom items to groups
@@ -42,6 +44,10 @@ public class PeacefulModItems {
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register((itemGroup) -> { 
             itemGroup.add(FLAX);
+        });
+
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register((itemGroup) -> {
+            itemGroup.add(GHASTLING_SPAWN_EGG);
         });
 
         CompostingChanceRegistry.INSTANCE.add(GUANO, 2f);
