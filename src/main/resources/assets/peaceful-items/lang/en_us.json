@@ -1,15 +1,14 @@
 {
     "item.peaceful-items.bat_wing": "Bat Wing",
     "item.peaceful-items.guano": "Guano",
-    "item.peaceful-items.sulphur": "Sulphur",
-    "item.peaceful-items.flax": "Flax",
+    "item.peaceful-items.sulphur": "Brimstone",
+    "item.peaceful-items.flax": "Flax Seeds",
     
-    "item.peaceful-items.sulphur_block": "Sulphur Block",
-    "item.peaceful-items.sulphur_ore": "Sulphur Ore",
-    "item.peaceful-items.sulphur_cluster": "Sulphur Cluster",
+    "item.peaceful-items.sulphur_block": "Brimstone Block",
+    "item.peaceful-items.sulphur_ore": "Brimstone Ore",
     "item.peaceful-items.fossil_ore": "Fossil Ore",
     "item.peaceful-items.deepslate_fossil_ore": "Deepslate Fossil Ore",
-    "item.peaceful-items.soul_soil_fossil_ore": "Soul Soil Fossil Ore",
+    "item.peaceful-items.soul_soil_fossil_ore": "Nether Fossil Ore",
 
     "item.peaceful-items.blaze_pickle": "Blaze Coral",
 
