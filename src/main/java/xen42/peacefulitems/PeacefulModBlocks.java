@@ -35,7 +35,7 @@ public class PeacefulModBlocks {
 		setting -> new SulphurClusterBlock(7, 3, setting),
 		AbstractBlock.Settings.create().mapColor(MapColor.PALE_YELLOW).solid().nonOpaque().pistonBehavior(PistonBehavior.DESTROY)
 			.sounds(BlockSoundGroup.NETHERRACK).breakInstantly(),
-		true
+		false
 	);
 
 	public static final Block SULPHUR_ORE = register(

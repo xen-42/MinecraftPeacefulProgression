@@ -19,7 +19,7 @@ import net.minecraft.util.Identifier;
 public class PeacefulModItems {
     public static final Item BAT_WING = register("bat_wing", Item::new, new Item.Settings());
     public static final Item GUANO = register("guano", Item::new, new Item.Settings());
-    public static final Item SULPHUR = register("sulphur", Item::new, new Item.Settings());
+    public static final Item SULPHUR = register("sulphur", (settings) -> new BlockItem(PeacefulModBlocks.SULPHUR_CLUSTER, settings), new Item.Settings());
     public static final Item FLAX = register("flax", (settings) -> new BlockItem(PeacefulModBlocks.FLAX_CROP, settings), new Item.Settings().food(new FoodComponent(2, 1, false)));
 
     public static void initialize() {
