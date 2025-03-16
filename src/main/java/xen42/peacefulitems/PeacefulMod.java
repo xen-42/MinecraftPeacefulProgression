@@ -56,7 +56,7 @@ public class PeacefulMod implements ModInitializer {
 	public static final EntityType<GhastlingEntity> GHASTLING_ENTITY = Registry.register(
 		Registries.ENTITY_TYPE, 
 		Identifier.of(MOD_ID, "ghastling"), 
-		EntityType.Builder.create(GhastlingEntity::new, SpawnGroup.CREATURE).dimensions(0.5f, 0.5f).build(GHASTLING_ENTITY_KEY));
+		EntityType.Builder.create(GhastlingEntity::new, SpawnGroup.CREATURE).dimensions(0.5f, 1.5f).build(GHASTLING_ENTITY_KEY));
 
 	@Override
 	public void onInitialize() {

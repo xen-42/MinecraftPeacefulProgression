@@ -1,13 +1,118 @@
 package xen42.peacefulitems.entities;
 
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.ExperienceOrbEntity;
+import net.minecraft.entity.Flutterer;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.control.FlightMoveControl;
+import net.minecraft.entity.ai.control.MoveControl;
+import net.minecraft.entity.ai.goal.EscapeDangerGoal;
+import net.minecraft.entity.ai.goal.FlyGoal;
+import net.minecraft.entity.ai.goal.FollowMobGoal;
+import net.minecraft.entity.ai.goal.LookAroundGoal;
+import net.minecraft.entity.ai.goal.LookAtEntityGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.TemptGoal;
+import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
+import net.minecraft.entity.ai.pathing.PathNodeType;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.PassiveEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.recipe.Ingredient;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import xen42.peacefulitems.PeacefulMod;
+import xen42.peacefulitems.PeacefulModItems;
 
-public class GhastlingEntity extends PathAwareEntity {
+public class GhastlingEntity extends AnimalEntity implements Flutterer {
 
-    public GhastlingEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
+    public GhastlingEntity(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
+        //this.moveControl = (MoveControl)new FlightMoveControl((MobEntity)this, 20, true);
     }
-    
+
+    @Override
+    protected void initGoals() {
+        this.goalSelector.add(0, new SwimGoal(this));
+        this.goalSelector.add(1, new EscapeDangerGoal(this, 1.2f));
+        this.goalSelector.add(2, new TemptGoal(this, 1.2f, Ingredient.ofItem(PeacefulModItems.SULPHUR), false));
+        this.goalSelector.add(3, new WanderAroundFarGoal(this, 1f));
+        this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 1f));
+        this.goalSelector.add(5, new LookAroundGoal(this));
+    }
+
+    @Override
+    public boolean isBreedingItem(ItemStack stack) {
+        return stack.isOf(PeacefulModItems.SULPHUR);
+    }
+
+    @Override
+    public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
+        return (GhastlingEntity)PeacefulMod.GHASTLING_ENTITY.create(world, SpawnReason.BREEDING);
+    }
+
+    @Override
+    public ActionResult interactMob(PlayerEntity player, Hand hand) {
+        // Instead of breeding like normal they duplicate
+        // Also handle crying
+        var item = player.getStackInHand(hand);
+        if (!getWorld().isClient && getBreedingAge() == 0 && canEat()) {
+            if (isBreedingItem(item)) {
+                setBreedingAge(6000);
+                eat(player, hand, item);
+                playEatSound();
+                if (getWorld().getServer().getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
+                    getWorld().spawnEntity(new ExperienceOrbEntity(getWorld(), getX(), getY(), getZ(), getRandom().nextInt(7) + 1));
+                }
+                playSound(SoundEvents.ENTITY_GHAST_AMBIENT, 0.5f, (random.nextFloat() - random.nextFloat()) * 0.2f + 1.3f);
+
+                var baby = PeacefulMod.GHASTLING_ENTITY.create(getWorld(), SpawnReason.BREEDING);
+                baby.refreshPositionAndAngles(getX(), getY(), getZ(), 0.0f, 0.0f);
+                getWorld().spawnEntity(baby);
+                baby.setBreedingAge(6000);
+
+                return (ActionResult)ActionResult.SUCCESS_SERVER;
+            }
+            else if (item.isOf(PeacefulModItems.GUANO)) {
+                var tear = dropItem((ServerWorld)getWorld(), Items.GHAST_TEAR);
+                tear.setPosition(getPos());
+                playSound(SoundEvents.ENTITY_GHAST_WARN, 0.5f, (random.nextFloat() - random.nextFloat()) * 0.2f + 1.3f);
+                // Treating this as breeding for the sake of having a timer and stuff
+                setBreedingAge(6000);
+                eat(player, hand, item);
+                playEatSound();
+                return (ActionResult)ActionResult.SUCCESS_SERVER;
+            }
+        }
+        return ActionResult.PASS;
+    }
+
+    public static DefaultAttributeContainer.Builder createMobAttributes() {
+        return AnimalEntity.createAnimalAttributes()
+            .add(EntityAttributes.MAX_HEALTH, 10)
+            .add(EntityAttributes.FLYING_SPEED, 0.3f)
+            .add(EntityAttributes.MOVEMENT_SPEED, 0.2f)
+            .add(EntityAttributes.FALL_DAMAGE_MULTIPLIER, 0f)
+            .add(EntityAttributes.TEMPT_RANGE, 20f);
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return SoundEvents.ENTITY_VEX_AMBIENT;
+    }
+
+    @Override
+    public boolean isInAir() {
+        return !isOnGround();
+    }
 }
