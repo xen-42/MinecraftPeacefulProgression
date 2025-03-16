@@ -37,6 +37,6 @@ public class PeacefulModBlockTagGenerator extends BlockTagProvider {
             .add(Blocks.SAND)
             .add(Blocks.GRAVEL)
             .add(Blocks.SOUL_SAND)
-            .add(Blocks.SOUL_SOIL);
+            .add(Blocks.SOUL_SOIL);        
     }
 }

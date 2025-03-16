@@ -11,5 +11,6 @@ public class PeacefulModDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(PeacefulModModelGenerator::new);
 		pack.addProvider(PeacefulModBlockLootTableGenerator::new);
 		pack.addProvider(PeacefulModBlockTagGenerator::new);
+		pack.addProvider(PeacefulModPOITagGenerator::new);
 	}
 }
