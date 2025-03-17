@@ -1,23 +1,21 @@
 package xen42.peacefulitems.entities;
 
-import java.util.logging.LogManager;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.Flutterer;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.control.FlightMoveControl;
-import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.EscapeDangerGoal;
 import net.minecraft.entity.ai.goal.FlyGoal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.TemptGoal;
+import net.minecraft.entity.ai.pathing.BirdNavigation;
+import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -30,7 +28,6 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
@@ -41,7 +38,7 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
 
     public GhastlingEntity(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
-        this.moveControl = new GhastlingMoveControl(this);
+        this.moveControl = new FlightMoveControl(this, 20, true);
     }
 
     @Override
@@ -59,12 +56,10 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
         return stack.isOf(PeacefulModItems.SULPHUR);
     }
 
-    /*
     @Override
     public float getPathfindingFavor(BlockPos pos, WorldView world) {
         return world.getBlockState(pos).isAir() ? 10.0F : world.getPhototaxisFavor(pos);
     }
-    */
 
     @Override
     public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
@@ -138,46 +133,19 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
 
     @Override
     public boolean isFlappingWings() {
-        return !isOnGround();
-    }
-}
-
-class GhastlingMoveControl extends MoveControl {
-
-    public GhastlingMoveControl(MobEntity entity) {
-        super(entity);
+        return isInAir();
     }
 
     @Override
-    public void tick() {
-        PeacefulMod.LOGGER.info("STATE:" + state);
-
-        if (this.state == MoveControl.State.MOVE_TO) {
-			this.state = MoveControl.State.WAIT;
-			double dx = this.targetX - this.entity.getX();
-			double dy = this.targetZ - this.entity.getZ();
-			double dz = this.targetY - this.entity.getY();
-			double distSquared = dx * dx + dz * dz + dy * dy;
-			if (distSquared < 2.5E-7F) {
-				this.entity.setForwardSpeed(0.0F);
-                this.entity.setUpwardSpeed(0.0F);
-				return;
-			}
-
-			float yaw = (float)(MathHelper.atan2(dy, dx) * 180.0F / (float)Math.PI) - 90.0F;
-			this.entity.setYaw(this.wrapDegrees(this.entity.getYaw(), yaw, 90.0F));
-            var speed = (float)(this.speed * this.entity.getAttributeValue(entity.isOnGround() ? EntityAttributes.MOVEMENT_SPEED : EntityAttributes.FLYING_SPEED));
-			this.entity.setMovementSpeed(speed);		
-            
-            if (Math.abs(dy) > 1e-5) {
-                this.entity.setUpwardSpeed(dy > 0.0 ? speed : -speed);
+    protected EntityNavigation createNavigation(World world) {
+        var navigation = new BirdNavigation(this, world) {
+            public boolean isValidPosition(BlockPos pos) {
+                return !this.world.getBlockState(pos.down()).isAir();
             }
-        }
-        else {
-            this.entity.setForwardSpeed(0.0F);
-            this.entity.setUpwardSpeed(0.0F);
-        }
-        this.state = MoveControl.State.WAIT;
-
+        };
+        navigation.setCanPathThroughDoors(true);
+        navigation.setCanSwim(true);
+        navigation.setMaxFollowRange(48f);
+        return navigation;
     }
 }
