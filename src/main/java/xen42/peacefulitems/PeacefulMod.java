@@ -8,9 +8,12 @@ import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.SpawnLocationTypes;
+import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -18,6 +21,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.GameRules;
+import net.minecraft.world.Heightmap;
 import net.minecraft.world.GameRules.BooleanRule;
 import net.minecraft.world.GameRules.Category;
 import net.minecraft.world.biome.BiomeKeys;
@@ -56,7 +60,7 @@ public class PeacefulMod implements ModInitializer {
 	public static final EntityType<GhastlingEntity> GHASTLING_ENTITY = Registry.register(
 		Registries.ENTITY_TYPE, 
 		Identifier.of(MOD_ID, "ghastling"), 
-		EntityType.Builder.create(GhastlingEntity::new, SpawnGroup.CREATURE).dimensions(0.5f, 1.5f).build(GHASTLING_ENTITY_KEY));
+		EntityType.Builder.create(GhastlingEntity::new, SpawnGroup.AMBIENT).dimensions(0.5f, 1.5f).build(GHASTLING_ENTITY_KEY));
 
 	@Override
 	public void onInitialize() {
@@ -78,5 +82,10 @@ public class PeacefulMod implements ModInitializer {
 		BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.PLAINS, BiomeKeys.MEADOW, BiomeKeys.WINDSWEPT_HILLS), GenerationStep.Feature.VEGETAL_DECORATION, FLAX_PLACED_KEY);
 
 		FabricDefaultAttributeRegistry.register(GHASTLING_ENTITY, GhastlingEntity.createMobAttributes());
+		
+		// I don't know why but the SpawnGroup.CREATURES group had them never spawning
+		BiomeModifications.addSpawn(BiomeSelectors.foundInTheNether(), SpawnGroup.AMBIENT, GHASTLING_ENTITY, 100, 2, 3);
+		SpawnRestriction.register(GHASTLING_ENTITY, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, 
+			GhastlingEntity::isValidSpawn);
 	}
 }

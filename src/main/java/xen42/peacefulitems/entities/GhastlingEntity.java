@@ -21,16 +21,21 @@ import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.predicate.entity.LocationPredicate;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
+import net.minecraft.world.gen.structure.StructureKeys;
 import xen42.peacefulitems.PeacefulMod;
 import xen42.peacefulitems.PeacefulModItems;
 
@@ -49,6 +54,12 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
         this.goalSelector.add(3, new FlyGoal(this, 1f));
         this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 3f));
         this.goalSelector.add(5, new LookAroundGoal(this));
+    }
+
+    public static boolean isValidSpawn(EntityType<? extends GhastlingEntity> type, WorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
+        return world.getBlockState(pos).isAir() 
+            && LocationPredicate.Builder.createStructure(world.getRegistryManager().getOrThrow(RegistryKeys.STRUCTURE).getOrThrow(StructureKeys.FORTRESS)).build()
+                .test((ServerWorld)world, pos.getX(), pos.getY(), pos.getZ());
     }
 
     @Override
