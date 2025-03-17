@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "peaceful-items.nether_star",
+  "key": {
+    "a": "minecraft:verdant_froglight",
+    "b": "minecraft:ghast_tear",
+    "d": "minecraft:diamond"
+  },
+  "pattern": [
+    " b ",
+    "bab",
+    "ddd"
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:nether_star"
+  }
+}

@@ -1,6 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
+  "group": "peaceful-items.nether_star",
   "key": {
     "a": "minecraft:ochre_froglight",
     "b": "minecraft:ghast_tear",

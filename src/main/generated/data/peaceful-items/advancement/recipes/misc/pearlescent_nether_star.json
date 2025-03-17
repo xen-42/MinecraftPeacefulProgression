@@ -21,11 +21,11 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_ochre_froglight": {
+    "has_pearlescent_froglight": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:ochre_froglight"
+            "items": "minecraft:pearlescent_froglight"
           }
         ]
       },
@@ -33,7 +33,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:nether_star"
+        "recipe": "peaceful-items:pearlescent_nether_star"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -43,12 +43,12 @@
       "has_the_recipe",
       "has_diamond",
       "has_ghast_tear",
-      "has_ochre_froglight"
+      "has_pearlescent_froglight"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:nether_star"
+      "peaceful-items:pearlescent_nether_star"
     ]
   }
 }
