@@ -106,6 +106,18 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .criterion(hasItem(PeacefulModItems.BAT_WING), conditionsFromItem(PeacefulModItems.BAT_WING))
                         .criterion(hasItem(Items.GHAST_TEAR), conditionsFromItem(Items.GHAST_TEAR))
                         .offerTo(exporter);
+                
+                createShaped(RecipeCategory.MISC, Items.TOTEM_OF_UNDYING)
+                        .pattern(" b ")
+                        .pattern(" e ")
+                        .pattern(" g ")
+                        .input('b', Blocks.GOLD_BLOCK)
+                        .input('e', Items.EMERALD)
+                        .input('g', Items.GOLD_INGOT)
+                        // Advancement that gives the recipe
+                        .criterion(hasItem(Items.GOLD_INGOT), conditionsFromItem(Items.GOLD_INGOT))
+                        .criterion(hasItem(Items.EMERALD), conditionsFromItem(Items.EMERALD))
+                        .offerTo(exporter);
             }
         };
     }
