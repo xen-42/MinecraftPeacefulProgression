@@ -2,6 +2,7 @@ package xen42.peacefulitems.entity;
 
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.render.entity.MobEntityRenderer;
+import net.minecraft.client.render.entity.state.ItemHolderEntityRenderState;
 import net.minecraft.util.Identifier;
 import xen42.peacefulitems.PeacefulMod;
 import xen42.peacefulitems.PeacefulModClient;
@@ -11,6 +12,7 @@ public class EndClamEntityRenderer extends MobEntityRenderer<EndClamEntity, EndC
 
     public EndClamEntityRenderer(Context context) {
         super(context, new EndClamEntityModel(context.getPart(PeacefulModClient.MODEL_END_CLAM_LAYER)), 0.2f);
+        this.addFeature(new EndClamHeldItemFeatureRenderer(this));
     }
 
     @Override
@@ -30,5 +32,7 @@ public class EndClamEntityRenderer extends MobEntityRenderer<EndClamEntity, EndC
 		endClamEntityRenderState.idleAnimationState.copyFrom(endClamEntity.idleAnimationState);
 		endClamEntityRenderState.yawnAnimationState.copyFrom(endClamEntity.yawnAnimationState);
 		endClamEntityRenderState.hitAnimationState.copyFrom(endClamEntity.hitAnimationState);
+
+        ItemHolderEntityRenderState.update(endClamEntity, endClamEntityRenderState, this.itemModelResolver);
 	}
 }

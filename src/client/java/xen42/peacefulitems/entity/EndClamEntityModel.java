@@ -10,9 +10,9 @@ import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.entity.model.EntityModel;
 
 public class EndClamEntityModel extends EntityModel<EndClamEntityRenderState> {
-	private final ModelPart clam;
-	private final ModelPart bottom_shell;
-	private final ModelPart top_shell;
+	public final ModelPart clam;
+	public final ModelPart bottom_shell;
+	public final ModelPart top_shell;
 
 	protected EndClamEntityModel(ModelPart root) {
         super(root);

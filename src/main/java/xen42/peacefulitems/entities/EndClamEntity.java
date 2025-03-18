@@ -1,24 +1,36 @@
 package xen42.peacefulitems.entities;
 
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.AnimationState;
+import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.AmbientEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.event.GameEvent;
-import xen42.peacefulitems.PeacefulMod;
+import xen42.peacefulitems.PeacefulModItems;
 
 public class EndClamEntity extends AmbientEntity {
     public final AnimationState idleAnimationState;
@@ -35,6 +47,7 @@ public class EndClamEntity extends AmbientEntity {
         this.idleAnimationState = new AnimationState();
         this.hitAnimationState = new AnimationState();
         this.yawnAnimationState = new AnimationState();
+        setCanPickUpLoot(true);
     }
     
     @Override
@@ -53,7 +66,7 @@ public class EndClamEntity extends AmbientEntity {
 
     public static DefaultAttributeContainer.Builder createMobAttributes() {
         return AmbientEntity.createMobAttributes()
-            .add(EntityAttributes.MAX_HEALTH, 10)
+            .add(EntityAttributes.MAX_HEALTH, 20)
             .add(EntityAttributes.SCALE, 1.5);
     }
 
@@ -119,7 +132,6 @@ public class EndClamEntity extends AmbientEntity {
             hitAnimationState.stop();
             yawnAnimationState.start(this.age);
 
-            playSound(SoundEvents.BLOCK_SHULKER_BOX_OPEN, 0.5f, 1f);
             _revertToIdleTick = getWorld().getTime() + (5 * 20);
             _isYawning = true;
             _willYawn = false;
@@ -177,4 +189,81 @@ public class EndClamEntity extends AmbientEntity {
         } 
         return successfulTeleport;    
     } 
+
+    @Override
+    public void tickMovement() {
+        super.tickMovement();
+        if ((getWorld()).isClient && getEquippedStack(EquipmentSlot.MAINHAND).isOf(Items.ENDER_PEARL)) {
+            getWorld().addParticle((ParticleEffect)ParticleTypes.PORTAL, 
+                getParticleX(0.25D), 
+                getRandomBodyY() + 0.25D, 
+                getParticleZ(0.25D), 
+                (this.random.nextDouble() - 0.5D) * 2.0D, 
+                -this.random.nextDouble(), 
+                (this.random.nextDouble() - 0.5D) * 2.0D);
+        }
+    }
+
+    @Override
+    protected void loot(ServerWorld world, ItemEntity itemEntity) {
+        ItemStack itemStack = itemEntity.getStack();
+        if (canPickupItem(itemStack)) {
+            if (!getEquippedStack(EquipmentSlot.MAINHAND).isEmpty()) {
+                if (!getWorld().isClient) {
+                    var thrownItem = new ItemEntity(getWorld(), getX() + (getRotationVector()).x, getY() + 1.0D, getZ() + (getRotationVector()).z, 
+                        getEquippedStack(EquipmentSlot.MAINHAND));
+                    thrownItem.setPickupDelay(40);
+                    thrownItem.setThrower(this);
+                    getWorld().spawnEntity(thrownItem);
+                }
+            }
+
+            int i = itemStack.getCount();
+            if (i > 1) {
+                dropItem(itemStack.split(i - 1));
+            }
+
+            triggerItemPickedUpByEntityCriteria(itemEntity);
+            equipStack(EquipmentSlot.MAINHAND, itemStack.split(1));
+            updateDropChances(EquipmentSlot.MAINHAND);
+            sendPickup(itemEntity, itemStack.getCount());
+            itemEntity.discard();
+        } 
+    }
+
+    private void dropItem(ItemStack stack) {
+        var itemEntity = new ItemEntity(getWorld(), getX(), getY(), getZ(), stack);
+        getWorld().spawnEntity(itemEntity);
+    }
+
+    @Override
+    protected void drop(ServerWorld world, DamageSource damageSource) {
+        var itemStack = getEquippedStack(EquipmentSlot.MAINHAND);
+        if (!itemStack.isEmpty()) {
+            dropStack(world, itemStack);
+            equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
+        }
+        super.drop(world, damageSource);
+    }
+
+    @Override
+    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData) {
+        // Spawn with item
+        if (random.nextFloat() < 0.5f) {
+            var r = random.nextFloat();
+            Item item;
+            if (r < 0.5) {
+                item = Items.ENDER_PEARL;
+            }
+            else if (r < 0.75) {
+                item = PeacefulModItems.SULPHUR;
+            }
+            else {
+                item = Items.GOLD_NUGGET;
+            }
+
+            equipStack(EquipmentSlot.MAINHAND, new ItemStack(item));
+        }
+        return super.initialize(world, difficulty, spawnReason, entityData);
+    }
 }
