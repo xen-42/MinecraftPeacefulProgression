@@ -16,8 +16,15 @@ public class EndClamAnimation {
         ))
         .addBoneAnimation("top_shell", new Transformation(Transformation.Targets.ROTATE, 
             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-            new Keyframe(2.0F, AnimationHelper.createRotationalVector(-20.0F, 0.0F, 0.0F), Transformation.Interpolations.CUBIC),
+            new Keyframe(2.0F, AnimationHelper.createRotationalVector(-45.0F, 0.0F, 0.0F), Transformation.Interpolations.CUBIC),
             new Keyframe(5.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.CUBIC)
+        ))
+        .build();
+    
+    public static final Animation OPEN = Animation.Builder.create(2f)        
+        .addBoneAnimation("top_shell", new Transformation(Transformation.Targets.ROTATE, 
+            new Keyframe(0.0F, AnimationHelper.createRotationalVector(-60.0F, 0.0F, 0.0F), Transformation.Interpolations.CUBIC),
+            new Keyframe(2.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.CUBIC)
         ))
         .build();
 

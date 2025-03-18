@@ -1,6 +1,7 @@
 package xen42.peacefulitems.entities;
 
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -13,6 +14,10 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandler;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.AmbientEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -30,24 +35,36 @@ import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.event.GameEvent;
+import xen42.peacefulitems.PeacefulMod;
 import xen42.peacefulitems.PeacefulModItems;
 
 public class EndClamEntity extends AmbientEntity {
     public final AnimationState idleAnimationState;
     public final AnimationState hitAnimationState;
     public final AnimationState yawnAnimationState;
-    private boolean _wasJustHit;
-    private boolean _isYawning;
-    private boolean _willYawn;
+    public final AnimationState openAnimationState;
     private long _revertToIdleTick;
-    private long _idleStartTick;
+    private long _lastYawn;
+
+    private static final TrackedData<Boolean> IS_OPENING = DataTracker.registerData(EndClamEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static final TrackedData<Boolean> IS_YAWNING = DataTracker.registerData(EndClamEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static final TrackedData<Boolean> WAS_JUST_HIT = DataTracker.registerData(EndClamEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     public EndClamEntity(EntityType<? extends AmbientEntity> entityType, World world) {
         super(entityType, world);
         this.idleAnimationState = new AnimationState();
         this.hitAnimationState = new AnimationState();
         this.yawnAnimationState = new AnimationState();
+        this.openAnimationState = new AnimationState();
         setCanPickUpLoot(true);
+    }
+
+    @Override
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+		builder.add(IS_OPENING, false);
+		builder.add(IS_YAWNING, false);
+		builder.add(WAS_JUST_HIT, false);
     }
     
     @Override
@@ -76,20 +93,11 @@ public class EndClamEntity extends AmbientEntity {
             this.teleportRandomly();
         }
 
+        if (!this.getWorld().isClient) {
+            this.getDataTracker().set(WAS_JUST_HIT, true);
+        }
+
         return super.damage(world, source, amount);
-    }
-
-    @Override
-    public void onDamaged(DamageSource damageSource) {
-        super.onDamaged(damageSource);
-        // I think this happens on client and damaged happens on server? idk man
-        _revertToIdleTick = getWorld().getTime() + (long)(0.6f * 20);
-
-        idleAnimationState.stop();
-        yawnAnimationState.stop();
-        hitAnimationState.stop();
-        hitAnimationState.start(this.age);
-        _wasJustHit = true;
     }
 
     @Override
@@ -101,40 +109,73 @@ public class EndClamEntity extends AmbientEntity {
     public void tick() {
         super.tick();
 
-        // On average every 15 seconds
-        if (!_isYawning && !_willYawn && !_wasJustHit && this.getRandom().nextFloat() < (1f / (20f * 15f))) {
-            // Will then yawn when the idle animation loops next
-            _willYawn = true;
-        }
-
-        if (_wasJustHit && this.getWorld().getTime() > _revertToIdleTick) {
-            _wasJustHit = false;
-        }
-
-        if (_isYawning && this.getWorld().getTime() > _revertToIdleTick) {
-            _isYawning = false;
+        // Only yawn when the idle animation has the mouth closed
+        if (!getWorld().isClient) {
+            if (idleAnimationState.isRunning() && idleAnimationState.getTimeInMilliseconds(this.age) % 4000 == 0 && this.getRandom().nextBoolean()
+                    && this.getWorld().getTime() > _lastYawn + 40) {
+                this.getDataTracker().set(IS_YAWNING, true);
+                this.playSound(SoundEvents.ENTITY_SHULKER_OPEN);
+                _lastYawn = this.getWorld().getTime();
+            }
         }
 
         updateAnimations();
     }
 
     public void updateAnimations() {
-        if (!idleAnimationState.isRunning() && !_wasJustHit && !_isYawning) {
-            hitAnimationState.stop();
+        if (!idleAnimationState.isRunning() && !this.getDataTracker().get(WAS_JUST_HIT) 
+            && !this.getDataTracker().get(IS_YAWNING) && !this.getDataTracker().get(IS_OPENING)) {
+            idleAnimationState.stop();
             yawnAnimationState.stop();
+            hitAnimationState.stop();
+            openAnimationState.stop();
+
             idleAnimationState.start(this.age);
-            _idleStartTick = this.getWorld().getTime();
+        }
+        else if (this.getDataTracker().get(WAS_JUST_HIT) && !hitAnimationState.isRunning()) {
+            _revertToIdleTick = getWorld().getTime() + (long)(0.6f * 20);
+
+            this.getDataTracker().set(IS_YAWNING, false);
+            this.getDataTracker().set(IS_OPENING, false);
+
+            idleAnimationState.stop();
+            yawnAnimationState.stop();
+            hitAnimationState.stop();
+            openAnimationState.stop();
+
+            hitAnimationState.start(this.age);
+        }
+        else if (this.getDataTracker().get(IS_OPENING) && !openAnimationState.isRunning()) {
+            _revertToIdleTick = getWorld().getTime() + (long)(2f * 20);
+
+            this.getDataTracker().set(WAS_JUST_HIT, false);
+            this.getDataTracker().set(IS_YAWNING, false);
+
+            idleAnimationState.stop();
+            yawnAnimationState.stop();
+            hitAnimationState.stop();
+            openAnimationState.stop();
+
+            openAnimationState.start(this.age);
+        }
+        else if (this.getDataTracker().get(IS_YAWNING) && !yawnAnimationState.isRunning()) {
+            _revertToIdleTick = getWorld().getTime() + (long)(5f * 20);
+
+            this.getDataTracker().set(WAS_JUST_HIT, false);
+            this.getDataTracker().set(IS_OPENING, false);
+
+            idleAnimationState.stop();
+            yawnAnimationState.stop();
+            hitAnimationState.stop();
+            openAnimationState.stop();
+
+            yawnAnimationState.start(this.age);
         }
 
-        // Only start yawning if the idle animation has looped and closed its mouth
-        if (_willYawn && !yawnAnimationState.isRunning() && (this.getWorld().getTime() - _idleStartTick) % (20 * 8) == 0) {
-            idleAnimationState.stop();
-            hitAnimationState.stop();
-            yawnAnimationState.start(this.age);
-
-            _revertToIdleTick = getWorld().getTime() + (5 * 20);
-            _isYawning = true;
-            _willYawn = false;
+        if (!this.getWorld().isClient && this.getWorld().getTime() > _revertToIdleTick) {
+            this.getDataTracker().set(WAS_JUST_HIT, false);
+            this.getDataTracker().set(IS_YAWNING, false);
+            this.getDataTracker().set(IS_OPENING, false);
         }
     }
 
@@ -207,7 +248,7 @@ public class EndClamEntity extends AmbientEntity {
     @Override
     protected void loot(ServerWorld world, ItemEntity itemEntity) {
         ItemStack itemStack = itemEntity.getStack();
-        if (canPickupItem(itemStack)) {
+        if (!this.getDataTracker().get(IS_OPENING) && canPickupItem(itemStack)) {
             if (!getEquippedStack(EquipmentSlot.MAINHAND).isEmpty()) {
                 if (!getWorld().isClient) {
                     var thrownItem = new ItemEntity(getWorld(), getX() + (getRotationVector()).x, getY() + 1.0D, getZ() + (getRotationVector()).z, 
@@ -228,6 +269,11 @@ public class EndClamEntity extends AmbientEntity {
             updateDropChances(EquipmentSlot.MAINHAND);
             sendPickup(itemEntity, itemStack.getCount());
             itemEntity.discard();
+
+            if(!this.getWorld().isClient) {
+                this.getDataTracker().set(IS_OPENING, true);
+                this.playSound(SoundEvents.ENTITY_SHULKER_OPEN);
+            }
         } 
     }
 

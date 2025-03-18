@@ -50,5 +50,6 @@ public class EndClamEntityModel extends EntityModel<EndClamEntityRenderState> {
 		this.animate(endClamEntityRenderState.idleAnimationState, EndClamAnimation.IDLE, endClamEntityRenderState.age, 1.0F);
 		this.animate(endClamEntityRenderState.hitAnimationState, EndClamAnimation.HIT, endClamEntityRenderState.age, 1.0F);
 		this.animate(endClamEntityRenderState.yawnAnimationState, EndClamAnimation.YAWN, endClamEntityRenderState.age, 1.0F);
+		this.animate(endClamEntityRenderState.openAnimationState, EndClamAnimation.OPEN, endClamEntityRenderState.age, 1.0F);
 	}
 }

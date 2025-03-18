@@ -32,6 +32,7 @@ public class EndClamEntityRenderer extends MobEntityRenderer<EndClamEntity, EndC
 		endClamEntityRenderState.idleAnimationState.copyFrom(endClamEntity.idleAnimationState);
 		endClamEntityRenderState.yawnAnimationState.copyFrom(endClamEntity.yawnAnimationState);
 		endClamEntityRenderState.hitAnimationState.copyFrom(endClamEntity.hitAnimationState);
+		endClamEntityRenderState.openAnimationState.copyFrom(endClamEntity.openAnimationState);
 
         ItemHolderEntityRenderState.update(endClamEntity, endClamEntityRenderState, this.itemModelResolver);
 	}
