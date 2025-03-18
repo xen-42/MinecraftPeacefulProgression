@@ -126,8 +126,7 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
     }
 
     @Override
-    public void onDamaged(DamageSource damageSource) {
-        super.onDamaged(getRecentDamageSource());
+    public void playHurtSound(DamageSource damageSource) {
         this.playSound(SoundEvents.ENTITY_GHAST_HURT, 1f, (random.nextFloat() - random.nextFloat()) * 0.2f + 1.3f);
     }
 

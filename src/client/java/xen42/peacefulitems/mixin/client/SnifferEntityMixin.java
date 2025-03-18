@@ -7,18 +7,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.entity.passive.SnifferEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.loot.LootTables;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import xen42.peacefulitems.PeacefulMod;
 import xen42.peacefulitems.PeacefulModBlocks;
 
 @Mixin(SnifferEntity.class)

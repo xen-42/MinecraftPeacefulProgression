@@ -69,7 +69,7 @@ public class PeacefulMod implements ModInitializer {
 	public static final EntityType<EndClamEntity> END_CLAM_ENTITY = Registry.register(
 		Registries.ENTITY_TYPE, 
 		Identifier.of(MOD_ID, "end_clam"), 
-		EntityType.Builder.create(EndClamEntity::new, SpawnGroup.AMBIENT).dimensions(1f, 1f).build(END_CLAM_ENTITY_KEY));
+		EntityType.Builder.create(EndClamEntity::new, SpawnGroup.AMBIENT).dimensions(0.5f, 0.3f).build(END_CLAM_ENTITY_KEY));
 
 	@Override
 	public void onInitialize() {
