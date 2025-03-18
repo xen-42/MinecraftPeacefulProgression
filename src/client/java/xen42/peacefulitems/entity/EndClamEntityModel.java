@@ -42,4 +42,13 @@ public class EndClamEntityModel extends EntityModel<EndClamEntityRenderState> {
 		ModelPartData inner_r1 = top_shell.addChild("inner_r1", ModelPartBuilder.create().uv(0, 0).cuboid(-4.0F, -0.5F, -4.0F, 8.0F, 1.0F, 8.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, -0.5F, -5.0F, 3.1416F, 0.0F, 0.0F));
 		return TexturedModelData.of(modelData, 64, 64);
 	}
+
+	@Override
+	public void setAngles(EndClamEntityRenderState endClamEntityRenderState) {
+		super.setAngles(endClamEntityRenderState);
+
+		this.animate(endClamEntityRenderState.idleAnimationState, EndClamAnimation.IDLE, endClamEntityRenderState.age, 1.0F);
+		this.animate(endClamEntityRenderState.hitAnimationState, EndClamAnimation.HIT, endClamEntityRenderState.age, 1.0F);
+		this.animate(endClamEntityRenderState.yawnAnimationState, EndClamAnimation.YAWN, endClamEntityRenderState.age, 1.0F);
+	}
 }

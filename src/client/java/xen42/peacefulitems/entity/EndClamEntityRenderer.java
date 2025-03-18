@@ -22,5 +22,13 @@ public class EndClamEntityRenderer extends MobEntityRenderer<EndClamEntity, EndC
     public EndClamEntityRenderState createRenderState() {
         return new EndClamEntityRenderState();
     }
-    
+
+    @Override
+    public void updateRenderState(EndClamEntity endClamEntity, EndClamEntityRenderState endClamEntityRenderState, float f) {
+		super.updateRenderState(endClamEntity, endClamEntityRenderState, f);
+
+		endClamEntityRenderState.idleAnimationState.copyFrom(endClamEntity.idleAnimationState);
+		endClamEntityRenderState.yawnAnimationState.copyFrom(endClamEntity.yawnAnimationState);
+		endClamEntityRenderState.hitAnimationState.copyFrom(endClamEntity.hitAnimationState);
+	}
 }
