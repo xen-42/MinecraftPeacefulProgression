@@ -21,8 +21,12 @@ public class PeacefulModItems {
     public static final Item BAT_WING = register("bat_wing", Item::new, new Item.Settings());
     public static final Item GUANO = register("guano", Item::new, new Item.Settings());
     public static final Item SULPHUR = register("sulphur", (settings) -> new BlockItem(PeacefulModBlocks.SULPHUR_CLUSTER, settings), new Item.Settings());
-    public static final Item FLAX = register("flax", (settings) -> new BlockItem(PeacefulModBlocks.FLAX_CROP, settings), new Item.Settings().food(new FoodComponent(2, 1, false)));
-    public static final Item GHASTLING_SPAWN_EGG = register("ghastling_spawn_egg", (settings) -> new SpawnEggItem(PeacefulMod.GHASTLING_ENTITY, settings), new Item.Settings());
+    public static final Item FLAX = register("flax", (settings) -> 
+        new BlockItem(PeacefulModBlocks.FLAX_CROP, settings), new Item.Settings().food(new FoodComponent(2, 1, false)));
+    public static final Item GHASTLING_SPAWN_EGG = register("ghastling_spawn_egg", (settings) -> 
+        new SpawnEggItem(PeacefulMod.GHASTLING_ENTITY, settings), new Item.Settings());
+    public static final Item END_CLAM_SPAWN_EGG = register("end_clam_spawn_egg", (settings) -> 
+        new SpawnEggItem(PeacefulMod.END_CLAM_ENTITY, settings), new Item.Settings());
 
     public static void initialize() {
         // Add custom items to groups
@@ -48,6 +52,7 @@ public class PeacefulModItems {
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register((itemGroup) -> {
             itemGroup.add(GHASTLING_SPAWN_EGG);
+            itemGroup.add(END_CLAM_SPAWN_EGG);
         });
 
         CompostingChanceRegistry.INSTANCE.add(GUANO, 2f);

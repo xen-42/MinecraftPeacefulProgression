@@ -12,7 +12,9 @@
 
     "item.peaceful-items.blaze_pickle": "Blaze Coral",
     "item.peaceful-items.ghastling_spawn_egg": "Ghastling Spawn Egg",
+    "item.peaceful-items.end_clam_spawn_egg": "End Clam Spawn Egg",
 
     "entity.minecraft.villager.dj": "Musician",
-    "entity.peaceful-items.ghastling": "Ghastling"
+    "entity.peaceful-items.ghastling": "Ghastling",
+    "entity.peaceful-items.end_clam": "End Clam"
 }
