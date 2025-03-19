@@ -7,15 +7,12 @@ import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.SpawnLocationTypes;
 import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.AmbientEntity;
-import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -94,10 +91,14 @@ public class PeacefulMod implements ModInitializer {
 		FabricDefaultAttributeRegistry.register(END_CLAM_ENTITY, EndClamEntity.createMobAttributes());
 		
 		// I don't know why but the SpawnGroup.CREATURES group had them never spawning
-		BiomeModifications.addSpawn(BiomeSelectors.foundInTheNether(), SpawnGroup.AMBIENT, GHASTLING_ENTITY, 100, 2, 3);
+		// Ghastling further lowers its spawn area to fortresses in its own class
+		var ghastlingBiomes = BiomeSelectors.foundInTheNether();
+		var clamBiomes = BiomeSelectors.includeByKey(BiomeKeys.WARPED_FOREST).or(BiomeSelectors.foundInTheEnd());
+
+		BiomeModifications.addSpawn(ghastlingBiomes, SpawnGroup.AMBIENT, GHASTLING_ENTITY, 100, 2, 3);
 		SpawnRestriction.register(GHASTLING_ENTITY, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, GhastlingEntity::isValidSpawn);
 
-		BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.WARPED_FOREST), SpawnGroup.AMBIENT, END_CLAM_ENTITY, 100, 1, 1);
+		BiomeModifications.addSpawn(clamBiomes, SpawnGroup.AMBIENT, END_CLAM_ENTITY, 100, 1, 1);
 		SpawnRestriction.register(END_CLAM_ENTITY, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EndClamEntity::isValidSpawn);
 	}
 }

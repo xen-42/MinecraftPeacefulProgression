@@ -310,6 +310,10 @@ public class EndClamEntity extends AmbientEntity {
 
             equipStack(EquipmentSlot.MAINHAND, new ItemStack(item));
         }
+        // Face a random direction
+        setYaw(this.random.nextFloat() * 360f);
+        this.headYaw = getYaw();
+        resetPosition();
         return super.initialize(world, difficulty, spawnReason, entityData);
     }
 }
