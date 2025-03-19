@@ -21,3 +21,6 @@ https://java-decompiler.github.io/
 Configured/placed feature generators:
 https://misode.github.io/worldgen/feature/
 https://misode.github.io/worldgen/placed-feature/
+
+Mixin cheatsheet:
+https://github.com/2xsaiko/mixin-cheatsheet/tree/master
