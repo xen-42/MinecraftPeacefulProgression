@@ -12,6 +12,7 @@
 		"BatEntityRendererMixin",
 		"SnifferEntityMixin",
 		"HungerManagerMixin",
-		"ServerPlayerEntityMixin"
+		"ServerPlayerEntityMixin",
+		"EnderDragonFightMixin"
 	]
 }
