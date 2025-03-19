@@ -13,6 +13,7 @@
 		"SnifferEntityMixin",
 		"HungerManagerMixin",
 		"ServerPlayerEntityMixin",
-		"EnderDragonFightMixin"
+		"EnderDragonFightMixin",
+		"EnderDragonEntityMixin"
 	]
 }
