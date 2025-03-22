@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.particle.TotemParticle;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
@@ -33,6 +34,8 @@ public class PeacefulModClient implements ClientModInitializer {
 
 		EntityRendererRegistry.register(PeacefulMod.END_CLAM_ENTITY, context -> new EndClamEntityRenderer(context));
 		EntityModelLayerRegistry.registerModelLayer(MODEL_END_CLAM_LAYER, EndClamEntityModel::getTexturedModelData);
+
+		HandledScreens.register(PeacefulMod.EFFIGY_ALTAR_SCREEN_HANDLER, EffigyAltarHandledScreen::new);
 
 		ClientPlayNetworking.registerGlobalReceiver(EffigyParticlePayload.ID, (payload, context) -> {
     		context.client().execute(() -> {

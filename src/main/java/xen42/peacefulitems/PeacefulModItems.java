@@ -26,7 +26,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
-import xen42.peacefulitems.items.EffigyItem;
+import xen42.peacefulitems.item.EffigyItem;
 
 public class PeacefulModItems {
     public static final Item BAT_WING = register("bat_wing", Item::new, new Item.Settings());
@@ -121,6 +121,9 @@ public class PeacefulModItems {
             itemGroup.add(GUARDIAN_EFFIGY);
         });
 
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register((itemGroup) -> {
+            itemGroup.add(PeacefulModBlocks.EFFIGY_ALTAR.asItem());
+        });
 
         CompostingChanceRegistry.INSTANCE.add(GUANO, 2f);
         CompostingChanceRegistry.INSTANCE.add(FLAX, 0.3f);
