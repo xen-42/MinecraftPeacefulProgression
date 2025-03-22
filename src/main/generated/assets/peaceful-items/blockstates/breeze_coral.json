@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "pickles=1": {
+      "model": "peaceful-items:block/breeze_coral_one"
+    },
+    "pickles=2": {
+      "model": "peaceful-items:block/breeze_coral_two"
+    },
+    "pickles=3": {
+      "model": "peaceful-items:block/breeze_coral_three"
+    },
+    "pickles=4": {
+      "model": "peaceful-items:block/breeze_coral_four"
+    }
+  }
+}

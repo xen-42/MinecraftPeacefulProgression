@@ -34,6 +34,7 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
         blockStateModelGenerator.registerSimpleCubeAll(PeacefulModBlocks.SULPHUR_ORE);
         blockStateModelGenerator.registerAmethyst(PeacefulModBlocks.SULPHUR_CLUSTER);
         registerSeaPickle(blockStateModelGenerator, PeacefulModBlocks.BLAZE_PICKLE.asItem(), PeacefulModBlocks.BLAZE_PICKLE);
+        registerSeaPickle(blockStateModelGenerator, PeacefulModBlocks.BREEZE_CORAL.asItem(), PeacefulModBlocks.BREEZE_CORAL);
 
         blockStateModelGenerator.registerCrop(PeacefulModBlocks.FLAX_CROP, Properties.AGE_7, 0, 1, 2, 3, 4, 4, 5, 6);
     }

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/four_dead_sea_pickles",
+  "textures": {
+    "all": "peaceful-items:block/breeze_coral",
+    "particle": "peaceful-items:block/breeze_coral"
+  }
+}

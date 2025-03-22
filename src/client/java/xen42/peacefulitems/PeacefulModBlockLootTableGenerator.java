@@ -28,6 +28,7 @@ import net.minecraft.predicate.StatePredicate;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
+import xen42.peacefulitems.blocks.BlazePickleBlock;
 
 public class PeacefulModBlockLootTableGenerator extends FabricBlockLootTableProvider {
 
@@ -47,6 +48,14 @@ public class PeacefulModBlockLootTableGenerator extends FabricBlockLootTableProv
         this.addDrop(PeacefulModBlocks.BLAZE_PICKLE, (Block block) 
             -> LootTable.builder().pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f))
             .with((LootPoolEntry.Builder)this.applyExplosionDecay(PeacefulModBlocks.BLAZE_PICKLE, ItemEntry.builder(block)
+            .apply(List.of(Integer.valueOf(2), Integer.valueOf(3), Integer.valueOf(4)), pickles 
+            -> SetCountLootFunction.builder(ConstantLootNumberProvider.create(pickles.intValue()))
+            .conditionally(BlockStatePropertyLootCondition.builder(block)
+            .properties(StatePredicate.Builder.create().exactMatch(BlazePickleBlock.PICKLES, pickles.intValue()))))))));
+        
+        this.addDrop(PeacefulModBlocks.BREEZE_CORAL, (Block block) 
+            -> LootTable.builder().pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f))
+            .with((LootPoolEntry.Builder)this.applyExplosionDecay(PeacefulModBlocks.BREEZE_CORAL, ItemEntry.builder(block)
             .apply(List.of(Integer.valueOf(2), Integer.valueOf(3), Integer.valueOf(4)), pickles 
             -> SetCountLootFunction.builder(ConstantLootNumberProvider.create(pickles.intValue()))
             .conditionally(BlockStatePropertyLootCondition.builder(block)

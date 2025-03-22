@@ -1,4 +1,6 @@
-package xen42.peacefulitems;
+package xen42.peacefulitems.blocks;
+
+import java.util.concurrent.Callable;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -11,7 +13,6 @@ import net.minecraft.block.Fertilizable;
 import net.minecraft.block.PlantBlock;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.ai.pathing.NavigationType;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
@@ -19,14 +20,12 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
-import net.minecraft.world.tick.ScheduledTickView;
+import xen42.peacefulitems.PeacefulModBlocks;
 
 public class BlazePickleBlock extends PlantBlock implements Fertilizable {
 	public static final MapCodec<BlazePickleBlock> CODEC = createCodec(BlazePickleBlock::new);
@@ -49,7 +48,14 @@ public class BlazePickleBlock extends PlantBlock implements Fertilizable {
 
     @Override
 	public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state) {
-		return world.getBlockState(pos.down()).isIn(BlockTags.SOUL_FIRE_BASE_BLOCKS);
+		return true;
+	}
+
+	@Override
+	protected void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+		if (!this.canPlaceAt(state, world, pos)) {
+			world.breakBlock(pos, true);
+		}
 	}
 
     @Override
@@ -67,8 +73,8 @@ public class BlazePickleBlock extends PlantBlock implements Fertilizable {
 					BlockPos blockPos = new BlockPos(m + o, r, pos.getZ() - n + p);
 					if (blockPos != pos && random.nextInt(6) == 0 && world.getBlockState(blockPos).isOf(Blocks.AIR)) {
 						BlockState blockState = world.getBlockState(blockPos.down());
-						if (blockState.isIn(BlockTags.SOUL_FIRE_BASE_BLOCKS)) {
-							world.setBlockState(blockPos, PeacefulModBlocks.BLAZE_PICKLE.getDefaultState().with(PICKLES, random.nextInt(4) + 1), Block.NOTIFY_ALL);
+						if (canPlant(blockState)) {
+							world.setBlockState(blockPos, this.getDefaultState().with(PICKLES, random.nextInt(4) + 1), Block.NOTIFY_ALL);
 						}
 					}
 				}
@@ -90,13 +96,17 @@ public class BlazePickleBlock extends PlantBlock implements Fertilizable {
 
     @Override
 	protected boolean canPlantOnTop(BlockState floor, BlockView world, BlockPos pos) {
-		return world.getBlockState(pos.up()).isAir() || world.getBlockState(pos.up()).isOf(this);
+		return canPlant(floor) && (world.getBlockState(pos.up()).isAir() || world.getBlockState(pos.up()).isOf(this));
+	}
+
+	public boolean canPlant(BlockState state) {
+		return state.isIn(BlockTags.SOUL_FIRE_BASE_BLOCKS);
 	}
 
     @Override
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        BlockPos lv = pos.down();
-        return this.canPlantOnTop(world.getBlockState(lv), world, lv);
+        var ground = pos.down();
+        return this.canPlantOnTop(world.getBlockState(ground), world, ground);
     }
 
     @Override

@@ -18,6 +18,8 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
+import xen42.peacefulitems.blocks.BlazePickleBlock;
+import xen42.peacefulitems.blocks.BreezeCoralBlock;
 
 public class PeacefulModBlocks {
 
@@ -77,6 +79,14 @@ public class PeacefulModBlocks {
 		"blaze_pickle",
 		BlazePickleBlock::new,
 		AbstractBlock.Settings.create().mapColor(MapColor.YELLOW).sounds(BlockSoundGroup.NETHER_WART).nonOpaque().pistonBehavior(PistonBehavior.DESTROY).luminance(state -> 3 + 3 * (Integer)state.get(SeaPickleBlock.PICKLES)),
+		true
+	);
+
+	
+	public static final BlazePickleBlock BREEZE_CORAL = (BreezeCoralBlock)register(
+		"breeze_coral",
+		BreezeCoralBlock::new,
+		AbstractBlock.Settings.create().mapColor(MapColor.GRAY).sounds(BlockSoundGroup.NETHER_WART).nonOpaque().pistonBehavior(PistonBehavior.DESTROY).luminance(state -> 3 + 3 * (Integer)state.get(SeaPickleBlock.PICKLES)),
 		true
 	);
 

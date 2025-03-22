@@ -103,6 +103,7 @@ public class PeacefulModItems {
             itemGroup.add(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE.asItem());
             itemGroup.add(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE.asItem());
             itemGroup.add(PeacefulModBlocks.BLAZE_PICKLE.asItem());
+            itemGroup.add(PeacefulModBlocks.BREEZE_CORAL.asItem());
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register((itemGroup) -> { 

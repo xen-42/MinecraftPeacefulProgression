@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.45,
+  "group": "translation{key='block.peaceful-items.breeze_coral', args=[]}",
+  "ingredient": "peaceful-items:breeze_coral",
+  "result": {
+    "id": "minecraft:breeze_rod"
+  }
+}
