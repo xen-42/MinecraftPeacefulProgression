@@ -51,18 +51,13 @@ public class EnderDragonFightMixin {
             bossBarField.setAccessible(true);
             var bossBar = (ServerBossBar)bossBarField.get(fight);
 
-            var gatewaysField = fight.getClass().getDeclaredField("gateways");
-            gatewaysField.setAccessible(true);
-            var gateways = (ObjectArrayList<Integer>)gatewaysField.get(fight);
-
-            // Gateway has a list of 20 possible positions to spawn gateways, and removes them as they get spawned
-            // So if its 20, none have been spawned!
-            if (gateways.size() == 20) {
+            if (!fight.hasPreviouslyKilled()) {
                 var generateEndPortalMethod = fight.getClass().getDeclaredMethod("generateEndPortal", boolean.class);
                 generateEndPortalMethod.invoke(fight, true);
 
-                var generateNewEndGatewayMethod = fight.getClass().getDeclaredMethod("generateNewEndGateway");
-                generateNewEndGatewayMethod.invoke(fight);
+                var previouslyKilledField = fight.getClass().getDeclaredField("previouslyKilled");
+                previouslyKilledField.setAccessible(true);
+                previouslyKilledField.set(fight, true);
             }
 
             bossBar.setVisible(false);

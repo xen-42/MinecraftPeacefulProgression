@@ -1,31 +1,31 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_diamond": {
+    "has_crying_obsidian": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:diamond"
+            "items": "minecraft:crying_obsidian"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_ghast_tear": {
+    "has_ender_eye": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:ghast_tear"
+            "items": "minecraft:ender_eye"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_pearlescent_froglight": {
+    "has_obsidian": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:pearlescent_froglight"
+            "items": "minecraft:obsidian"
           }
         ]
       },
@@ -33,7 +33,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "peaceful-items:pearlescent_nether_star"
+        "recipe": "peaceful-items:dragon_effigy"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -41,14 +41,14 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_diamond",
-      "has_ghast_tear",
-      "has_pearlescent_froglight"
+      "has_crying_obsidian",
+      "has_ender_eye",
+      "has_obsidian"
     ]
   ],
   "rewards": {
     "recipes": [
-      "peaceful-items:pearlescent_nether_star"
+      "peaceful-items:dragon_effigy"
     ]
   }
 }

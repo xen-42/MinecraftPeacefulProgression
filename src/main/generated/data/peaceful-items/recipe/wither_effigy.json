@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "b": "minecraft:wither_skeleton_skull",
+    "e": "minecraft:soul_sand"
+  },
+  "pattern": [
+    "bbb",
+    "eee",
+    " e "
+  ],
+  "result": {
+    "count": 1,
+    "id": "peaceful-items:wither_effigy"
+  }
+}

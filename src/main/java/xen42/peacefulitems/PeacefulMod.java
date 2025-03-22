@@ -5,7 +5,9 @@ import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.SpawnLocationTypes;
@@ -14,6 +16,7 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.BatEntity;
+import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -68,6 +71,8 @@ public class PeacefulMod implements ModInitializer {
 		Identifier.of(MOD_ID, "end_clam"), 
 		EntityType.Builder.create(EndClamEntity::new, SpawnGroup.AMBIENT).dimensions(0.5f, 0.3f).build(END_CLAM_ENTITY_KEY));
 
+	public static final Identifier EFFIGY_PARTICLE_PAYLOAD = Identifier.of(MOD_ID, "effigy_particle_payload");
+
 	@Override
 	public void onInitialize() {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
@@ -100,5 +105,7 @@ public class PeacefulMod implements ModInitializer {
 
 		BiomeModifications.addSpawn(clamBiomes, SpawnGroup.AMBIENT, END_CLAM_ENTITY, 100, 1, 1);
 		SpawnRestriction.register(END_CLAM_ENTITY, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EndClamEntity::isValidSpawn);
+
+		PayloadTypeRegistry.playS2C().register(EffigyParticlePayload.ID, EffigyParticlePayload.CODEC);
 	}
 }

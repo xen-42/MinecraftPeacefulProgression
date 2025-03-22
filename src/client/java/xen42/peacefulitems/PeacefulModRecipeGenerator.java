@@ -93,25 +93,6 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .criterion(hasItem(PeacefulModBlocks.BLAZE_PICKLE), conditionsFromItem(PeacefulModBlocks.BLAZE_PICKLE))
                         .offerTo(exporter);
 
-                BiConsumer<String, Block> makeNetherStarRecipe = (id, frogLight) -> {
-                        createShaped(RecipeCategory.MISC, Items.NETHER_STAR)
-                                .group("peaceful-items.nether_star")
-                                .pattern(" b ")
-                                .pattern("bab")
-                                .pattern("ddd")
-                                .input('a', frogLight)
-                                .input('b', Items.GHAST_TEAR)
-                                .input('d', Items.DIAMOND)
-                                // Advancement that gives the recipe
-                                .criterion(hasItem(Items.DIAMOND), conditionsFromItem(Items.DIAMOND))
-                                .criterion(hasItem(Items.GHAST_TEAR), conditionsFromItem(Items.GHAST_TEAR))
-                                .criterion(hasItem(frogLight), conditionsFromItem(frogLight))
-                                .offerTo(exporter, RegistryKey.of(RegistryKeys.RECIPE, Identifier.of(PeacefulMod.MOD_ID, id)));
-                };
-                makeNetherStarRecipe.accept("ochre_nether_star", Blocks.OCHRE_FROGLIGHT);
-                makeNetherStarRecipe.accept("verdant_nether_star", Blocks.VERDANT_FROGLIGHT);
-                makeNetherStarRecipe.accept("pearlescent_nether_star", Blocks.PEARLESCENT_FROGLIGHT);
-
                 createShapeless(RecipeCategory.MISC, Items.PHANTOM_MEMBRANE, 2)
                         .input(PeacefulModItems.BAT_WING, 3) 
                         .input(Items.GHAST_TEAR)
@@ -120,15 +101,51 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .offerTo(exporter);
                 
                 createShaped(RecipeCategory.MISC, Items.TOTEM_OF_UNDYING)
-                        .pattern(" b ")
-                        .pattern(" e ")
+                        .pattern("ebe")
+                        .pattern("ggg")
                         .pattern(" g ")
                         .input('b', Blocks.GOLD_BLOCK)
                         .input('e', Items.EMERALD)
                         .input('g', Items.GOLD_INGOT)
                         // Advancement that gives the recipe
                         .criterion(hasItem(Items.GOLD_INGOT), conditionsFromItem(Items.GOLD_INGOT))
+                        .criterion(hasItem(Items.GOLD_BLOCK), conditionsFromItem(Items.GOLD_BLOCK))
                         .criterion(hasItem(Items.EMERALD), conditionsFromItem(Items.EMERALD))
+                        .offerTo(exporter);
+
+                createShaped(RecipeCategory.MISC, PeacefulModItems.DRAGON_EFFIGY)
+                        .pattern("ebe")
+                        .pattern("ggg")
+                        .pattern(" g ")
+                        .input('b', Blocks.CRYING_OBSIDIAN)
+                        .input('e', Items.ENDER_EYE)
+                        .input('g', Blocks.OBSIDIAN)
+                        // Advancement that gives the recipe
+                        .criterion(hasItem(Blocks.CRYING_OBSIDIAN), conditionsFromItem(Blocks.CRYING_OBSIDIAN))
+                        .criterion(hasItem(Items.ENDER_EYE), conditionsFromItem(Items.ENDER_EYE))
+                        .criterion(hasItem(Blocks.OBSIDIAN), conditionsFromItem(Blocks.OBSIDIAN))
+                        .offerTo(exporter);
+
+                createShaped(RecipeCategory.MISC, PeacefulModItems.GUARDIAN_EFFIGY)
+                        .pattern("beb")
+                        .pattern("bbb")
+                        .pattern(" b ")
+                        .input('b', Items.TROPICAL_FISH)
+                        .input('e', Items.PUFFERFISH)
+                        // Advancement that gives the recipe
+                        .criterion(hasItem(Items.TROPICAL_FISH), conditionsFromItem(Items.TROPICAL_FISH))
+                        .criterion(hasItem(Items.PUFFERFISH), conditionsFromItem(Items.PUFFERFISH))
+                        .offerTo(exporter);
+
+                createShaped(RecipeCategory.MISC, PeacefulModItems.WITHER_EFFIGY)
+                        .pattern("bbb")
+                        .pattern("eee")
+                        .pattern(" e ")
+                        .input('b', Items.WITHER_SKELETON_SKULL)
+                        .input('e', Blocks.SOUL_SAND)
+                        // Advancement that gives the recipe
+                        .criterion(hasItem(Items.WITHER_SKELETON_SKULL), conditionsFromItem(Items.WITHER_SKELETON_SKULL))
+                        .criterion(hasItem(Blocks.SOUL_SAND), conditionsFromItem(Blocks.SOUL_SAND))
                         .offerTo(exporter);
             }
         };

@@ -1,21 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_diamond": {
+    "has_soul_sand": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:diamond"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
-    "has_ghast_tear": {
-      "conditions": {
-        "items": [
-          {
-            "items": "minecraft:ghast_tear"
+            "items": "minecraft:soul_sand"
           }
         ]
       },
@@ -23,15 +13,15 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "peaceful-items:verdant_nether_star"
+        "recipe": "peaceful-items:wither_effigy"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "has_verdant_froglight": {
+    "has_wither_skeleton_skull": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:verdant_froglight"
+            "items": "minecraft:wither_skeleton_skull"
           }
         ]
       },
@@ -41,14 +31,13 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_diamond",
-      "has_ghast_tear",
-      "has_verdant_froglight"
+      "has_wither_skeleton_skull",
+      "has_soul_sand"
     ]
   ],
   "rewards": {
     "recipes": [
-      "peaceful-items:verdant_nether_star"
+      "peaceful-items:wither_effigy"
     ]
   }
 }

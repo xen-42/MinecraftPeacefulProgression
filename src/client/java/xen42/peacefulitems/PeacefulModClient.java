@@ -2,10 +2,17 @@ package xen42.peacefulitems;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.particle.TotemParticle;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.Identifier;
 import xen42.peacefulitems.entity.EndClamEntityModel;
 import xen42.peacefulitems.entity.EndClamEntityRenderer;
@@ -26,5 +33,22 @@ public class PeacefulModClient implements ClientModInitializer {
 
 		EntityRendererRegistry.register(PeacefulMod.END_CLAM_ENTITY, context -> new EndClamEntityRenderer(context));
 		EntityModelLayerRegistry.registerModelLayer(MODEL_END_CLAM_LAYER, EndClamEntityModel::getTexturedModelData);
+
+		ClientPlayNetworking.registerGlobalReceiver(EffigyParticlePayload.ID, (payload, context) -> {
+    		context.client().execute(() -> {
+        		context.client().particleManager.addEmitter(context.player(), (ParticleEffect)ParticleTypes.TOTEM_OF_UNDYING, 30);
+				switch (payload.particleID()) {
+					case "wither_effigy":
+						context.client().gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.WITHER_EFFIGY));
+						break;
+					case "dragon_effigy":
+						context.client().gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.DRAGON_EFFIGY));
+						break;
+					case "guardian_effigy":
+						context.client().gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.GUARDIAN_EFFIGY));
+						break;
+				}
+			});
+		});
 	}
 }

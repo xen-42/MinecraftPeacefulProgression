@@ -16,5 +16,9 @@
 
     "entity.minecraft.villager.dj": "Musician",
     "entity.peaceful-items.ghastling": "Ghastling",
-    "entity.peaceful-items.end_clam": "End Clam"
+    "entity.peaceful-items.end_clam": "End Clam",
+
+    "item.peaceful-items.wither_effigy": "Wither Effigy",
+    "item.peaceful-items.dragon_effigy": "Dragon Effigy",
+    "item.peaceful-items.guardian_effigy": "Elder Effigy"
 }

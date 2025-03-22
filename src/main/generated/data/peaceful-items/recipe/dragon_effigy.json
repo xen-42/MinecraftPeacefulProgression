@@ -2,9 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "b": "minecraft:gold_block",
-    "e": "minecraft:emerald",
-    "g": "minecraft:gold_ingot"
+    "b": "minecraft:crying_obsidian",
+    "e": "minecraft:ender_eye",
+    "g": "minecraft:obsidian"
   },
   "pattern": [
     "ebe",
@@ -13,6 +13,6 @@
   ],
   "result": {
     "count": 1,
-    "id": "minecraft:totem_of_undying"
+    "id": "peaceful-items:dragon_effigy"
   }
 }
