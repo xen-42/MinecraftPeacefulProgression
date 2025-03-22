@@ -1,5 +1,13 @@
 {
 	"credit": "Made with Blockbench",
+	"parent": "block/block",
+    "display": {
+        "firstperson_righthand": {
+            "rotation": [ 0, 135, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 0.4, 0.4, 0.4 ]
+        }
+    },
 	"texture_size": [64, 64],
 	"textures": {
 		"0": "peaceful-items:block/effigy_altar_texture",
