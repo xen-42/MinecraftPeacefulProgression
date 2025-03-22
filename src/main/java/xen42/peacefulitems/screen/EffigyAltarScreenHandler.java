@@ -36,7 +36,7 @@ public class EffigyAltarScreenHandler extends ScreenHandler {
 
     private static final Item[] DRAGON_RECIPE = new Item[] { 
         Items.ENDER_EYE, Items.CRYING_OBSIDIAN, Items.ENDER_EYE,
-        Items.OBSIDIAN, Items.OBSIDIAN, Items.OBSIDIAN,
+        PeacefulModItems.BAT_WING, Items.OBSIDIAN, PeacefulModItems.BAT_WING,
         Items.OBSIDIAN
     };
 
