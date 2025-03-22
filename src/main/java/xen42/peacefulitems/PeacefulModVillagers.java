@@ -123,6 +123,15 @@ public class PeacefulModVillagers {
             factories.add((entity, random) -> RandomHorn(entity, random));
             factories.add((entity, random) -> RandomDisc(entity, random));
 		});
+
+		TradeOfferHelper.registerWanderingTraderOffers(0, factories -> {
+            factories.add((entity, random) -> new TradeOffer(
+				new TradedItem(Items.EMERALD, 5),
+				new ItemStack(Items.TRIAL_KEY, 1), 12, 20, 0.05f));
+			factories.add((entity, random) -> new TradeOffer(
+				new TradedItem(Items.EMERALD, 10),
+				new ItemStack(Items.OMINOUS_TRIAL_KEY, 1), 12, 20, 0.05f));
+		});
     }
 
     private static TradeOffer RandomDisc(Entity entity, Random random) {
