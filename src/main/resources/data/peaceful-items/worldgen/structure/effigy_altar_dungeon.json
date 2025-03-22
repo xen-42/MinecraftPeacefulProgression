@@ -1,0 +1,10 @@
+{
+    "type": "minecraft:jigsaw",
+    "spawn_overrides": {},
+    "step": "underground_structures",
+    "terrain_adaptation": "bury",
+    "start_height": {
+        "absolute": 32
+    },
+    "start_pool": "peaceful-items:effigy_altar_dungeon"
+  }
