@@ -20,6 +20,7 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import xen42.peacefulitems.blocks.BlazePickleBlock;
 import xen42.peacefulitems.blocks.BreezeCoralBlock;
+import xen42.peacefulitems.blocks.EffigyAltarBlock;
 
 public class PeacefulModBlocks {
 
@@ -89,6 +90,9 @@ public class PeacefulModBlocks {
 		AbstractBlock.Settings.create().mapColor(MapColor.GRAY).sounds(BlockSoundGroup.NETHER_WART).nonOpaque().pistonBehavior(PistonBehavior.DESTROY).luminance(state -> 3 + 3 * (Integer)state.get(SeaPickleBlock.PICKLES)),
 		true
 	);
+
+	public static final EffigyAltarBlock EFFIGY_ALTAR = (EffigyAltarBlock)register(
+		"effigy_altar", EffigyAltarBlock::new, AbstractBlock.Settings.copy(Blocks.STONE).nonOpaque(), true);
 
     private static Block register(String name, Function<AbstractBlock.Settings, Block> blockFactory, AbstractBlock.Settings settings, boolean shouldRegisterItem) {
 		// Create a registry key for the block

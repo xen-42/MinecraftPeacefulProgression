@@ -1,4 +1,4 @@
-package xen42.peacefulitems.items;
+package xen42.peacefulitems.item;
 
 import java.util.function.Consumer;
 
