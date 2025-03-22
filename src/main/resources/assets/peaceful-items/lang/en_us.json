@@ -13,12 +13,12 @@
 
     "item.peaceful-items.blaze_pickle": "Blaze Coral",
     "item.peaceful-items.breeze_coral": "Breeze Coral",
-    "item.peaceful-items.ghastling_spawn_egg": "Netherwisp Spawn Egg",
-    "item.peaceful-items.end_clam_spawn_egg": "End Clam Spawn Egg",
+    "item.peaceful-items.ghastling_spawn_egg": "Wisp Spawn Egg",
+    "item.peaceful-items.end_clam_spawn_egg": "Enderclam Spawn Egg",
 
     "entity.minecraft.villager.dj": "Musician",
-    "entity.peaceful-items.ghastling": "Netherwisp",
-    "entity.peaceful-items.end_clam": "End Clam",
+    "entity.peaceful-items.ghastling": "Wisp",
+    "entity.peaceful-items.end_clam": "Enderclam",
 
     "item.peaceful-items.wither_effigy": "Wither Effigy",
     "item.peaceful-items.dragon_effigy": "Dragon Effigy",
