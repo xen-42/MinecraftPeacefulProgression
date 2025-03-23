@@ -24,6 +24,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Rarity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import xen42.peacefulitems.item.EffigyItem;
@@ -43,7 +44,7 @@ public class PeacefulModItems {
             user.dropItem((ServerWorld)user.getWorld(), Items.NETHER_STAR);
             ExperienceOrbEntity.spawn((ServerWorld)user.getWorld(), user.getPos(), 50);
         }, SoundEvents.ENTITY_WITHER_DEATH),
-        new Item.Settings().maxCount(1));
+        new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
 
     public static final Item GUARDIAN_EFFIGY = register("guardian_effigy", (settings) -> 
         new EffigyItem(settings, "guardian_effigy", (ServerPlayerEntity user) -> { 
@@ -64,7 +65,7 @@ public class PeacefulModItems {
             }
             ExperienceOrbEntity.spawn((ServerWorld)user.getWorld(), user.getPos(), 10);
         }, SoundEvents.ENTITY_ELDER_GUARDIAN_DEATH),
-        new Item.Settings().maxCount(1));
+        new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
     
     public static final Item DRAGON_EFFIGY = register("dragon_effigy", (settings) -> 
         new EffigyItem(settings, "dragon_effigy", (ServerPlayerEntity user) -> {
@@ -85,7 +86,7 @@ public class PeacefulModItems {
             }
 
             ExperienceOrbEntity.spawn((ServerWorld)user.getWorld(), user.getPos(), 500);
-        }, SoundEvents.ENTITY_ENDER_DRAGON_DEATH), new Item.Settings().maxCount(1));
+        }, SoundEvents.ENTITY_ENDER_DRAGON_DEATH), new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
 
     public static void initialize() {
         // Add custom items to groups
