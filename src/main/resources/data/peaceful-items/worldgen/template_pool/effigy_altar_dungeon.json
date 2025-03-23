@@ -1,5 +1,5 @@
 {
-    "name": "peaceful-items:",
+    "name": "peaceful-items:effigy_altar_dungeon",
     "fallback": "minecraft:empty",
     "elements": [
         {
