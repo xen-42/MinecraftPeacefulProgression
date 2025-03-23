@@ -49,7 +49,6 @@ public class PeacefulMod implements ModInitializer {
 	public static final RegistryKey<PlacedFeature> SULPHUR_CLUSTER_FLOOR_PLACED_KEY = RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(MOD_ID,"sulphur_cluster_patch_floor"));
 	public static final RegistryKey<PlacedFeature> SULPHUR_CLUSTER_CEILING_PLACED_KEY = RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(MOD_ID,"sulphur_cluster_patch_ceiling"));
 	public static final RegistryKey<PlacedFeature> FLAX_PLACED_KEY = RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(MOD_ID,"flax"));
-	public static final RegistryKey<PlacedFeature> EFFIGY_ALTAR_PLACED_KEY = RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(MOD_ID,"effigy_altar_dungeon"));
 
 	public static final TrackedData<Integer> BAT_BREEDING_TICKS = DataTracker.registerData(BatEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	public static final TrackedData<Boolean> BAT_IS_BABY = DataTracker.registerData(BatEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
@@ -95,7 +94,6 @@ public class PeacefulMod implements ModInitializer {
 		BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), GenerationStep.Feature.UNDERGROUND_ORES, SULPHUR_CLUSTER_CEILING_PLACED_KEY); 
 		BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), GenerationStep.Feature.UNDERGROUND_ORES, SULPHUR_CLUSTER_FLOOR_PLACED_KEY); 
 		BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.PLAINS, BiomeKeys.MEADOW, BiomeKeys.WINDSWEPT_HILLS), GenerationStep.Feature.VEGETAL_DECORATION, FLAX_PLACED_KEY);
-		BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_STRUCTURES, EFFIGY_ALTAR_PLACED_KEY);
 
 		FabricDefaultAttributeRegistry.register(GHASTLING_ENTITY, GhastlingEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(END_CLAM_ENTITY, EndClamEntity.createMobAttributes());

@@ -1,0 +1,14 @@
+{
+    "structures": [
+        {
+            "structure": "peaceful-items:effigy_altar_dungeon",
+            "weight": 1
+        }
+    ],
+    "placement": {
+        "type": "minecraft:random_spread",
+        "spacing": 5,
+        "separation": 2,
+        "salt": 42424242
+    }
+}
