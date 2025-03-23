@@ -14,6 +14,7 @@
 		"HungerManagerMixin",
 		"ServerPlayerEntityMixin",
 		"EnderDragonFightMixin",
-		"EnderDragonEntityMixin"
+		"EnderDragonEntityMixin",
+		"AxeItemMixin"
 	]
 }
