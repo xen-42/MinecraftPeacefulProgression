@@ -38,16 +38,16 @@ public class SnifferEntityMixin {
             Item customDrop = null;
             var r = sniffer.getRandom().nextFloat();
             if (blockState.isOf(Blocks.SOUL_SAND) || blockState.isOf(Blocks.SOUL_SOIL)) {
-                if (r < 0.01) {
+                if (r < 0.05) {
                     customDrop = Items.WITHER_SKELETON_SKULL;
                 }
-                else if (r < 0.03) {
+                else if (r < 0.1) {
                     customDrop = Items.SKELETON_SKULL;
                 }
-                else if (r < 0.05) {
+                else if (r < 0.15) {
                     customDrop = Items.WITHER_ROSE;
                 }
-                else if (r < 0.525) {
+                else if (r < 0.65) {
                     customDrop = PeacefulModBlocks.BLAZE_PICKLE.asItem();
                 }
                 else {
@@ -55,13 +55,10 @@ public class SnifferEntityMixin {
                 }
             }
             else if (blockState.isOf(Blocks.SAND)) {
-                if (r < 0.01) {
+                if (r < 0.05) {
                     customDrop = Items.TRIDENT;
                 }
-                else if (r < 0.02) {
-                    customDrop = Items.TIDE_ARMOR_TRIM_SMITHING_TEMPLATE;
-                }
-                else if (r < 0.3) {
+                else if (r < 0.2) {
                     customDrop = Items.NAUTILUS_SHELL;
                 }
                 else if (r < 0.6) {
