@@ -1,6 +1,7 @@
 package xen42.peacefulitems.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -20,16 +21,14 @@ import xen42.peacefulitems.PeacefulModBlocks;
 @Mixin(SnifferEntity.class)
 public class SnifferEntityMixin {
 
+    @Shadow
+    private static TrackedData<Integer> FINISH_DIG_TIME;
+
     @Inject(at = @At("HEAD"), method = "dropSeeds", cancellable = true)
     public void dropSeeds(CallbackInfo info) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         var sniffer = ((SnifferEntity)(Object)this);
 
-        var field = sniffer.getClass().getDeclaredField("FINISH_DIG_TIME");
-        field.setAccessible(true);
-        @SuppressWarnings("unchecked")
-        var finish_dig_time = (TrackedData<Integer>)field.get(null);
-
-        if (sniffer.getWorld() instanceof ServerWorld serverWorld && sniffer.getDataTracker().get(finish_dig_time) == sniffer.age) {
+        if (sniffer.getWorld() instanceof ServerWorld serverWorld && sniffer.getDataTracker().get(FINISH_DIG_TIME) == sniffer.age) {
 
             var digLocation = sniffer.getPos().add(sniffer.getRotationVecClient().multiply(2.25));
             var blockPos = BlockPos.ofFloored(digLocation.getX(), sniffer.getY() + 0.2F, digLocation.getZ());

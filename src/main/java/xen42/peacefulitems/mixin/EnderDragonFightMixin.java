@@ -1,8 +1,10 @@
 package xen42.peacefulitems.mixin;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.UUID;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -17,47 +19,42 @@ import net.minecraft.world.Difficulty;
 
 @Mixin(EnderDragonFight.class)
 public class EnderDragonFightMixin {
+
+    @Shadow
+    private ServerWorld world;
+
+    @Shadow
+    private UUID dragonUuid;
+
+    @Shadow
+    private ServerBossBar bossBar;
+
+    @Shadow
+    private boolean previouslyKilled;
+
+    @Shadow
+    private void generateEndPortal(boolean previouslyKilled) {}
+
     @Inject(at = @At("HEAD"), method = "createDragon", cancellable = true)
-    public void createDragon(CallbackInfoReturnable<EnderDragonEntity> info) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-        var fight = (EnderDragonFight)((Object)this);
-
-        var field = fight.getClass().getDeclaredField("world");
-        field.setAccessible(true);
-        var world = (ServerWorld)field.get(fight);
-
+    public void createDragon(CallbackInfoReturnable<EnderDragonEntity> info) {
         if (world.getDifficulty() == Difficulty.PEACEFUL) {
             info.setReturnValue(null);
             info.cancel();
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Inject(at = @At("HEAD"), method = "tick", cancellable = true)
-    public void tick(CallbackInfo info) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public void tick(CallbackInfo info) {
         var fight = (EnderDragonFight)((Object)this);
 
-        var field = fight.getClass().getDeclaredField("world");
-        field.setAccessible(true);
-        var world = (ServerWorld)field.get(fight);
-
-        // Set the current dragon to null this way if they switch off peaceful itll come back
-        var dragonUUIDField = fight.getClass().getDeclaredField("dragonUuid");
-        dragonUUIDField.setAccessible(true);
-        dragonUUIDField.set(fight, null);
-
 		if (world.getDifficulty() == Difficulty.PEACEFUL) {
-
-            var bossBarField = fight.getClass().getDeclaredField("bossBar");
-            bossBarField.setAccessible(true);
-            var bossBar = (ServerBossBar)bossBarField.get(fight);
+            // Set the current dragon to null this way if they switch off peaceful itll come back
+            dragonUuid = null;
 
             if (!fight.hasPreviouslyKilled()) {
-                var generateEndPortalMethod = fight.getClass().getDeclaredMethod("generateEndPortal", boolean.class);
-                generateEndPortalMethod.invoke(fight, true);
+                generateEndPortal(true);
 
-                var previouslyKilledField = fight.getClass().getDeclaredField("previouslyKilled");
-                previouslyKilledField.setAccessible(true);
-                previouslyKilledField.set(fight, true);
+                previouslyKilled = true;
             }
 
             bossBar.setVisible(false);

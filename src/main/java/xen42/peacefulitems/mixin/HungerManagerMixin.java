@@ -1,6 +1,7 @@
 package xen42.peacefulitems.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -13,6 +14,12 @@ import xen42.peacefulitems.PeacefulMod;
 
 @Mixin(HungerManager.class)
 public class HungerManagerMixin {
+
+    @Shadow
+    private float exhaustion;
+
+    @Shadow
+    private int foodTickTimer;
 
     @Inject(at = @At("HEAD"), method = "update", cancellable = true)
     private void update(ServerPlayerEntity player, CallbackInfo info) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
@@ -29,12 +36,8 @@ public class HungerManagerMixin {
             var hungerManager = (HungerManager)((Object)this);
 
             // Apply hunger
-            var exhaustionField = hungerManager.getClass().getDeclaredField("exhaustion");
-            exhaustionField.setAccessible(true);
-            var exhaustion = (float)exhaustionField.get(hungerManager);
-
             if (exhaustion > 4f) {
-                exhaustionField.set(hungerManager, exhaustion - 4f);
+                exhaustion = exhaustion - 4f;
                 if (hungerManager.getSaturationLevel() > 0f) {
                     hungerManager.setSaturationLevel(Math.max(hungerManager.getSaturationLevel() - 1f, 0));
                 }
@@ -44,17 +47,12 @@ public class HungerManagerMixin {
             }
 
             if (player.getServerWorld().getGameRules().getBoolean(GameRules.NATURAL_REGENERATION) && player.canFoodHeal()) {
-                // Apply healing
-                var foodTickField = hungerManager.getClass().getDeclaredField("foodTickTimer");
-                foodTickField.setAccessible(true);
-                var foodTickTimer = (int)foodTickField.get(hungerManager);
-                
+                // Apply healing               
                 foodTickTimer++;
-                foodTickField.set(hungerManager, foodTickTimer);
                 if (foodTickTimer >= 10) {
                     player.heal(1);
                     player.addExhaustion(2);
-                    foodTickField.set(hungerManager, 0);
+                    foodTickTimer = 0;
                 }
             }
 
