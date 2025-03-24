@@ -1,4 +1,4 @@
-# MinecraftPeacefulMod
+# Peaceful Items
 Makes blocks/item available in peaceful difficulty that require mob drops in vanilla. Makes the End dimension accessible. Enables hunger in peaceful with no negative effects (purely cosmetic).
 
 Adds new methods to acquire the following drops: Gunpowder, saddles, bones, blaze rods, breeze rods, ender pearls, froglights, slime balls, resin, phantome membranes, ghast tears, string, spider eyes, mob heads, prismarine shards, prismarine crystals, tide armor trim smithing template, nether stars, tridents, nautilus shells, wither roses.
