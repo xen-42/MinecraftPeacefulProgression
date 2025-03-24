@@ -2,24 +2,18 @@ package xen42.peacefulitems;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CandleBlock;
-import net.minecraft.block.SeaPickleBlock;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.condition.BlockStatePropertyLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
-import net.minecraft.loot.entry.LootPoolEntry;
 import net.minecraft.loot.function.ApplyBonusLootFunction;
 import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
@@ -47,7 +41,7 @@ public class PeacefulModBlockLootTableGenerator extends FabricBlockLootTableProv
         addDrop(PeacefulModBlocks.SULPHUR_CLUSTER, block -> dropItem(PeacefulModItems.SULPHUR, 1, 1));
         this.addDrop(PeacefulModBlocks.BLAZE_PICKLE, (Block block) 
             -> LootTable.builder().pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f))
-            .with((LootPoolEntry.Builder)this.applyExplosionDecay(PeacefulModBlocks.BLAZE_PICKLE, ItemEntry.builder(block)
+            .with(this.applyExplosionDecay(PeacefulModBlocks.BLAZE_PICKLE, ItemEntry.builder(block)
             .apply(List.of(Integer.valueOf(2), Integer.valueOf(3), Integer.valueOf(4)), pickles 
             -> SetCountLootFunction.builder(ConstantLootNumberProvider.create(pickles.intValue()))
             .conditionally(BlockStatePropertyLootCondition.builder(block)
@@ -55,7 +49,7 @@ public class PeacefulModBlockLootTableGenerator extends FabricBlockLootTableProv
         
         this.addDrop(PeacefulModBlocks.BREEZE_CORAL, (Block block) 
             -> LootTable.builder().pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f))
-            .with((LootPoolEntry.Builder)this.applyExplosionDecay(PeacefulModBlocks.BREEZE_CORAL, ItemEntry.builder(block)
+            .with(this.applyExplosionDecay(PeacefulModBlocks.BREEZE_CORAL, ItemEntry.builder(block)
             .apply(List.of(Integer.valueOf(2), Integer.valueOf(3), Integer.valueOf(4)), pickles 
             -> SetCountLootFunction.builder(ConstantLootNumberProvider.create(pickles.intValue()))
             .conditionally(BlockStatePropertyLootCondition.builder(block)
@@ -82,17 +76,9 @@ public class PeacefulModBlockLootTableGenerator extends FabricBlockLootTableProv
         return normalDrop;
     }
 
-    private LootTable.Builder silkTouch(Block block, Item item, int min, int max) {
-        var dropItem = (ItemEntry.builder(item).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(min, max))));
-
-        return (LootTable.Builder)LootTable.builder()
-            .pool(LootPool.builder().with(dropItem).conditionally(createWithoutSilkTouchCondition()))
-            .pool(LootPool.builder().with(ItemEntry.builder(block)).conditionally(createSilkTouchCondition()));
-    }
-
     private LootTable.Builder dropItem(Item item, int min, int max) {
         var dropItem = (ItemEntry.builder(item).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(min, max))));
 
-        return (LootTable.Builder)LootTable.builder().pool(LootPool.builder().with(dropItem));
+        return LootTable.builder().pool(LootPool.builder().with(dropItem));
     }
 }
