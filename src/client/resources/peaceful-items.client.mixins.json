@@ -3,18 +3,6 @@
 	"package": "xen42.peacefulitems.mixin.client",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"BatEntityMixin",
-		"PandaEntityMixin",
-		"AmbientEntityMixin",
-		"MobEntityMixin",
-		"FrogEntityMixin",
-		"LivingEntityMixin",
-		"BatEntityRendererMixin",
-		"SnifferEntityMixin",
-		"HungerManagerMixin",
-		"ServerPlayerEntityMixin",
-		"EnderDragonFightMixin",
-		"EnderDragonEntityMixin",
-		"AxeItemMixin"
+		"BatEntityRendererMixin"
 	]
 }

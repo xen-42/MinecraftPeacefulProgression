@@ -1,4 +1,4 @@
-package xen42.peacefulitems.mixin.client;
+package xen42.peacefulitems.mixin;
 
 import java.util.Random;
 import java.util.WeakHashMap;

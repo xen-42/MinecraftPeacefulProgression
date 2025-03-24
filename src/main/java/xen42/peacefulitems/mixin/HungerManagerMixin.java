@@ -1,4 +1,4 @@
-package xen42.peacefulitems.mixin.client;
+package xen42.peacefulitems.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

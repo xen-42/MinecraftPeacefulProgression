@@ -1,18 +1,11 @@
-package xen42.peacefulitems.mixin.client;
+package xen42.peacefulitems.mixin;
 
-import net.minecraft.client.render.entity.BatEntityRenderer;
-import net.minecraft.client.render.entity.state.BatEntityRenderState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.BatEntity;
-import net.minecraft.entity.passive.FrogEntity;
-import net.minecraft.entity.passive.PandaEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -20,9 +13,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.TypeFilter;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.event.GameEvent;
@@ -31,7 +22,6 @@ import xen42.peacefulitems.PeacefulModItems;
 import xen42.peacefulitems.entities.BatHelper;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 import org.spongepowered.asm.mixin.Mixin;
