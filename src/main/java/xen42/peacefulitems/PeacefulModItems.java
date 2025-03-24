@@ -23,6 +23,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import xen42.peacefulitems.item.EffigyItem;
+import xen42.peacefulitems.mixin.EnderDragonFight_Invoker;
 
 public class PeacefulModItems {
     public static final Item BAT_WING = register("bat_wing", Item::new, new Item.Settings());
@@ -66,19 +67,7 @@ public class PeacefulModItems {
         new EffigyItem(settings, "dragon_effigy", (ServerPlayerEntity user) -> {
             
             var fight = ((ServerWorld)user.getWorld()).getEnderDragonFight();
-            try {
-                var generateNewEndGatewayMethod = fight.getClass().getDeclaredMethod("generateNewEndGateway");
-                generateNewEndGatewayMethod.setAccessible(true);
-                generateNewEndGatewayMethod.invoke(fight);
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (SecurityException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            }
+            ((EnderDragonFight_Invoker)fight).invokeGenerateNewEndGateway();
 
             ExperienceOrbEntity.spawn((ServerWorld)user.getWorld(), user.getPos(), 500);
         }, SoundEvents.ENTITY_ENDER_DRAGON_DEATH), new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));

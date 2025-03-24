@@ -32,7 +32,9 @@ public class EffigyItem extends Item {
         ItemStack itemStack = user.getStackInHand(hand);
 
         world.playSoundFromEntity(user, _sound, SoundCategory.HOSTILE, 0.2f, 1f);
-        itemStack.decrement(1);
+        if (!user.isCreative()) {
+            itemStack.decrement(1);
+        }
 
         if (!world.isClient()) {
             _onUse.accept((ServerPlayerEntity)user);

@@ -1,6 +1,5 @@
 package xen42.peacefulitems.mixin;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -10,7 +9,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.entity.boss.ServerBossBar;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonFight;
