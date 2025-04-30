@@ -17,9 +17,9 @@ Adds new methods to acquire the following drops: Gunpowder, saddles, bones, blaz
 - New crafting recipes for: Gunpowder, saddles, phantom membranes.
 - New generated structure: Effigy altar dungeon. Level 2 cartographers sell a map to help find this.
 - New crafting table: Effigy altar. Used to craft Totems of Undying and boss effigies.
-- New items: Dragon Effigy, Elder Effigy, Wither Effigy. On use, gives boss drops (dragon effigy opens end island portals).
+- New items: Dragon Effigy, Elder Effigy, Wither Effigy. On use, gives boss drops/xp (Dragon Effigy opens End island portals when used in the End).
 - New villager: Musician. Sells music disks, horns, bells, jukebox, note blocks. Uses a jukebox as its work station.
-- Frogs can be fed mamga cream to produce froglights in the Nether.
+- Frogs can eat dropped mamga cream items to produce froglights when in the Nether. 
 - New villager trades: Cleric sells spider eyes, mob heads. Farmers buy flax, leatherworkers buy bat wings. Wandering traders sell trial keys.
 - Panda sneeze dropping slime probability increased from 1/700 to 1/3. Can use a feather on a panda to make it sneeze.
 - Stripping pale oak logs now drops resin.
