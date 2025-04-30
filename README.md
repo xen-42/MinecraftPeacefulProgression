@@ -1,5 +1,5 @@
-# Peaceful Items
-Makes blocks/item available in peaceful difficulty that require mob drops in vanilla. Makes the End dimension accessible. Enables hunger in peaceful with no negative effects (purely cosmetic).
+# Peaceful Progression
+Makes blocks/item available in peaceful difficulty that require mob drops in vanilla. This enables most progression to be done in peaceful mod like getting an Elytra from the End islands and crafting beacons. Enables hunger in peaceful with no negative effects (purely cosmetic).
 
 Adds new methods to acquire the following drops: Gunpowder, saddles, bones, blaze rods, breeze rods, ender pearls, froglights, slime balls, resin, phantom membranes, ghast tears, string, spider eyes, mob heads, prismarine shards, prismarine crystals, tide armor trim smithing template, nether stars, tridents, nautilus shells, wither roses.
 
@@ -46,3 +46,5 @@ https://misode.github.io/worldgen/placed-feature/
 
 Mixin cheatsheet:
 https://github.com/2xsaiko/mixin-cheatsheet/tree/master
+
+Shout out Megapiggy for naming the mod
