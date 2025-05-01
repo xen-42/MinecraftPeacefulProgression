@@ -3,14 +3,17 @@
 # certain platforms or Java versions, and provides a first line of defence
 # against bad commits.
 
-name: build
-on: [pull_request, push, workflow_dispatch]
+name: release
+on: [workflow_dispatch]
+
+permissions:
+  contents: write
 
 env:
   PROJ_NAME: PeacefulProgression
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout Repository
@@ -43,8 +46,14 @@ jobs:
         run: |
           mod_version=$(grep '^mod_version=' gradle.properties | cut -d'=' -f2)
           echo "mod_version=$mod_version" >> $GITHUB_ENV
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v4
+      - name: Create Release
+        uses: "ncipollo/release-action@v1"
         with:
-          name: ${{ env.PROJ_NAME }}-${{ env.minecraft_version }}-${{ env.mod_version }}
-          path: build/libs
+          allowUpdates: true
+          commit: ${{ github.ref_name }}
+          tag: ${{ env.minecraft_version }}-${{ env.mod_version }}
+          name: ${{ env.minecraft_version }}-${{ env.mod_version }}
+          omitBodyDuringUpdate: true
+          artifacts: "build/libs/*"
+          draft: true
+          prerelease: false
