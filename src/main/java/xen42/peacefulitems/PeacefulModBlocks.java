@@ -21,6 +21,8 @@ import net.minecraft.util.Identifier;
 import xen42.peacefulitems.blocks.BlazePickleBlock;
 import xen42.peacefulitems.blocks.BreezeCoralBlock;
 import xen42.peacefulitems.blocks.EffigyAltarBlock;
+import xen42.peacefulitems.blocks.FlaxCropBlock;
+import xen42.peacefulitems.blocks.SulphurClusterBlock;
 
 public class PeacefulModBlocks {
 
