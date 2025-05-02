@@ -24,6 +24,12 @@ public class PeacefulModBlockTagGenerator extends BlockTagProvider {
             .add(PeacefulModBlocks.SULPHUR_ORE)
             .add(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE);
         
+        this.getOrCreateTagBuilder(BlockTags.SOUL_SPEED_BLOCKS)
+            .add(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE);
+        
+        this.getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
+            .add(PeacefulModBlocks.FLAX_CROP); // similar to other crops
+        
         this.getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
             .add(PeacefulModBlocks.SULPHUR_BLOCK)
             .add(PeacefulModBlocks.FOSSIL_ORE)
@@ -37,6 +43,17 @@ public class PeacefulModBlockTagGenerator extends BlockTagProvider {
             .add(Blocks.SAND)
             .add(Blocks.GRAVEL)
             .add(Blocks.SOUL_SAND)
-            .add(Blocks.SOUL_SOIL);        
+            .add(Blocks.SOUL_SOIL);
+
+        this.getOrCreateTagBuilder(BlockTags.CROPS)
+            .add(PeacefulModBlocks.FLAX_CROP);
+        
+        this.getOrCreateTagBuilder(BlockTags.MAINTAINS_FARMLAND)
+            .add(PeacefulModBlocks.FLAX_CROP);
+        
+        this.getOrCreateTagBuilder(PeacefulModTags.BlockTags.FOSSIL_ORES)
+            .add(PeacefulModBlocks.FOSSIL_ORE)
+            .add(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE)
+            .add(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE);
     }
 }
