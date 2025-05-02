@@ -1,0 +1,17 @@
+{
+  "type": "peaceful-items:effigy_altar",
+  "key": {
+    "b": "minecraft:gold_block",
+    "e": "minecraft:emerald",
+    "g": "minecraft:gold_ingot"
+  },
+  "pattern": [
+    "ebe",
+    "ggg",
+    "g"
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:totem_of_undying"
+  }
+}

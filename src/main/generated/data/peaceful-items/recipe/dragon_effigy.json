@@ -1,0 +1,18 @@
+{
+  "type": "peaceful-items:effigy_altar",
+  "key": {
+    "b": "minecraft:crying_obsidian",
+    "e": "minecraft:ender_eye",
+    "g": "minecraft:obsidian",
+    "w": "peaceful-items:bat_wing"
+  },
+  "pattern": [
+    "ebe",
+    "wgw",
+    "g"
+  ],
+  "result": {
+    "count": 1,
+    "id": "peaceful-items:dragon_effigy"
+  }
+}

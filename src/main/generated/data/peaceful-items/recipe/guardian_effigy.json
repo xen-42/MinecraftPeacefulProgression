@@ -1,0 +1,16 @@
+{
+  "type": "peaceful-items:effigy_altar",
+  "key": {
+    "b": "minecraft:tropical_fish",
+    "e": "minecraft:pufferfish"
+  },
+  "pattern": [
+    "beb",
+    "bbb",
+    "b"
+  ],
+  "result": {
+    "count": 1,
+    "id": "peaceful-items:guardian_effigy"
+  }
+}

@@ -33,6 +33,11 @@ public class PeacefulModBlockLootTableGenerator extends FabricBlockLootTableProv
     }
 
     @Override
+    public String getName() {
+        return "PeacefulModBlockLootTableGenerator";
+    }
+
+    @Override
     public void generate() {
         addDrop(PeacefulModBlocks.SULPHUR_BLOCK);
         addDrop(PeacefulModBlocks.FOSSIL_ORE, block -> fossilOreDrops(block));

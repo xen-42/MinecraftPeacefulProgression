@@ -16,18 +16,19 @@ import xen42.peacefulitems.entity.EndClamEntityModel;
 import xen42.peacefulitems.entity.EndClamEntityRenderer;
 import xen42.peacefulitems.entity.GhastlingEntityModel;
 import xen42.peacefulitems.entity.GhastlingEntityRenderer;
+import xen42.peacefulitems.screen.EffigyAltarHandledScreen;
 
 public class PeacefulModClient implements ClientModInitializer {
-    public static final EntityModelLayer MODEL_GHASTLING_LAYER = new EntityModelLayer(Identifier.of(PeacefulMod.MOD_ID, "ghastling"), "main");
-    public static final EntityModelLayer MODEL_END_CLAM_LAYER = new EntityModelLayer(Identifier.of(PeacefulMod.MOD_ID, "end_clam"), "main");
+	public static final EntityModelLayer MODEL_GHASTLING_LAYER = new EntityModelLayer(Identifier.of(PeacefulMod.MOD_ID, "ghastling"), "main");
+	public static final EntityModelLayer MODEL_END_CLAM_LAYER = new EntityModelLayer(Identifier.of(PeacefulMod.MOD_ID, "end_clam"), "main");
 
 	@Override
 	public void onInitializeClient() {
 		BlockRenderLayerMap.INSTANCE.putBlock(PeacefulModBlocks.SULPHUR_CLUSTER, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(PeacefulModBlocks.FLAX_CROP, RenderLayer.getCutout());
 
-        EntityRendererRegistry.register(PeacefulMod.GHASTLING_ENTITY, context -> new GhastlingEntityRenderer(context)); 
-        EntityModelLayerRegistry.registerModelLayer(MODEL_GHASTLING_LAYER, GhastlingEntityModel::getTexturedModelData);
+		EntityRendererRegistry.register(PeacefulMod.GHASTLING_ENTITY, context -> new GhastlingEntityRenderer(context)); 
+		EntityModelLayerRegistry.registerModelLayer(MODEL_GHASTLING_LAYER, GhastlingEntityModel::getTexturedModelData);
 
 		EntityRendererRegistry.register(PeacefulMod.END_CLAM_ENTITY, context -> new EndClamEntityRenderer(context));
 		EntityModelLayerRegistry.registerModelLayer(MODEL_END_CLAM_LAYER, EndClamEntityModel::getTexturedModelData);
@@ -35,8 +36,8 @@ public class PeacefulModClient implements ClientModInitializer {
 		HandledScreens.register(PeacefulMod.EFFIGY_ALTAR_SCREEN_HANDLER, EffigyAltarHandledScreen::new);
 
 		ClientPlayNetworking.registerGlobalReceiver(EffigyParticlePayload.ID, (payload, context) -> {
-    		context.client().execute(() -> {
-        		context.client().particleManager.addEmitter(context.player(), (ParticleEffect)ParticleTypes.TOTEM_OF_UNDYING, 30);
+			context.client().execute(() -> {
+				context.client().particleManager.addEmitter(context.player(), (ParticleEffect)ParticleTypes.TOTEM_OF_UNDYING, 30);
 				switch (payload.particleID()) {
 					case "wither_effigy":
 						context.client().gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.WITHER_EFFIGY));

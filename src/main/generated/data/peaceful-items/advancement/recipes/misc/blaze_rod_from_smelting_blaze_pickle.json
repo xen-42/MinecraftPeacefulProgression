@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:blaze_rod_from_smelting_blaze_pickle"
+        "recipe": "peaceful-items:blaze_rod_from_smelting_blaze_pickle"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:blaze_rod_from_smelting_blaze_pickle"
+      "peaceful-items:blaze_rod_from_smelting_blaze_pickle"
     ]
   }
 }
