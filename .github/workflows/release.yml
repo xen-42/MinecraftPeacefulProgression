@@ -3,8 +3,8 @@
 # certain platforms or Java versions, and provides a first line of defence
 # against bad commits.
 
-name: release
-on: [workflow_dispatch]
+name: Create Release
+on: [pull_request, push, workflow_dispatch]
 
 permissions:
   contents: write
@@ -13,7 +13,38 @@ env:
   PROJ_NAME: PeacefulProgression
 
 jobs:
+  pre_job:
+    name: Check For Other Releases
+    outputs:
+      version: ${{ steps.read-minecraft-version.outputs.minecraft_version }}-${{ steps.read-mod-version.outputs.mod_version }}
+      exists: ${{ steps.check-tag.outputs.exists }}
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Read minecraft version from gradle.properties
+        id: read-minecraft-version
+        run: |
+          minecraft_version=$(grep '^minecraft_version=' gradle.properties | cut -d'=' -f2)
+          echo "minecraft_version=$minecraft_version" >> $GITHUB_OUTPUT
+      - name: Read mod version from gradle.properties
+        id: read-mod-version
+        run: |
+          mod_version=$(grep '^mod_version=' gradle.properties | cut -d'=' -f2)
+          echo "mod_version=$mod_version" >> $GITHUB_OUTPUT
+      - name: Check For Release
+        id: check-tag
+        run: |
+          echo "exists=$(git ls-remote --exit-code --tags origin ${{ env.TAG }} >/dev/null 2>&1 && echo true || echo false)" >> $GITHUB_OUTPUT
+        env:
+          TAG: ${{ steps.read-minecraft-version.outputs.minecraft_version }}-${{ steps.read-mod-version.outputs.mod_version }}
+      - name: Error
+        if: ${{ steps.check-tag.outputs.exists != 'false' }}
+        run: echo "::error file=gradle.properties,title=Refusing to Release::Your mod was not released because there is already a release with the version in gradle.properties"
   release:
+    needs: pre_job
+    if: ${{ (needs.pre_job.outputs.exists == 'false') }}
+    name: Create Release
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout Repository
@@ -36,24 +67,14 @@ jobs:
         run: chmod +x ./gradlew
       - name: Build with Gradle
         run: ./gradlew build
-      - name: Read minecraft version from gradle.properties
-        id: read-minecraft-version
-        run: |
-          minecraft_version=$(grep '^minecraft_version=' gradle.properties | cut -d'=' -f2)
-          echo "minecraft_version=$minecraft_version" >> $GITHUB_ENV
-      - name: Read mod version from gradle.properties
-        id: read-mod-version
-        run: |
-          mod_version=$(grep '^mod_version=' gradle.properties | cut -d'=' -f2)
-          echo "mod_version=$mod_version" >> $GITHUB_ENV
       - name: Create Release
         uses: "ncipollo/release-action@v1"
         with:
           allowUpdates: true
           commit: ${{ github.ref_name }}
-          tag: ${{ env.minecraft_version }}-${{ env.mod_version }}
-          name: ${{ env.minecraft_version }}-${{ env.mod_version }}
+          tag: ${{ needs.pre_job.outputs.version }}
+          name: ${{ needs.pre_job.outputs.version }}
           omitBodyDuringUpdate: true
           artifacts: "build/libs/*"
-          draft: true
+          draft: false
           prerelease: false
