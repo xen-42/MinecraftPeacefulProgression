@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "#peaceful-items:sulphur_ores",
+      "required": false
+    },
+    {
+      "id": "#peaceful-items:fossil_ores",
+      "required": false
+    }
+  ]
+}

@@ -15,6 +15,11 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.BatEntity;
+import net.minecraft.recipe.RecipePropertySet;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.RecipeType;
+import net.minecraft.recipe.book.RecipeBookCategory;
+import net.minecraft.recipe.display.RecipeDisplay;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -43,6 +48,19 @@ public class PeacefulMod implements ModInitializer {
 	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
+	public static final RegistryKey<RecipeType<?>> EFFIGY_ALTAR_RECIPE_TYPE_KEY = RegistryKey.of(RegistryKeys.RECIPE_TYPE, Identifier.of(MOD_ID, "effigy_altar"));
+	public static final RecipeType<EffigyAltarRecipe> EFFIGY_ALTAR_RECIPE_TYPE = Registry.register(Registries.RECIPE_TYPE, Identifier.of(MOD_ID, "effigy_altar"), new RecipeType<EffigyAltarRecipe>() {
+		public String toString() {
+			return "effigy_altar";
+		}
+	});
+	public static final RecipeSerializer<EffigyAltarRecipe> EFFIGY_ALTAR_RECIPE_SERIALIZER = Registry.register(Registries.RECIPE_SERIALIZER, Identifier.of(MOD_ID, "effigy_altar"), new EffigyAltarRecipe.Serializer());
+	public static final RecipeDisplay.Serializer<EffigyAltarRecipeDisplay> EFFIGY_ALTAR_RECIPE_DISPLAY = Registry.register(Registries.RECIPE_DISPLAY, Identifier.of(MOD_ID, "effigy_altar"), EffigyAltarRecipeDisplay.SERIALIZER);
+	public static final RecipeBookCategory EFFIGY_ALTAR_RECIPE_BOOK_CATEGORY = Registry.register(Registries.RECIPE_BOOK_CATEGORY, Identifier.of(MOD_ID, "effigy_altar"), new RecipeBookCategory() {
+		public String toString() {
+			return "EFFIGY_ALTAR";
+		}
+	});
 	public static final RegistryKey<PlacedFeature> FOSSIL_ORE_PLACED_KEY = RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(MOD_ID,"fossil_ore"));
 	public static final RegistryKey<PlacedFeature> NETHER_FOSSIL_ORE_PLACED_KEY = RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(MOD_ID,"nether_fossil_ore"));
 	public static final RegistryKey<PlacedFeature> SULPHUR_ORE_PLACED_KEY = RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(MOD_ID,"sulphur_ore"));
