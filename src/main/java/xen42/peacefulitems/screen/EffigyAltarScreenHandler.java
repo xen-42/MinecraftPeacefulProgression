@@ -132,7 +132,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
         }
 
         resultInventory.setStack(0, resultStack);
-        this.setPreviousTrackedSlot(0, resultStack);
+        this.setReceivedStack(0, resultStack);
         serverPlayerEntity.networkHandler.sendPacket(new ScreenHandlerSlotUpdateS2CPacket(this.syncId, this.nextRevision(), 0, resultStack));
     }
 
@@ -325,7 +325,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
         @Override
         protected void onCrafted(ItemStack stack) {
             if (this.amount > 0) {
-                stack.onCraftByPlayer(this.player.getWorld(), this.player, this.amount);
+                stack.onCraftByPlayer(this.player, this.amount);
             }
 
             if (this.inventory instanceof RecipeUnlocker recipeUnlocker) {
@@ -626,7 +626,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
         private int getFreeInventorySlots() {
             int i = 0;
 
-            for (ItemStack itemStack : this.inventory.main) {
+            for (ItemStack itemStack : this.inventory.getMainStacks()) {
                 if (itemStack.isEmpty()) {
                     i++;
                 }
