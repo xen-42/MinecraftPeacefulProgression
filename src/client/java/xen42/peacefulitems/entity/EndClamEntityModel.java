@@ -25,9 +25,9 @@ public class EndClamEntityModel extends EntityModel<EndClamEntityRenderState> {
 		ModelData modelData = new ModelData();
 		ModelPartData modelPartData = modelData.getRoot();
 
-		ModelPartData clam = modelPartData.addChild("clam", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+		ModelPartData clam = modelPartData.addChild("clam", ModelPartBuilder.create(), ModelTransform.origin(0.0F, 24.0F, 0.0F));
 
-		ModelPartData bottom_shell = clam.addChild("bottom_shell", ModelPartBuilder.create().uv(0, 0).cuboid(-4.0F, 0.0F, -9.0F, 8.0F, 1.0F, 8.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, -3.0F, 5.0F));
+		ModelPartData bottom_shell = clam.addChild("bottom_shell", ModelPartBuilder.create().uv(0, 0).cuboid(-4.0F, 0.0F, -9.0F, 8.0F, 1.0F, 8.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, -3.0F, 5.0F));
 
 		ModelPartData top_r1 = bottom_shell.addChild("top_r1", ModelPartBuilder.create().uv(0, 28).mirrored().cuboid(-3.0F, -1.0F, -3.0F, 6.0F, 1.0F, 6.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(0.0F, 2.0F, -5.0F, 3.1416F, 0.0F, 0.0F));
 
@@ -37,7 +37,7 @@ public class EndClamEntityModel extends EntityModel<EndClamEntityRenderState> {
 
 		ModelPartData top_shell = clam.addChild("top_shell", ModelPartBuilder.create().uv(0, 17).cuboid(-4.0F, -2.0F, -9.0F, 8.0F, 1.0F, 8.0F, new Dilation(0.0F))
 		.uv(0, 11).cuboid(-2.0F, -1.0F, -1.0F, 4.0F, 1.0F, 1.0F, new Dilation(0.0F))
-		.uv(0, 28).cuboid(-3.0F, -3.0F, -8.0F, 6.0F, 1.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, -3.0F, 5.0F));
+		.uv(0, 28).cuboid(-3.0F, -3.0F, -8.0F, 6.0F, 1.0F, 6.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, -3.0F, 5.0F));
 
 		ModelPartData inner_r1 = top_shell.addChild("inner_r1", ModelPartBuilder.create().uv(0, 0).cuboid(-4.0F, -0.5F, -4.0F, 8.0F, 1.0F, 8.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, -0.5F, -5.0F, 3.1416F, 0.0F, 0.0F));
 		return TexturedModelData.of(modelData, 64, 64);

@@ -50,7 +50,7 @@ public class EndClamAnimation {
         .build();
 
     public static final Animation HIT = Animation.Builder.create(0.5833F)
-        .addBoneAnimation("clam", new Transformation(Transformation.Targets.TRANSLATE, 
+        .addBoneAnimation("clam", new Transformation(Transformation.Targets.MOVE_ORIGIN, 
             new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
             new Keyframe(0.25F, AnimationHelper.createTranslationalVector(0.0F, 2.0F, 0.0F), Transformation.Interpolations.LINEAR),
             new Keyframe(0.4583F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR)
