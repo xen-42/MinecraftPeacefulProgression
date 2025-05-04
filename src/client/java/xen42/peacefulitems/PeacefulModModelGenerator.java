@@ -74,7 +74,7 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
 
 		blockStateModelGenerator.blockStateCollector
 			.accept(
-                VariantsBlockModelDefinitionCreator.of(Blocks.SEA_PICKLE)
+                VariantsBlockModelDefinitionCreator.of(block)
                     .with(BlockStateVariantMap.models(Properties.PICKLES)
 							.register(1, BlockStateModelGenerator.createWeightedVariant(new ModelVariant(id1)))
 							.register(2, BlockStateModelGenerator.createWeightedVariant(new ModelVariant(id2)))
