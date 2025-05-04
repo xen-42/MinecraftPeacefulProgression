@@ -22,5 +22,7 @@
 
     "item.peaceful-items.wither_effigy": "Wither Effigy",
     "item.peaceful-items.dragon_effigy": "Dragon Effigy",
-    "item.peaceful-items.guardian_effigy": "Elder Effigy"
+    "item.peaceful-items.guardian_effigy": "Elder Effigy",
+
+    "filled_map.peaceful-items:effigy_altar_dungeon": "Effigy Altar Map"
 }
