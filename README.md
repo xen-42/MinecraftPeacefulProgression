@@ -31,10 +31,10 @@ Adds new methods to acquire the following drops: Gunpowder, saddles, bones, blaz
 
 This is partly for anyone who's curious, partly just to give credit, but mostly so that I don't forget the resources I used for next time I try to do something
 
-For Blockbench:
+Blockbench guide by Diamondxr:
 https://www.youtube.com/watch?v=k1g2KWK59no
 
-Fabric tutorial series:
+Fabric tutorial series by Kaupenjoe:
 https://www.youtube.com/watch?v=TbDYwiiCgc0
 
 Fabric wiki:
@@ -50,4 +50,8 @@ https://misode.github.io/worldgen/placed-feature/
 Mixin cheatsheet:
 https://github.com/2xsaiko/mixin-cheatsheet/tree/master
 
-Shout out Megapiggy for naming the mod
+### Thank you
+
+- Megapiggy for naming the mod and contributing some nice fixes and the GitHub action
+- Kaupenjoe and Diamondxr for the Youtube tutorials
+- Everyone who works on Fabric and all the modding framework stuff that's a bunch of work man very cool
