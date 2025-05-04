@@ -26,6 +26,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import xen42.peacefulitems.recipe.EffigyAltarRecipeJsonBuilder;
 
@@ -129,6 +130,12 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .criterion(hasItem(Items.STRING), conditionsFromItem(Items.STRING))
                         .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
                         , exporter);
+
+                offerTo(createShapeless(RecipeCategory.MISC, Items.ROTTEN_FLESH)
+                    .input(PeacefulModItems.SULPHUR)
+                    .input(ItemTags.MEAT)
+                    .criterion(hasItem(PeacefulModItems.SULPHUR), conditionsFromItem(PeacefulModItems.SULPHUR))
+                    , exporter);
 
                 offerTo(createShapeless(RecipeCategory.MISC, PeacefulModItems.SULPHUR, 9)
                         .input(PeacefulModBlocks.SULPHUR_BLOCK) 
