@@ -59,9 +59,14 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
 
     public static final int OUTPUT_SLOT = 0;
     public static final int INPUT_SLOTS_START = 1;
+    public static final int INPUT_SLOTS_END = 7;
     public static final int BRIMSTONE_SLOT = 8;
     public static final int MAX_WIDTH_AND_HEIGHT = 3;
     public static final int MAX_WIDTH_END = 1;
+    public static final int INVENTORY_SLOTS_START = 9;
+    public static final int INVENTORY_SLOTS_END = 35;
+    public static final int HOTBAR_SLOTS_START = 36;
+    public static final int HOTBAR_SLOTS_END = 45;
 
     public final RecipeInputInventory inventory;
     private final CraftingResultInventory resultInventory;
@@ -149,7 +154,49 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
 
     @Override
     public ItemStack quickMove(PlayerEntity player, int slot) {
-        return ItemStack.EMPTY;
+        ItemStack itemStack = ItemStack.EMPTY;
+        Slot slotAtIndex = this.slots.get(slot);
+        if (slotAtIndex != null && slotAtIndex.hasStack()) {
+            ItemStack itemStackAtIndex = slotAtIndex.getStack();
+            itemStack = itemStackAtIndex.copy();
+            if (slot == OUTPUT_SLOT) {
+                itemStackAtIndex.getItem().onCraftByPlayer(itemStackAtIndex, player);
+                if (!this.insertItem(itemStackAtIndex, INVENTORY_SLOTS_START, HOTBAR_SLOTS_END, true)) {
+                    return ItemStack.EMPTY;
+                }
+
+                slotAtIndex.onQuickTransfer(itemStackAtIndex, itemStack);
+            } else if (slot >= INVENTORY_SLOTS_START && slot < HOTBAR_SLOTS_END) {
+                if (!this.insertItem(itemStackAtIndex, INPUT_SLOTS_START, INVENTORY_SLOTS_START, false)) {
+                    if (slot < HOTBAR_SLOTS_START) {
+                        if (!this.insertItem(itemStackAtIndex, HOTBAR_SLOTS_START, HOTBAR_SLOTS_END, false)) {
+                            return ItemStack.EMPTY;
+                        }
+                    } else if (!this.insertItem(itemStackAtIndex, INVENTORY_SLOTS_START, HOTBAR_SLOTS_START, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                }
+            } else if (!this.insertItem(itemStackAtIndex, INVENTORY_SLOTS_START, HOTBAR_SLOTS_END, false)) {
+                return ItemStack.EMPTY;
+            }
+
+            if (itemStackAtIndex.isEmpty()) {
+                slotAtIndex.setStack(ItemStack.EMPTY);
+            } else {
+                slotAtIndex.markDirty();
+            }
+
+            if (itemStackAtIndex.getCount() == itemStack.getCount()) {
+                return ItemStack.EMPTY;
+            }
+
+            slotAtIndex.onTakeItem(player, itemStackAtIndex);
+            if (slot == 0) {
+                player.dropItem(itemStackAtIndex, false);
+            }
+        }
+
+        return itemStack;
     }
 
     @Override
@@ -569,9 +616,9 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
             if (i == -1) {
                 return -1;
             } else {
-                ItemStack itemStack2 = this.inventory.getStack(i);
+                ItemStack itemStackAtIndex = this.inventory.getStack(i);
                 ItemStack itemStack3;
-                if (count < itemStack2.getCount()) {
+                if (count < itemStackAtIndex.getCount()) {
                     itemStack3 = this.inventory.removeStack(i, count);
                 } else {
                     itemStack3 = this.inventory.removeStack(i);
