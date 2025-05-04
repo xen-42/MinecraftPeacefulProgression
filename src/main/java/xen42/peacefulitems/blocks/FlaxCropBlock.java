@@ -1,4 +1,4 @@
-package xen42.peacefulitems;
+package xen42.peacefulitems.blocks;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -22,6 +22,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.tick.ScheduledTickView;
+import xen42.peacefulitems.PeacefulModBlocks;
+import xen42.peacefulitems.PeacefulModItems;
 
 public class FlaxCropBlock extends CropBlock {
 

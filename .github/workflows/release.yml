@@ -1,0 +1,88 @@
+# Automatically build the project and run any configured tests for every push
+# and submitted pull request. This can help catch issues that only occur on
+# certain platforms or Java versions, and provides a first line of defence
+# against bad commits.
+
+name: Create Release
+on:
+  # Manual trigger
+  workflow_dispatch:
+  # Trigger the workflow on pushes to only the 'main' branch
+  push:
+    branches: [ main ]
+  # Trigger the workflow on any pull request to only the 'main' branch
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: write
+
+env:
+  PROJ_NAME: PeacefulProgression
+
+jobs:
+  pre_job:
+    name: Check For Other Releases
+    outputs:
+      version: ${{ steps.read-minecraft-version.outputs.minecraft_version }}-${{ steps.read-mod-version.outputs.mod_version }}
+      exists: ${{ steps.check-tag.outputs.exists }}
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Read minecraft version from gradle.properties
+        id: read-minecraft-version
+        run: |
+          minecraft_version=$(grep '^minecraft_version=' gradle.properties | cut -d'=' -f2)
+          echo "minecraft_version=$minecraft_version" >> $GITHUB_OUTPUT
+      - name: Read mod version from gradle.properties
+        id: read-mod-version
+        run: |
+          mod_version=$(grep '^mod_version=' gradle.properties | cut -d'=' -f2)
+          echo "mod_version=$mod_version" >> $GITHUB_OUTPUT
+      - name: Check For Release
+        id: check-tag
+        run: |
+          echo "exists=$(git ls-remote --exit-code --tags origin ${{ env.TAG }} >/dev/null 2>&1 && echo true || echo false)" >> $GITHUB_OUTPUT
+        env:
+          TAG: ${{ steps.read-minecraft-version.outputs.minecraft_version }}-${{ steps.read-mod-version.outputs.mod_version }}
+      - name: Error
+        if: ${{ steps.check-tag.outputs.exists != 'false' }}
+        run: echo "::error file=gradle.properties,title=Refusing to Release::Your mod was not released because there is already a release with the version in gradle.properties"
+  release:
+    needs: pre_job
+    if: ${{ (needs.pre_job.outputs.exists == 'false') }}
+    name: Create Release
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: 'microsoft'
+          cache: gradle
+      - name: Loom Cache
+        uses: actions/cache@v4
+        with:
+          path: "**/.gradle/loom-cache"
+          key: "${{ runner.os }}-gradle-${{ hashFiles('**/libs.versions.*', '**/*.gradle*', '**/gradle-wrapper.properties') }}"
+          restore-keys: "${{ runner.os }}-gradle-"
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v4
+      - name: Make Gradle Wrapper Executable
+        run: chmod +x ./gradlew
+      - name: Build with Gradle
+        run: ./gradlew build
+      - name: Create Release
+        uses: "ncipollo/release-action@v1"
+        with:
+          allowUpdates: true
+          commit: ${{ github.ref_name }}
+          tag: ${{ needs.pre_job.outputs.version }}
+          name: ${{ needs.pre_job.outputs.version }}
+          omitBodyDuringUpdate: true
+          artifacts: "build/libs/*"
+          draft: false
+          prerelease: false

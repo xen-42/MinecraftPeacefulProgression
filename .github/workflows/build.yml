@@ -3,28 +3,48 @@
 # certain platforms or Java versions, and provides a first line of defence
 # against bad commits.
 
-name: build
-on: [pull_request, push]
+name: Debug Build
+on: [pull_request, push, workflow_dispatch]
+
+env:
+  PROJ_NAME: PeacefulProgression
 
 jobs:
   build:
     runs-on: ubuntu-24.04
     steps:
-      - name: checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
-      - name: validate gradle wrapper
-        uses: gradle/actions/wrapper-validation@v4
-      - name: setup jdk
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
+          java-version: 21
           distribution: 'microsoft'
-      - name: make gradle wrapper executable
+          cache: gradle
+      - name: Loom Cache
+        uses: actions/cache@v4
+        with:
+          path: "**/.gradle/loom-cache"
+          key: "${{ runner.os }}-gradle-${{ hashFiles('**/libs.versions.*', '**/*.gradle*', '**/gradle-wrapper.properties') }}"
+          restore-keys: "${{ runner.os }}-gradle-"
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v4
+      - name: Make Gradle Wrapper Executable
         run: chmod +x ./gradlew
-      - name: build
+      - name: Build with Gradle
         run: ./gradlew build
-      - name: capture build artifacts
+      - name: Read minecraft version from gradle.properties
+        id: read-minecraft-version
+        run: |
+          minecraft_version=$(grep '^minecraft_version=' gradle.properties | cut -d'=' -f2)
+          echo "minecraft_version=$minecraft_version" >> $GITHUB_ENV
+      - name: Read mod version from gradle.properties
+        id: read-mod-version
+        run: |
+          mod_version=$(grep '^mod_version=' gradle.properties | cut -d'=' -f2)
+          echo "mod_version=$mod_version" >> $GITHUB_ENV
+      - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: Artifacts
-          path: build/libs/
+          name: ${{ env.PROJ_NAME }}-${{ env.minecraft_version }}-${{ env.mod_version }}
+          path: build/libs

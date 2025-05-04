@@ -23,6 +23,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import xen42.peacefulitems.blocks.BlazePickleBlock;
+import xen42.peacefulitems.blocks.FlaxCropBlock;
 
 public class PeacefulModBlockLootTableGenerator extends FabricBlockLootTableProvider {
 

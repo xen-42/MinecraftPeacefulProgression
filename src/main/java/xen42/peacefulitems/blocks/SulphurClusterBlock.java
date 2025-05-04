@@ -1,4 +1,4 @@
-package xen42.peacefulitems;
+package xen42.peacefulitems.blocks;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -24,6 +24,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
+import xen42.peacefulitems.PeacefulModItems;
 
 public class SulphurClusterBlock extends Block implements Waterloggable {
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
