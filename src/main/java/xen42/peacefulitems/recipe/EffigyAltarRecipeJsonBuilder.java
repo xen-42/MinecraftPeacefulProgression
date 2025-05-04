@@ -1,4 +1,4 @@
-package xen42.peacefulitems;
+package xen42.peacefulitems.recipe;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -24,6 +24,8 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
+import xen42.peacefulitems.PeacefulMod;
+
 import org.jetbrains.annotations.Nullable;
 
 public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
@@ -151,7 +153,7 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 		}
 	}
 
-	static Identifier getItemId(ItemConvertible item) {
+	public static Identifier getItemId(ItemConvertible item) {
 		return Identifier.of(PeacefulMod.MOD_ID, Registries.ITEM.getId(item.asItem()).getPath());
 	}
 }

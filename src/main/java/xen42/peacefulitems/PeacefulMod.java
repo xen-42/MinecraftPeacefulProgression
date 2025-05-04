@@ -35,6 +35,8 @@ import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import xen42.peacefulitems.entities.EndClamEntity;
 import xen42.peacefulitems.entities.GhastlingEntity;
+import xen42.peacefulitems.recipe.EffigyAltarRecipe;
+import xen42.peacefulitems.recipe.EffigyAltarRecipeDisplay;
 import xen42.peacefulitems.screen.EffigyAltarScreenHandler;
 
 import org.slf4j.Logger;

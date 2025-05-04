@@ -52,8 +52,8 @@ import net.minecraft.world.World;
 import xen42.peacefulitems.PeacefulMod;
 import xen42.peacefulitems.PeacefulModBlocks;
 import xen42.peacefulitems.PeacefulModItems;
-import xen42.peacefulitems.EffigyAltarRecipe;
-import xen42.peacefulitems.EffigyAltarRecipeInput;
+import xen42.peacefulitems.recipe.EffigyAltarRecipe;
+import xen42.peacefulitems.recipe.EffigyAltarRecipeInput;
 
 public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
 

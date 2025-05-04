@@ -20,8 +20,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.context.ContextParameterMap;
 import xen42.peacefulitems.PeacefulMod;
-import xen42.peacefulitems.EffigyAltarRecipeDisplay;
-import xen42.peacefulitems.EffigyAltarRecipeDisplay.BrimstoneSlotDisplay;
+import xen42.peacefulitems.recipe.EffigyAltarRecipeDisplay;
+import xen42.peacefulitems.recipe.EffigyAltarRecipeDisplay.BrimstoneSlotDisplay;
 
 public class EffigyAltarRecipeBookWidget extends RecipeBookWidget<EffigyAltarScreenHandler> {
 	private static final ButtonTextures TEXTURES = new ButtonTextures(
