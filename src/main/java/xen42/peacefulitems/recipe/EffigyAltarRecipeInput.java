@@ -1,4 +1,4 @@
-package xen42.peacefulitems;
+package xen42.peacefulitems.recipe;
 
 import java.util.List;
 import net.minecraft.item.ItemStack;

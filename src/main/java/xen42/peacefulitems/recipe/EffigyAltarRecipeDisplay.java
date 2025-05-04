@@ -1,4 +1,4 @@
-package xen42.peacefulitems;
+package xen42.peacefulitems.recipe;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -13,6 +13,7 @@ import net.minecraft.recipe.display.RecipeDisplay;
 import net.minecraft.recipe.display.SlotDisplay;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.util.context.ContextParameterMap;
+import xen42.peacefulitems.PeacefulModItems;
 
 public record EffigyAltarRecipeDisplay(List<SlotDisplay> ingredients, BrimstoneSlotDisplay brimstone, SlotDisplay result, SlotDisplay craftingStation)
 	implements RecipeDisplay {

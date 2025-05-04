@@ -1,4 +1,4 @@
-package xen42.peacefulitems;
+package xen42.peacefulitems.recipe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +35,9 @@ import net.minecraft.util.Util;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.world.World;
+import xen42.peacefulitems.PeacefulMod;
+import xen42.peacefulitems.PeacefulModBlocks;
+import xen42.peacefulitems.PeacefulModItems;
 
 public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 	final RawRecipe raw;

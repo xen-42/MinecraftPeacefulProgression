@@ -27,6 +27,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.util.Identifier;
+import xen42.peacefulitems.recipe.EffigyAltarRecipeJsonBuilder;
 
 public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
     public PeacefulModRecipeGenerator(FabricDataOutput generator, CompletableFuture<WrapperLookup> registriesFuture) {
