@@ -22,6 +22,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
+import net.minecraft.world.World;
 import xen42.peacefulitems.item.EffigyItem;
 import xen42.peacefulitems.mixin.EnderDragonFight_Invoker;
 
@@ -37,14 +38,14 @@ public class PeacefulModItems {
         new SpawnEggItem(PeacefulMod.END_CLAM_ENTITY, settings), new Item.Settings());
     public static final Item WITHER_EFFIGY = register("wither_effigy", (settings) -> 
         new EffigyItem(settings, "wither_effigy", (ServerPlayerEntity user) -> {
-            user.dropItem((ServerWorld)user.getWorld(), Items.NETHER_STAR);
-            ExperienceOrbEntity.spawn((ServerWorld)user.getWorld(), user.getPos(), 50);
+            user.dropItem(user.getServerWorld(), Items.NETHER_STAR);
+            ExperienceOrbEntity.spawn(user.getServerWorld(), user.getPos(), 50);
         }, SoundEvents.ENTITY_WITHER_DEATH),
         new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
 
     public static final Item GUARDIAN_EFFIGY = register("guardian_effigy", (settings) -> 
         new EffigyItem(settings, "guardian_effigy", (ServerPlayerEntity user) -> { 
-            var world = (ServerWorld)user.getWorld();
+            var world = user.getServerWorld();
             user.dropItem(world, Blocks.SPONGE);
             for (int i = 0; i < user.getRandom().nextBetween(0, 2); i++) {
                 user.dropItem(world, Items.PRISMARINE_SHARD);
@@ -59,17 +60,17 @@ public class PeacefulModItems {
             else if (r < 0.83) {
                 user.dropItem(world, Items.PRISMARINE_CRYSTALS);
             }
-            ExperienceOrbEntity.spawn((ServerWorld)user.getWorld(), user.getPos(), 10);
+            ExperienceOrbEntity.spawn(user.getServerWorld(), user.getPos(), 10);
         }, SoundEvents.ENTITY_ELDER_GUARDIAN_DEATH),
         new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
     
     public static final Item DRAGON_EFFIGY = register("dragon_effigy", (settings) -> 
         new EffigyItem(settings, "dragon_effigy", (ServerPlayerEntity user) -> {
-            
-            var fight = ((ServerWorld)user.getWorld()).getEnderDragonFight();
+            ServerWorld end = user.getServer().getWorld(World.END);
+            var fight = end.getEnderDragonFight();
             ((EnderDragonFight_Invoker)fight).invokeGenerateNewEndGateway();
 
-            ExperienceOrbEntity.spawn((ServerWorld)user.getWorld(), user.getPos(), 500);
+            ExperienceOrbEntity.spawn(user.getServerWorld(), user.getPos(), 500);
         }, SoundEvents.ENTITY_ENDER_DRAGON_DEATH), new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
 
     public static void initialize() {
