@@ -49,8 +49,8 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
         itemModelGenerator.register(PeacefulModItems.GUARDIAN_EFFIGY, Models.GENERATED);
         itemModelGenerator.register(PeacefulModItems.DRAGON_EFFIGY, Models.GENERATED);
 
-        itemModelGenerator.register(PeacefulModItems.GHASTLING_SPAWN_EGG, Models.GENERATED);
-        itemModelGenerator.register(PeacefulModItems.END_CLAM_SPAWN_EGG, Models.GENERATED);
+        itemModelGenerator.registerSpawnEgg(PeacefulModItems.GHASTLING_SPAWN_EGG, 0xFFFFFF, 0x7A7A7A);
+        itemModelGenerator.registerSpawnEgg(PeacefulModItems.END_CLAM_SPAWN_EGG, 0x6F4B6F, 0x2B1E2B);
     }
 
     @Override
