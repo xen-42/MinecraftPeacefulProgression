@@ -52,6 +52,6 @@ https://github.com/2xsaiko/mixin-cheatsheet/tree/master
 
 ### Thank you
 
-- Megapiggy for naming the mod and contributing some nice fixes and the GitHub action
+- MegaPiggy for naming the mod and contributing some nice additions, fixes, and the GitHub action
 - Kaupenjoe and Diamondxr for the Youtube tutorials
 - Everyone who works on Fabric and all the modding framework stuff that's a bunch of work man very cool
