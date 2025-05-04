@@ -191,7 +191,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
             }
 
             slotAtIndex.onTakeItem(player, itemStackAtIndex);
-            if (slot == 0) {
+            if (slot == OUTPUT_SLOT) {
                 player.dropItem(itemStackAtIndex, false);
             }
         }
