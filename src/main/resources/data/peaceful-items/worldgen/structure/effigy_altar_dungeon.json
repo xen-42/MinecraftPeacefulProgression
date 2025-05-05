@@ -3,6 +3,7 @@
     "spawn_overrides": {},
     "step": "underground_structures",
     "terrain_adaptation": "bury",
+    "liquid_settings": "ignore_waterlogging",
     "start_height": {
         "absolute": 32
     },
