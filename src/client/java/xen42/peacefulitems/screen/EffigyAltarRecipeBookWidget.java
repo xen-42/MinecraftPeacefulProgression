@@ -6,22 +6,15 @@ import net.minecraft.client.gui.screen.recipebook.GhostRecipe;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 import net.minecraft.client.gui.screen.recipebook.RecipeResultCollection;
 import net.minecraft.item.Items;
-import net.minecraft.recipe.RecipeDisplayEntry;
 import net.minecraft.recipe.RecipeFinder;
-import net.minecraft.recipe.RecipeGridAligner;
-import net.minecraft.recipe.RecipeGridAligner.Filler;
 import net.minecraft.recipe.display.RecipeDisplay;
 import net.minecraft.recipe.display.SlotDisplay;
-import net.minecraft.recipe.display.SlotDisplay.CompositeSlotDisplay;
-import net.minecraft.recipe.display.SlotDisplay.ItemSlotDisplay;
-import net.minecraft.recipe.display.SlotDisplay.StackSlotDisplay;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.context.ContextParameterMap;
 import xen42.peacefulitems.PeacefulMod;
 import xen42.peacefulitems.recipe.EffigyAltarRecipeDisplay;
-import xen42.peacefulitems.recipe.EffigyAltarRecipeDisplay.BrimstoneSlotDisplay;
 
 public class EffigyAltarRecipeBookWidget extends RecipeBookWidget<EffigyAltarScreenHandler> {
 	private static final ButtonTextures TEXTURES = new ButtonTextures(
@@ -34,8 +27,6 @@ public class EffigyAltarRecipeBookWidget extends RecipeBookWidget<EffigyAltarScr
 	private static final List<RecipeBookWidget.Tab> TABS = List.of(
 		new RecipeBookWidget.Tab(Items.TOTEM_OF_UNDYING, PeacefulMod.EFFIGY_ALTAR_RECIPE_BOOK_CATEGORY)
 	);
-	private static final int MAX_WIDTH_AND_HEIGHT = 3;
-	private static final int MAX_WIDTH_END = 1;
 
 	public EffigyAltarRecipeBookWidget(EffigyAltarScreenHandler screenHandler) {
 		super(screenHandler, TABS);

@@ -1,7 +1,5 @@
 package xen42.peacefulitems.blocks;
 
-import java.util.concurrent.Callable;
-
 import org.jetbrains.annotations.Nullable;
 
 import com.mojang.serialization.MapCodec;
@@ -25,7 +23,6 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
-import xen42.peacefulitems.PeacefulModBlocks;
 
 public class BlazePickleBlock extends PlantBlock implements Fertilizable {
 	public static final MapCodec<BlazePickleBlock> CODEC = createCodec(BlazePickleBlock::new);
