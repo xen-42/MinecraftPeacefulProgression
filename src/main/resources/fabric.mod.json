@@ -24,6 +24,12 @@
 		],
 		"fabric-datagen": [
 			"xen42.peacefulitems.PeacefulModDataGenerator"
+		],
+		"rei_client": [
+			"xen42.peacefulitems.rei.EffigyAltarClientPlugin"
+		],
+		"rei_common": [
+			"xen42.peacefulitems.rei.EffigyAltarServerPlugin"
 		]
 	},
 	"mixins": [
@@ -41,6 +47,6 @@
 		"fabric-api": "*"
 	},
 	"suggests": {
-		"another-mod": "*"
+		"roughlyenoughitems": ">=19.0.806"
 	}
 }

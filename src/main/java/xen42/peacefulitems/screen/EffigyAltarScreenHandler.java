@@ -17,6 +17,7 @@ import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.network.packet.s2c.play.ScreenHandlerSlotUpdateS2CPacket;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.RecipeFinder;
@@ -93,6 +94,10 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
     
     public static boolean isBrimstone(ItemStack stack) {
         return stack.isOf(PeacefulModItems.SULPHUR);
+    }
+    
+    public static boolean isAir(ItemStack stack) {
+        return stack.isOf(Items.AIR);
     }
     
     public void updateResult(
@@ -313,7 +318,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
 
         @Override
         public boolean canInsert(ItemStack stack) {
-            return isBrimstone(stack);
+            return isAir(stack) || isBrimstone(stack);
         }
     }
 
