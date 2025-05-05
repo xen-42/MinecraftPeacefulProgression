@@ -11,11 +11,22 @@ base {
 }
 
 repositories {
-	// Add repositories to retrieve artifacts from in here.
-	// You should only use this when depending on other mods because
-	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
-	// for more information about repositories.
+	mavenCentral()
+
+	maven {
+		name = 'Sponge / Mixin'
+		url = 'https://repo.spongepowered.org/repository/maven-public/'
+	}
+
+	maven {
+		name = 'BlameJared Maven (CrT / Bookshelf)'
+		url = 'https://maven.blamejared.com'
+	}
+
+	maven {
+		name = 'Roughly Enough Items'
+		url = "https://maven.shedaniel.me"
+	}
 }
 
 loom {
@@ -45,6 +56,17 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+	// Architectury and Cloth Config
+	modApi "dev.architectury:architectury-fabric:${architectury_version}"
+	modApi("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
+
+	// REI (RoughlyEnoughItems)
+	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}"
+	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
+	modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${rei_version}"
 	
 }
 
@@ -61,7 +83,7 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 tasks.withType(JavaCompile) {
-    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+	options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
 }
 
 java {
@@ -101,7 +123,7 @@ publishing {
 }
 
 java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
 }
