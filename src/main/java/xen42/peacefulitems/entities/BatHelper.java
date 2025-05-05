@@ -3,7 +3,6 @@ package xen42.peacefulitems.entities;
 import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import xen42.peacefulitems.PeacefulMod;
 
 public class BatHelper {
 	public static void FlyTowards(BatEntity bat, Vec3d target) {

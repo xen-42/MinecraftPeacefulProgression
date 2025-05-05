@@ -1,6 +1,5 @@
 package xen42.peacefulitems;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.function.Function;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;

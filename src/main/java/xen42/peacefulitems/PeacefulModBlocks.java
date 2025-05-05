@@ -3,10 +3,8 @@ package xen42.peacefulitems;
 import java.util.function.Function;
 
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.AmethystBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.CropBlock;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.SeaPickleBlock;
 import net.minecraft.block.piston.PistonBehavior;

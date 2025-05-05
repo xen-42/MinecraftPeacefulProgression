@@ -21,6 +21,7 @@ public class EndClamEntityModel extends EntityModel<EndClamEntityRenderState> {
 		this.top_shell = this.clam.getChild("top_shell");
 	}
     
+	@SuppressWarnings("unused")
 	public static TexturedModelData getTexturedModelData() {
 		ModelData modelData = new ModelData();
 		ModelPartData modelPartData = modelData.getRoot();

@@ -2,7 +2,6 @@ package xen42.peacefulitems.entity;
 
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.render.entity.state.AllayEntityRenderState;
-import net.minecraft.client.render.entity.AllayEntityRenderer;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 import xen42.peacefulitems.PeacefulMod;
