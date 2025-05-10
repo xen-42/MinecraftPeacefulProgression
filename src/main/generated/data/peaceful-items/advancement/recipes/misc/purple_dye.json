@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_guano": {
+      "conditions": {
+        "items": [
+          {
+            "items": "peaceful-items:guano"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "peaceful-items:purple_dye"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_guano"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "peaceful-items:purple_dye"
+    ]
+  }
+}

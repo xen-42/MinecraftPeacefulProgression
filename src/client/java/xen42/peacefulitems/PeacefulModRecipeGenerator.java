@@ -104,6 +104,11 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .criterion(hasItem(PeacefulModItems.GUANO), conditionsFromItem(PeacefulModItems.GUANO))
                         .criterion(hasItem(PeacefulModItems.SULPHUR), conditionsFromItem(PeacefulModItems.SULPHUR))
                         , exporter);
+                
+                offerTo(createShapeless(RecipeCategory.MISC, Items.PURPLE_DYE, 1)
+                        .input(PeacefulModItems.GUANO)
+                        .criterion(hasItem(PeacefulModItems.GUANO), conditionsFromItem(PeacefulModItems.GUANO))
+                        , exporter);
 
                 offerTo(createShaped(RecipeCategory.MISC, PeacefulModBlocks.SULPHUR_BLOCK)
                         .pattern("XXX")
@@ -118,11 +123,11 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .pattern("XXX")
                         .pattern("ZYZ")
                         .input('X', Items.LEATHER)
-                        .input('Y', Items.STRING)
+                        .input('Y', Items.SLIME_BALL)
                         .input('Z', Items.IRON_INGOT)
                         // Advancement that gives the recipe
                         .criterion(hasItem(Items.LEATHER), conditionsFromItem(Items.LEATHER))
-                        .criterion(hasItem(Items.STRING), conditionsFromItem(Items.STRING))
+                        .criterion(hasItem(Items.SLIME_BALL), conditionsFromItem(Items.SLIME_BALL))
                         .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
                         , exporter);
 
