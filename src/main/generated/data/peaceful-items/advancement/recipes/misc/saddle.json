@@ -21,11 +21,11 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_string": {
+    "has_slime_ball": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:string"
+            "items": "minecraft:slime_ball"
           }
         ]
       },
@@ -42,7 +42,7 @@
     [
       "has_the_recipe",
       "has_leather",
-      "has_string",
+      "has_slime_ball",
       "has_iron_ingot"
     ]
   ],
