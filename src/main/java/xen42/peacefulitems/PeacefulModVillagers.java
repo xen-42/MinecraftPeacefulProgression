@@ -30,11 +30,19 @@ import net.minecraft.world.poi.PointOfInterestType;
 public class PeacefulModVillagers {
     public static final RegistryKey<PointOfInterestType> JUKEBOX_KEY = RegistryKey.of(RegistryKeys.POINT_OF_INTEREST_TYPE, Identifier.of(PeacefulMod.MOD_ID, "jukebox_poi"));
     public static final PointOfInterestType JUKEBOX_POI = registerNewPOI("jukebox_poi", Blocks.JUKEBOX);
-    public static final VillagerProfession DJ_VILLAGER = registerNewProfession("dj", JUKEBOX_KEY, SoundEvents.ENTITY_VILLAGER_WORK_LIBRARIAN);
+    public static final RegistryKey<VillagerProfession> DJ_VILLAGER_KEY = RegistryKey.of(RegistryKeys.VILLAGER_PROFESSION, Identifier.of(PeacefulMod.MOD_ID, "dj"));
+    public static final VillagerProfession DJ_VILLAGER = registerNewProfession(DJ_VILLAGER_KEY, JUKEBOX_KEY, SoundEvents.ENTITY_VILLAGER_WORK_LIBRARIAN);
 
-    public static VillagerProfession registerNewProfession(String name, RegistryKey<PointOfInterestType> poi, SoundEvent sound) {
-        var profession = new VillagerProfession(name, entry -> entry.matchesKey(poi), entry -> entry.matchesKey(poi), ImmutableSet.of(), ImmutableSet.of(), sound);
-        return Registry.register(Registries.VILLAGER_PROFESSION, Identifier.of(PeacefulMod.MOD_ID, name), profession);
+    public static VillagerProfession registerNewProfession(RegistryKey<VillagerProfession> key, RegistryKey<PointOfInterestType> poi, SoundEvent sound) {
+        var profession = new VillagerProfession(
+                key.getValue().getPath(),
+                entry -> entry.matchesKey(poi),
+                entry -> entry.matchesKey(poi),
+                ImmutableSet.of(),
+                ImmutableSet.of(),
+                sound
+            );
+        return Registry.register(Registries.VILLAGER_PROFESSION, key.getValue(), profession);
     }
 
     public static PointOfInterestType registerNewPOI(String name, Block block) {
