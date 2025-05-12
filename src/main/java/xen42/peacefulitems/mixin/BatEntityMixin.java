@@ -14,6 +14,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.stat.Stats;
 import net.minecraft.util.TypeFilter;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
@@ -147,6 +148,10 @@ public class BatEntityMixin {
 						mate.getDataTracker().set(PeacefulMod.BAT_BREEDING_COOLDOWN, PeacefulMod.BatBreedingCooldown);
 						// Breeding cooldown doubles as age timer because why not
 						baby.getDataTracker().set(PeacefulMod.BAT_BREEDING_COOLDOWN, PeacefulMod.BatGrowUpTicks);
+
+						if (player != null) {
+							player.incrementStat(Stats.ANIMALS_BRED);
+						}
 					}
 					else {
 						BatHelper.FlyTowards(bat, mate.getPos());
