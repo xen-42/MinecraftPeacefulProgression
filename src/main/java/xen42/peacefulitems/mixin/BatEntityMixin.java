@@ -6,7 +6,6 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
@@ -73,7 +72,7 @@ public class BatEntityMixin {
 		if (!(bat.getWorld() instanceof ServerWorld serverWorld)) {
 			bat.getWorld()
 				.getEntitiesByType(TypeFilter.instanceOf(PlayerEntity.class), bat.getBoundingBox(), EntityPredicates.canBePushedBy(bat))
-				.forEach((entitity) -> entitity.pushAwayFrom(bat));
+				.forEach((entity) -> entity.pushAwayFrom(bat));
 		} else {
 			List<Entity> list = bat.getWorld().getOtherEntities(bat, bat.getBoundingBox(), EntityPredicates.canBePushedBy(bat));
 			if (!list.isEmpty()) {
@@ -95,22 +94,6 @@ public class BatEntityMixin {
 				for (Entity entity2 : list) {
 					entity2.pushAwayFrom(bat);
 				}
-			}
-		}
-	}
-
-	// Injecting into onDeath didnt work, probably because thats an inherited method that the BatEntity class doesnt override
-	@Inject(at = @At("TAIL"), method = "damage")
-	private void damage(CallbackInfoReturnable<Boolean> info) {
-		var bat = ((BatEntity)(Object)this);
-
-		if (!bat.getWorld().isClient && !bat.isAlive() && !bat.isBaby()) {
-			var r = random.nextFloat();
-			if (r > 0.8) {
-				bat.dropStack((ServerWorld)bat.getWorld(), new ItemStack(PeacefulModItems.BAT_WING, 2));
-			}
-			else if (r > 0.3) {
-				bat.dropItem((ServerWorld)bat.getWorld(), PeacefulModItems.BAT_WING);
 			}
 		}
 	}
