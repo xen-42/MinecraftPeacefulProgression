@@ -4,12 +4,14 @@ import java.util.function.Function;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
+import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.block.Blocks;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.Items;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.registry.Registries;
@@ -19,6 +21,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.world.World;
@@ -30,7 +33,26 @@ public class PeacefulModItems {
     public static final Item GUANO = register("guano", Item::new, new Item.Settings());
     public static final Item SULPHUR = register("sulphur", (settings) -> new BlockItem(PeacefulModBlocks.SULPHUR_CLUSTER, settings), new Item.Settings());
     public static final Item FLAX = register("flax", (settings) -> 
-        new BlockItem(PeacefulModBlocks.FLAX_CROP, settings), new Item.Settings().food(new FoodComponent(2, 1, false)));
+        new BlockItem(PeacefulModBlocks.FLAX_CROP, settings) {
+            @Override
+            public ActionResult place(ItemPlacementContext context) {
+            	ActionResult result = super.place(context);
+                if (result == ActionResult.SUCCESS)
+                {
+                    // Grant the player the "A Seedy Place" advancement
+                    if (context.getPlayer() instanceof ServerPlayerEntity player && player.getServer() != null)
+                    {
+                    	AdvancementEntry seedyPlace = player.getServer().getAdvancementLoader().get(Identifier.ofVanilla("husbandry/plant_seed"));
+                        if (seedyPlace != null)
+                        {
+                        	String first = seedyPlace.value().criteria().keySet().iterator().next();
+                        	player.getAdvancementTracker().grantCriterion(seedyPlace, first);
+                        }
+                    }
+                }
+                return result;
+            }
+        }, new Item.Settings().food(new FoodComponent(2, 1, false)));
     public static final Item GHASTLING_SPAWN_EGG = register("ghastling_spawn_egg", (settings) -> 
         new SpawnEggItem(PeacefulMod.GHASTLING_ENTITY, settings), new Item.Settings());
     public static final Item END_CLAM_SPAWN_EGG = register("end_clam_spawn_egg", (settings) -> 

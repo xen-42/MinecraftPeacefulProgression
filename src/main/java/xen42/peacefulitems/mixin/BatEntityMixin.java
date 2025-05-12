@@ -1,5 +1,6 @@
 package xen42.peacefulitems.mixin;
 
+import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.EntityType;
@@ -12,9 +13,11 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.TypeFilter;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
@@ -149,8 +152,15 @@ public class BatEntityMixin {
 						// Breeding cooldown doubles as age timer because why not
 						baby.getDataTracker().set(PeacefulMod.BAT_BREEDING_COOLDOWN, PeacefulMod.BatGrowUpTicks);
 
-						if (player != null) {
-							player.incrementStat(Stats.ANIMALS_BRED);
+						if (player != null && player instanceof ServerPlayerEntity serverPlayer && serverPlayer.getServer() != null) {
+							serverPlayer.incrementStat(Stats.ANIMALS_BRED);
+							// Grant the player the "The Parrots and the Bats" advancement
+							AdvancementEntry parrotsAndBats = serverPlayer.getServer().getAdvancementLoader().get(Identifier.ofVanilla("husbandry/breed_an_animal"));
+							if (parrotsAndBats != null)
+							{
+								String first = parrotsAndBats.value().criteria().keySet().iterator().next();
+								serverPlayer.getAdvancementTracker().grantCriterion(parrotsAndBats, first);
+							}
 						}
 					}
 					else {
