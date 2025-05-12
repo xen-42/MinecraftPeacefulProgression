@@ -56,6 +56,16 @@ public class EndClamEntity extends AmbientEntity {
     }
 
     @Override
+    public boolean canPickUpLoot() {
+        return true;
+    }
+
+    @Override
+    public boolean canPickupItem(ItemStack stack) {
+        return true;
+    }
+
+    @Override
     protected void initDataTracker(DataTracker.Builder builder) {
         super.initDataTracker(builder);
 		builder.add(IS_OPENING, false);
@@ -244,7 +254,7 @@ public class EndClamEntity extends AmbientEntity {
     @Override
     protected void loot(ServerWorld world, ItemEntity itemEntity) {
         ItemStack itemStack = itemEntity.getStack();
-        if (!this.getDataTracker().get(IS_OPENING) && canPickupItem(itemStack)) {
+        if (!this.getDataTracker().get(IS_OPENING)) {
             if (!getEquippedStack(EquipmentSlot.MAINHAND).isEmpty()) {
                 if (!getWorld().isClient) {
                     var thrownItem = new ItemEntity(getWorld(), getX() + (getRotationVector()).x, getY() + 1.0D, getZ() + (getRotationVector()).z, 
