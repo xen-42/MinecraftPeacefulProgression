@@ -1,7 +1,9 @@
 package xen42.peacefulitems.mixin;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.passive.BatEntity;
@@ -99,9 +101,9 @@ public class BatEntityMixin {
 	}
 
 	@Inject(at = @At("HEAD"), method = "mobTick", cancellable = true)
-    public void mobTick(CallbackInfo info) {
+    public void mobTick(ServerWorld world, CallbackInfo info) {
 		var bat = ((BatEntity)(Object)this);
-		var player = bat.getWorld().getClosestPlayer(bat, 10);
+		var player = world.getClosestPlayer(bat, 10);
 		if (!bat.isRoosting()) {
 			var breedingTicks = bat.getDataTracker().get(PeacefulMod.BAT_BREEDING_TICKS);
 			var batBreedingCooldown = bat.getDataTracker().get(PeacefulMod.BAT_BREEDING_COOLDOWN);
@@ -114,7 +116,7 @@ public class BatEntityMixin {
 			if (!bat.isBaby() && breedingTicks > 0) {
 				bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_TICKS, breedingTicks - 1);
 
-        		List<BatEntity> list = bat.getWorld().getNonSpectatingEntities(BatEntity.class, bat.getBoundingBox().expand(10.0));
+        		List<BatEntity> list = world.getNonSpectatingEntities(BatEntity.class, bat.getBoundingBox().expand(10.0));
 				BatEntity mate = null;
 				for (var otherBat : list) {
 					if (otherBat != bat && otherBat.getDataTracker().get(PeacefulMod.BAT_BREEDING_TICKS) > 0) {
@@ -123,14 +125,18 @@ public class BatEntityMixin {
 				}
 				if (mate != null) {
 					if (mate.distanceTo(bat) < 0.5f) {
-						var baby = EntityType.BAT.create(bat.getWorld(), SpawnReason.BREEDING);
+						var baby = EntityType.BAT.create(world, SpawnReason.BREEDING);
 						baby.refreshPositionAndAngles(bat.getX(), bat.getY(), bat.getZ(), 0.0f, 0.0f);
-						bat.getWorld().spawnEntity(baby);
+						world.spawnEntityAndPassengers(baby);
+						world.sendEntityStatus(bat, EntityStatuses.ADD_BREEDING_PARTICLES);
+						if (world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
+							world.spawnEntity(new ExperienceOrbEntity(world, bat.getParticleX(1.0), bat.getRandomBodyY() + 0.5, bat.getParticleZ(1.0), bat.getRandom().nextInt(7) + 1));
+						}
 						for (int i = 0; i < 7; ++i) {
 							double d = bat.getRandom().nextGaussian() * 0.02;
 							double e = bat.getRandom().nextGaussian() * 0.02;
 							double f = bat.getRandom().nextGaussian() * 0.02;
-							bat.getWorld().addParticleClient(ParticleTypes.HEART, bat.getParticleX(1.0), bat.getRandomBodyY() + 0.5, bat.getParticleZ(1.0), d, e, f);
+							world.addParticleClient(ParticleTypes.HEART, bat.getParticleX(1.0), bat.getRandomBodyY() + 0.5, bat.getParticleZ(1.0), d, e, f);
 						}
 
 						bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_TICKS, 0);
