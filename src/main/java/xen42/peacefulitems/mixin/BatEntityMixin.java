@@ -132,6 +132,7 @@ public class BatEntityMixin {
 							double f = bat.getRandom().nextGaussian() * 0.02;
 							bat.getWorld().addParticle(ParticleTypes.HEART, bat.getParticleX(1.0), bat.getRandomBodyY() + 0.5, bat.getParticleZ(1.0), d, e, f);
 						}
+
 						bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_TICKS, 0);
 						mate.getDataTracker().set(PeacefulMod.BAT_BREEDING_TICKS, 0);
 						baby.getDataTracker().set(PeacefulMod.BAT_IS_BABY, true);
