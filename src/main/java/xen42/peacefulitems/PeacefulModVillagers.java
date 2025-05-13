@@ -10,13 +10,16 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.GoatHornItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.map.MapDecorationType;
 import net.minecraft.item.map.MapDecorationTypes;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.InstrumentTags;
 import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -27,6 +30,7 @@ import net.minecraft.village.TradeOffers.Factory;
 import net.minecraft.village.TradedItem;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.village.TradeOffers.SellMapFactory;
+import net.minecraft.world.gen.structure.Structure;
 import net.minecraft.world.poi.PointOfInterestType;
 
 public class PeacefulModVillagers {
@@ -146,9 +150,15 @@ public class PeacefulModVillagers {
 		
 		// Map to altar
 		TradeOfferHelper.registerVillagerOffers(VillagerProfession.CARTOGRAPHER, 3, factories -> {
-			factories.add((entity, random) -> new SellMapFactory(10, PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, 
-			"filled_map.peaceful-items:effigy_altar_dungeon", MapDecorationTypes.TARGET_X, 4, 15).create(entity, random));
+			factories.add((entity, random) -> SellMap(entity, random, 10,
+				PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, MapDecorationTypes.TARGET_X, 4, 15));
 		});
+    }
+    
+    private static TradeOffer SellMap(Entity entity, Random random, int price, TagKey<Structure> structure, RegistryEntry<MapDecorationType> decoration, int maxUses, int experience) {
+    	return new SellMapFactory(price, structure, 
+    		"filled_map." + structure.id().getNamespace() + "." + structure.id().getPath(),
+    		decoration, maxUses, experience).create(entity, random);
     }
 
     private static TradeOffer RandomDisc(Entity entity, Random random) {
