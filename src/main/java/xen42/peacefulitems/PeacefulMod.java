@@ -32,6 +32,7 @@ import net.minecraft.world.GameRules.Category;
 import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.PlacedFeature;
+import net.minecraft.world.gen.structure.Structure;
 import xen42.peacefulitems.entities.EndClamEntity;
 import xen42.peacefulitems.entities.GhastlingEntity;
 import xen42.peacefulitems.recipe.EffigyAltarRecipe;
@@ -48,6 +49,8 @@ public class PeacefulMod implements ModInitializer {
 	// It is considered best practice to use your mod id as the logger's name.
 	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+	
+	public static final RegistryKey<Structure> EFFIGY_ALTAR_DUNGEON_KEY = RegistryKey.of(RegistryKeys.STRUCTURE, Identifier.of(MOD_ID, "effigy_altar_dungeon"));
 
 	public static final RegistryKey<RecipeType<?>> EFFIGY_ALTAR_RECIPE_TYPE_KEY = RegistryKey.of(RegistryKeys.RECIPE_TYPE, Identifier.of(MOD_ID, "effigy_altar"));
 	public static final RecipeType<EffigyAltarRecipe> EFFIGY_ALTAR_RECIPE_TYPE = Registry.register(Registries.RECIPE_TYPE, Identifier.of(MOD_ID, "effigy_altar"), new RecipeType<EffigyAltarRecipe>() {
