@@ -14,5 +14,7 @@ public class PeacefulModDataGenerator implements DataGeneratorEntrypoint {
 		PeacefulModBlockTagGenerator blockTagProvider = pack.addProvider(PeacefulModBlockTagGenerator::new);
 		pack.addProvider((output, registries) -> new PeacefulModItemTagGenerator(output, registries, blockTagProvider));
 		pack.addProvider(PeacefulModPOITagGenerator::new);
+		pack.addProvider(PeacefulModLanguageProvider.English::new);
+		pack.addProvider(PeacefulModLanguageProvider.EnglishUpsideDown::new);
 	}
 }
