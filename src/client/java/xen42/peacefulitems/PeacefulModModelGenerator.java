@@ -6,13 +6,14 @@ import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
 import net.minecraft.client.data.BlockStateModelGenerator;
+import net.minecraft.client.data.BlockStateVariant;
 import net.minecraft.client.data.BlockStateVariantMap;
 import net.minecraft.client.data.ItemModelGenerator;
 import net.minecraft.client.data.Models;
 import net.minecraft.client.data.TextureKey;
 import net.minecraft.client.data.TextureMap;
-import net.minecraft.client.data.VariantsBlockModelDefinitionCreator;
-import net.minecraft.client.render.model.json.ModelVariant;
+import net.minecraft.client.data.VariantSettings;
+import net.minecraft.client.data.VariantsBlockStateSupplier;
 import net.minecraft.client.data.Model;
 import net.minecraft.item.Item;
 import net.minecraft.state.property.Properties;
@@ -48,8 +49,8 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
         itemModelGenerator.register(PeacefulModItems.GUARDIAN_EFFIGY, Models.GENERATED);
         itemModelGenerator.register(PeacefulModItems.DRAGON_EFFIGY, Models.GENERATED);
 
-        itemModelGenerator.register(PeacefulModItems.GHASTLING_SPAWN_EGG, Models.GENERATED);
-        itemModelGenerator.register(PeacefulModItems.END_CLAM_SPAWN_EGG, Models.GENERATED);
+        itemModelGenerator.registerSpawnEgg(PeacefulModItems.GHASTLING_SPAWN_EGG, 0xFFFFFF, 0x7A7A7A);
+        itemModelGenerator.registerSpawnEgg(PeacefulModItems.END_CLAM_SPAWN_EGG, 0x6F4B6F, 0x2B1E2B);
     }
 
     @Override
@@ -72,12 +73,13 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
 
 		blockStateModelGenerator.blockStateCollector
 			.accept(
-                VariantsBlockModelDefinitionCreator.of(block)
-                    .with(BlockStateVariantMap.models(Properties.PICKLES)
-							.register(1, BlockStateModelGenerator.createWeightedVariant(new ModelVariant(id1)))
-							.register(2, BlockStateModelGenerator.createWeightedVariant(new ModelVariant(id2)))
-							.register(3, BlockStateModelGenerator.createWeightedVariant(new ModelVariant(id3)))
-							.register(4, BlockStateModelGenerator.createWeightedVariant(new ModelVariant(id4)))
+				VariantsBlockStateSupplier.create(block)
+					.coordinate(
+						BlockStateVariantMap.create(Properties.PICKLES)
+							.register(1, BlockStateVariant.create().put(VariantSettings.MODEL, id1))
+							.register(2, BlockStateVariant.create().put(VariantSettings.MODEL, id2))
+							.register(3, BlockStateVariant.create().put(VariantSettings.MODEL, id3))
+							.register(4, BlockStateVariant.create().put(VariantSettings.MODEL, id4))
                     )
 			);
 	}

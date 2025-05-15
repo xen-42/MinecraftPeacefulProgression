@@ -22,11 +22,9 @@ import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.village.TradeOffer;
-import net.minecraft.village.TradeOffers.Factory;
 import net.minecraft.village.TradedItem;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.village.TradeOffers.SellMapFactory;
@@ -41,7 +39,7 @@ public class PeacefulModVillagers {
 
     public static VillagerProfession registerNewProfession(RegistryKey<VillagerProfession> key, RegistryKey<PointOfInterestType> poi, SoundEvent sound) {
         var profession = new VillagerProfession(
-                Text.translatable("entity." + key.getValue().getNamespace() + ".villager." + key.getValue().getPath()),
+                key.getValue().getPath(),
                 entry -> entry.matchesKey(poi),
                 entry -> entry.matchesKey(poi),
                 ImmutableSet.of(),
@@ -98,7 +96,7 @@ public class PeacefulModVillagers {
 		});
 
         // CUSTOM VILLAGER
-        TradeOfferHelper.registerVillagerOffers(DJ_VILLAGER_KEY, 1, factories -> {
+        TradeOfferHelper.registerVillagerOffers(DJ_VILLAGER, 1, factories -> {
 			// Same as librarian
             factories.add((entity, random) -> new TradeOffer(
 				new TradedItem(Items.PAPER, 24),
@@ -108,46 +106,41 @@ public class PeacefulModVillagers {
                 new ItemStack(Items.EMERALD, 1), 16, 2, 0.05f));
 		});
 
-        TradeOfferHelper.registerVillagerOffers(DJ_VILLAGER_KEY, 2, factories -> {
+        TradeOfferHelper.registerVillagerOffers(DJ_VILLAGER, 2, factories -> {
             factories.add((entity, random) -> new TradeOffer(
 				new TradedItem(Items.EMERALD, 2),
 				new ItemStack(Blocks.NOTE_BLOCK, 1), 12, 5, 0.05f));
             factories.add((entity, random) -> RandomHorn(entity, random));
 		});
 
-        TradeOfferHelper.registerVillagerOffers(DJ_VILLAGER_KEY, 3, factories -> {
+        TradeOfferHelper.registerVillagerOffers(DJ_VILLAGER, 3, factories -> {
             factories.add((entity, random) -> new TradeOffer(
 				new TradedItem(Items.EMERALD, 6),
 				new ItemStack(Blocks.JUKEBOX, 1), 12, 20, 0.05f));
             factories.add((entity, random) -> RandomDisc(entity, random));
 		});
 
-        TradeOfferHelper.registerVillagerOffers(DJ_VILLAGER_KEY, 4, factories -> {
+        TradeOfferHelper.registerVillagerOffers(DJ_VILLAGER, 4, factories -> {
             factories.add((entity, random) -> new TradeOffer(
 				new TradedItem(Items.EMERALD, 12),
 				new ItemStack(Blocks.BELL, 1), 12, 20, 0.05f));
             factories.add((entity, random) -> RandomDisc(entity, random));
 		});
 
-        TradeOfferHelper.registerVillagerOffers(DJ_VILLAGER_KEY, 5, factories -> {
+        TradeOfferHelper.registerVillagerOffers(DJ_VILLAGER, 5, factories -> {
             factories.add((entity, random) -> RandomHorn(entity, random));
             factories.add((entity, random) -> RandomDisc(entity, random));
 		});
 
-		TradeOfferHelper.registerWanderingTraderOffers(builder -> {
-			builder.addOffersToPool(
-				TradeOfferHelper.WanderingTraderOffersBuilder.SELL_SPECIAL_ITEMS_POOL, 
-				new TradeOfferFactory(new TradeOffer(
-					new TradedItem(Items.EMERALD, 5),
-					new ItemStack(Items.TRIAL_KEY, 1), 12, 20, 0.05f)
-				),
-				new TradeOfferFactory(new TradeOffer(
-					new TradedItem(Items.EMERALD, 10),
-					new ItemStack(Items.OMINOUS_TRIAL_KEY, 1), 12, 20, 0.05f)
-				)
-			);
+		TradeOfferHelper.registerWanderingTraderOffers(0, factories -> {
+            factories.add((entity, random) -> new TradeOffer(
+				new TradedItem(Items.EMERALD, 5),
+				new ItemStack(Items.TRIAL_KEY, 1), 12, 20, 0.05f));
+			factories.add((entity, random) -> new TradeOffer(
+				new TradedItem(Items.EMERALD, 10),
+				new ItemStack(Items.OMINOUS_TRIAL_KEY, 1), 12, 20, 0.05f));
 		});
-		
+
 		// Map to altar
 		TradeOfferHelper.registerVillagerOffers(VillagerProfession.CARTOGRAPHER, 3, factories -> {
 			factories.add((entity, random) -> SellMap(entity, random, 10,
@@ -176,18 +169,5 @@ public class PeacefulModVillagers {
 		return new TradeOffer(
 			new TradedItem(Items.EMERALD, 6),
 			horn, 2, 5, 0.05f);
-	}
-
-	private static class TradeOfferFactory implements Factory {
-		private TradeOffer _tradeOffer;
-
-		public TradeOfferFactory(TradeOffer tradeOffer) {
-			_tradeOffer = tradeOffer;
-		}
-
-		@Override
-		public TradeOffer create(Entity arg0, Random arg1) {
-			return _tradeOffer.copy();
-		}
 	}
 }

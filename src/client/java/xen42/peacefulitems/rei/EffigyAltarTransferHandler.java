@@ -51,7 +51,7 @@ public class EffigyAltarTransferHandler implements SimpleTransferHandler {
 	public Iterable<SlotAccessor> getInventorySlots(Context context) {
 		ClientPlayerEntity player = context.getMinecraft().player;
 		PlayerInventory inventory = player.getInventory();
-		return IntStream.range(0, inventory.getMainStacks().size())
+		return IntStream.range(0, inventory.main.size())
 				.mapToObj(index -> SlotAccessor.fromPlayerInventory(player, index))
 				.collect(Collectors.toList());
 	}

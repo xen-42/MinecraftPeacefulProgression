@@ -140,7 +140,7 @@ public class BatEntityMixin {
 							double d = bat.getRandom().nextGaussian() * 0.02;
 							double e = bat.getRandom().nextGaussian() * 0.02;
 							double f = bat.getRandom().nextGaussian() * 0.02;
-							world.addParticleClient(ParticleTypes.HEART, bat.getParticleX(1.0), bat.getRandomBodyY() + 0.5, bat.getParticleZ(1.0), d, e, f);
+							world.addParticle(ParticleTypes.HEART, bat.getParticleX(1.0), bat.getRandomBodyY() + 0.5, bat.getParticleZ(1.0), d, e, f);
 						}
 
 						bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_TICKS, 0);
@@ -192,8 +192,8 @@ public class BatEntityMixin {
 	public void readCustomDataFromNbt(NbtCompound nbt, CallbackInfo info) {
 		var bat = ((BatEntity)(Object)this);
 
-		bat.getDataTracker().set(PeacefulMod.BAT_IS_BABY, nbt.getBoolean("IsBaby").orElse(false));
-		bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_TICKS, nbt.getInt("BreedingTicks").orElse(0));
-		bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_COOLDOWN, nbt.getInt("BreedingCooldown").orElse(0));
+		bat.getDataTracker().set(PeacefulMod.BAT_IS_BABY, nbt.getBoolean("IsBaby"));
+		bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_TICKS, nbt.getInt("BreedingTicks"));
+		bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_COOLDOWN, nbt.getInt("BreedingCooldown"));
 	}
 }

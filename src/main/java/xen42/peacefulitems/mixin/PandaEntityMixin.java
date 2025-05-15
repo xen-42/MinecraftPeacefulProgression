@@ -62,7 +62,7 @@ public class PandaEntityMixin {
         if (!panda.isBaby()) {
             panda.playSound(SoundEvents.ENTITY_PANDA_SNEEZE, 1.0f, 0.7f);
             var vel = panda.getVelocity();
-            panda.getWorld().addParticleClient(ParticleTypes.SNEEZE, nosePos.x, nosePos.y, nosePos.z, vel.x, 0.0, vel.z);
+            panda.getWorld().addParticle(ParticleTypes.SNEEZE, nosePos.x, nosePos.y, nosePos.z, vel.x, 0.0, vel.z);
         
             info.cancel();
         }

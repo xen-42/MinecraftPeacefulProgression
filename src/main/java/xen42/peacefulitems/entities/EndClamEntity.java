@@ -226,12 +226,11 @@ public class EndClamEntity extends AmbientEntity {
             return false;
         }
 
-        var oldPosition = this.getPos();
         var successfulTeleport = teleport(blockPos.getX(), blockPos.getY(), blockPos.getZ(), true); 
         if (successfulTeleport) {
             getWorld().emitGameEvent(GameEvent.TELEPORT, getPos(), GameEvent.Emitter.of(this)); 
             if (!isSilent()) {
-                getWorld().playSound(null, oldPosition.x, oldPosition.y, oldPosition.z, SoundEvents.ENTITY_ENDERMAN_TELEPORT, getSoundCategory(), 1.0F, 1.0F);
+                getWorld().playSound(null, this.prevX, this.prevY, this.prevZ, SoundEvents.ENTITY_ENDERMAN_TELEPORT, getSoundCategory(), 1.0F, 1.0F);
                 playSound(SoundEvents.ENTITY_ENDERMAN_TELEPORT, 1.0F, 1.0F);
             } 
         } 
@@ -242,7 +241,7 @@ public class EndClamEntity extends AmbientEntity {
     public void tickMovement() {
         super.tickMovement();
         if ((getWorld()).isClient && getEquippedStack(EquipmentSlot.MAINHAND).isOf(Items.ENDER_PEARL)) {
-            getWorld().addParticleClient((ParticleEffect)ParticleTypes.PORTAL, 
+            getWorld().addParticle((ParticleEffect)ParticleTypes.PORTAL, 
                 getParticleX(0.25D), 
                 getRandomBodyY() + 0.25D, 
                 getParticleZ(0.25D), 
@@ -273,7 +272,7 @@ public class EndClamEntity extends AmbientEntity {
 
             triggerItemPickedUpByEntityCriteria(itemEntity);
             equipStack(EquipmentSlot.MAINHAND, itemStack.split(1));
-            this.setDropGuaranteed(EquipmentSlot.MAINHAND);
+            updateDropChances(EquipmentSlot.MAINHAND);
             sendPickup(itemEntity, itemStack.getCount());
             itemEntity.discard();
 

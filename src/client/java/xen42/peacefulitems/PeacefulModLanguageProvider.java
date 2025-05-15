@@ -45,7 +45,7 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 		}
 
 		public void addVillagerProfession(RegistryKey<VillagerProfession> key, String value) {
-			add("entity." + key.getValue().getNamespace() + ".villager." + key.getValue().getPath(), value);
+			add("entity.minecraft.villager." + key.getValue().getPath(), value);
 		}
 
 		public void addFilledMap(TagKey<Structure> structure, String value) {

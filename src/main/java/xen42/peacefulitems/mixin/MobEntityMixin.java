@@ -13,7 +13,6 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.entity.passive.FrogEntity;
 import net.minecraft.entity.passive.FrogVariant;
-import net.minecraft.entity.passive.FrogVariants;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -41,10 +40,10 @@ public class MobEntityMixin {
                 if (item.getStack().isOf(Items.MAGMA_CREAM)) {
                     var variant = (RegistryKey<FrogVariant>)frog.getVariant().getKey().orElse(null);
                     var block = Blocks.VERDANT_FROGLIGHT;
-                    if (variant == FrogVariants.TEMPERATE) {
+                    if (variant == FrogVariant.TEMPERATE) {
                         block = Blocks.OCHRE_FROGLIGHT;
                     }
-                    else if (variant == FrogVariants.WARM) {
+                    else if (variant == FrogVariant.WARM) {
                         block = Blocks.PEARLESCENT_FROGLIGHT;
                     }
     
@@ -82,7 +81,7 @@ public class MobEntityMixin {
                     double d = bat.getRandom().nextGaussian() * 0.02;
                     double e = bat.getRandom().nextGaussian() * 0.02;
                     double f = bat.getRandom().nextGaussian() * 0.02;
-                    bat.getWorld().addParticleClient(ParticleTypes.HEART, bat.getParticleX(1.0), bat.getRandomBodyY() + 0.5, bat.getParticleZ(1.0), d, e, f);
+                    bat.getWorld().addParticle(ParticleTypes.HEART, bat.getParticleX(1.0), bat.getRandomBodyY() + 0.5, bat.getParticleZ(1.0), d, e, f);
                 }
                 // 40 seconds I think?
                 bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_TICKS, 40*20);

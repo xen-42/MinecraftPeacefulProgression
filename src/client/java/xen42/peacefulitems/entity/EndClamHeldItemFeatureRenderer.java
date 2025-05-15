@@ -20,7 +20,7 @@ public class EndClamHeldItemFeatureRenderer extends FeatureRenderer<EndClamEntit
 		if (!itemRenderState.isEmpty()) {
 
 			matrices.push();
-			matrices.translate(this.getContextModel().clam.originX / 16.0f, this.getContextModel().clam.originY / 16.0f - 0.15f, this.getContextModel().clam.originZ / 16.0f);
+			matrices.translate(this.getContextModel().clam.pivotX / 16.0f, this.getContextModel().clam.pivotY / 16.0f - 0.15f, this.getContextModel().clam.pivotZ / 16.0f);
             matrices.scale(0.5f, 0.5f, 0.5f);
             // They're upsidedown for some reason
             matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(180f-33f));
