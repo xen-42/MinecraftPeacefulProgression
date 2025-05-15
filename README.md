@@ -17,12 +17,12 @@ Adds new methods to acquire the following drops: Gunpowder, saddles, bones, blaz
 - New plant: Flax. Grows in plains. Drops string. Seeds are edible.
 - New plant: Blaze coral. Dug up by Sniffers from soul soil/sand. Smelted into blaze rods.
 - New plant: Breeze coral. Dug up by Sniffers from gravel. Smelted into breeze rods.
-- New crafting recipes for: Gunpowder, saddles, phantom membranes.
+- New crafting recipes for: Gunpowder, saddles, phantom membranes, rotten flesh.
 - New generated structure: Effigy altar dungeon. Level 2 cartographers sell a map to help find this.
 - New crafting table: Effigy altar. Used to craft Totems of Undying and boss effigies.
 - New items: Dragon Effigy, Elder Effigy, Wither Effigy. On use, gives boss drops/xp (Dragon Effigy opens End island portals when used in the End).
 - New villager: Musician. Sells music disks, horns, bells, jukebox, note blocks. Uses a jukebox as its work station.
-- Frogs can eat dropped mamga cream items to produce froglights when in the Nether. 
+- Frogs can eat dropped magma cream items to produce froglights when in the Nether. 
 - New villager trades: Cleric sells spider eyes, mob heads. Farmers buy flax, leatherworkers buy bat wings. Wandering traders sell trial keys.
 - Panda sneeze dropping slime probability increased from 1/700 to 1/3. Can use a feather on a panda to make it sneeze.
 - Stripping pale oak logs now drops resin.
