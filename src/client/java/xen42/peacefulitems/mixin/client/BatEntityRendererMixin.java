@@ -11,7 +11,10 @@ import net.minecraft.entity.passive.BatEntity;
 
 @Mixin(BatEntityRenderer.class)
 public class BatEntityRendererMixin {
-    @Inject(at = @At("TAIL"), method = "updateRenderState")
+    @Inject(
+        at = @At("TAIL"),
+        method = "updateRenderState(Lnet/minecraft/entity/passive/BatEntity;Lnet/minecraft/client/render/entity/state/BatEntityRenderState;F)V"
+    )
     private void updateRenderState(BatEntity batEntity, BatEntityRenderState batEntityRenderState, float f, CallbackInfo info) {
         batEntityRenderState.baseScale = batEntity.getScale() * (batEntity.isBaby() ? 0.5f : 1f);
     }

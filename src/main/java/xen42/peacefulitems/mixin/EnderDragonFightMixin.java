@@ -3,6 +3,7 @@ package xen42.peacefulitems.mixin;
 import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,6 +25,7 @@ import xen42.peacefulitems.PeacefulModEndPersistentState;
 @Mixin(EnderDragonFight.class)
 public class EnderDragonFightMixin {
 
+    @Final
     @Shadow
     private ServerWorld world;
 
@@ -33,6 +35,7 @@ public class EnderDragonFightMixin {
     @Shadow
     private UUID dragonUuid;
 
+    @Final
     @Shadow
     private ServerBossBar bossBar;
 

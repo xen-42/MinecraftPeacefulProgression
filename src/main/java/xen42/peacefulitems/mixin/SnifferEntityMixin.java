@@ -1,5 +1,6 @@
 package xen42.peacefulitems.mixin;
 
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,6 +22,7 @@ import xen42.peacefulitems.PeacefulModBlocks;
 @Mixin(SnifferEntity.class)
 public class SnifferEntityMixin {
 
+    @Final
     @Shadow
     private static TrackedData<Integer> FINISH_DIG_TIME;
 

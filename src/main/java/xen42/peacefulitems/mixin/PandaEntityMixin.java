@@ -2,6 +2,7 @@ package xen42.peacefulitems.mixin;
 
 import java.util.Random;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -21,7 +22,8 @@ import net.minecraft.util.math.Vec3d;
 
 @Mixin(PandaEntity.class)
 public class PandaEntityMixin {
-	private static final Random random = new Random();
+	@Unique
+    private static final Random random = new Random();
 
     @Inject(at = @At("HEAD"), method = "sneeze", cancellable = true)
 	private void sneeze(CallbackInfo info) {
