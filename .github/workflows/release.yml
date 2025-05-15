@@ -26,7 +26,7 @@ jobs:
     outputs:
       java_version: ${{ steps.read-java-version.outputs.java_version }}
       minecraft_version: ${{ steps.read-minecraft-version.outputs.minecraft_version }}
-      mod_version: ${{ steps.read-minecraft-version.outputs.mod_version }}
+      mod_version: ${{ steps.read-mod-version.outputs.mod_version }}
       exists: ${{ steps.check-tag.outputs.exists }}
     runs-on: ubuntu-24.04
     steps:
