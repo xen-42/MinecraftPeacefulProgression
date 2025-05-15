@@ -93,14 +93,24 @@ jobs:
           artifacts: "build/libs/*"
           draft: false
           prerelease: false
+      - name: Read Modrinth ID from gradle.properties
+        id: read-modrinth-id
+        run: |
+          modrinth_id=$(grep '^modrinth_id=' gradle.properties | cut -d'=' -f2)
+          echo "modrinth_id=$modrinth_id" >> $GITHUB_OUTPUT
+      - name: Read Curseforge ID from gradle.properties
+        id: read-curseforge-id
+        run: |
+          curseforge_id=$(grep '^curseforge_id=' gradle.properties | cut -d'=' -f2)
+          echo "curseforge_id=$curseforge_id" >> $GITHUB_OUTPUT
       - name: Publish to Modrinth and Curseforge
         uses: Kir-Antipov/mc-publish@v3.3
         with:
-          modrinth-id: FFFFFFFF # Placeholder
+          modrinth-id: ${{ steps.read-modrinth-id.outputs.modrinth_id }}
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           modrinth-featured: false # leave it to auto featuring
 
-          curseforge-id: 0000000 # Placeholder
+          curseforge-id: ${{ steps.read-curseforge-id.outputs.curseforge_id }}
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
           files: |
