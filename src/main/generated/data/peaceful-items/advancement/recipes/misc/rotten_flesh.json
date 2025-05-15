@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_sulphur": {
+      "conditions": {
+        "items": [
+          {
+            "items": "peaceful-items:sulphur"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "peaceful-items:rotten_flesh"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_sulphur"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "peaceful-items:rotten_flesh"
+    ]
+  }
+}

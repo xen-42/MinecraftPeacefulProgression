@@ -10,8 +10,6 @@ import net.minecraft.data.recipe.CookingRecipeJsonBuilder;
 import net.minecraft.data.recipe.CraftingRecipeJsonBuilder;
 import net.minecraft.data.recipe.RecipeExporter;
 import net.minecraft.data.recipe.RecipeGenerator;
-import net.minecraft.data.recipe.ShapedRecipeJsonBuilder;
-import net.minecraft.data.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.AbstractCookingRecipe;
@@ -19,13 +17,11 @@ import net.minecraft.recipe.BlastingRecipe;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SmeltingRecipe;
-import net.minecraft.recipe.SmokingRecipe;
 import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import xen42.peacefulitems.recipe.EffigyAltarRecipeJsonBuilder;
 
@@ -108,6 +104,11 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .criterion(hasItem(PeacefulModItems.GUANO), conditionsFromItem(PeacefulModItems.GUANO))
                         .criterion(hasItem(PeacefulModItems.SULPHUR), conditionsFromItem(PeacefulModItems.SULPHUR))
                         , exporter);
+                
+                offerTo(createShapeless(RecipeCategory.MISC, Items.PURPLE_DYE, 1)
+                        .input(PeacefulModItems.GUANO)
+                        .criterion(hasItem(PeacefulModItems.GUANO), conditionsFromItem(PeacefulModItems.GUANO))
+                        , exporter);
 
                 offerTo(createShaped(RecipeCategory.MISC, PeacefulModBlocks.SULPHUR_BLOCK)
                         .pattern("XXX")
@@ -122,13 +123,19 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .pattern("XXX")
                         .pattern("ZYZ")
                         .input('X', Items.LEATHER)
-                        .input('Y', Items.STRING)
+                        .input('Y', Items.SLIME_BALL)
                         .input('Z', Items.IRON_INGOT)
                         // Advancement that gives the recipe
                         .criterion(hasItem(Items.LEATHER), conditionsFromItem(Items.LEATHER))
-                        .criterion(hasItem(Items.STRING), conditionsFromItem(Items.STRING))
+                        .criterion(hasItem(Items.SLIME_BALL), conditionsFromItem(Items.SLIME_BALL))
                         .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
                         , exporter);
+
+                offerTo(createShapeless(RecipeCategory.MISC, Items.ROTTEN_FLESH)
+                    .input(PeacefulModItems.SULPHUR)
+                    .input(ItemTags.MEAT)
+                    .criterion(hasItem(PeacefulModItems.SULPHUR), conditionsFromItem(PeacefulModItems.SULPHUR))
+                    , exporter);
 
                 offerTo(createShapeless(RecipeCategory.MISC, PeacefulModItems.SULPHUR, 9)
                         .input(PeacefulModBlocks.SULPHUR_BLOCK) 

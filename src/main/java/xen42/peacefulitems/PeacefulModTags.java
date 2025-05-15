@@ -30,6 +30,10 @@ public class PeacefulModTags {
 		public static final TagKey<Item> ORE_BEARING_GROUND_SOUL_SOIL = TagRegistration.ITEM_TAG.registerC("ore_bearing_ground/soul_soil");
 		public static final TagKey<Item> ORES_IN_GROUND_SOUL_SOIL = TagRegistration.ITEM_TAG.registerC("ores_in_ground/soul_soil");
 	}
+	
+	public class StructureTags {
+		public static final TagKey<Structure> EFFIGY_ALTAR_DUNGEON = ofStructure("effigy_altar_dungeon");
+	}
 
 	public static TagKey<Block> ofBlock(String name) {
 		return TagKey.of(RegistryKeys.BLOCK, Identifier.of(PeacefulMod.MOD_ID, name));

@@ -8,9 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityPose;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.entity.passive.FrogEntity;
@@ -32,7 +30,7 @@ import xen42.peacefulitems.PeacefulMod;
 @Mixin(MobEntity.class)
 public class MobEntityMixin {
     @Inject(at = @At("HEAD"), method = "loot", cancellable = true)
-	private void loot(ServerWorld world, ItemEntity item, CallbackInfo info) {
+    private void loot(ServerWorld world, ItemEntity item, CallbackInfo info) {
 
         // Make sure the base looting logic doesnt run for frogs else they take all your stuff
         if ((Object)this instanceof FrogEntity) {
@@ -66,7 +64,7 @@ public class MobEntityMixin {
                 }
             }
         }
-	}
+    }
 
     @Inject(at = @At("HEAD"), method = "interactMob", cancellable = true)
     private void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> info) {
@@ -89,6 +87,21 @@ public class MobEntityMixin {
                 // 40 seconds I think?
                 bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_TICKS, 40*20);
                 info.setReturnValue(ActionResult.SUCCESS);
+            }
+        }
+    }
+
+    @Inject(at = @At("RETURN"), method = "setBaby", cancellable = true)
+    private void setBaby(boolean baby, CallbackInfo info) {
+        if (((Object)this) instanceof BatEntity) {
+            var bat = ((BatEntity)(Object)this);
+            bat.getDataTracker().set(PeacefulMod.BAT_IS_BABY, baby);
+            if (baby) {
+                // Breeding cooldown doubles as age timer because why not
+                bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_COOLDOWN, PeacefulMod.BatGrowUpTicks);
+            }
+            else {
+                bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_COOLDOWN, 0);
             }
         }
     }

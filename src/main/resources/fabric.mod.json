@@ -2,16 +2,17 @@
 	"schemaVersion": 1,
 	"id": "peaceful-items",
 	"version": "${version}",
-	"name": "Peaceful Items",
-	"description": "Allow getting stuff in peaceful.",
+	"name": "Peaceful Progression",
+	"description": "Makes blocks/item/dimensions available in peaceful difficulty that require mob drops in vanilla, by adding new ores, crops, mobs, and behaviours.",
 	"authors": [
-		"xen-42"
+		"xen-42", "MegaPiggy"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://github.com/xen-42/MinecraftPeacefulProgression/releases",
+		"sources": "https://github.com/xen-42/MinecraftPeacefulProgression",
+		"issues": "https://github.com/xen-42/MinecraftPeacefulProgression/issues"
 	},
-	"license": "CC0-1.0",
+	"license": "MIT",
 	"icon": "assets/peaceful-items/icon.png",
 	"environment": "*",
 	"entrypoints": {
@@ -23,6 +24,12 @@
 		],
 		"fabric-datagen": [
 			"xen42.peacefulitems.PeacefulModDataGenerator"
+		],
+		"rei_client": [
+			"xen42.peacefulitems.rei.EffigyAltarClientPlugin"
+		],
+		"rei_common": [
+			"xen42.peacefulitems.rei.EffigyAltarServerPlugin"
 		]
 	},
 	"mixins": [
@@ -40,6 +47,6 @@
 		"fabric-api": "*"
 	},
 	"suggests": {
-		"another-mod": "*"
+		"roughlyenoughitems": ">=19.0.806"
 	}
 }

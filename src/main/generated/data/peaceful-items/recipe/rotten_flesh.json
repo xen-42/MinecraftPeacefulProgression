@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "peaceful-items:sulphur",
+    "#minecraft:meat"
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:rotten_flesh"
+  }
+}

@@ -2,7 +2,6 @@ package xen42.peacefulitems;
 
 
 import com.google.common.collect.ImmutableSet;
-
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
 import net.minecraft.block.Block;
@@ -11,33 +10,45 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.GoatHornItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.map.MapDecorationType;
+import net.minecraft.item.map.MapDecorationTypes;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.InstrumentTags;
 import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.village.TradeOffer;
-import net.minecraft.village.TradeOffers;
 import net.minecraft.village.TradeOffers.Factory;
 import net.minecraft.village.TradedItem;
 import net.minecraft.village.VillagerProfession;
+import net.minecraft.village.TradeOffers.SellMapFactory;
+import net.minecraft.world.gen.structure.Structure;
 import net.minecraft.world.poi.PointOfInterestType;
 
 public class PeacefulModVillagers {
     public static final RegistryKey<PointOfInterestType> JUKEBOX_KEY = RegistryKey.of(RegistryKeys.POINT_OF_INTEREST_TYPE, Identifier.of(PeacefulMod.MOD_ID, "jukebox_poi"));
     public static final PointOfInterestType JUKEBOX_POI = registerNewPOI("jukebox_poi", Blocks.JUKEBOX);
-    public static final VillagerProfession DJ_VILLAGER = registerNewProfession("dj", JUKEBOX_KEY, SoundEvents.ENTITY_VILLAGER_WORK_LIBRARIAN);
-	public static final RegistryKey<VillagerProfession> DJ_VILLAGER_KEY = RegistryKey.of(RegistryKeys.VILLAGER_PROFESSION, Identifier.of(PeacefulMod.MOD_ID,"dj"));
+    public static final RegistryKey<VillagerProfession> DJ_VILLAGER_KEY = RegistryKey.of(RegistryKeys.VILLAGER_PROFESSION, Identifier.of(PeacefulMod.MOD_ID, "dj"));
+    public static final VillagerProfession DJ_VILLAGER = registerNewProfession(DJ_VILLAGER_KEY, JUKEBOX_KEY, SoundEvents.ENTITY_VILLAGER_WORK_LIBRARIAN);
 
-    public static VillagerProfession registerNewProfession(String name, RegistryKey<PointOfInterestType> poi, SoundEvent sound) {
-        var profession = new VillagerProfession(Text.of(name), entry -> entry.matchesKey(poi), entry -> entry.matchesKey(poi), ImmutableSet.of(), ImmutableSet.of(), sound);
-        return Registry.register(Registries.VILLAGER_PROFESSION, Identifier.of(PeacefulMod.MOD_ID, name), profession);
+    public static VillagerProfession registerNewProfession(RegistryKey<VillagerProfession> key, RegistryKey<PointOfInterestType> poi, SoundEvent sound) {
+        var profession = new VillagerProfession(
+                Text.translatable("entity." + key.getValue().getNamespace() + ".villager." + key.getValue().getPath()),
+                entry -> entry.matchesKey(poi),
+                entry -> entry.matchesKey(poi),
+                ImmutableSet.of(),
+                ImmutableSet.of(),
+                sound
+            );
+        return Registry.register(Registries.VILLAGER_PROFESSION, key.getValue(), profession);
     }
 
     public static PointOfInterestType registerNewPOI(String name, Block block) {
@@ -136,6 +147,18 @@ public class PeacefulModVillagers {
 				)
 			);
 		});
+		
+		// Map to altar
+		TradeOfferHelper.registerVillagerOffers(VillagerProfession.CARTOGRAPHER, 3, factories -> {
+			factories.add((entity, random) -> SellMap(entity, random, 10,
+				PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, MapDecorationTypes.TARGET_X, 4, 15));
+		});
+    }
+    
+    private static TradeOffer SellMap(Entity entity, Random random, int price, TagKey<Structure> structure, RegistryEntry<MapDecorationType> decoration, int maxUses, int experience) {
+    	return new SellMapFactory(price, structure, 
+    		"filled_map." + structure.id().getNamespace() + "." + structure.id().getPath(),
+    		decoration, maxUses, experience).create(entity, random);
     }
 
     private static TradeOffer RandomDisc(Entity entity, Random random) {

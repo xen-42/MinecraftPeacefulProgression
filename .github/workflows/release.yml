@@ -24,12 +24,19 @@ jobs:
   pre_job:
     name: Check For Other Releases
     outputs:
-      version: ${{ steps.read-minecraft-version.outputs.minecraft_version }}-${{ steps.read-mod-version.outputs.mod_version }}
+      java_version: ${{ steps.read-java-version.outputs.java_version }}
+      minecraft_version: ${{ steps.read-minecraft-version.outputs.minecraft_version }}
+      mod_version: ${{ steps.read-minecraft-version.outputs.mod_version }}
       exists: ${{ steps.check-tag.outputs.exists }}
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+      - name: Read java version from gradle.properties
+        id: read-java-version
+        run: |
+          java_version=$(grep '^java_version=' gradle.properties | cut -d'=' -f2)
+          echo "java_version=$java_version" >> $GITHUB_OUTPUT
       - name: Read minecraft version from gradle.properties
         id: read-minecraft-version
         run: |
@@ -80,9 +87,52 @@ jobs:
         with:
           allowUpdates: true
           commit: ${{ github.ref_name }}
-          tag: ${{ needs.pre_job.outputs.version }}
-          name: ${{ needs.pre_job.outputs.version }}
+          tag: '${{ needs.pre_job.outputs.minecraft_version }}-${{ needs.pre_job.outputs.mod_version }}'
+          name: '${{ needs.pre_job.outputs.mod_version }} for Minecraft ${{ needs.pre_job.outputs.minecraft_version }}'
           omitBodyDuringUpdate: true
           artifacts: "build/libs/*"
           draft: false
           prerelease: false
+      - name: Read Modrinth ID from gradle.properties
+        id: read-modrinth-id
+        run: |
+          modrinth_id=$(grep '^modrinth_id=' gradle.properties | cut -d'=' -f2)
+          echo "modrinth_id=$modrinth_id" >> $GITHUB_OUTPUT
+      - name: Read Curseforge ID from gradle.properties
+        id: read-curseforge-id
+        run: |
+          curseforge_id=$(grep '^curseforge_id=' gradle.properties | cut -d'=' -f2)
+          echo "curseforge_id=$curseforge_id" >> $GITHUB_OUTPUT
+      - name: Publish to Modrinth and Curseforge
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          modrinth-id: ${{ steps.read-modrinth-id.outputs.modrinth_id }}
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          modrinth-featured: false # leave it to auto featuring
+
+          curseforge-id: ${{ steps.read-curseforge-id.outputs.curseforge_id }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+
+          files: |
+            build/libs/!(*-@(dev|sources|javadoc)).jar
+            build/libs/*-@(dev|sources|javadoc).jar
+
+          name: '${{ needs.pre_job.outputs.mod_version }} for Minecraft ${{ needs.pre_job.outputs.minecraft_version }}'
+          version: '${{ needs.pre_job.outputs.minecraft_version }}-${{ needs.pre_job.outputs.mod_version }}'
+          version-type: release
+          changelog-file: CHANGELOG.*
+          
+          game-versions: |
+            ${{ needs.pre_job.outputs.minecraft_version }}
+          java: |
+            ${{ needs.pre_job.outputs.java_version }}
+
+          loaders: |
+            fabric
+
+          dependencies: |
+            fabric-api(required){modrinth:P7dR8mSH}{curseforge:306612}
+
+          retry-attempts: 2
+          retry-delay: 10000
+          fail-mode: fail

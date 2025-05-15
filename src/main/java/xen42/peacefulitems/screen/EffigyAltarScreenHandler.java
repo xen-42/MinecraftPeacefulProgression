@@ -2,7 +2,6 @@ package xen42.peacefulitems.screen;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.jetbrains.annotations.Nullable;
@@ -12,7 +11,6 @@ import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.CraftingResultInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.RecipeInputInventory;
@@ -21,29 +19,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.s2c.play.ScreenHandlerSlotUpdateS2CPacket;
-import net.minecraft.recipe.CraftingRecipe;
-import net.minecraft.recipe.IngredientPlacement;
-import net.minecraft.recipe.InputSlotFiller;
-import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.RecipeFinder;
-import net.minecraft.recipe.RecipeGridAligner;
-import net.minecraft.recipe.RecipeMatcher;
-import net.minecraft.recipe.RecipePropertySet;
-import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.RecipeUnlocker;
 import net.minecraft.recipe.book.RecipeBookType;
-import net.minecraft.recipe.display.SlotDisplay;
-import net.minecraft.recipe.input.CraftingRecipeInput;
-import net.minecraft.recipe.input.RecipeInput;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.screen.AbstractCraftingScreenHandler;
 import net.minecraft.screen.AbstractRecipeScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
-import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.screen.slot.CraftingResultSlot;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -59,9 +42,14 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
 
     public static final int OUTPUT_SLOT = 0;
     public static final int INPUT_SLOTS_START = 1;
+    public static final int INPUT_SLOTS_END = 7;
     public static final int BRIMSTONE_SLOT = 8;
     public static final int MAX_WIDTH_AND_HEIGHT = 3;
     public static final int MAX_WIDTH_END = 1;
+    public static final int INVENTORY_SLOTS_START = 9;
+    public static final int INVENTORY_SLOTS_END = 35;
+    public static final int HOTBAR_SLOTS_START = 36;
+    public static final int HOTBAR_SLOTS_END = 45;
 
     public final RecipeInputInventory inventory;
     private final CraftingResultInventory resultInventory;
@@ -69,6 +57,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
     public ScreenHandlerContext context;
     private final PlayerEntity player;
 
+    @SuppressWarnings("unused")
     private Slot[] _slots;
     private Slot _outputSlot;
     private Slot _brimstoneSlot;
@@ -105,6 +94,10 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
     
     public static boolean isBrimstone(ItemStack stack) {
         return stack.isOf(PeacefulModItems.SULPHUR);
+    }
+    
+    public static boolean isAir(ItemStack stack) {
+        return stack.isOf(Items.AIR);
     }
     
     public void updateResult(
@@ -149,7 +142,49 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
 
     @Override
     public ItemStack quickMove(PlayerEntity player, int slot) {
-        return ItemStack.EMPTY;
+        ItemStack itemStack = ItemStack.EMPTY;
+        Slot slotAtIndex = this.slots.get(slot);
+        if (slotAtIndex != null && slotAtIndex.hasStack()) {
+            ItemStack itemStackAtIndex = slotAtIndex.getStack();
+            itemStack = itemStackAtIndex.copy();
+            if (slot == OUTPUT_SLOT) {
+                itemStackAtIndex.getItem().onCraftByPlayer(itemStackAtIndex, player);
+                if (!this.insertItem(itemStackAtIndex, INVENTORY_SLOTS_START, HOTBAR_SLOTS_END, true)) {
+                    return ItemStack.EMPTY;
+                }
+
+                slotAtIndex.onQuickTransfer(itemStackAtIndex, itemStack);
+            } else if (slot >= INVENTORY_SLOTS_START && slot < HOTBAR_SLOTS_END) {
+                if (!this.insertItem(itemStackAtIndex, INPUT_SLOTS_START, INVENTORY_SLOTS_START, false)) {
+                    if (slot < HOTBAR_SLOTS_START) {
+                        if (!this.insertItem(itemStackAtIndex, HOTBAR_SLOTS_START, HOTBAR_SLOTS_END, false)) {
+                            return ItemStack.EMPTY;
+                        }
+                    } else if (!this.insertItem(itemStackAtIndex, INVENTORY_SLOTS_START, HOTBAR_SLOTS_START, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                }
+            } else if (!this.insertItem(itemStackAtIndex, INVENTORY_SLOTS_START, HOTBAR_SLOTS_END, false)) {
+                return ItemStack.EMPTY;
+            }
+
+            if (itemStackAtIndex.isEmpty()) {
+                slotAtIndex.setStack(ItemStack.EMPTY);
+            } else {
+                slotAtIndex.markDirty();
+            }
+
+            if (itemStackAtIndex.getCount() == itemStack.getCount()) {
+                return ItemStack.EMPTY;
+            }
+
+            slotAtIndex.onTakeItem(player, itemStackAtIndex);
+            if (slot == OUTPUT_SLOT) {
+                player.dropItem(itemStackAtIndex, false);
+            }
+        }
+
+        return itemStack;
     }
 
     @Override
@@ -283,7 +318,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
 
         @Override
         public boolean canInsert(ItemStack stack) {
-            return isBrimstone(stack);
+            return isAir(stack) || isBrimstone(stack);
         }
     }
 
@@ -569,9 +604,9 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
             if (i == -1) {
                 return -1;
             } else {
-                ItemStack itemStack2 = this.inventory.getStack(i);
+                ItemStack itemStackAtIndex = this.inventory.getStack(i);
                 ItemStack itemStack3;
-                if (count < itemStack2.getCount()) {
+                if (count < itemStackAtIndex.getCount()) {
                     itemStack3 = this.inventory.removeStack(i, count);
                 } else {
                     itemStack3 = this.inventory.removeStack(i);

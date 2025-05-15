@@ -1,18 +1,23 @@
 package xen42.peacefulitems.mixin;
 
+import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.stat.Stats;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.TypeFilter;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
@@ -73,7 +78,7 @@ public class BatEntityMixin {
 		if (!(bat.getWorld() instanceof ServerWorld serverWorld)) {
 			bat.getWorld()
 				.getEntitiesByType(TypeFilter.instanceOf(PlayerEntity.class), bat.getBoundingBox(), EntityPredicates.canBePushedBy(bat))
-				.forEach((entitity) -> entitity.pushAwayFrom(bat));
+				.forEach((entity) -> entity.pushAwayFrom(bat));
 		} else {
 			List<Entity> list = bat.getWorld().getOtherEntities(bat, bat.getBoundingBox(), EntityPredicates.canBePushedBy(bat));
 			if (!list.isEmpty()) {
@@ -99,26 +104,10 @@ public class BatEntityMixin {
 		}
 	}
 
-	// Injecting into onDeath didnt work, probably because thats an inherited method that the BatEntity class doesnt override
-	@Inject(at = @At("TAIL"), method = "damage")
-	private void damage(CallbackInfoReturnable<Boolean> info) {
-		var bat = ((BatEntity)(Object)this);
-
-		if (!bat.getWorld().isClient && !bat.isAlive() && !bat.isBaby()) {
-			var r = random.nextFloat();
-			if (r > 0.8) {
-				bat.dropStack((ServerWorld)bat.getWorld(), new ItemStack(PeacefulModItems.BAT_WING, 2));
-			}
-			else if (r > 0.3) {
-				bat.dropItem((ServerWorld)bat.getWorld(), PeacefulModItems.BAT_WING);
-			}
-		}
-	}
-
 	@Inject(at = @At("HEAD"), method = "mobTick", cancellable = true)
-    public void mobTick(CallbackInfo info) {
+    public void mobTick(ServerWorld world, CallbackInfo info) {
 		var bat = ((BatEntity)(Object)this);
-		var player = bat.getWorld().getClosestPlayer(bat, 10);
+		var player = world.getClosestPlayer(bat, 10);
 		if (!bat.isRoosting()) {
 			var breedingTicks = bat.getDataTracker().get(PeacefulMod.BAT_BREEDING_TICKS);
 			var batBreedingCooldown = bat.getDataTracker().get(PeacefulMod.BAT_BREEDING_COOLDOWN);
@@ -131,7 +120,7 @@ public class BatEntityMixin {
 			if (!bat.isBaby() && breedingTicks > 0) {
 				bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_TICKS, breedingTicks - 1);
 
-        		List<BatEntity> list = bat.getWorld().getNonSpectatingEntities(BatEntity.class, bat.getBoundingBox().expand(10.0));
+        		List<BatEntity> list = world.getNonSpectatingEntities(BatEntity.class, bat.getBoundingBox().expand(10.0));
 				BatEntity mate = null;
 				for (var otherBat : list) {
 					if (otherBat != bat && otherBat.getDataTracker().get(PeacefulMod.BAT_BREEDING_TICKS) > 0) {
@@ -140,15 +129,20 @@ public class BatEntityMixin {
 				}
 				if (mate != null) {
 					if (mate.distanceTo(bat) < 0.5f) {
-						var baby = EntityType.BAT.create(bat.getWorld(), SpawnReason.BREEDING);
+						var baby = EntityType.BAT.create(world, SpawnReason.BREEDING);
 						baby.refreshPositionAndAngles(bat.getX(), bat.getY(), bat.getZ(), 0.0f, 0.0f);
-						bat.getWorld().spawnEntity(baby);
+						world.spawnEntityAndPassengers(baby);
+						world.sendEntityStatus(bat, EntityStatuses.ADD_BREEDING_PARTICLES);
+						if (world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
+							world.spawnEntity(new ExperienceOrbEntity(world, bat.getParticleX(1.0), bat.getRandomBodyY() + 0.5, bat.getParticleZ(1.0), bat.getRandom().nextInt(7) + 1));
+						}
 						for (int i = 0; i < 7; ++i) {
 							double d = bat.getRandom().nextGaussian() * 0.02;
 							double e = bat.getRandom().nextGaussian() * 0.02;
 							double f = bat.getRandom().nextGaussian() * 0.02;
-							bat.getWorld().addParticleClient(ParticleTypes.HEART, bat.getParticleX(1.0), bat.getRandomBodyY() + 0.5, bat.getParticleZ(1.0), d, e, f);
+							world.addParticleClient(ParticleTypes.HEART, bat.getParticleX(1.0), bat.getRandomBodyY() + 0.5, bat.getParticleZ(1.0), d, e, f);
 						}
+
 						bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_TICKS, 0);
 						mate.getDataTracker().set(PeacefulMod.BAT_BREEDING_TICKS, 0);
 						baby.getDataTracker().set(PeacefulMod.BAT_IS_BABY, true);
@@ -157,6 +151,17 @@ public class BatEntityMixin {
 						mate.getDataTracker().set(PeacefulMod.BAT_BREEDING_COOLDOWN, PeacefulMod.BatBreedingCooldown);
 						// Breeding cooldown doubles as age timer because why not
 						baby.getDataTracker().set(PeacefulMod.BAT_BREEDING_COOLDOWN, PeacefulMod.BatGrowUpTicks);
+
+						if (player != null && player instanceof ServerPlayerEntity serverPlayer && serverPlayer.getServer() != null) {
+							serverPlayer.incrementStat(Stats.ANIMALS_BRED);
+							// Grant the player the "The Parrots and the Bats" advancement
+							AdvancementEntry parrotsAndBats = serverPlayer.getServer().getAdvancementLoader().get(Identifier.ofVanilla("husbandry/breed_an_animal"));
+							if (parrotsAndBats != null)
+							{
+								String first = parrotsAndBats.value().criteria().keySet().iterator().next();
+								serverPlayer.getAdvancementTracker().grantCriterion(parrotsAndBats, first);
+							}
+						}
 					}
 					else {
 						BatHelper.FlyTowards(bat, mate.getPos());
