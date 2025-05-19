@@ -28,7 +28,7 @@ import net.minecraft.util.Rarity;
 import net.minecraft.world.World;
 import xen42.peacefulitems.item.DispensibleSpawnEggItem;
 import xen42.peacefulitems.item.EffigyItem;
-import xen42.peacefulitems.item.PandaSneezeDispenserBehavior;
+import xen42.peacefulitems.item.BrushDispenserBehavior;
 import xen42.peacefulitems.mixin.EnderDragonFight_Invoker;
 
 public class PeacefulModItems {
@@ -147,7 +147,7 @@ public class PeacefulModItems {
         CompostingChanceRegistry.INSTANCE.add(GUANO, 2f);
         CompostingChanceRegistry.INSTANCE.add(FLAX, 0.3f);
 
-        DispenserBlock.registerBehavior(Items.BRUSH.asItem(), new PandaSneezeDispenserBehavior());
+        DispenserBlock.registerBehavior(Items.BRUSH.asItem(), new BrushDispenserBehavior());
     }
 
     public static Item register(String name, Function<Item.Settings, Item> itemFactory, Item.Settings settings) {
