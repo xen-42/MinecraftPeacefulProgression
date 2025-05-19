@@ -25,6 +25,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.world.World;
+import xen42.peacefulitems.item.DispensibleSpawnEggItem;
 import xen42.peacefulitems.item.EffigyItem;
 import xen42.peacefulitems.mixin.EnderDragonFight_Invoker;
 
@@ -54,9 +55,9 @@ public class PeacefulModItems {
             }
         }, new Item.Settings().food(new FoodComponent(2, 1, false)));
     public static final Item GHASTLING_SPAWN_EGG = register("ghastling_spawn_egg", (settings) -> 
-        new SpawnEggItem(PeacefulMod.GHASTLING_ENTITY, settings), new Item.Settings());
+        new DispensibleSpawnEggItem(PeacefulMod.GHASTLING_ENTITY, settings), new Item.Settings());
     public static final Item END_CLAM_SPAWN_EGG = register("end_clam_spawn_egg", (settings) -> 
-        new SpawnEggItem(PeacefulMod.END_CLAM_ENTITY, settings), new Item.Settings());
+        new DispensibleSpawnEggItem(PeacefulMod.END_CLAM_ENTITY, settings), new Item.Settings());
     public static final Item WITHER_EFFIGY = register("wither_effigy", (settings) -> 
         new EffigyItem(settings, "wither_effigy", (ServerPlayerEntity user) -> {
             user.dropItem(user.getServerWorld(), Items.NETHER_STAR);
