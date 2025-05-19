@@ -73,13 +73,10 @@ public class PeacefulModBlockLootTableGenerator extends FabricBlockLootTableProv
     private LootTable.Builder fossilOreDrops(Block block) {
         RegistryWrapper.Impl<Enchantment> impl = this.registries.getOrThrow(RegistryKeys.ENCHANTMENT);
 
-        var boneDrop = ItemEntry.builder(Items.BONE).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(0.0f, 2.0f)))
-        .apply(ApplyBonusLootFunction.oreDrops(impl.getOrThrow(Enchantments.FORTUNE)));
-
-        var boneMealDrop = (ItemEntry.builder(Items.BONE_MEAL).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 3.0f))));
+        var boneMealDrop = ItemEntry.builder(Items.BONE_MEAL).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 3.0f)))
+            .apply(ApplyBonusLootFunction.oreDrops(impl.getOrThrow(Enchantments.FORTUNE)));
 
         var normalDrop = (LootTable.Builder)LootTable.builder()
-            .pool(LootPool.builder().with(boneDrop).conditionally(createWithoutSilkTouchCondition()))
             .pool(LootPool.builder().with(boneMealDrop).conditionally(createWithoutSilkTouchCondition()))
             .pool(LootPool.builder().with(ItemEntry.builder(block)).conditionally(createSilkTouchCondition()));
 
