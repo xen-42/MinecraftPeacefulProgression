@@ -40,6 +40,10 @@ public class PeacefulModBlockLootTableGenerator extends FabricBlockLootTableProv
     @Override
     public void generate() {
         addDrop(PeacefulModBlocks.SULPHUR_BLOCK);
+        addDrop(PeacefulModBlocks.SULPHUR_STAIRS);
+		addDrop(PeacefulModBlocks.SULPHUR_SLAB, block -> slabDrops(block));
+        addDrop(PeacefulModBlocks.SULPHUR_WALL);
+        addDrop(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK);
         addDrop(PeacefulModBlocks.FOSSIL_ORE, block -> fossilOreDrops(block));
         addDrop(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE, block -> fossilOreDrops(block));
         addDrop(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE, block -> fossilOreDrops(block));

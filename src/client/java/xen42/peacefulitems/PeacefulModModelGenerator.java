@@ -26,7 +26,7 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-        blockStateModelGenerator.registerSimpleCubeAll(PeacefulModBlocks.SULPHUR_BLOCK);
+        blockStateModelGenerator.registerCubeAllModelTexturePool(PeacefulModBlocks.SULPHUR_BLOCK).family(PeacefulModBlocks.SULPHUR);
         blockStateModelGenerator.registerSimpleCubeAll(PeacefulModBlocks.FOSSIL_ORE);
         blockStateModelGenerator.registerSimpleCubeAll(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE);
         blockStateModelGenerator.registerSimpleCubeAll(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE);

@@ -34,6 +34,9 @@ public class PeacefulModItemTagGenerator extends ItemTagProvider {
 		this.copy(PeacefulModTags.BlockTags.SULPHUR_ORES, PeacefulModTags.ItemTags.SULPHUR_ORES);
 		this.copy(PeacefulModTags.BlockTags.SULPHUR_ORES_C, PeacefulModTags.ItemTags.SULPHUR_ORES_C);
 		this.copy(PeacefulModTags.BlockTags.SULFUR_ORES, PeacefulModTags.ItemTags.SULFUR_ORES);
+		this.copy(BlockTags.STAIRS, ItemTags.STAIRS);
+		this.copy(BlockTags.SLABS, ItemTags.SLABS);
+		this.copy(BlockTags.WALLS, ItemTags.WALLS);
 
 		this.getOrCreateTagBuilder(ConventionalItemTags.SEEDS)
 			.add(PeacefulModItems.FLAX);

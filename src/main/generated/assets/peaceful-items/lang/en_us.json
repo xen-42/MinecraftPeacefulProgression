@@ -6,6 +6,7 @@
   "item.peaceful-items.bat_wing": "Bat Wing",
   "item.peaceful-items.blaze_pickle": "Blaze Coral",
   "item.peaceful-items.breeze_coral": "Breeze Coral",
+  "item.peaceful-items.chiseled_sulphur_block": "Chiseled Brimstone Block",
   "item.peaceful-items.deepslate_fossil_ore": "Deepslate Fossil Ore",
   "item.peaceful-items.dragon_effigy": "Dragon Effigy",
   "item.peaceful-items.effigy_altar": "Effigy Altar",
@@ -17,7 +18,10 @@
   "item.peaceful-items.guardian_effigy": "Elder Effigy",
   "item.peaceful-items.soul_soil_fossil_ore": "Nether Fossil Ore",
   "item.peaceful-items.sulphur": "Brimstone",
-  "item.peaceful-items.sulphur_block": "Brimstone Block",
+  "item.peaceful-items.sulphur_block": "Block of Brimstone",
   "item.peaceful-items.sulphur_ore": "Brimstone Ore",
+  "item.peaceful-items.sulphur_slab": "Brimstone Slab",
+  "item.peaceful-items.sulphur_stairs": "Brimstone Stairs",
+  "item.peaceful-items.sulphur_wall": "Brimstone Wall",
   "item.peaceful-items.wither_effigy": "Wither Effigy"
 }

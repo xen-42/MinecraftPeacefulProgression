@@ -70,7 +70,11 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.add(PeacefulModItems.SULPHUR, "Brimstone");
 			translationBuilder.add(PeacefulModItems.FLAX, "Flax Seeds");
 			
-			translationBuilder.add(PeacefulModBlocks.SULPHUR_BLOCK, "Brimstone Block");
+			translationBuilder.add(PeacefulModBlocks.SULPHUR_BLOCK, "Block of Brimstone");
+			translationBuilder.add(PeacefulModBlocks.SULPHUR_STAIRS, "Brimstone Stairs");
+			translationBuilder.add(PeacefulModBlocks.SULPHUR_SLAB, "Brimstone Slab");
+			translationBuilder.add(PeacefulModBlocks.SULPHUR_WALL, "Brimstone Wall");
+			translationBuilder.add(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK, "Chiseled Brimstone Block");
 			translationBuilder.add(PeacefulModBlocks.SULPHUR_ORE, "Brimstone Ore");
 			translationBuilder.add(PeacefulModBlocks.FOSSIL_ORE, "Fossil Ore");
 			translationBuilder.add(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE, "Deepslate Fossil Ore");
@@ -153,6 +157,10 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.add(PeacefulModItems.FLAX, "亚麻种子");
 			
 			translationBuilder.add(PeacefulModBlocks.SULPHUR_BLOCK, "硫磺块");
+			translationBuilder.add(PeacefulModBlocks.SULPHUR_STAIRS, "硫磺楼梯");
+			translationBuilder.add(PeacefulModBlocks.SULPHUR_SLAB, "硫磺台阶");
+			translationBuilder.add(PeacefulModBlocks.SULPHUR_WALL, "硫磺围墙");
+			translationBuilder.add(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK, "雕纹硫磺块");
 			translationBuilder.add(PeacefulModBlocks.SULPHUR_ORE, "硫磺矿石");
 			translationBuilder.add(PeacefulModBlocks.FOSSIL_ORE, "化石矿石");
 			translationBuilder.add(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE, "深层化石矿石");

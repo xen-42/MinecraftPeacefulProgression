@@ -38,6 +38,10 @@ public class PeacefulModBlockTagGenerator extends BlockTagProvider {
         
         this.getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
             .add(PeacefulModBlocks.SULPHUR_BLOCK)
+            .add(PeacefulModBlocks.SULPHUR_STAIRS)
+            .add(PeacefulModBlocks.SULPHUR_SLAB)
+            .add(PeacefulModBlocks.SULPHUR_WALL)
+            .add(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK)
             .add(PeacefulModBlocks.FOSSIL_ORE)
             .add(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE);
         
@@ -74,6 +78,15 @@ public class PeacefulModBlockTagGenerator extends BlockTagProvider {
         
         this.getOrCreateTagBuilder(PeacefulModTags.BlockTags.SULFUR_ORES)
             .addOptionalTag(PeacefulModTags.BlockTags.SULPHUR_ORES);
+
+        this.getOrCreateTagBuilder(BlockTags.STAIRS)
+            .add(PeacefulModBlocks.SULPHUR_STAIRS);
+        
+        this.getOrCreateTagBuilder(BlockTags.SLABS)
+            .add(PeacefulModBlocks.SULPHUR_SLAB);
+        
+        this.getOrCreateTagBuilder(BlockTags.WALLS)
+            .add(PeacefulModBlocks.SULPHUR_WALL);
         
         this.getOrCreateTagBuilder(PeacefulModTags.BlockTags.FOSSIL_ORES)
             .add(PeacefulModBlocks.FOSSIL_ORE)

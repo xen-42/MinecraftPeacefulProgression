@@ -7,7 +7,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.SeaPickleBlock;
+import net.minecraft.block.SlabBlock;
+import net.minecraft.block.StairsBlock;
+import net.minecraft.block.WallBlock;
 import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.data.family.BlockFamilies;
+import net.minecraft.data.family.BlockFamily;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -24,14 +29,51 @@ import xen42.peacefulitems.blocks.SulphurClusterBlock;
 
 public class PeacefulModBlocks {
 
-    public static void initialize() { }
+	public static void initialize() { }
 
-    public static final Block SULPHUR_BLOCK = register(
+	public static final Block SULPHUR_BLOCK = register(
 		"sulphur_block",
 		Block::new,
 		AbstractBlock.Settings.create().mapColor(MapColor.PALE_YELLOW).strength(3.0f, 3.0f).requiresTool(),
 		true
-    );
+	);
+
+	public static final Block SULPHUR_STAIRS = register(
+		"sulphur_stairs",
+		settings -> new StairsBlock(SULPHUR_BLOCK.getDefaultState(), settings),
+		AbstractBlock.Settings.create().mapColor(MapColor.PALE_YELLOW).strength(3.0f, 3.0f).requiresTool(),
+		true
+	);
+
+	public static final Block SULPHUR_SLAB = register(
+		"sulphur_slab",
+		SlabBlock::new,
+		AbstractBlock.Settings.create().mapColor(MapColor.PALE_YELLOW).strength(3.0f, 3.0f).requiresTool(),
+		true
+	);
+
+	public static final Block SULPHUR_WALL = register(
+		"sulphur_wall",
+		WallBlock::new,
+		AbstractBlock.Settings.create().mapColor(MapColor.PALE_YELLOW).strength(3.0f, 3.0f).requiresTool(),
+		true
+	);
+
+	public static final Block CHISELED_SULPHUR_BLOCK = register(
+		"chiseled_sulphur_block",
+		Block::new,
+		AbstractBlock.Settings.create().mapColor(MapColor.PALE_YELLOW).strength(3.0f, 3.0f).requiresTool(),
+		true
+	);
+	
+	public static final BlockFamily SULPHUR = BlockFamilies.register(SULPHUR_BLOCK)
+			.wall(SULPHUR_WALL)
+			.stairs(SULPHUR_STAIRS)
+			.slab(SULPHUR_SLAB)
+			.chiseled(CHISELED_SULPHUR_BLOCK)
+			.group("sulphur")
+			.noGenerateRecipes()
+			.build();
 
 	public static final Block SULPHUR_CLUSTER = register(
 		"sulphur_cluster",
@@ -94,7 +136,7 @@ public class PeacefulModBlocks {
 	public static final EffigyAltarBlock EFFIGY_ALTAR = (EffigyAltarBlock)register(
 		"effigy_altar", EffigyAltarBlock::new, AbstractBlock.Settings.copy(Blocks.STONE).nonOpaque(), true);
 
-    private static Block register(String name, Function<AbstractBlock.Settings, Block> blockFactory, AbstractBlock.Settings settings, boolean shouldRegisterItem) {
+	private static Block register(String name, Function<AbstractBlock.Settings, Block> blockFactory, AbstractBlock.Settings settings, boolean shouldRegisterItem) {
 		// Create a registry key for the block
 		RegistryKey<Block> blockKey = keyOfBlock(name);
 		// Create the block instance

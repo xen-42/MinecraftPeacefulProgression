@@ -10,6 +10,7 @@ import net.minecraft.data.recipe.CookingRecipeJsonBuilder;
 import net.minecraft.data.recipe.CraftingRecipeJsonBuilder;
 import net.minecraft.data.recipe.RecipeExporter;
 import net.minecraft.data.recipe.RecipeGenerator;
+import net.minecraft.data.recipe.StonecuttingRecipeJsonBuilder;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.AbstractCookingRecipe;
@@ -65,6 +66,13 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
             @Override
             public void offerBlasting(List<ItemConvertible> inputs, RecipeCategory category, ItemConvertible output, float experience, int cookingTime, String group) {
                 this.fixedOfferMultipleOptions(RecipeSerializer.BLASTING, BlastingRecipe::new, inputs, category, output, experience, cookingTime, group, "_from_blasting");
+            }
+
+            @Override
+            public void offerStonecuttingRecipe(RecipeCategory category, ItemConvertible output, ItemConvertible input, int count) {
+                offerTo(StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItem(input), category, output, count)
+                        .criterion(hasItem(input), this.conditionsFromItem(input))
+                        , exporter, convertBetween(output, input) + "_stonecutting");
             }
             
             public final <T extends AbstractCookingRecipe> void fixedOfferMultipleOptions(
@@ -140,6 +148,25 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                 offerTo(createShapeless(RecipeCategory.MISC, PeacefulModItems.SULPHUR, 9)
                         .input(PeacefulModBlocks.SULPHUR_BLOCK) 
                         .criterion(hasItem(PeacefulModBlocks.SULPHUR_BLOCK), conditionsFromItem(PeacefulModBlocks.SULPHUR_BLOCK))
+                        , exporter);
+                offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, PeacefulModBlocks.SULPHUR_SLAB, PeacefulModBlocks.SULPHUR_BLOCK, 2);
+                offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, PeacefulModBlocks.SULPHUR_STAIRS, PeacefulModBlocks.SULPHUR_BLOCK);
+                offerStonecuttingRecipe(RecipeCategory.DECORATIONS, PeacefulModBlocks.SULPHUR_WALL, PeacefulModBlocks.SULPHUR_BLOCK);
+                offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, PeacefulModBlocks.CHISELED_SULPHUR_BLOCK, PeacefulModBlocks.SULPHUR_BLOCK);
+                offerTo(createSlabRecipe(RecipeCategory.BUILDING_BLOCKS, PeacefulModBlocks.SULPHUR_SLAB, Ingredient.ofItems(PeacefulModBlocks.SULPHUR_BLOCK, PeacefulModBlocks.CHISELED_SULPHUR_BLOCK))
+                        .criterion(hasItem(PeacefulModBlocks.SULPHUR_BLOCK), conditionsFromItem(PeacefulModBlocks.SULPHUR_BLOCK))
+                        .criterion(hasItem(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK), conditionsFromItem(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK))
+                        , exporter);
+                offerTo(createStairsRecipe(PeacefulModBlocks.SULPHUR_STAIRS, Ingredient.ofItems(PeacefulModBlocks.SULPHUR_BLOCK, PeacefulModBlocks.CHISELED_SULPHUR_BLOCK))
+                        .criterion(hasItem(PeacefulModBlocks.SULPHUR_BLOCK), conditionsFromItem(PeacefulModBlocks.SULPHUR_BLOCK))
+                        .criterion(hasItem(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK), conditionsFromItem(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK))
+                        , exporter);
+                offerTo(createChiseledBlockRecipe(RecipeCategory.BUILDING_BLOCKS, PeacefulModBlocks.CHISELED_SULPHUR_BLOCK, Ingredient.ofItem(PeacefulModBlocks.SULPHUR_SLAB))
+                        .criterion(hasItem(PeacefulModBlocks.SULPHUR_BLOCK), conditionsFromItem(PeacefulModBlocks.SULPHUR_BLOCK))
+                        .criterion(hasItem(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK), conditionsFromItem(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK))
+                        , exporter);
+                offerTo(getWallRecipe(RecipeCategory.DECORATIONS, PeacefulModBlocks.SULPHUR_WALL, Ingredient.ofItem(PeacefulModBlocks.SULPHUR_BLOCK))
+                        .criterion(hasItem(PeacefulModBlocks.SULPHUR_BLOCK), this.conditionsFromItem(PeacefulModBlocks.SULPHUR_BLOCK))
                         , exporter);
 
                 offerSmelting(List.of(PeacefulModBlocks.BLAZE_PICKLE), RecipeCategory.MISC, Items.BLAZE_ROD, 0.45f, 200, PeacefulModBlocks.BLAZE_PICKLE.getName().toString());

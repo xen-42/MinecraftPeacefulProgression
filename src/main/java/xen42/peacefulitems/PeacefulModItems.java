@@ -96,6 +96,14 @@ public class PeacefulModItems {
 
     public static void initialize() {
         // Add custom items to groups
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register((itemGroup) -> {
+            itemGroup.add(PeacefulModBlocks.SULPHUR_BLOCK.asItem());
+            itemGroup.add(PeacefulModBlocks.SULPHUR_STAIRS.asItem());
+            itemGroup.add(PeacefulModBlocks.SULPHUR_SLAB.asItem());
+            itemGroup.add(PeacefulModBlocks.SULPHUR_WALL.asItem());
+            itemGroup.add(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK.asItem());
+        });
+        
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register((itemGroup) -> { 
             itemGroup.add(BAT_WING);
             itemGroup.add(GUANO);

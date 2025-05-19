@@ -6,6 +6,7 @@
   "item.peaceful-items.bat_wing": "蝙蝠翅膀",
   "item.peaceful-items.blaze_pickle": "烈焰珊瑚",
   "item.peaceful-items.breeze_coral": "旋风珊瑚",
+  "item.peaceful-items.chiseled_sulphur_block": "雕纹硫磺块",
   "item.peaceful-items.deepslate_fossil_ore": "深层化石矿石",
   "item.peaceful-items.dragon_effigy": "龙塑像",
   "item.peaceful-items.effigy_altar": "塑像祭坛",
@@ -19,5 +20,8 @@
   "item.peaceful-items.sulphur": "硫磺",
   "item.peaceful-items.sulphur_block": "硫磺块",
   "item.peaceful-items.sulphur_ore": "硫磺矿石",
+  "item.peaceful-items.sulphur_slab": "硫磺台阶",
+  "item.peaceful-items.sulphur_stairs": "硫磺楼梯",
+  "item.peaceful-items.sulphur_wall": "硫磺围墙",
   "item.peaceful-items.wither_effigy": "凋灵塑像"
 }
