@@ -1,18 +1,25 @@
 package xen42.peacefulitems;
 
+import java.util.Set;
 import java.util.function.Function;
 
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.BrushableBlock;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.SeaPickleBlock;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.block.WallBlock;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.block.entity.BlockEntityType.BlockEntityFactory;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.data.family.BlockFamilies;
 import net.minecraft.data.family.BlockFamily;
+import net.minecraft.datafixer.TypeReferences;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -20,11 +27,14 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import xen42.peacefulitems.blocks.BlazePickleBlock;
 import xen42.peacefulitems.blocks.BreezeCoralBlock;
 import xen42.peacefulitems.blocks.EffigyAltarBlock;
 import xen42.peacefulitems.blocks.FlaxCropBlock;
+import xen42.peacefulitems.blocks.FossilOreBlock;
+import xen42.peacefulitems.blocks.FossilOreBlockEntity;
 import xen42.peacefulitems.blocks.SulphurClusterBlock;
 
 public class PeacefulModBlocks {
@@ -92,23 +102,33 @@ public class PeacefulModBlocks {
 
 	public static final Block FOSSIL_ORE = register(
 		"fossil_ore",
-		Block::new,
-		AbstractBlock.Settings.copy(Blocks.COAL_ORE),
+		(settings) -> new FossilOreBlock(Blocks.STONE, SoundEvents.ITEM_BRUSH_BRUSHING_SAND, SoundEvents.ITEM_BRUSH_BRUSHING_SAND, settings),
+		AbstractBlock.Settings.copy(Blocks.STONE),
 		true
 	);
 
 	public static final Block DEEPSLATE_FOSSIL_ORE = register(
 		"deepslate_fossil_ore",
-		Block::new,
-		AbstractBlock.Settings.copy(Blocks.DEEPSLATE_COAL_ORE),
+		(settings) -> new FossilOreBlock(Blocks.DEEPSLATE, SoundEvents.ITEM_BRUSH_BRUSHING_SAND, SoundEvents.ITEM_BRUSH_BRUSHING_SAND, settings),
+		AbstractBlock.Settings.copy(Blocks.DEEPSLATE),
 		true
 	);
 
 	public static final Block SOUL_SOIL_FOSSIL_ORE = register(
 		"soul_soil_fossil_ore",
-		Block::new,
+		(settings) -> new FossilOreBlock(Blocks.SOUL_SOIL, SoundEvents.ITEM_BRUSH_BRUSHING_SAND, SoundEvents.ITEM_BRUSH_BRUSHING_SAND, settings),
 		AbstractBlock.Settings.copy(Blocks.SOUL_SOIL),
 		true
+	);
+
+	public static <T extends BlockEntityType<?>> T registerBlockEntityType(String path, T blockEntityType) {
+		return Registry.register(Registries.BLOCK_ENTITY_TYPE, Identifier.of(PeacefulMod.MOD_ID, path), blockEntityType);
+	}
+	
+	public static final BlockEntityType<FossilOreBlockEntity> FOSSIL_ORE_ENTITY = registerBlockEntityType(
+		"fossil_ore_entity",
+		FabricBlockEntityTypeBuilder.create(FossilOreBlockEntity::new, 
+			new Block[] { FOSSIL_ORE, DEEPSLATE_FOSSIL_ORE, SOUL_SOIL_FOSSIL_ORE}).build()
 	);
 
 	public static final FlaxCropBlock FLAX_CROP = (FlaxCropBlock)register(

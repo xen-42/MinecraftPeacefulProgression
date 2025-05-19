@@ -4,3 +4,8 @@ accessible method net/minecraft/client/gui/screen/recipebook/GhostRecipe addInpu
 accessible field net/minecraft/item/SpawnEggItem SPAWN_EGGS Ljava/util/Map;
 accessible field net/minecraft/item/SpawnEggItem type Lnet/minecraft/entity/EntityType;
 mutable field net/minecraft/item/SpawnEggItem type Lnet/minecraft/entity/EntityType;
+accessible field net/minecraft/block/entity/BlockEntity type Lnet/minecraft/block/entity/BlockEntityType;
+mutable field net/minecraft/block/entity/BlockEntity type Lnet/minecraft/block/entity/BlockEntityType;
+extendable method net/minecraft/block/entity/BrushableBlockEntity generateItem (Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;)V
+accessible method net/minecraft/block/entity/BrushableBlockEntity generateItem (Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;)V
+accessible field net/minecraft/block/entity/BrushableBlockEntity item Lnet/minecraft/item/ItemStack;

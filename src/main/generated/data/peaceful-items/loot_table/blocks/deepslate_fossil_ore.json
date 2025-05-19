@@ -31,8 +31,8 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 2.0,
-                "min": 0.0
+                "max": 3.0,
+                "min": 1.0
               },
               "function": "minecraft:set_count"
             },
@@ -40,47 +40,6 @@
               "enchantment": "minecraft:fortune",
               "formula": "minecraft:ore_drops",
               "function": "minecraft:apply_bonus"
-            }
-          ],
-          "name": "minecraft:bone"
-        }
-      ],
-      "rolls": 1.0
-    },
-    {
-      "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:inverted",
-          "term": {
-            "condition": "minecraft:match_tool",
-            "predicate": {
-              "predicates": {
-                "minecraft:enchantments": [
-                  {
-                    "enchantments": "minecraft:silk_touch",
-                    "levels": {
-                      "min": 1
-                    }
-                  }
-                ]
-              }
-            }
-          }
-        }
-      ],
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 3.0,
-                "min": 1.0
-              },
-              "function": "minecraft:set_count"
             }
           ],
           "name": "minecraft:bone_meal"
