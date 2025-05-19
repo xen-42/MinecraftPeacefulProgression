@@ -22,11 +22,19 @@ public class PeacefulModBlockTagGenerator extends BlockTagProvider {
     protected void configure(WrapperLookup wrapperLookup) {
         this.getOrCreateTagBuilder(BlockTags.SOUL_FIRE_BASE_BLOCKS)
             .add(PeacefulModBlocks.SULPHUR_BLOCK)
+            .add(PeacefulModBlocks.SULPHUR_STAIRS)
+            .add(PeacefulModBlocks.SULPHUR_SLAB)
+            .add(PeacefulModBlocks.SULPHUR_WALL)
+            .add(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK)
             .add(PeacefulModBlocks.SULPHUR_ORE)
             .add(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE);
         
         this.getOrCreateTagBuilder(BlockTags.INFINIBURN_OVERWORLD)
             .add(PeacefulModBlocks.SULPHUR_BLOCK)
+            .add(PeacefulModBlocks.SULPHUR_STAIRS)
+            .add(PeacefulModBlocks.SULPHUR_SLAB)
+            .add(PeacefulModBlocks.SULPHUR_WALL)
+            .add(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK)
             .add(PeacefulModBlocks.SULPHUR_ORE)
             .add(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE);
         
