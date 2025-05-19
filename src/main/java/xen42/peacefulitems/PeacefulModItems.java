@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.DispenserBlock;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.item.BlockItem;
@@ -27,6 +28,7 @@ import net.minecraft.util.Rarity;
 import net.minecraft.world.World;
 import xen42.peacefulitems.item.DispensibleSpawnEggItem;
 import xen42.peacefulitems.item.EffigyItem;
+import xen42.peacefulitems.item.PandaSneezeDispenserBehavior;
 import xen42.peacefulitems.mixin.EnderDragonFight_Invoker;
 
 public class PeacefulModItems {
@@ -144,6 +146,8 @@ public class PeacefulModItems {
 
         CompostingChanceRegistry.INSTANCE.add(GUANO, 2f);
         CompostingChanceRegistry.INSTANCE.add(FLAX, 0.3f);
+
+        DispenserBlock.registerBehavior(Items.BRUSH.asItem(), new PandaSneezeDispenserBehavior());
     }
 
     public static Item register(String name, Function<Item.Settings, Item> itemFactory, Item.Settings settings) {
