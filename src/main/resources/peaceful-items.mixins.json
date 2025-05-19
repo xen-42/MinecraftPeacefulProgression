@@ -15,6 +15,7 @@
 		"EnderDragonFightMixin",
 		"EnderDragonEntityMixin",
 		"AxeItemMixin",
-		"EnderDragonFight_Invoker"
+		"EnderDragonFight_Invoker",
+		"SoulFireBlockMixin"
 	]
 }
