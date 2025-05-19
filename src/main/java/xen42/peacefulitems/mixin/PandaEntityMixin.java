@@ -29,7 +29,7 @@ public class PandaEntityMixin {
 
         ItemStack item = player.getStackInHand(hand);
 
-        if (item.isOf(Items.FEATHER)) {
+        if (item.isOf(Items.FEATHER) || item.isOf(Items.BRUSH)) {
             if (!panda.isSneezing()) {
                 panda.setSneezing(true);
             }
