@@ -50,7 +50,8 @@ public class PeacefulModItemTagGenerator extends ItemTagProvider {
 		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.EFFIGIES)
 			.add(PeacefulModItems.DRAGON_EFFIGY)
 			.add(PeacefulModItems.WITHER_EFFIGY)
-			.add(PeacefulModItems.GUARDIAN_EFFIGY);
+			.add(PeacefulModItems.GUARDIAN_EFFIGY)
+			.add(PeacefulModItems.RAID_EFFIGY);
 		
 		this.getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE)
 			.add(PeacefulModItems.CAPE);

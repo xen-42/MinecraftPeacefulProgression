@@ -244,6 +244,19 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .criterion(hasItem(Blocks.SOUL_SAND), conditionsFromItem(Blocks.SOUL_SAND))
                         .offerTo(exporter);
 
+                createEffigyAltar(PeacefulModItems.RAID_EFFIGY)
+                        .pattern("ebe",
+                                 "ggg",
+                                  "g")
+                        .input('b', PeacefulModItems.GUANO)
+                        .input('e', Items.EMERALD)
+                        .input('g', Items.IRON_INGOT)
+                        // Advancement that gives the recipe
+                        .criterion(hasItem(PeacefulModItems.GUANO), conditionsFromItem(PeacefulModItems.GUANO))
+                        .criterion(hasItem(Items.EMERALD), conditionsFromItem(Items.EMERALD))
+                        .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
+                        .offerTo(exporter);
+
                 offerTo(createShaped(RecipeCategory.TOOLS, PeacefulModItems.CAPE)
                         .pattern("blb")
                         .pattern("b b")

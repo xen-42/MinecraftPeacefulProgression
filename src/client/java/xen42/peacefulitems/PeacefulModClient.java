@@ -48,6 +48,9 @@ public class PeacefulModClient implements ClientModInitializer {
 					case "guardian_effigy":
 						context.client().gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.GUARDIAN_EFFIGY));
 						break;
+					case "raid_effigy":
+						context.client().gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.RAID_EFFIGY));
+						break;
 				}
 			});
 		});

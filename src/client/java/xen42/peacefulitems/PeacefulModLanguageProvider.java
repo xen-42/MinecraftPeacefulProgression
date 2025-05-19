@@ -94,6 +94,7 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.add(PeacefulModItems.WITHER_EFFIGY, "Wither Effigy");
 			translationBuilder.add(PeacefulModItems.DRAGON_EFFIGY, "Dragon Effigy");
 			translationBuilder.add(PeacefulModItems.GUARDIAN_EFFIGY, "Elder Effigy");
+			translationBuilder.add(PeacefulModItems.RAID_EFFIGY, "Raid Effigy");
 			
 			translationBuilder.addFilledMap(PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, "Effigy Altar Dungeon Map");
 		}

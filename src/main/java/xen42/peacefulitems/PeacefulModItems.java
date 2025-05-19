@@ -12,10 +12,13 @@ import net.minecraft.component.type.EquippableComponent;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ExperienceOrbEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.equipment.EquipmentAsset;
@@ -36,6 +39,8 @@ import xen42.peacefulitems.item.DispensibleSpawnEggItem;
 import xen42.peacefulitems.item.EffigyItem;
 import xen42.peacefulitems.item.BrushDispenserBehavior;
 import xen42.peacefulitems.mixin.EnderDragonFight_Invoker;
+import net.minecraft.village.raid.Raid;
+import net.minecraft.advancement.criterion.Criteria;
 
 public class PeacefulModItems {
     public static final Item BAT_WING = register("bat_wing", Item::new, new Item.Settings());
@@ -120,6 +125,41 @@ public class PeacefulModItems {
             ExperienceOrbEntity.spawn(user.getServerWorld(), user.getPos(), 500);
         }, SoundEvents.ENTITY_ENDER_DRAGON_DEATH), new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
 
+    public static final Item RAID_EFFIGY = register("raid_effigy", (settings) -> 
+        new EffigyItem(settings, "raid_effigy", (ServerPlayerEntity user) -> {
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.HERO_OF_THE_VILLAGE, 48000, 1, false, false, true));
+            Criteria.HERO_OF_THE_VILLAGE.trigger(user);
+            var r = user.getRandom().nextFloat();
+            var world = user.getServerWorld();
+            // Bunch of different raid drops excluding Totem of Undying
+            if (r < 0.5) {
+                user.dropItem(world, Items.OMINOUS_BOTTLE);
+            }
+            else {
+                user.dropStack(world, Raid.createOminousBanner(world.getRegistryManager().getOrThrow(RegistryKeys.BANNER_PATTERN)));
+            }
+            if (r < 0.33) {
+                user.dropItem(world, Items.CROSSBOW);
+            }
+            if (r < 0.33) {
+                user.dropItem(world, Items.SADDLE);
+            }
+            if (r < 0.33) {
+                user.dropItem(world, Items.IRON_AXE);
+            }
+
+            user.dropStack(world, new ItemStack(Items.EMERALD, user.getRandom().nextBetween(1, 20)));
+
+            // Witch drops
+            user.dropStack(world, new ItemStack(Blocks.REDSTONE_WIRE, user.getRandom().nextBetween(1, 12)));
+            user.dropStack(world, new ItemStack(Items.GUNPOWDER, user.getRandom().nextBetween(1, 12)));
+            user.dropStack(world, new ItemStack(Items.STICK, user.getRandom().nextBetween(1, 12)));
+            user.dropStack(world, new ItemStack(Items.GLOWSTONE_DUST, user.getRandom().nextBetween(1, 12)));
+            user.dropStack(world, new ItemStack(Items.SUGAR, user.getRandom().nextBetween(1, 12)));
+            user.dropStack(world, new ItemStack(Items.SPIDER_EYE, user.getRandom().nextBetween(1, 12)));
+            user.dropStack(world, new ItemStack(Items.GLASS_BOTTLE, user.getRandom().nextBetween(1, 12)));
+        }, SoundEvents.EVENT_RAID_HORN), new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
+
     public static void initialize() {
         // Add custom items to groups
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register((itemGroup) -> {
@@ -162,6 +202,7 @@ public class PeacefulModItems {
             itemGroup.add(WITHER_EFFIGY);
             itemGroup.add(DRAGON_EFFIGY);
             itemGroup.add(GUARDIAN_EFFIGY);
+            itemGroup.add(RAID_EFFIGY);
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register((itemGroup) -> {
