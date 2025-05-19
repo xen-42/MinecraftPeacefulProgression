@@ -7,6 +7,8 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
+import net.minecraft.client.render.block.entity.BrushableBlockEntityRenderer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
@@ -26,6 +28,8 @@ public class PeacefulModClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		BlockRenderLayerMap.INSTANCE.putBlock(PeacefulModBlocks.SULPHUR_CLUSTER, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(PeacefulModBlocks.FLAX_CROP, RenderLayer.getCutout());
+		
+		BlockEntityRendererFactories.register(PeacefulModBlocks.FOSSIL_ORE_ENTITY, BrushableBlockEntityRenderer::new);
 
 		EntityRendererRegistry.register(PeacefulMod.GHASTLING_ENTITY, context -> new GhastlingEntityRenderer(context)); 
 		EntityModelLayerRegistry.registerModelLayer(MODEL_GHASTLING_LAYER, GhastlingEntityModel::getTexturedModelData);
