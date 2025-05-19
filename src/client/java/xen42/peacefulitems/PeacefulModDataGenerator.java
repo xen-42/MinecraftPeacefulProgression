@@ -16,5 +16,6 @@ public class PeacefulModDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(PeacefulModPOITagGenerator::new);
 		pack.addProvider(PeacefulModLanguageProvider.English::new);
 		pack.addProvider(PeacefulModLanguageProvider.EnglishUpsideDown::new);
+		pack.addProvider(PeacefulModLanguageProvider.ChineseSimplified::new);
 	}
 }
