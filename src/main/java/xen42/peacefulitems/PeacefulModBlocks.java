@@ -102,21 +102,21 @@ public class PeacefulModBlocks {
 
 	public static final Block FOSSIL_ORE = register(
 		"fossil_ore",
-		(settings) -> new FossilOreBlock(Blocks.STONE, SoundEvents.ITEM_BRUSH_BRUSHING_SAND, SoundEvents.ITEM_BRUSH_BRUSHING_SAND, settings),
+		(settings) -> new FossilOreBlock(Blocks.STONE, SoundEvents.ITEM_BRUSH_BRUSHING_GENERIC, SoundEvents.BLOCK_STONE_BREAK, settings),
 		AbstractBlock.Settings.copy(Blocks.STONE),
 		true
 	);
 
 	public static final Block DEEPSLATE_FOSSIL_ORE = register(
 		"deepslate_fossil_ore",
-		(settings) -> new FossilOreBlock(Blocks.DEEPSLATE, SoundEvents.ITEM_BRUSH_BRUSHING_SAND, SoundEvents.ITEM_BRUSH_BRUSHING_SAND, settings),
+		(settings) -> new FossilOreBlock(Blocks.DEEPSLATE, SoundEvents.ITEM_BRUSH_BRUSHING_GENERIC, SoundEvents.BLOCK_DEEPSLATE_BREAK, settings),
 		AbstractBlock.Settings.copy(Blocks.DEEPSLATE),
 		true
 	);
 
 	public static final Block SOUL_SOIL_FOSSIL_ORE = register(
 		"soul_soil_fossil_ore",
-		(settings) -> new FossilOreBlock(Blocks.SOUL_SOIL, SoundEvents.ITEM_BRUSH_BRUSHING_SAND, SoundEvents.ITEM_BRUSH_BRUSHING_SAND, settings),
+		(settings) -> new FossilOreBlock(Blocks.SOUL_SOIL, SoundEvents.ITEM_BRUSH_BRUSHING_SAND, SoundEvents.ITEM_BRUSH_BRUSHING_SAND_COMPLETE, settings),
 		AbstractBlock.Settings.copy(Blocks.SOUL_SOIL),
 		true
 	);
