@@ -7,7 +7,10 @@ import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.DispenserBlock;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.EquippableComponent;
 import net.minecraft.component.type.FoodComponent;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -15,6 +18,8 @@ import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.Items;
 import net.minecraft.item.SpawnEggItem;
+import net.minecraft.item.equipment.EquipmentAsset;
+import net.minecraft.item.equipment.EquipmentAssetKeys;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -25,6 +30,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
+import net.minecraft.util.Unit;
 import net.minecraft.world.World;
 import xen42.peacefulitems.item.DispensibleSpawnEggItem;
 import xen42.peacefulitems.item.EffigyItem;
@@ -33,6 +39,23 @@ import xen42.peacefulitems.mixin.EnderDragonFight_Invoker;
 
 public class PeacefulModItems {
     public static final Item BAT_WING = register("bat_wing", Item::new, new Item.Settings());
+    
+    public static final RegistryKey<EquipmentAsset> CAPE_EQUIPMENT_ASSET = RegistryKey.of(EquipmentAssetKeys.REGISTRY_KEY, Identifier.of(PeacefulMod.MOD_ID, "cape"));
+    public static final Item CAPE = register("cape", Item::new,
+        new Item.Settings()
+            .maxDamage(108)
+            .rarity(Rarity.COMMON)
+            .component(DataComponentTypes.GLIDER, Unit.INSTANCE)
+            .component(
+                DataComponentTypes.EQUIPPABLE,
+                EquippableComponent.builder(EquipmentSlot.CHEST)
+                    .equipSound(SoundEvents.ITEM_ARMOR_EQUIP_ELYTRA)
+                    .model(CAPE_EQUIPMENT_ASSET)
+                    .damageOnHurt(false)
+                    .build()
+            )
+            .repairable(BAT_WING));
+    
     public static final Item GUANO = register("guano", Item::new, new Item.Settings());
     public static final Item SULPHUR = register("sulphur", (settings) -> new BlockItem(PeacefulModBlocks.SULPHUR_CLUSTER, settings), new Item.Settings());
     public static final Item FLAX = register("flax", (settings) -> 
@@ -135,6 +158,7 @@ public class PeacefulModItems {
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((itemGroup) -> {
+            itemGroup.add(CAPE);
             itemGroup.add(WITHER_EFFIGY);
             itemGroup.add(DRAGON_EFFIGY);
             itemGroup.add(GUARDIAN_EFFIGY);

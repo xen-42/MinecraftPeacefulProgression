@@ -243,6 +243,15 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .criterion(hasItem(Items.WITHER_SKELETON_SKULL), conditionsFromItem(Items.WITHER_SKELETON_SKULL))
                         .criterion(hasItem(Blocks.SOUL_SAND), conditionsFromItem(Blocks.SOUL_SAND))
                         .offerTo(exporter);
+
+                offerTo(createShaped(RecipeCategory.TOOLS, PeacefulModItems.CAPE)
+                        .pattern("blb")
+                        .pattern("b b")
+                        .input('b', PeacefulModItems.BAT_WING)
+                        .input('l', Items.LEATHER)
+                        .criterion(hasItem(PeacefulModItems.BAT_WING), conditionsFromItem(PeacefulModItems.BAT_WING))
+                        .criterion(hasItem(Items.LEATHER), conditionsFromItem(Items.LEATHER))
+                        , exporter);
             }
             
             public EffigyAltarRecipeJsonBuilder createEffigyAltar(ItemConvertible output) {

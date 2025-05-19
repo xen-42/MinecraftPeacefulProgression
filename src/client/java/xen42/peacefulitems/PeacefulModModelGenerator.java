@@ -41,6 +41,7 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         itemModelGenerator.register(PeacefulModItems.BAT_WING, Models.GENERATED);
+        itemModelGenerator.registerWithBrokenCondition(PeacefulModItems.CAPE);
         itemModelGenerator.register(PeacefulModItems.GUANO, Models.GENERATED);
         itemModelGenerator.register(PeacefulModItems.SULPHUR, Models.GENERATED);
         

@@ -90,6 +90,7 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.add(PeacefulMod.GHASTLING_ENTITY, "Wisp");
 			translationBuilder.add(PeacefulMod.END_CLAM_ENTITY, "Enderclam");
 
+			translationBuilder.add(PeacefulModItems.CAPE, "Cape");
 			translationBuilder.add(PeacefulModItems.WITHER_EFFIGY, "Wither Effigy");
 			translationBuilder.add(PeacefulModItems.DRAGON_EFFIGY, "Dragon Effigy");
 			translationBuilder.add(PeacefulModItems.GUARDIAN_EFFIGY, "Elder Effigy");
@@ -176,6 +177,7 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.add(PeacefulMod.GHASTLING_ENTITY, "小精灵");
 			translationBuilder.add(PeacefulMod.END_CLAM_ENTITY, "末影蛤");
 
+			translationBuilder.add(PeacefulModItems.CAPE, "披风");
 			translationBuilder.add(PeacefulModItems.WITHER_EFFIGY, "凋灵塑像");
 			translationBuilder.add(PeacefulModItems.DRAGON_EFFIGY, "龙塑像");
 			translationBuilder.add(PeacefulModItems.GUARDIAN_EFFIGY, "远古塑像");
