@@ -134,4 +134,45 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 		}
 		
 	}
+	
+	public static class ChineseSimplified extends PeacefulModLanguageProvider {
+
+		public ChineseSimplified(FabricDataOutput output, String languageCode, CompletableFuture<WrapperLookup> registryLookup) {
+			super(output, languageCode, registryLookup);
+		}
+
+		public ChineseSimplified(FabricDataOutput output, CompletableFuture<WrapperLookup> registryLookup) {
+			this(output, "zh_cn", registryLookup);
+		}
+
+		@Override
+		public void generate(WrapperLookup registryLookup, ModTranslationBuilder translationBuilder) {
+			translationBuilder.add(PeacefulModItems.BAT_WING, "蝙蝠翅膀");
+			translationBuilder.add(PeacefulModItems.GUANO, "粪便");
+			translationBuilder.add(PeacefulModItems.SULPHUR, "硫磺");
+			translationBuilder.add(PeacefulModItems.FLAX, "亚麻种子");
+			
+			translationBuilder.add(PeacefulModBlocks.SULPHUR_BLOCK, "硫磺块");
+			translationBuilder.add(PeacefulModBlocks.SULPHUR_ORE, "硫磺矿石");
+			translationBuilder.add(PeacefulModBlocks.FOSSIL_ORE, "化石矿石");
+			translationBuilder.add(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE, "深层化石矿石");
+			translationBuilder.add(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE, "下界化石矿石");
+			translationBuilder.add(PeacefulModBlocks.EFFIGY_ALTAR, "塑像祭坛");
+			
+			translationBuilder.add(PeacefulModBlocks.BLAZE_PICKLE, "烈焰珊瑚");
+			translationBuilder.add(PeacefulModBlocks.BREEZE_CORAL, "旋风珊瑚");
+			translationBuilder.add(PeacefulModItems.GHASTLING_SPAWN_EGG, "小精灵刷怪蛋");
+			translationBuilder.add(PeacefulModItems.END_CLAM_SPAWN_EGG, "末影蛤刷怪蛋");
+
+			translationBuilder.addVillagerProfession(PeacefulModVillagers.DJ_VILLAGER_KEY, "音乐家");
+			translationBuilder.add(PeacefulMod.GHASTLING_ENTITY, "小精灵");
+			translationBuilder.add(PeacefulMod.END_CLAM_ENTITY, "末影蛤");
+
+			translationBuilder.add(PeacefulModItems.WITHER_EFFIGY, "凋灵塑像");
+			translationBuilder.add(PeacefulModItems.DRAGON_EFFIGY, "龙塑像");
+			translationBuilder.add(PeacefulModItems.GUARDIAN_EFFIGY, "远古塑像");
+			
+			translationBuilder.addFilledMap(PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, "塑像祭坛地图");
+		}
+	}
 }
