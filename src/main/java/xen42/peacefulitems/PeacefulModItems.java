@@ -110,7 +110,8 @@ public class PeacefulModItems {
             itemGroup.add(SULPHUR);
         });
 
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register((itemGroup) -> { 
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register((itemGroup) -> {
+            itemGroup.add(FLAX);
             itemGroup.add(PeacefulModBlocks.SULPHUR_BLOCK.asItem());
             itemGroup.add(PeacefulModBlocks.SULPHUR_ORE.asItem());
             itemGroup.add(PeacefulModBlocks.SULPHUR_CLUSTER.asItem());
