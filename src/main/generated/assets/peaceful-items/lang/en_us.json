@@ -17,6 +17,8 @@
   "entity.peaceful-items.ghastling": "Wisp",
   "entity.peaceful-items.villager.dj": "Musician",
   "filled_map.peaceful-items.effigy_altar_dungeon": "Effigy Altar Dungeon Map",
+  "gamerule.disableEnderDragonFightPeaceful": "Disable Ender Dragon fight in peaceful",
+  "gamerule.disableHungerPeaceful": "Disable hunger in peaceful",
   "item.peaceful-items.bat_wing": "Bat Wing",
   "item.peaceful-items.cape": "Cape",
   "item.peaceful-items.dragon_effigy": "Dragon Effigy",

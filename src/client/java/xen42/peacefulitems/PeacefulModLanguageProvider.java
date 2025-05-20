@@ -11,6 +11,7 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.village.VillagerProfession;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.gen.structure.Structure;
 
 public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider {
@@ -38,6 +39,15 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 		@Override
 		public void add(String key, String value) {
 			original.add(key, processValue(value));
+		}
+		
+		public void add(GameRules.Key<?> key, String value) {
+			add(key.getTranslationKey(), value);
+		}
+		
+		public void add(GameRules.Key<?> key, String title, String description) {
+			add(key.getTranslationKey(), title);
+			add(key.getTranslationKey() + ".description", description);
 		}
 
 		public void add(Fluid fluid, String value) {
@@ -101,6 +111,9 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.add(PeacefulModBlocks.DRAGON_BREATH_CAULDRON, "Dragon's Breath Cauldron");
 			
 			translationBuilder.addFilledMap(PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, "Effigy Altar Dungeon Map");
+			
+			translationBuilder.add(PeacefulMod.DISABLE_HUNGER_PEACEFUL, "Disable hunger in peaceful");
+			translationBuilder.add(PeacefulMod.DISABLE_ENDER_DRAGON_FIGHT_PEACEFUL, "Disable ender dragon fight in peaceful");
 		}
 	}
 	

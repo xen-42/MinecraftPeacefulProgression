@@ -17,6 +17,7 @@ import net.minecraft.entity.boss.dragon.EnderDragonFight;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
+import xen42.peacefulitems.PeacefulMod;
 
 @Mixin(EnderDragonFight.class)
 public class EnderDragonFightMixin {
@@ -46,7 +47,9 @@ public class EnderDragonFightMixin {
 
     @Inject(at = @At("HEAD"), method = "createDragon", cancellable = true)
     public void createDragon(CallbackInfoReturnable<EnderDragonEntity> info) {
-        if (world.getDifficulty() == Difficulty.PEACEFUL) {
+        if (world.getDifficulty() == Difficulty.PEACEFUL && 
+            world.getGameRules().getBoolean(PeacefulMod.DISABLE_ENDER_DRAGON_FIGHT_PEACEFUL))
+        {
             info.setReturnValue(null);
             info.cancel();
         }
@@ -56,7 +59,9 @@ public class EnderDragonFightMixin {
     public void tick(CallbackInfo info) {
         var fight = (EnderDragonFight)((Object)this);
 
-        if (world.getDifficulty() == Difficulty.PEACEFUL) {
+        if (world.getDifficulty() == Difficulty.PEACEFUL && 
+            world.getGameRules().getBoolean(PeacefulMod.DISABLE_ENDER_DRAGON_FIGHT_PEACEFUL))
+        {
             // Set the current dragon to null this way if they switch off peaceful itll come back
             dragonUuid = null;
 

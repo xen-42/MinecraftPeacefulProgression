@@ -80,6 +80,8 @@ public class PeacefulMod implements ModInitializer {
 
 	public static final GameRules.Key<BooleanRule> DISABLE_HUNGER_PEACEFUL =
 		GameRuleRegistry.register("disableHungerPeaceful", Category.PLAYER, GameRuleFactory.createBooleanRule(false));
+	public static final GameRules.Key<BooleanRule> DISABLE_ENDER_DRAGON_FIGHT_PEACEFUL =
+		GameRuleRegistry.register("disableEnderDragonFightPeaceful", Category.MOBS, GameRuleFactory.createBooleanRule(true));
 
 	public static final RegistryKey<EntityType<?>> GHASTLING_ENTITY_KEY = RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(MOD_ID,"ghastling"));
 	public static final EntityType<GhastlingEntity> GHASTLING_ENTITY = Registry.register(
