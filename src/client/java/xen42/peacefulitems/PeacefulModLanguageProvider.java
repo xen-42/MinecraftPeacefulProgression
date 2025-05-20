@@ -50,6 +50,7 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			add(key.getTranslationKey() + ".description", description);
 		}
 
+		@SuppressWarnings("deprecation")
 		public void add(Fluid fluid, String value) {
 			RegistryKey<Fluid> key = fluid.getRegistryEntry().registryKey();
 			add("block." + key.getValue().getNamespace() + "." + key.getValue().getPath(), value);
