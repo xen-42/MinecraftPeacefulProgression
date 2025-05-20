@@ -5,6 +5,7 @@ import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.block.Block;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
@@ -37,6 +38,11 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 		@Override
 		public void add(String key, String value) {
 			original.add(key, processValue(value));
+		}
+
+		public void add(Fluid fluid, String value) {
+			RegistryKey<Fluid> key = fluid.getRegistryEntry().registryKey();
+			add("block." + key.getValue().getNamespace() + "." + key.getValue().getPath(), value);
 		}
 
 		public void addVillagerProfession(RegistryKey<VillagerProfession> key, String value) {
@@ -90,6 +96,9 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.add(PeacefulModItems.DRAGON_EFFIGY, "Dragon Effigy");
 			translationBuilder.add(PeacefulModItems.GUARDIAN_EFFIGY, "Elder Effigy");
 			translationBuilder.add(PeacefulModItems.RAID_EFFIGY, "Raid Effigy");
+			
+			translationBuilder.add(PeacefulModFluids.DRAGON_BREATH, "Dragon's Breath");
+			translationBuilder.add(PeacefulModBlocks.DRAGON_BREATH_CAULDRON, "Dragon's Breath Cauldron");
 			
 			translationBuilder.addFilledMap(PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, "Effigy Altar Dungeon Map");
 		}
@@ -177,6 +186,10 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.add(PeacefulModItems.WITHER_EFFIGY, "凋灵塑像");
 			translationBuilder.add(PeacefulModItems.DRAGON_EFFIGY, "龙塑像");
 			translationBuilder.add(PeacefulModItems.GUARDIAN_EFFIGY, "远古塑像");
+			translationBuilder.add(PeacefulModItems.RAID_EFFIGY, "袭击塑像");
+			
+			translationBuilder.add(PeacefulModFluids.DRAGON_BREATH, "龙息");
+			translationBuilder.add(PeacefulModBlocks.DRAGON_BREATH_CAULDRON, "装有龙息的炼药锅");
 			
 			translationBuilder.addFilledMap(PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, "塑像祭坛地图");
 		}

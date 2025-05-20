@@ -108,6 +108,7 @@ public class PeacefulMod implements ModInitializer {
 
 		PeacefulModItems.initialize();
 		PeacefulModBlocks.initialize();
+		PeacefulModFluids.initialize();
 		PeacefulModVillagers.initialize();
 
 		BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, FOSSIL_ORE_PLACED_KEY);

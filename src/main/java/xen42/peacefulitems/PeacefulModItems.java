@@ -4,39 +4,53 @@ import java.util.function.Function;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
+import net.fabricmc.fabric.api.transfer.v1.fluid.CauldronFluidContent;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.DispenserBlock;
+import net.minecraft.block.LeveledCauldronBlock;
+import net.minecraft.block.cauldron.CauldronBehavior;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.EquippableComponent;
 import net.minecraft.component.type.FoodComponent;
+import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsage;
 import net.minecraft.item.Items;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.equipment.EquipmentAsset;
 import net.minecraft.item.equipment.EquipmentAssetKeys;
+import net.minecraft.potion.Potions;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.Unit;
+import net.minecraft.util.Util;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 import xen42.peacefulitems.item.DispensibleSpawnEggItem;
 import xen42.peacefulitems.item.EffigyItem;
+import xen42.peacefulitems.blocks.DragonBreathCauldronBlock;
 import xen42.peacefulitems.item.BrushDispenserBehavior;
 import xen42.peacefulitems.mixin.EnderDragonFight_Invoker;
 import net.minecraft.village.raid.Raid;
@@ -207,12 +221,22 @@ public class PeacefulModItems {
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register((itemGroup) -> {
             itemGroup.add(PeacefulModBlocks.EFFIGY_ALTAR.asItem());
+            itemGroup.add(Blocks.WATER_CAULDRON.asItem());
+            itemGroup.add(Blocks.LAVA_CAULDRON.asItem());
+            itemGroup.add(Blocks.POWDER_SNOW_CAULDRON.asItem());
+            itemGroup.add(PeacefulModBlocks.DRAGON_BREATH_CAULDRON.asItem());
         });
 
         CompostingChanceRegistry.INSTANCE.add(GUANO, 2f);
         CompostingChanceRegistry.INSTANCE.add(FLAX, 0.3f);
 
         DispenserBlock.registerBehavior(Items.BRUSH.asItem(), new BrushDispenserBehavior());
+
+        CauldronFluidContent.registerCauldron(PeacefulModBlocks.DRAGON_BREATH_CAULDRON, PeacefulModFluids.DRAGON_BREATH, FluidConstants.BOTTLE, LeveledCauldronBlock.LEVEL);
+        CauldronBehavior.EMPTY_CAULDRON_BEHAVIOR.map().put(DRAGON_EFFIGY, new DragonBreathCauldronBlock.FillFromEffigyBehavior());
+        CauldronBehavior.EMPTY_CAULDRON_BEHAVIOR.map().put(Items.DRAGON_BREATH, new DragonBreathCauldronBlock.FillFromBottleBehavior());
+        DragonBreathCauldronBlock.DRAGON_BREATH_CAULDRON_BEHAVIOR.map().put(Items.GLASS_BOTTLE, new DragonBreathCauldronBlock.DecrementFluidLevelBehavior());
+        DragonBreathCauldronBlock.DRAGON_BREATH_CAULDRON_BEHAVIOR.map().put(Items.DRAGON_BREATH, new DragonBreathCauldronBlock.IncrementFluidLevelBehavior());
     }
 
     public static Item register(String name, Function<Item.Settings, Item> itemFactory, Item.Settings settings) {

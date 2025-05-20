@@ -6,6 +6,7 @@ import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
@@ -68,6 +69,8 @@ public class PeacefulModBlockLootTableGenerator extends FabricBlockLootTableProv
         BlockStatePropertyLootCondition.Builder flax_condition = BlockStatePropertyLootCondition.builder(PeacefulModBlocks.FLAX_CROP)
             .properties(StatePredicate.Builder.create().exactMatch(FlaxCropBlock.AGE, 7));
         addDrop(PeacefulModBlocks.FLAX_CROP, block -> this.cropDrops(block, Items.STRING, PeacefulModItems.FLAX, flax_condition));
+
+        addDrop(PeacefulModBlocks.DRAGON_BREATH_CAULDRON, Blocks.CAULDRON);
     }
 
     private LootTable.Builder fossilOreDrops(Block block) {

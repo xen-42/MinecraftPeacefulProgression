@@ -31,6 +31,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import xen42.peacefulitems.blocks.BlazePickleBlock;
 import xen42.peacefulitems.blocks.BreezeCoralBlock;
+import xen42.peacefulitems.blocks.DragonBreathCauldronBlock;
 import xen42.peacefulitems.blocks.EffigyAltarBlock;
 import xen42.peacefulitems.blocks.FlaxCropBlock;
 import xen42.peacefulitems.blocks.FossilOreBlock;
@@ -155,6 +156,13 @@ public class PeacefulModBlocks {
 
 	public static final EffigyAltarBlock EFFIGY_ALTAR = (EffigyAltarBlock)register(
 		"effigy_altar", EffigyAltarBlock::new, AbstractBlock.Settings.copy(Blocks.STONE).nonOpaque(), true);
+
+	public static final DragonBreathCauldronBlock DRAGON_BREATH_CAULDRON = (DragonBreathCauldronBlock)register(
+		"dragon_breath_cauldron",
+		DragonBreathCauldronBlock::new,
+		AbstractBlock.Settings.copy(Blocks.CAULDRON).luminance(state -> 15).strength(2.0F, 6.0F).requiresTool().mapColor(MapColor.PURPLE),
+		false
+	);
 
 	private static Block register(String name, Function<AbstractBlock.Settings, Block> blockFactory, AbstractBlock.Settings settings, boolean shouldRegisterItem) {
 		// Create a registry key for the block

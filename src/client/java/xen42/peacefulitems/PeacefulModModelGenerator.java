@@ -5,6 +5,8 @@ import java.util.Optional;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.LeveledCauldronBlock;
 import net.minecraft.client.data.BlockStateModelGenerator;
 import net.minecraft.client.data.BlockStateVariantMap;
 import net.minecraft.client.data.ItemModelGenerator;
@@ -36,6 +38,8 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
         registerSeaPickle(blockStateModelGenerator, PeacefulModBlocks.BREEZE_CORAL.asItem(), PeacefulModBlocks.BREEZE_CORAL);
 
         blockStateModelGenerator.registerCrop(PeacefulModBlocks.FLAX_CROP, Properties.AGE_7, 0, 1, 2, 3, 4, 4, 5, 6);
+        
+        registerCauldron(blockStateModelGenerator, PeacefulModBlocks.DRAGON_BREATH_CAULDRON, Identifier.of(PeacefulMod.MOD_ID, "dragon_breath").withPrefixedPath("block/"));
     }
 
     @Override
@@ -83,4 +87,36 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
                     )
 			);
 	}
+    
+    public void registerCauldron(BlockStateModelGenerator blockStateModelGenerator, Block cauldronBlock, Identifier fluidTexture) {
+    	TextureMap cauldronTextureMap = TextureMap.cauldron(fluidTexture);
+        blockStateModelGenerator.blockStateCollector
+			.accept(
+				VariantsBlockModelDefinitionCreator.of(cauldronBlock)
+					.with(
+						BlockStateVariantMap.models(LeveledCauldronBlock.LEVEL)
+							.register(
+								1,
+								BlockStateModelGenerator.createWeightedVariant(
+									Models.TEMPLATE_CAULDRON_LEVEL1
+										.upload(cauldronBlock, "_level1", cauldronTextureMap, blockStateModelGenerator.modelCollector)
+								)
+							)
+							.register(
+								2,
+								BlockStateModelGenerator.createWeightedVariant(
+									Models.TEMPLATE_CAULDRON_LEVEL2
+										.upload(cauldronBlock, "_level2", cauldronTextureMap, blockStateModelGenerator.modelCollector)
+								)
+							)
+							.register(
+								3,
+								BlockStateModelGenerator.createWeightedVariant(
+									Models.TEMPLATE_CAULDRON_FULL
+										.upload(cauldronBlock, "_full", cauldronTextureMap, blockStateModelGenerator.modelCollector)
+								)
+							)
+					)
+			);
+    }
 }

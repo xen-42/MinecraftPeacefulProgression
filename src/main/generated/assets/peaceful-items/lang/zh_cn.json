@@ -3,6 +3,8 @@
   "block.peaceful-items.breeze_coral": "旋风珊瑚",
   "block.peaceful-items.chiseled_sulphur_block": "雕纹硫磺块",
   "block.peaceful-items.deepslate_fossil_ore": "深层化石矿石",
+  "block.peaceful-items.dragon_breath": "龙息",
+  "block.peaceful-items.dragon_breath_cauldron": "装有龙息的炼药锅",
   "block.peaceful-items.effigy_altar": "塑像祭坛",
   "block.peaceful-items.fossil_ore": "化石矿石",
   "block.peaceful-items.soul_soil_fossil_ore": "下界化石矿石",
@@ -23,6 +25,7 @@
   "item.peaceful-items.ghastling_spawn_egg": "小精灵刷怪蛋",
   "item.peaceful-items.guano": "粪便",
   "item.peaceful-items.guardian_effigy": "远古塑像",
+  "item.peaceful-items.raid_effigy": "袭击塑像",
   "item.peaceful-items.sulphur": "硫磺",
   "item.peaceful-items.wither_effigy": "凋灵塑像"
 }

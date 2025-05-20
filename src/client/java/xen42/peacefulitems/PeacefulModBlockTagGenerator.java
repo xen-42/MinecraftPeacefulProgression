@@ -124,5 +124,8 @@ public class PeacefulModBlockTagGenerator extends BlockTagProvider {
         this.aliasGroup("ores/sulphur").add(PeacefulModTags.BlockTags.SULPHUR_ORES);
         this.aliasGroup("ores/sulfur").add(PeacefulModTags.BlockTags.SULFUR_ORES);
         this.aliasGroup("ores/fossil").add(PeacefulModTags.BlockTags.FOSSIL_ORES);
+        
+        this.getOrCreateTagBuilder(BlockTags.CAULDRONS)
+	        .add(PeacefulModBlocks.DRAGON_BREATH_CAULDRON);
     }
 }

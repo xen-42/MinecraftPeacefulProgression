@@ -3,6 +3,8 @@ package xen42.peacefulitems;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
+import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
@@ -30,7 +32,10 @@ public class PeacefulModClient implements ClientModInitializer {
 		BlockRenderLayerMap.INSTANCE.putBlock(PeacefulModBlocks.FLAX_CROP, RenderLayer.getCutout());
 		
 		BlockEntityRendererFactories.register(PeacefulModBlocks.FOSSIL_ORE_ENTITY, BrushableBlockEntityRenderer::new);
-
+		
+		Identifier dragonBreathTexture = Identifier.of(PeacefulMod.MOD_ID, "dragon_breath").withPrefixedPath("block/");
+		FluidRenderHandlerRegistry.INSTANCE.register(PeacefulModFluids.DRAGON_BREATH, new SimpleFluidRenderHandler(dragonBreathTexture, dragonBreathTexture));
+		
 		EntityRendererRegistry.register(PeacefulMod.GHASTLING_ENTITY, context -> new GhastlingEntityRenderer(context)); 
 		EntityModelLayerRegistry.registerModelLayer(MODEL_GHASTLING_LAYER, GhastlingEntityModel::getTexturedModelData);
 
