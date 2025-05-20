@@ -113,7 +113,7 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addFilledMap(PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, "Effigy Altar Dungeon Map");
 			
 			translationBuilder.add(PeacefulMod.DISABLE_HUNGER_PEACEFUL, "Disable hunger in peaceful");
-			translationBuilder.add(PeacefulMod.DISABLE_ENDER_DRAGON_FIGHT_PEACEFUL, "Disable ender dragon fight in peaceful");
+			translationBuilder.add(PeacefulMod.DISABLE_ENDER_DRAGON_FIGHT_PEACEFUL, "Disable Ender Dragon fight in peaceful");
 		}
 	}
 	
