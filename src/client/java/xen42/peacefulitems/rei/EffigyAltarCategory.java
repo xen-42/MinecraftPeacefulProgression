@@ -33,7 +33,7 @@ public class EffigyAltarCategory implements DisplayCategory<EffigyAltarREIDispla
 
 	@Override
 	public Text getTitle() {
-		return Text.translatable("item.peaceful-items.effigy_altar");
+		return Text.translatable(PeacefulModBlocks.EFFIGY_ALTAR.getTranslationKey());
 	}
 
 	@Override

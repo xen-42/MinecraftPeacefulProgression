@@ -38,11 +38,6 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 		public void add(String key, String value) {
 			original.add(key, processValue(value));
 		}
-		
-		@Override
-		public void add(Block block, String value) {
-			add(block.asItem(), value);
-		}
 
 		public void addVillagerProfession(RegistryKey<VillagerProfession> key, String value) {
 			add("entity." + key.getValue().getNamespace() + ".villager." + key.getValue().getPath(), value);
