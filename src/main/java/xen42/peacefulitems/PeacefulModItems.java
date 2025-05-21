@@ -109,28 +109,23 @@ public class PeacefulModItems {
     public static final Item WITHER_EFFIGY = register("wither_effigy", (settings) -> 
         new EffigyItem(settings, "wither_effigy", (ServerPlayerEntity user) -> {
             user.dropItem(user.getServerWorld(), Items.NETHER_STAR);
-            ExperienceOrbEntity.spawn(user.getServerWorld(), user.getPos(), 50);
         }, SoundEvents.ENTITY_WITHER_DEATH),
         new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
 
     public static final Item GUARDIAN_EFFIGY = register("guardian_effigy", (settings) -> 
         new EffigyItem(settings, "guardian_effigy", (ServerPlayerEntity user) -> { 
             var world = user.getServerWorld();
+
             user.dropItem(world, Blocks.SPONGE);
-            for (int i = 0; i < user.getRandom().nextBetween(0, 2); i++) {
-                user.dropItem(world, Items.PRISMARINE_SHARD);
-            }
             if (user.getRandom().nextFloat() < 0.2) {
                 user.dropItem(world, Items.TIDE_ARMOR_TRIM_SMITHING_TEMPLATE);
             }
-            var r = user.getRandom().nextFloat();
-            if (r < 0.5) {
-                user.dropItem(world, Items.COOKED_COD);
-            }
-            else if (r < 0.83) {
-                user.dropItem(world, Items.PRISMARINE_CRYSTALS);
-            }
-            ExperienceOrbEntity.spawn(user.getServerWorld(), user.getPos(), 10);
+
+            // Will drop more as if you had killed multiple guardians (which you would normally)
+            user.dropStack(world, new ItemStack(Items.COOKED_COD, user.getRandom().nextBetween(1, 6)));
+            user.dropStack(world, new ItemStack(Items.PRISMARINE_CRYSTALS, user.getRandom().nextBetween(2, 12)));
+            user.dropStack(world, new ItemStack(Items.PRISMARINE_SHARD, user.getRandom().nextBetween(2, 8)));
+
         }, SoundEvents.ENTITY_ELDER_GUARDIAN_DEATH),
         new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
     
@@ -139,8 +134,6 @@ public class PeacefulModItems {
             ServerWorld end = user.getServer().getWorld(World.END);
             var fight = end.getEnderDragonFight();
             ((EnderDragonFight_Invoker)fight).invokeGenerateNewEndGateway();
-
-            ExperienceOrbEntity.spawn(user.getServerWorld(), user.getPos(), 500);
         }, SoundEvents.ENTITY_ENDER_DRAGON_DEATH), new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
 
     public static final Item RAID_EFFIGY = register("raid_effigy", (settings) -> 
