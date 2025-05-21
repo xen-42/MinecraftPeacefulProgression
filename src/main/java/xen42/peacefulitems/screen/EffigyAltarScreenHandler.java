@@ -3,7 +3,6 @@ package xen42.peacefulitems.screen;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.Lists;
@@ -25,11 +24,14 @@ import net.minecraft.recipe.RecipeUnlocker;
 import net.minecraft.recipe.book.RecipeBookType;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.AbstractRecipeScreenHandler;
+import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import xen42.peacefulitems.PeacefulMod;
@@ -37,6 +39,7 @@ import xen42.peacefulitems.PeacefulModBlocks;
 import xen42.peacefulitems.PeacefulModItems;
 import xen42.peacefulitems.recipe.EffigyAltarRecipe;
 import xen42.peacefulitems.recipe.EffigyAltarRecipeInput;
+import net.minecraft.entity.Entity;
 
 public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
 
@@ -53,9 +56,37 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
 
     public final RecipeInputInventory inventory;
     private final CraftingResultInventory resultInventory;
+    private final Property levelCost = Property.create();
 
     public ScreenHandlerContext context;
     private final PlayerEntity player;
+
+    public boolean canTake(int xpCost) {
+        return (player.isInCreativeMode() || player.experienceLevel >= xpCost) && xpCost > 0;
+    }
+
+    public boolean canTake() {
+        return canTake(getOutputXPCost());
+    }
+
+    public boolean hasOutput() {
+        return _outputSlot.hasStack();
+    }
+    
+    public static int getXPCost(ServerWorld serverWorld, List<ItemStack> input) {
+        EffigyAltarRecipeInput recipeInput = EffigyAltarRecipeInput.create(input);
+        Optional<RecipeEntry<EffigyAltarRecipe>> optional = serverWorld.getRecipeManager().getFirstMatch(PeacefulMod.EFFIGY_ALTAR_RECIPE_TYPE, recipeInput, serverWorld);
+        if (optional.isPresent()) {
+            RecipeEntry<EffigyAltarRecipe> recipeEntry = (RecipeEntry<EffigyAltarRecipe>)optional.get();
+            EffigyAltarRecipe altarRecipe = recipeEntry.value();
+            return altarRecipe.getCostOrDefault();
+        }
+        return 0;
+    }
+
+    public int getOutputXPCost() {
+        return levelCost.get();
+    }
 
     @SuppressWarnings("unused")
     private Slot[] _slots;
@@ -72,10 +103,11 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
         super(PeacefulMod.EFFIGY_ALTAR_SCREEN_HANDLER, syncId);
         this.inventory = new EffigySimpleInventory(this, BRIMSTONE_SLOT);
         this.resultInventory = new EffigyCraftingResultInventory(this);
+        this.addProperty(this.levelCost);
         this.context = context;
         this.player = playerInventory.player;
 
-        _outputSlot = this.addSlot(new OutputSlot(this.player, this.inventory, this.resultInventory, 0, 132, 29));
+        _outputSlot = this.addSlot(new OutputSlot(this, this.player, this.inventory, this.resultInventory, 0, 132, 29 - 8));
         
         _slots = new Slot[] {
             this.addSlot(new CustomSlot(this, this.inventory, 0, 22, 17)),
@@ -87,7 +119,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
             this.addSlot(new CustomSlot(this, this.inventory, 6, 40, 53))
         };
         
-        _brimstoneSlot = this.addSlot(new BrimstoneSlot(this, this.inventory, 7, 89, 53));
+        _brimstoneSlot = this.addSlot(new BrimstoneSlot(this, this.inventory, 7, 89, 53 - 8));
 
         this.addPlayerSlots(playerInventory, 8, 84);
     }
@@ -107,6 +139,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
         EffigyAltarRecipeInput recipeInput = EffigyAltarRecipeInput.create(inventory.getHeldStacks());
         ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity)player;
         ItemStack resultStack = ItemStack.EMPTY;
+        int cost = 0;
         
         if (isBrimstone(_brimstoneSlot.getStack())) {
             Optional<RecipeEntry<EffigyAltarRecipe>> optional = world.getServer().getRecipeManager().getFirstMatch(PeacefulMod.EFFIGY_ALTAR_RECIPE_TYPE, recipeInput, world, recipe);
@@ -119,11 +152,13 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
                     boolean isItemEnabled = craftedStack.isItemEnabled(world.getEnabledFeatures());
                     if (isItemEnabled) {
                         resultStack = craftedStack;
+                        cost = altarRecipe.getCostOrDefault();
                     }
                 }
             }
         }
 
+        levelCost.set(cost);
         resultInventory.setStack(0, resultStack);
         this.setReceivedStack(0, resultStack);
         serverPlayerEntity.networkHandler.sendPacket(new ScreenHandlerSlotUpdateS2CPacket(this.syncId, this.nextRevision(), 0, resultStack));
@@ -144,7 +179,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
     public ItemStack quickMove(PlayerEntity player, int slot) {
         ItemStack itemStack = ItemStack.EMPTY;
         Slot slotAtIndex = this.slots.get(slot);
-        if (slotAtIndex != null && slotAtIndex.hasStack()) {
+        if (slotAtIndex != null && slotAtIndex.hasStack() && slotAtIndex.canTakeItems(player)) {
             ItemStack itemStackAtIndex = slotAtIndex.getStack();
             itemStack = itemStackAtIndex.copy();
             if (slot == OUTPUT_SLOT) {
@@ -325,16 +360,23 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
     private class OutputSlot extends Slot {
         private final RecipeInputInventory input;
         private final PlayerEntity player;
+        private final EffigyAltarScreenHandler handler;
         private int amount;
-        public OutputSlot(PlayerEntity player, RecipeInputInventory input, Inventory inventory, int index, int x, int y) {
+        public OutputSlot(EffigyAltarScreenHandler handler, PlayerEntity player, RecipeInputInventory input, Inventory inventory, int index, int x, int y) {
             super(inventory, index, x, y);
             this.player = player;
             this.input = input;
+            this.handler = handler;
         }
 
         @Override
         public boolean canInsert(ItemStack stack) {
             return false;
+        }
+
+        @Override
+        public boolean canTakeItems(PlayerEntity player) {
+            return handler.canTake();
         }
 
         @Override
@@ -394,6 +436,13 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
             this.onCrafted(stack);
             EffigyAltarRecipeInput recipeInput = EffigyAltarRecipeInput.create(this.input.getHeldStacks());
             DefaultedList<ItemStack> defaultedList = this.getRecipeRemainders(recipeInput, player.getWorld());
+
+            this.handler.context.run((world, pos) -> {
+                if (!player.isInCreativeMode()) {
+                    player.addExperienceLevels(-getOutputXPCost());
+                }
+                world.playSound((Entity)null, pos, SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+            });
 
             for (int y = 0; y < MAX_WIDTH_AND_HEIGHT; y++) {
                 for (int x = 0; x < (y == MAX_WIDTH_AND_HEIGHT - 1 ? MAX_WIDTH_AND_HEIGHT - MAX_WIDTH_END : MAX_WIDTH_AND_HEIGHT); x++) {
@@ -470,7 +519,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
             } else {
                 RecipeFinder recipeFinder = new RecipeFinder();
                 inventory.populateRecipeFinder(recipeFinder);
-                   populateRecipeFinder(recipeFinder);
+                populateRecipeFinder(recipeFinder);
                 return tryFill(recipe, recipeFinder);
             }
         }

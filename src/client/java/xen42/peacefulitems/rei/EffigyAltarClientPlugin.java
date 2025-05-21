@@ -41,7 +41,7 @@ public class EffigyAltarClientPlugin implements REIClientPlugin {
 	public void registerScreens(ScreenRegistry registry) {
 		PeacefulMod.LOGGER.info("Registering screens");
 		
-		registry.registerContainerClickArea(new Rectangle(88, 32, 28, 23), EffigyAltarHandledScreen.class, EffigyAltarServerPlugin.EFFIGY_ALTAR_CATEGORY);
+		registry.registerContainerClickArea(new Rectangle(88, 24 - 8, 28, 23), EffigyAltarHandledScreen.class, EffigyAltarServerPlugin.EFFIGY_ALTAR_CATEGORY);
 	}
 	
 	@Override
