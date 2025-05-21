@@ -2,6 +2,7 @@ package xen42.peacefulitems.rei;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -16,12 +17,14 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.recipe.NetworkRecipeId;
 import xen42.peacefulitems.recipe.EffigyAltarRecipeDisplay;
+import xen42.peacefulitems.screen.EffigyAltarScreenHandler;
 
 public class ClientsidedEffigyAltarREIDisplay extends EffigyAltarREIDisplay implements ClientsidedRecipeBookDisplay {
 	public static final DisplaySerializer<ClientsidedEffigyAltarREIDisplay> SERIALIZER = DisplaySerializer.of(
 			RecordCodecBuilder.mapCodec(instance -> instance.group(
 					EntryIngredient.codec().listOf().fieldOf("inputs").forGetter(ClientsidedEffigyAltarREIDisplay::getInputEntries),
 					EntryIngredient.codec().listOf().fieldOf("outputs").forGetter(ClientsidedEffigyAltarREIDisplay::getOutputEntries),
+                    Codec.INT.optionalFieldOf("cost").forGetter(ClientsidedEffigyAltarREIDisplay::getBoxedCost),
 					Codec.INT.xmap(NetworkRecipeId::new, NetworkRecipeId::index).optionalFieldOf("id").forGetter(ClientsidedEffigyAltarREIDisplay::recipeDisplayId)
 			).apply(instance, ClientsidedEffigyAltarREIDisplay::new)),
 			PacketCodec.tuple(
@@ -29,6 +32,8 @@ public class ClientsidedEffigyAltarREIDisplay extends EffigyAltarREIDisplay impl
 					ClientsidedEffigyAltarREIDisplay::getInputEntries,
 					EntryIngredient.streamCodec().collect(PacketCodecs.toList()),
 					ClientsidedEffigyAltarREIDisplay::getOutputEntries,
+                    PacketCodecs.optional(PacketCodecs.INTEGER),
+                    ClientsidedEffigyAltarREIDisplay::getBoxedCost,
 					PacketCodecs.optional(PacketCodecs.INTEGER.xmap(NetworkRecipeId::new, NetworkRecipeId::index)),
 					ClientsidedEffigyAltarREIDisplay::recipeDisplayId,
 					ClientsidedEffigyAltarREIDisplay::new
@@ -37,12 +42,17 @@ public class ClientsidedEffigyAltarREIDisplay extends EffigyAltarREIDisplay impl
 	private final Optional<NetworkRecipeId> id;
 	
 	public ClientsidedEffigyAltarREIDisplay(EffigyAltarRecipeDisplay recipe, Optional<NetworkRecipeId> id) {
-		this(EntryIngredients.ofSlotDisplays(recipe.ingredients()),
-				List.of(EntryIngredients.ofSlotDisplay(recipe.result())), id);
+		super(recipe);
+		this.id = id;
 	}
 	
-	public ClientsidedEffigyAltarREIDisplay(List<EntryIngredient> inputs, List<EntryIngredient> outputs, Optional<NetworkRecipeId> id) {
-		super(inputs, outputs);
+	public ClientsidedEffigyAltarREIDisplay(List<EntryIngredient> inputs, List<EntryIngredient> outputs, Optional<Integer> cost, Optional<NetworkRecipeId> id) {
+		super(inputs, outputs, cost);
+		this.id = id;
+	}
+	
+	public ClientsidedEffigyAltarREIDisplay(List<EntryIngredient> inputs, List<EntryIngredient> outputs, OptionalInt cost, Optional<NetworkRecipeId> id) {
+		super(inputs, outputs, cost);
 		this.id = id;
 	}
 

@@ -18,8 +18,11 @@ import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.entry.InputIngredient;
 import me.shedaniel.rei.api.common.util.EntryStacks;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.text.Text;
 import xen42.peacefulitems.PeacefulModBlocks;
+import xen42.peacefulitems.screen.EffigyAltarScreenHandler;
 import me.shedaniel.math.Point;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 
@@ -43,7 +46,7 @@ public class EffigyAltarCategory implements DisplayCategory<EffigyAltarREIDispla
 
 	@Override
 	public List<Widget> setupDisplay(EffigyAltarREIDisplay display, Rectangle bounds) {
-		Point startPoint = new Point(bounds.getCenterX() - 58, bounds.getCenterY() - 27);
+		Point startPoint = new Point(bounds.getCenterX() - 58, bounds.getCenterY() - (display.getCost().isPresent() ? 34 : 27));
 		List<Widget> widgets = Lists.newArrayList();
 		widgets.add(Widgets.createRecipeBase(bounds));
 		widgets.add(Widgets.createArrow(new Point(startPoint.x + 60, startPoint.y + 18)));
@@ -60,6 +63,16 @@ public class EffigyAltarCategory implements DisplayCategory<EffigyAltarREIDispla
 		}
 		widgets.addAll(slots);
 		widgets.add(Widgets.createSlot(new Point(startPoint.x + 95, startPoint.y + 19)).entries(display.getOutputEntries().get(0)).disableBackground().markOutput());
+		if (display.getCost().isPresent()) {
+			widgets.add(Widgets.createDrawableWidget((graphics, mouseX, mouseY, delta) -> {
+				TextRenderer font = MinecraftClient.getInstance().textRenderer;
+				Text component = Text.translatable("container.repair.cost", display.getCost().getAsInt());
+				int endX = startPoint.x + 102 + 26;
+				int x = endX - font.getWidth(component) - 2;
+				graphics.fill(x - 2, startPoint.y + 56, endX, startPoint.y + 56 + 12, 0x4f000000);
+				graphics.drawTextWithShadow(font, component, x, startPoint.y + 56 + 2, 0x80ff20);
+			}));
+		}
 		return widgets;
 	}
 	
@@ -99,6 +112,6 @@ public class EffigyAltarCategory implements DisplayCategory<EffigyAltarREIDispla
 
 	@Override
 	public int getDisplayHeight() {
-		return 66;
+		return 78;
 	}
 }
