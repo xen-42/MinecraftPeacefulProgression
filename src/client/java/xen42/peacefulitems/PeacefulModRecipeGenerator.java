@@ -215,6 +215,7 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .input('e', Items.ENDER_EYE)
                         .input('g', Blocks.OBSIDIAN)
                         .input('w', PeacefulModItems.BAT_WING)
+                        .cost(15)
                         // Advancement that gives the recipe
                         .criterion(hasItem(Blocks.CRYING_OBSIDIAN), conditionsFromItem(Blocks.CRYING_OBSIDIAN))
                         .criterion(hasItem(Items.ENDER_EYE), conditionsFromItem(Items.ENDER_EYE))
@@ -239,6 +240,7 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                                   "e")
                         .input('b', Items.WITHER_SKELETON_SKULL)
                         .input('e', Blocks.SOUL_SAND)
+                        .cost(10)
                         // Advancement that gives the recipe
                         .criterion(hasItem(Items.WITHER_SKELETON_SKULL), conditionsFromItem(Items.WITHER_SKELETON_SKULL))
                         .criterion(hasItem(Blocks.SOUL_SAND), conditionsFromItem(Blocks.SOUL_SAND))

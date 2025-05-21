@@ -3,12 +3,10 @@ package xen42.peacefulitems.screen;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.Lists;
 
-import dev.architectury.event.events.common.TickEvent.Player;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -26,7 +24,7 @@ import net.minecraft.recipe.RecipeUnlocker;
 import net.minecraft.recipe.book.RecipeBookType;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.AbstractRecipeScreenHandler;
-import net.minecraft.screen.EnchantmentScreenHandler;
+import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.Slot;
@@ -58,37 +56,36 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
 
     public final RecipeInputInventory inventory;
     private final CraftingResultInventory resultInventory;
+    private final Property levelCost = Property.create();
 
     public ScreenHandlerContext context;
     private final PlayerEntity player;
 
+    public boolean canTake(int xpCost) {
+        return (player.isInCreativeMode() || player.experienceLevel >= xpCost) && xpCost > 0;
+    }
+
     public boolean canTake() {
-        return player.experienceLevel >= getOutputXPCost() || player.getAbilities().creativeMode;
+        return canTake(getOutputXPCost());
     }
 
     public boolean hasOutput() {
         return _outputSlot.hasStack();
     }
-
-    public static int getXPCost(ItemStack stack) {
-        if (!stack.isEmpty()) {
-            if (stack.isOf(PeacefulModItems.DRAGON_EFFIGY)) {
-                return 15;
-            }
-            else if (stack.isOf(PeacefulModItems.WITHER_EFFIGY)) {
-                return 10;
-            }
-            else {
-                return 5;
-            }
+    
+    public static int getXPCost(ServerWorld serverWorld, List<ItemStack> input) {
+        EffigyAltarRecipeInput recipeInput = EffigyAltarRecipeInput.create(input);
+        Optional<RecipeEntry<EffigyAltarRecipe>> optional = serverWorld.getRecipeManager().getFirstMatch(PeacefulMod.EFFIGY_ALTAR_RECIPE_TYPE, recipeInput, serverWorld);
+        if (optional.isPresent()) {
+            RecipeEntry<EffigyAltarRecipe> recipeEntry = (RecipeEntry<EffigyAltarRecipe>)optional.get();
+            EffigyAltarRecipe altarRecipe = recipeEntry.value();
+            return altarRecipe.getCostOrDefault();
         }
-        else {
-            return 0;
-        }
+        return 0;
     }
 
     public int getOutputXPCost() {
-    	return getXPCost(_outputSlot.getStack());
+        return levelCost.get();
     }
 
     @SuppressWarnings("unused")
@@ -106,6 +103,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
         super(PeacefulMod.EFFIGY_ALTAR_SCREEN_HANDLER, syncId);
         this.inventory = new EffigySimpleInventory(this, BRIMSTONE_SLOT);
         this.resultInventory = new EffigyCraftingResultInventory(this);
+        this.addProperty(this.levelCost);
         this.context = context;
         this.player = playerInventory.player;
 
@@ -141,6 +139,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
         EffigyAltarRecipeInput recipeInput = EffigyAltarRecipeInput.create(inventory.getHeldStacks());
         ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity)player;
         ItemStack resultStack = ItemStack.EMPTY;
+        int cost = 0;
         
         if (isBrimstone(_brimstoneSlot.getStack())) {
             Optional<RecipeEntry<EffigyAltarRecipe>> optional = world.getServer().getRecipeManager().getFirstMatch(PeacefulMod.EFFIGY_ALTAR_RECIPE_TYPE, recipeInput, world, recipe);
@@ -153,11 +152,13 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
                     boolean isItemEnabled = craftedStack.isItemEnabled(world.getEnabledFeatures());
                     if (isItemEnabled) {
                         resultStack = craftedStack;
+                        cost = altarRecipe.getCostOrDefault();
                     }
                 }
             }
         }
 
+        levelCost.set(cost);
         resultInventory.setStack(0, resultStack);
         this.setReceivedStack(0, resultStack);
         serverPlayerEntity.networkHandler.sendPacket(new ScreenHandlerSlotUpdateS2CPacket(this.syncId, this.nextRevision(), 0, resultStack));
@@ -437,7 +438,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
             DefaultedList<ItemStack> defaultedList = this.getRecipeRemainders(recipeInput, player.getWorld());
 
             this.handler.context.run((world, pos) -> {
-                if (!player.isCreative()) {
+                if (!player.isInCreativeMode()) {
                     player.addExperienceLevels(-getOutputXPCost());
                 }
                 world.playSound((Entity)null, pos, SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
@@ -518,7 +519,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
             } else {
                 RecipeFinder recipeFinder = new RecipeFinder();
                 inventory.populateRecipeFinder(recipeFinder);
-                   populateRecipeFinder(recipeFinder);
+                populateRecipeFinder(recipeFinder);
                 return tryFill(recipe, recipeFinder);
             }
         }

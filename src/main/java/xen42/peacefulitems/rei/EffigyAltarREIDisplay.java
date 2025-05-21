@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.OptionalInt;
-
 import org.jetbrains.annotations.Nullable;
 
 import com.mojang.serialization.Codec;
@@ -32,31 +30,30 @@ import net.minecraft.recipe.display.RecipeDisplay;
 import net.minecraft.screen.ScreenHandler;
 import xen42.peacefulitems.recipe.EffigyAltarRecipe;
 import xen42.peacefulitems.recipe.EffigyAltarRecipeDisplay;
-import xen42.peacefulitems.screen.EffigyAltarScreenHandler;
 
 public class EffigyAltarREIDisplay extends BasicDisplay implements SimpleGridMenuDisplay {
 	public static final DisplaySerializer<EffigyAltarREIDisplay> SERIALIZER = DisplaySerializer.of(
 			RecordCodecBuilder.mapCodec(instance -> instance.group(
 					EntryIngredient.codec().listOf().fieldOf("inputs").forGetter(EffigyAltarREIDisplay::getInputEntries),
 					EntryIngredient.codec().listOf().fieldOf("outputs").forGetter(EffigyAltarREIDisplay::getOutputEntries),
-					Codec.INT.optionalFieldOf("cost").forGetter(EffigyAltarREIDisplay::getBoxedCost)
+					Codec.INT.fieldOf("cost").forGetter(EffigyAltarREIDisplay::getCost)
 			).apply(instance, EffigyAltarREIDisplay::new)),
 			PacketCodec.tuple(
 					EntryIngredient.streamCodec().collect(PacketCodecs.toList()),
 					EffigyAltarREIDisplay::getInputEntries,
 					EntryIngredient.streamCodec().collect(PacketCodecs.toList()),
 					EffigyAltarREIDisplay::getOutputEntries,
-					PacketCodecs.optional(PacketCodecs.INTEGER),
-					EffigyAltarREIDisplay::getBoxedCost,
+					PacketCodecs.INTEGER,
+					EffigyAltarREIDisplay::getCost,
 					EffigyAltarREIDisplay::new
 			), false);
 	
-	private final OptionalInt cost;
+	private final int cost;
 	
 	public EffigyAltarREIDisplay(EffigyAltarRecipeDisplay recipe) {
 		this(EntryIngredients.ofSlotDisplays(recipe.ingredients()),
 				List.of(EntryIngredients.ofSlotDisplay(recipe.result())),
-				OptionalInt.of(EffigyAltarScreenHandler.getXPCost(recipe.result().stack())));
+				recipe.cost());
 	}
 	
 	static List<EntryIngredient> ingredientsFromRecipe(EffigyAltarRecipe recipe){
@@ -74,18 +71,10 @@ public class EffigyAltarREIDisplay extends BasicDisplay implements SimpleGridMen
 	}
 	
 	public EffigyAltarREIDisplay(EffigyAltarRecipe recipe) {
-		this(ingredientsFromRecipe(recipe), List.of(EntryIngredients.of(recipe.result())), OptionalInt.of(EffigyAltarScreenHandler.getXPCost(recipe.result())));
+		this(ingredientsFromRecipe(recipe), List.of(EntryIngredients.of(recipe.result())), recipe.getCostOrDefault());
 	}
 	
-	public EffigyAltarREIDisplay(List<EntryIngredient> inputs, List<EntryIngredient> outputs) {
-		this(inputs, outputs, OptionalInt.empty());
-	}
-	
-	public EffigyAltarREIDisplay(List<EntryIngredient> inputs, List<EntryIngredient> outputs, Optional<Integer> cost) {
-		this(inputs, outputs, cost.stream().mapToInt(i -> i).findFirst());
-	}
-	
-	public EffigyAltarREIDisplay(List<EntryIngredient> inputs, List<EntryIngredient> outputs, OptionalInt cost) {
+	public EffigyAltarREIDisplay(List<EntryIngredient> inputs, List<EntryIngredient> outputs, int cost) {
 		super(inputs, outputs);
 		this.cost = cost;
 	}
@@ -100,12 +89,8 @@ public class EffigyAltarREIDisplay extends BasicDisplay implements SimpleGridMen
 		return outputs;
 	}
 	
-	public OptionalInt getCost() {
+	public int getCost() {
 		return cost;
-	}
-	
-	public Optional<Integer> getBoxedCost() {
-		return cost.stream().boxed().findFirst();
 	}
 
 	@Override

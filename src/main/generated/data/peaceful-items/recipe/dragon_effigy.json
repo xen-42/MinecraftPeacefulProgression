@@ -1,5 +1,6 @@
 {
   "type": "peaceful-items:effigy_altar",
+  "cost": 15,
   "key": {
     "b": "minecraft:crying_obsidian",
     "e": "minecraft:ender_eye",

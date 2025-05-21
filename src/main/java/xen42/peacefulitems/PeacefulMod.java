@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -36,6 +37,9 @@ import net.minecraft.world.gen.feature.PlacedFeature;
 import net.minecraft.world.gen.structure.Structure;
 import xen42.peacefulitems.entities.EndClamEntity;
 import xen42.peacefulitems.entities.GhastlingEntity;
+import xen42.peacefulitems.payloads.EffigyParticlePayload;
+import xen42.peacefulitems.payloads.GhostRecipeCostRequest;
+import xen42.peacefulitems.payloads.GhostRecipeCostResponse;
 import xen42.peacefulitems.recipe.EffigyAltarRecipe;
 import xen42.peacefulitems.recipe.EffigyAltarRecipeDisplay;
 import xen42.peacefulitems.screen.EffigyAltarScreenHandler;
@@ -143,5 +147,12 @@ public class PeacefulMod implements ModInitializer {
 		SpawnRestriction.register(END_CLAM_ENTITY, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EndClamEntity::isValidSpawn);
 
 		PayloadTypeRegistry.playS2C().register(EffigyParticlePayload.ID, EffigyParticlePayload.CODEC);
+
+		PayloadTypeRegistry.playS2C().register(GhostRecipeCostResponse.PAYLOAD_ID, GhostRecipeCostResponse.CODEC);
+		PayloadTypeRegistry.playC2S().register(GhostRecipeCostRequest.PAYLOAD_ID, GhostRecipeCostRequest.CODEC);
+		ServerPlayNetworking.registerGlobalReceiver(GhostRecipeCostRequest.PAYLOAD_ID, (payload, context) -> {
+			int cost = EffigyAltarScreenHandler.getXPCost(context.player().getServerWorld(), payload.ghostInputs());
+			ServerPlayNetworking.send(context.player(), new GhostRecipeCostResponse(cost));
+		});
 	}
 }

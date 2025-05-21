@@ -18,7 +18,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
-import xen42.peacefulitems.EffigyParticlePayload;
+import xen42.peacefulitems.payloads.EffigyParticlePayload;
 
 public class EffigyItem extends Item {
 
