@@ -105,7 +105,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
         this.context = context;
         this.player = playerInventory.player;
 
-        _outputSlot = this.addSlot(new OutputSlot(this, this.player, this.inventory, this.resultInventory, 0, 132, 29));
+        _outputSlot = this.addSlot(new OutputSlot(this, this.player, this.inventory, this.resultInventory, 0, 132, 29 - 8));
         
         _slots = new Slot[] {
             this.addSlot(new CustomSlot(this, this.inventory, 0, 22, 17)),
@@ -117,7 +117,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
             this.addSlot(new CustomSlot(this, this.inventory, 6, 40, 53))
         };
         
-        _brimstoneSlot = this.addSlot(new BrimstoneSlot(this, this.inventory, 7, 89, 53));
+        _brimstoneSlot = this.addSlot(new BrimstoneSlot(this, this.inventory, 7, 89, 53 - 8));
 
         this.addPlayerSlots(playerInventory, 8, 84);
     }
