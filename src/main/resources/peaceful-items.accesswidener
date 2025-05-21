@@ -10,3 +10,5 @@ extendable method net/minecraft/block/entity/BrushableBlockEntity generateItem (
 accessible method net/minecraft/block/entity/BrushableBlockEntity generateItem (Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;)V
 accessible field net/minecraft/block/entity/BrushableBlockEntity item Lnet/minecraft/item/ItemStack;
 accessible field net/minecraft/world/poi/PointOfInterestTypes POI_STATES_TO_TYPE Ljava/util/Map;
+accessible field net/minecraft/recipe/FireworkStarRecipe TYPE_MODIFIER_MAP Ljava/util/Map;
+mutable field net/minecraft/recipe/FireworkStarRecipe TYPE_MODIFIER_MAP Ljava/util/Map;

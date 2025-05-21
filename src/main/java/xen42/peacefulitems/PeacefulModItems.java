@@ -1,5 +1,7 @@
 package xen42.peacefulitems;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -13,6 +15,7 @@ import net.minecraft.block.LeveledCauldronBlock;
 import net.minecraft.block.cauldron.CauldronBehavior;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.EquippableComponent;
+import net.minecraft.component.type.FireworkExplosionComponent;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.entity.EquipmentSlot;
@@ -32,6 +35,7 @@ import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.equipment.EquipmentAsset;
 import net.minecraft.item.equipment.EquipmentAssetKeys;
 import net.minecraft.potion.Potions;
+import net.minecraft.recipe.FireworkStarRecipe;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -237,6 +241,12 @@ public class PeacefulModItems {
         CauldronBehavior.EMPTY_CAULDRON_BEHAVIOR.map().put(Items.DRAGON_BREATH, new DragonBreathCauldronBlock.FillFromBottleBehavior());
         DragonBreathCauldronBlock.DRAGON_BREATH_CAULDRON_BEHAVIOR.map().put(Items.GLASS_BOTTLE, new DragonBreathCauldronBlock.DecrementFluidLevelBehavior());
         DragonBreathCauldronBlock.DRAGON_BREATH_CAULDRON_BEHAVIOR.map().put(Items.DRAGON_BREATH, new DragonBreathCauldronBlock.IncrementFluidLevelBehavior());
+        
+        // Replace the original immutable map with a mutable one and add custom items
+        Map<Item, FireworkExplosionComponent.Type> fireworkExplosionTypeModifierMap = new HashMap<>(FireworkStarRecipe.TYPE_MODIFIER_MAP);
+        fireworkExplosionTypeModifierMap.put(PeacefulModBlocks.BLAZE_PICKLE.asItem(), FireworkExplosionComponent.Type.LARGE_BALL);
+        fireworkExplosionTypeModifierMap.put(PeacefulModBlocks.BREEZE_CORAL.asItem(), FireworkExplosionComponent.Type.BURST);
+        FireworkStarRecipe.TYPE_MODIFIER_MAP = fireworkExplosionTypeModifierMap;
     }
 
     public static Item register(String name, Function<Item.Settings, Item> itemFactory, Item.Settings settings) {
