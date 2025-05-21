@@ -22,6 +22,19 @@ public class EffigyAltarHandledScreen extends RecipeBookScreen<EffigyAltarScreen
         int j = (this.height - this.backgroundHeight) / 2;
         context.drawTexture(RenderLayer::getGuiTextured, TEXTURE, i, j, 0.0F, 0.0F, 
             this.backgroundWidth, this.backgroundHeight, 256, 256);
+        
+        if (handler.hasOutput()) {
+            var cost = handler.getOutputXPCost();
+            var string = Text.translatable("container.repair.cost", new Object[] { Integer.valueOf(cost) });;
+            int colour = 8453920;
+            if (!handler.canTake()) {
+                colour = 16736352;
+            }
+            
+            int k = i + 166 - this.textRenderer.getWidth(string);
+            context.fill(k - 2, j + 71, i + this.backgroundWidth - 8, j + 81, 1325400064);
+            context.drawTextWithShadow(this.textRenderer, string, k, j + 72, colour);
+        }
     }
  
     @Override
@@ -40,6 +53,6 @@ public class EffigyAltarHandledScreen extends RecipeBookScreen<EffigyAltarScreen
 
     @Override
     protected ScreenPos getRecipeBookButtonPos() {
-        return new ScreenPos(this.x + 132, this.height / 2 - 29);
+        return new ScreenPos(this.x + 132, this.height / 2 - 31);
     }
 }

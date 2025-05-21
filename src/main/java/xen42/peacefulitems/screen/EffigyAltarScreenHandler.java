@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.Lists;
 
+import dev.architectury.event.events.common.TickEvent.Player;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -25,11 +26,14 @@ import net.minecraft.recipe.RecipeUnlocker;
 import net.minecraft.recipe.book.RecipeBookType;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.AbstractRecipeScreenHandler;
+import net.minecraft.screen.EnchantmentScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import xen42.peacefulitems.PeacefulMod;
@@ -37,6 +41,7 @@ import xen42.peacefulitems.PeacefulModBlocks;
 import xen42.peacefulitems.PeacefulModItems;
 import xen42.peacefulitems.recipe.EffigyAltarRecipe;
 import xen42.peacefulitems.recipe.EffigyAltarRecipeInput;
+import net.minecraft.entity.Entity;
 
 public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
 
@@ -57,6 +62,31 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
     public ScreenHandlerContext context;
     private final PlayerEntity player;
 
+    public boolean canTake() {
+        return player.experienceLevel >= getOutputXPCost() || player.getAbilities().creativeMode;
+    }
+
+    public boolean hasOutput() {
+        return _outputSlot.hasStack();
+    }
+
+    public int getOutputXPCost() {
+        if (_outputSlot.hasStack()) {
+            if (_outputSlot.getStack().isOf(PeacefulModItems.DRAGON_EFFIGY)) {
+                return 15;
+            }
+            else if (_outputSlot.getStack().isOf(PeacefulModItems.WITHER_EFFIGY)) {
+                return 10;
+            }
+            else {
+                return 5;
+            }
+        }
+        else {
+            return 0;
+        }
+    }
+
     @SuppressWarnings("unused")
     private Slot[] _slots;
     private Slot _outputSlot;
@@ -75,7 +105,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
         this.context = context;
         this.player = playerInventory.player;
 
-        _outputSlot = this.addSlot(new OutputSlot(this.player, this.inventory, this.resultInventory, 0, 132, 29));
+        _outputSlot = this.addSlot(new OutputSlot(this, this.player, this.inventory, this.resultInventory, 0, 132, 29));
         
         _slots = new Slot[] {
             this.addSlot(new CustomSlot(this, this.inventory, 0, 22, 17)),
@@ -325,16 +355,23 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
     private class OutputSlot extends Slot {
         private final RecipeInputInventory input;
         private final PlayerEntity player;
+        private final EffigyAltarScreenHandler handler;
         private int amount;
-        public OutputSlot(PlayerEntity player, RecipeInputInventory input, Inventory inventory, int index, int x, int y) {
+        public OutputSlot(EffigyAltarScreenHandler handler, PlayerEntity player, RecipeInputInventory input, Inventory inventory, int index, int x, int y) {
             super(inventory, index, x, y);
             this.player = player;
             this.input = input;
+            this.handler = handler;
         }
 
         @Override
         public boolean canInsert(ItemStack stack) {
             return false;
+        }
+
+        @Override
+        public boolean canTakeItems(PlayerEntity player) {
+            return handler.canTake();
         }
 
         @Override
@@ -394,6 +431,13 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
             this.onCrafted(stack);
             EffigyAltarRecipeInput recipeInput = EffigyAltarRecipeInput.create(this.input.getHeldStacks());
             DefaultedList<ItemStack> defaultedList = this.getRecipeRemainders(recipeInput, player.getWorld());
+
+            this.handler.context.run((world, pos) -> {
+                if (!player.isCreative()) {
+                    player.addExperienceLevels(-getOutputXPCost());
+                }
+                world.playSound((Entity)null, pos, SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+            });
 
             for (int y = 0; y < MAX_WIDTH_AND_HEIGHT; y++) {
                 for (int x = 0; x < (y == MAX_WIDTH_AND_HEIGHT - 1 ? MAX_WIDTH_AND_HEIGHT - MAX_WIDTH_END : MAX_WIDTH_AND_HEIGHT); x++) {
