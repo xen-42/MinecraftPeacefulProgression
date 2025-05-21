@@ -42,6 +42,16 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			original.add(key, processValue(value));
 		}
 		
+		public void add(TagKey<?> key, String value) {
+			add(key.getTranslationKey(), value);
+		}
+		
+		public void addTags(String value, TagKey<?>... keys) {
+			for (TagKey<?> key : keys) {
+				add(key, value);
+			}
+		}
+		
 		public void add(GameRules.Key<?> key, String value) {
 			add(key.getTranslationKey(), value);
 		}
@@ -118,6 +128,15 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			
 			translationBuilder.add(PeacefulMod.DISABLE_HUNGER_PEACEFUL, "Disable hunger in peaceful");
 			translationBuilder.add(PeacefulMod.DISABLE_ENDER_DRAGON_FIGHT_PEACEFUL, "Disable Ender Dragon fight in peaceful");
+
+			translationBuilder.add(PeacefulModTags.ItemTags.EFFIGIES, "Effigies");
+			translationBuilder.add(PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, "Effigy Altar Dungeon");
+			translationBuilder.add(PeacefulModTags.StructureTags.TRAIL_RUINS, "Trail Ruins");
+			translationBuilder.add(StructureTags.OCEAN_RUIN, "Ocean Ruin");
+			translationBuilder.addTags("Soul Soil Ore Bearing Ground", PeacefulModTags.ItemTags.ORE_BEARING_GROUND_SOUL_SOIL, PeacefulModTags.BlockTags.ORE_BEARING_GROUND_SOUL_SOIL);
+			translationBuilder.addTags("Soul Soil Ores In Ground", PeacefulModTags.ItemTags.ORES_IN_GROUND_SOUL_SOIL, PeacefulModTags.BlockTags.ORES_IN_GROUND_SOUL_SOIL);
+			translationBuilder.addTags("Fossil Ores", PeacefulModTags.ItemTags.FOSSIL_ORES, PeacefulModTags.ItemTags.FOSSIL_ORES_C, PeacefulModTags.BlockTags.FOSSIL_ORES, PeacefulModTags.BlockTags.FOSSIL_ORES_C);
+			translationBuilder.addTags("Brimstone Ores", PeacefulModTags.ItemTags.SULPHUR_ORES, PeacefulModTags.ItemTags.SULPHUR_ORES_C, PeacefulModTags.ItemTags.SULFUR_ORES, PeacefulModTags.BlockTags.SULPHUR_ORES, PeacefulModTags.BlockTags.SULPHUR_ORES_C, PeacefulModTags.BlockTags.SULFUR_ORES);
 		}
 	}
 	
@@ -211,6 +230,18 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addFilledMap(PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, "塑像祭坛地图");
 			translationBuilder.addFilledMap(PeacefulModTags.StructureTags.TRAIL_RUINS, "古迹废墟地图");
 			translationBuilder.addFilledMap(StructureTags.OCEAN_RUIN, "海底废墟地图");
+			
+			translationBuilder.add(PeacefulMod.DISABLE_HUNGER_PEACEFUL, "禁用和平中的饥饿");
+			translationBuilder.add(PeacefulMod.DISABLE_ENDER_DRAGON_FIGHT_PEACEFUL, "禁用和平中的末影龙");
+
+			translationBuilder.add(PeacefulModTags.ItemTags.EFFIGIES, "塑像");
+			translationBuilder.add(PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, "塑像祭坛");
+			translationBuilder.add(PeacefulModTags.StructureTags.TRAIL_RUINS, "古迹废墟");
+			translationBuilder.add(StructureTags.OCEAN_RUIN, "海底废墟");
+			translationBuilder.addTags("灵魂土含矿石地", PeacefulModTags.ItemTags.ORE_BEARING_GROUND_SOUL_SOIL, PeacefulModTags.BlockTags.ORE_BEARING_GROUND_SOUL_SOIL);
+			translationBuilder.addTags("地下灵魂土矿石", PeacefulModTags.ItemTags.ORES_IN_GROUND_SOUL_SOIL, PeacefulModTags.BlockTags.ORES_IN_GROUND_SOUL_SOIL);
+			translationBuilder.addTags("化石矿石", PeacefulModTags.ItemTags.FOSSIL_ORES, PeacefulModTags.ItemTags.FOSSIL_ORES_C, PeacefulModTags.BlockTags.FOSSIL_ORES, PeacefulModTags.BlockTags.FOSSIL_ORES_C);
+			translationBuilder.addTags("硫磺矿石", PeacefulModTags.ItemTags.SULPHUR_ORES, PeacefulModTags.ItemTags.SULPHUR_ORES_C, PeacefulModTags.ItemTags.SULFUR_ORES, PeacefulModTags.BlockTags.SULPHUR_ORES, PeacefulModTags.BlockTags.SULPHUR_ORES_C, PeacefulModTags.BlockTags.SULFUR_ORES);
 		}
 	}
 }
