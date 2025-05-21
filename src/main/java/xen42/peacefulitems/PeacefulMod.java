@@ -24,6 +24,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.Heightmap;
@@ -101,6 +102,11 @@ public class PeacefulMod implements ModInitializer {
 		Registries.SCREEN_HANDLER,
 		Identifier.of(MOD_ID, "effigy_altar"),
 		new ScreenHandlerType<EffigyAltarScreenHandler>(EffigyAltarScreenHandler::new, null));
+
+	public static final SoundEvent ITEM_BOTTLE_EMPTY_DRAGONBREATH = Registry.register(
+		Registries.SOUND_EVENT,
+		Identifier.of(MOD_ID, "item.bottle.empty_dragonbreath"),
+		SoundEvent.of(Identifier.of(MOD_ID, "item.bottle.empty_dragonbreath")));
 
 	@Override
 	public void onInitialize() {
