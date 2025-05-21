@@ -126,7 +126,7 @@ public class PeacefulModItems {
             user.dropStack(world, new ItemStack(Items.PRISMARINE_CRYSTALS, user.getRandom().nextBetween(2, 12)));
             user.dropStack(world, new ItemStack(Items.PRISMARINE_SHARD, user.getRandom().nextBetween(2, 8)));
 
-        }, SoundEvents.ENTITY_ELDER_GUARDIAN_DEATH),
+        }, SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE),
         new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
     
     public static final Item DRAGON_EFFIGY = register("dragon_effigy", (settings) -> 
