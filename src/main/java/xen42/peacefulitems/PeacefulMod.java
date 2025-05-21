@@ -5,9 +5,12 @@ import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
+import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.BrushableBlock;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.SpawnLocationTypes;
@@ -16,6 +19,10 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.BatEntity;
+import net.minecraft.item.Items;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.book.RecipeBookCategory;
@@ -153,6 +160,20 @@ public class PeacefulMod implements ModInitializer {
 		ServerPlayNetworking.registerGlobalReceiver(GhostRecipeCostRequest.PAYLOAD_ID, (payload, context) -> {
 			int cost = EffigyAltarScreenHandler.getXPCost(context.player().getServerWorld(), payload.ghostInputs());
 			ServerPlayNetworking.send(context.player(), new GhostRecipeCostResponse(cost));
+		});
+
+		LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+			if (key.getValue().equals(Identifier.of("minecraft", "archaeology/ocean_ruin_cold"))) {
+				tableBuilder.modifyPools(pool -> {
+					pool.with(ItemEntry.builder(Items.TRIDENT).weight(1));
+				});
+			}
+			if (key.getValue().equals(Identifier.of("minecraft", "archaeology/ocean_ruin_warm"))) {
+				tableBuilder.modifyPools(pool -> {
+					pool.with(ItemEntry.builder(Items.PRISMARINE_SHARD).weight(1));
+					pool.with(ItemEntry.builder(Items.PRISMARINE_CRYSTALS).weight(1));
+				});
+			}
 		});
 	}
 }

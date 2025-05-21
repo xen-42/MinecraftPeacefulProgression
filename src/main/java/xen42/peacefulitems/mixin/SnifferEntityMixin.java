@@ -55,10 +55,7 @@ public class SnifferEntityMixin {
                 }
             }
             else if (blockState.isOf(Blocks.SAND)) {
-                if (r < 0.05) {
-                    customDrop = Items.TRIDENT;
-                }
-                else if (r < 0.2) {
+                if (r < 0.2) {
                     customDrop = Items.NAUTILUS_SHELL;
                 }
                 else if (r < 0.6) {
