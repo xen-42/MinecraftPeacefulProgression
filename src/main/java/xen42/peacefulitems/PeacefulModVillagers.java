@@ -20,6 +20,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.InstrumentTags;
 import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.registry.tag.StructureTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -154,10 +155,18 @@ public class PeacefulModVillagers {
 			);
 		});
 		
-		// Map to altar
 		TradeOfferHelper.registerVillagerOffers(VillagerProfession.CARTOGRAPHER, 3, factories -> {
+			// Map to altar
 			factories.add((entity, random) -> SellMap(entity, random, 10,
 				PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, MapDecorationTypes.TARGET_X, 4, 15));
+			
+			// Map to trail ruin
+			factories.add((entity, random) -> SellMap(entity, random, 10,
+				PeacefulModTags.StructureTags.TRAIL_RUINS, MapDecorationTypes.TARGET_X, 12, 10));
+			
+			// Map to ocean ruin
+			factories.add((entity, random) -> SellMap(entity, random, 10,
+				StructureTags.OCEAN_RUIN, MapDecorationTypes.TARGET_X, 12, 10));
 		});
     }
     

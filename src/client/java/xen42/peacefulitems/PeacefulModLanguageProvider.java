@@ -9,6 +9,7 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
+import net.minecraft.registry.tag.StructureTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.GameRules;
@@ -112,6 +113,8 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.add(PeacefulModBlocks.DRAGON_BREATH_CAULDRON, "Dragon's Breath Cauldron");
 			
 			translationBuilder.addFilledMap(PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, "Effigy Altar Dungeon Map");
+			translationBuilder.addFilledMap(PeacefulModTags.StructureTags.TRAIL_RUINS, "Trail Ruins Map");
+			translationBuilder.addFilledMap(StructureTags.OCEAN_RUIN, "Ocean Ruin Map");
 			
 			translationBuilder.add(PeacefulMod.DISABLE_HUNGER_PEACEFUL, "Disable hunger in peaceful");
 			translationBuilder.add(PeacefulMod.DISABLE_ENDER_DRAGON_FIGHT_PEACEFUL, "Disable Ender Dragon fight in peaceful");
@@ -206,6 +209,8 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.add(PeacefulModBlocks.DRAGON_BREATH_CAULDRON, "装有龙息的炼药锅");
 			
 			translationBuilder.addFilledMap(PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, "塑像祭坛地图");
+			translationBuilder.addFilledMap(PeacefulModTags.StructureTags.TRAIL_RUINS, "古迹废墟地图");
+			translationBuilder.addFilledMap(StructureTags.OCEAN_RUIN, "海底废墟地图");
 		}
 	}
 }
