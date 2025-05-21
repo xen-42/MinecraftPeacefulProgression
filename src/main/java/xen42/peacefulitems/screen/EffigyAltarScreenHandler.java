@@ -174,7 +174,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
     public ItemStack quickMove(PlayerEntity player, int slot) {
         ItemStack itemStack = ItemStack.EMPTY;
         Slot slotAtIndex = this.slots.get(slot);
-        if (slotAtIndex != null && slotAtIndex.hasStack()) {
+        if (slotAtIndex != null && slotAtIndex.hasStack() && slotAtIndex.canTakeItems(player)) {
             ItemStack itemStackAtIndex = slotAtIndex.getStack();
             itemStack = itemStackAtIndex.copy();
             if (slot == OUTPUT_SLOT) {
