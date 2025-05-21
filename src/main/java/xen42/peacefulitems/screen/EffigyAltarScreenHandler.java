@@ -70,12 +70,12 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
         return _outputSlot.hasStack();
     }
 
-    public int getOutputXPCost() {
-        if (_outputSlot.hasStack()) {
-            if (_outputSlot.getStack().isOf(PeacefulModItems.DRAGON_EFFIGY)) {
+    public static int getXPCost(ItemStack stack) {
+        if (!stack.isEmpty()) {
+            if (stack.isOf(PeacefulModItems.DRAGON_EFFIGY)) {
                 return 15;
             }
-            else if (_outputSlot.getStack().isOf(PeacefulModItems.WITHER_EFFIGY)) {
+            else if (stack.isOf(PeacefulModItems.WITHER_EFFIGY)) {
                 return 10;
             }
             else {
@@ -85,6 +85,10 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
         else {
             return 0;
         }
+    }
+
+    public int getOutputXPCost() {
+    	return getXPCost(_outputSlot.getStack());
     }
 
     @SuppressWarnings("unused")

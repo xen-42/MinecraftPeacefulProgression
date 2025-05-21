@@ -5,6 +5,7 @@ import net.minecraft.client.gui.screen.ButtonTextures;
 import net.minecraft.client.gui.screen.recipebook.GhostRecipe;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 import net.minecraft.client.gui.screen.recipebook.RecipeResultCollection;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.RecipeFinder;
 import net.minecraft.recipe.display.RecipeDisplay;
@@ -39,6 +40,19 @@ public class EffigyAltarRecipeBookWidget extends RecipeBookWidget<EffigyAltarScr
 
 	private boolean canDisplay(RecipeDisplay display) {
 		return true;
+	}
+	
+	public boolean isShowingGhostRecipes() {
+		return !this.ghostRecipe.items.isEmpty();
+	}
+	
+	public ItemStack getGhostResult() {
+	    for (GhostRecipe.CyclingItem cyclingItem : this.ghostRecipe.items.values()) {
+	        if (cyclingItem.isResultSlot()) {
+	            return cyclingItem.get(0);
+	        }
+	    }
+	    return ItemStack.EMPTY;
 	}
 
 	@Override
