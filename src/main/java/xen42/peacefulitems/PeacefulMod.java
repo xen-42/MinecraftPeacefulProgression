@@ -97,8 +97,10 @@ public class PeacefulMod implements ModInitializer {
 
 	public static final Identifier EFFIGY_PARTICLE_PAYLOAD = Identifier.of(MOD_ID, "effigy_particle_payload");
 
-	public static final ScreenHandlerType<EffigyAltarScreenHandler> EFFIGY_ALTAR_SCREEN_HANDLER = Registry.register(Registries.SCREEN_HANDLER,
-		"effigy_altar", new ScreenHandlerType<EffigyAltarScreenHandler>(EffigyAltarScreenHandler::new, null));
+	public static final ScreenHandlerType<EffigyAltarScreenHandler> EFFIGY_ALTAR_SCREEN_HANDLER = Registry.register(
+		Registries.SCREEN_HANDLER,
+		Identifier.of(MOD_ID, "effigy_altar"),
+		new ScreenHandlerType<EffigyAltarScreenHandler>(EffigyAltarScreenHandler::new, null));
 
 	@Override
 	public void onInitialize() {
