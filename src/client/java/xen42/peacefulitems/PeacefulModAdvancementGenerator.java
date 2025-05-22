@@ -69,6 +69,81 @@ public class PeacefulModAdvancementGenerator extends FabricAdvancementProvider {
                         )
                 ))
                 , exporter, "find_effigy_altar_dungeon");*/
+
+        AdvancementEntry dragon_effigy = build(Advancement.Builder.create()
+                .display(
+                        PeacefulModItems.DRAGON_EFFIGY,
+                        Text.translatable("advancements.peaceful_items.dragon_effigy.title"),
+                        Text.translatable("advancements.peaceful_items.dragon_effigy.description"),
+                        null,
+                        AdvancementFrame.GOAL,
+                        true,
+                        true,
+                        false
+                )
+                .parent(findEffigyAltarDungeon)
+                .criterion("has_dragon_effigy", InventoryChangedCriterion.Conditions.items(PeacefulModItems.DRAGON_EFFIGY))
+                , exporter, "dragon_effigy");
+
+        AdvancementEntry wither_effigy = build(Advancement.Builder.create()
+                .display(
+                        PeacefulModItems.WITHER_EFFIGY,
+                        Text.translatable("advancements.peaceful_items.wither_effigy.title"),
+                        Text.translatable("advancements.peaceful_items.wither_effigy.description"),
+                        null,
+                        AdvancementFrame.GOAL,
+                        true,
+                        true,
+                        false
+                )
+                .parent(findEffigyAltarDungeon)
+                .criterion("has_wither_effigy", InventoryChangedCriterion.Conditions.items(PeacefulModItems.WITHER_EFFIGY))
+                , exporter, "wither_effigy");
+
+        AdvancementEntry guardian_effigy = build(Advancement.Builder.create()
+                .display(
+                		PeacefulModItems.GUARDIAN_EFFIGY,
+                        Text.translatable("advancements.peaceful_items.guardian_effigy.title"),
+                        Text.translatable("advancements.peaceful_items.guardian_effigy.description"),
+                        null,
+                        AdvancementFrame.TASK,
+                        true,
+                        true,
+                        false
+                )
+                .parent(findEffigyAltarDungeon)
+                .criterion("has_guardian_effigy", InventoryChangedCriterion.Conditions.items(PeacefulModItems.GUARDIAN_EFFIGY))
+                , exporter, "guardian_effigy");
+
+        AdvancementEntry raid_effigy = build(Advancement.Builder.create()
+                .display(
+                		PeacefulModItems.RAID_EFFIGY,
+                        Text.translatable("advancements.peaceful_items.raid_effigy.title"),
+                        Text.translatable("advancements.peaceful_items.raid_effigy.description"),
+                        null,
+                        AdvancementFrame.TASK,
+                        true,
+                        true,
+                        false
+                )
+                .parent(findEffigyAltarDungeon)
+                .criterion("has_raid_effigy", InventoryChangedCriterion.Conditions.items(PeacefulModItems.RAID_EFFIGY))
+                , exporter, "raid_effigy");
+
+        AdvancementEntry totem_of_undying = build(Advancement.Builder.create()
+                .display(
+                        Items.TOTEM_OF_UNDYING,
+                        Text.translatable("advancements.peaceful_items.totem_of_undying.title"),
+                        Text.translatable("advancements.peaceful_items.totem_of_undying.description"),
+                        null,
+                        AdvancementFrame.TASK,
+                        true,
+                        true,
+                        false
+                )
+                .parent(findEffigyAltarDungeon)
+                .criterion("has_totem_of_undying", InventoryChangedCriterion.Conditions.items(Items.TOTEM_OF_UNDYING))
+                , exporter, "totem_of_undying");
     }
     
     public AdvancementEntry build(Advancement.Builder builder, Consumer<AdvancementEntry> exporter, String id) {

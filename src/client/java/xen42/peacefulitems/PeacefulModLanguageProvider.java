@@ -145,6 +145,11 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 
 			translationBuilder.addAdvancement("root", "Peaceful Progression", "A better way to be peaceful");
 			translationBuilder.addAdvancement("find_effigy_altar_dungeon", "Altar to None", "Enter an Effigy Altar Dungeon");
+			translationBuilder.addAdvancement("dragon_effigy", "Echo of the End", "Craft an effigy of the Ender Dragon");
+			translationBuilder.addAdvancement("wither_effigy", "A Grim Reminder", "Craft an effigy of the Wither");
+			translationBuilder.addAdvancement("guardian_effigy", "From the Depths", "Craft an effigy of the Elder Guardian");
+			translationBuilder.addAdvancement("raid_effigy", "Sound the Horn", "Craft an effigy of a village raid");
+			translationBuilder.addAdvancement("totem_of_undying", "Fail-Safe", "Craft a Totem of Undying at an Effigy Altar");
 		}
 	}
 	
