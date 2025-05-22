@@ -106,16 +106,16 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                 
                 offerTo(createShapeless(RecipeCategory.MISC, Items.GUNPOWDER, 3)
                         .input(Items.CHARCOAL) 
-                        .input(PeacefulModItems.GUANO) 
+                        .input(PeacefulModTags.ItemTags.GUANO) 
                         .input(PeacefulModItems.SULPHUR) 
                         .criterion(hasItem(Items.CHARCOAL), conditionsFromItem(Items.CHARCOAL))
-                        .criterion(hasItem(PeacefulModItems.GUANO), conditionsFromItem(PeacefulModItems.GUANO))
+                        .criterion(hasItem(PeacefulModItems.GUANO), conditionsFromTag(PeacefulModTags.ItemTags.GUANO))
                         .criterion(hasItem(PeacefulModItems.SULPHUR), conditionsFromItem(PeacefulModItems.SULPHUR))
                         , exporter);
                 
                 offerTo(createShapeless(RecipeCategory.MISC, Items.PURPLE_DYE, 1)
-                        .input(PeacefulModItems.GUANO)
-                        .criterion(hasItem(PeacefulModItems.GUANO), conditionsFromItem(PeacefulModItems.GUANO))
+                        .input(PeacefulModTags.ItemTags.GUANO)
+                        .criterion(hasItem(PeacefulModItems.GUANO), conditionsFromTag(PeacefulModTags.ItemTags.GUANO))
                         , exporter);
 
                 offerTo(createShaped(RecipeCategory.MISC, PeacefulModBlocks.SULPHUR_BLOCK)
@@ -250,11 +250,11 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .pattern("ebe",
                                  "ggg",
                                   "g")
-                        .input('b', PeacefulModItems.GUANO)
+                        .input('b', PeacefulModTags.ItemTags.GUANO)
                         .input('e', Items.EMERALD)
                         .input('g', Items.IRON_INGOT)
                         // Advancement that gives the recipe
-                        .criterion(hasItem(PeacefulModItems.GUANO), conditionsFromItem(PeacefulModItems.GUANO))
+                        .criterion(hasItem(PeacefulModItems.GUANO), conditionsFromTag(PeacefulModTags.ItemTags.GUANO))
                         .criterion(hasItem(Items.EMERALD), conditionsFromItem(Items.EMERALD))
                         .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
                         .offerTo(exporter);

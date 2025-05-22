@@ -29,6 +29,7 @@ public class PeacefulModTags {
 		public static final TagKey<Item> SULFUR_ORES = TagRegistration.ITEM_TAG.registerC("ores/sulfur");
 		public static final TagKey<Item> ORE_BEARING_GROUND_SOUL_SOIL = TagRegistration.ITEM_TAG.registerC("ore_bearing_ground/soul_soil");
 		public static final TagKey<Item> ORES_IN_GROUND_SOUL_SOIL = TagRegistration.ITEM_TAG.registerC("ores_in_ground/soul_soil");
+		public static final TagKey<Item> GUANO = TagRegistration.ITEM_TAG.registerC("guano");
 	}
 	
 	public class StructureTags {

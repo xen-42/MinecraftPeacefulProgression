@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.util.Identifier;
 
 public class PeacefulModItemTagGenerator extends ItemTagProvider {
 	public PeacefulModItemTagGenerator(FabricDataOutput output, CompletableFuture<WrapperLookup> registriesFuture,
@@ -52,6 +53,10 @@ public class PeacefulModItemTagGenerator extends ItemTagProvider {
 			.add(PeacefulModItems.WITHER_EFFIGY)
 			.add(PeacefulModItems.GUARDIAN_EFFIGY)
 			.add(PeacefulModItems.RAID_EFFIGY);
+		
+		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.GUANO)
+			.add(PeacefulModItems.GUANO)
+			.addOptional(Identifier.of("jaizmod", "guano"));
 		
 		this.getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE)
 			.add(PeacefulModItems.CAPE);

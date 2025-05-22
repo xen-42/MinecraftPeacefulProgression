@@ -1,0 +1,9 @@
+{
+  "values": [
+    "peaceful-items:guano",
+    {
+      "id": "jaizmod:guano",
+      "required": false
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "R": "#c:guano"
+  },
+  "pattern": [
+    "RR"
+  ],
+  "result": {
+    "count": 2,
+    "id": "jaizmod:guano_pile"
+  },
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "jaizmod"
+      ]
+    }
+  ]
+}

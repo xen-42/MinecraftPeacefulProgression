@@ -3,7 +3,7 @@
   "category": "misc",
   "ingredients": [
     "minecraft:charcoal",
-    "peaceful-items:guano",
+    "#c:guano",
     "peaceful-items:sulphur"
   ],
   "result": {
