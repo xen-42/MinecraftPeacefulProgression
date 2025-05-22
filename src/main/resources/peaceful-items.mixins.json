@@ -15,6 +15,7 @@
 		"ServerPlayerEntityMixin",
 		"EnderDragonFightMixin",
 		"EnderDragonEntityMixin",
+		"EndPortalBlockMixin",
 		"AxeItemMixin",
 		"EnderDragonFight_Invoker",
 		"SoulFireBlockMixin",
