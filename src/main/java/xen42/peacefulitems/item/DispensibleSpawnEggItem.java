@@ -45,8 +45,6 @@ public class DispensibleSpawnEggItem extends SpawnEggItem {
                                     @Nullable DispenserBehavior dispenseItemBehavior) {
         super(entityType, properties);
         SpawnEggItem.SPAWN_EGGS.remove(entityType);
-        PeacefulMod.LOGGER.info("Registering spawn egg {} for {}", this.getName(),
-        		entityType.getName());
         if (dispenseItemBehavior != null) {
             DispenserBlock.registerBehavior(this, dispenseItemBehavior);
         }
