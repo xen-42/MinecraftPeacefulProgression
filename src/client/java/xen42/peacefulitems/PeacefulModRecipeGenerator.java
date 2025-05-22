@@ -171,6 +171,8 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
 
                 offerSmelting(List.of(PeacefulModBlocks.BLAZE_PICKLE), RecipeCategory.MISC, Items.BLAZE_ROD, 0.45f, 200, PeacefulModBlocks.BLAZE_PICKLE.getName().toString());
                 offerSmelting(List.of(PeacefulModBlocks.BREEZE_CORAL), RecipeCategory.MISC, Items.BREEZE_ROD, 0.45f, 200, PeacefulModBlocks.BREEZE_CORAL.getName().toString());
+                
+                offerSmelting(List.of(PeacefulModItems.CLAM), RecipeCategory.FOOD, PeacefulModItems.COOKED_CLAM, 0.35f, 200, PeacefulModItems.CLAM.getName().toString());
 
                 offerTo(createShapeless(RecipeCategory.MISC, Items.YELLOW_DYE, 1)
                         .input(PeacefulModItems.SULPHUR)

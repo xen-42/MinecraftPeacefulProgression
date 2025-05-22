@@ -103,6 +103,8 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.add(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE, "Deepslate Fossil Ore");
 			translationBuilder.add(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE, "Nether Fossil Ore");
 			translationBuilder.add(PeacefulModBlocks.EFFIGY_ALTAR, "Effigy Altar");
+			translationBuilder.add(PeacefulModItems.CLAM, "Clam");
+			translationBuilder.add(PeacefulModItems.COOKED_CLAM, "Cooked Clam");
 			
 			translationBuilder.add(PeacefulModBlocks.BLAZE_PICKLE, "Blaze Coral");
 			translationBuilder.add(PeacefulModBlocks.BREEZE_CORAL, "Breeze Coral");

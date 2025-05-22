@@ -56,6 +56,9 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
 
         itemModelGenerator.register(PeacefulModItems.GHASTLING_SPAWN_EGG, Models.GENERATED);
         itemModelGenerator.register(PeacefulModItems.END_CLAM_SPAWN_EGG, Models.GENERATED);
+
+        itemModelGenerator.register(PeacefulModItems.CLAM, Models.GENERATED);
+        itemModelGenerator.register(PeacefulModItems.COOKED_CLAM, Models.GENERATED);
     }
 
     @Override

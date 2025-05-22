@@ -14,9 +14,11 @@ import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.LeveledCauldronBlock;
 import net.minecraft.block.cauldron.CauldronBehavior;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ConsumableComponents;
 import net.minecraft.component.type.EquippableComponent;
 import net.minecraft.component.type.FireworkExplosionComponent;
 import net.minecraft.component.type.FoodComponent;
+import net.minecraft.component.type.FoodComponents;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ExperienceOrbEntity;
@@ -171,6 +173,12 @@ public class PeacefulModItems {
             user.dropStack(world, new ItemStack(Items.GLASS_BOTTLE, user.getRandom().nextBetween(1, 12)));
         }, SoundEvents.EVENT_RAID_HORN), new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
 
+    public static final Item CLAM = register("clam_meat", Item::new, 
+        new Item.Settings().food(new FoodComponent(5, 0.6f, false), ConsumableComponents.RAW_CHICKEN));
+    
+    public static final Item COOKED_CLAM = register("cooked_clam_meat", Item::new, 
+        new Item.Settings().food(new FoodComponent(5, 0.6f, false)));
+
     public static void initialize() {
         // Add custom items to groups
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register((itemGroup) -> {
@@ -201,6 +209,8 @@ public class PeacefulModItems {
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register((itemGroup) -> { 
             itemGroup.add(FLAX);
+            itemGroup.add(CLAM);
+            itemGroup.add(COOKED_CLAM);
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register((itemGroup) -> {
