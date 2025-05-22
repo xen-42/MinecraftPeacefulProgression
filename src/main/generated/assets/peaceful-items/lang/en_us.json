@@ -1,4 +1,8 @@
 {
+  "advancements.peaceful_items.find_effigy_altar_dungeon.description": "Enter an Effigy Altar Dungeon",
+  "advancements.peaceful_items.find_effigy_altar_dungeon.title": "Altar to None",
+  "advancements.peaceful_items.root.description": "A better way to be peaceful",
+  "advancements.peaceful_items.root.title": "Peaceful Progression",
   "block.peaceful-items.blaze_pickle": "Blaze Coral",
   "block.peaceful-items.breeze_coral": "Breeze Coral",
   "block.peaceful-items.chiseled_sulphur_block": "Chiseled Brimstone Block",

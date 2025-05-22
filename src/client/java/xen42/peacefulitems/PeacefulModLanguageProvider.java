@@ -74,6 +74,11 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 		public void addFilledMap(TagKey<Structure> structure, String value) {
 			add("filled_map." + structure.id().getNamespace() + "." + structure.id().getPath(), value);
 		}
+
+		public void addAdvancement(String path, String title, String description) {
+			add("advancements.peaceful_items." + path + ".title", title);
+			add("advancements.peaceful_items." + path + ".description", description);
+		}
 	}
 	
 	public static class English extends PeacefulModLanguageProvider {
@@ -137,6 +142,9 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addTags("Soul Soil Ores In Ground", PeacefulModTags.ItemTags.ORES_IN_GROUND_SOUL_SOIL, PeacefulModTags.BlockTags.ORES_IN_GROUND_SOUL_SOIL);
 			translationBuilder.addTags("Fossil Ores", PeacefulModTags.ItemTags.FOSSIL_ORES, PeacefulModTags.ItemTags.FOSSIL_ORES_C, PeacefulModTags.BlockTags.FOSSIL_ORES, PeacefulModTags.BlockTags.FOSSIL_ORES_C);
 			translationBuilder.addTags("Brimstone Ores", PeacefulModTags.ItemTags.SULPHUR_ORES, PeacefulModTags.ItemTags.SULPHUR_ORES_C, PeacefulModTags.ItemTags.SULFUR_ORES, PeacefulModTags.BlockTags.SULPHUR_ORES, PeacefulModTags.BlockTags.SULPHUR_ORES_C, PeacefulModTags.BlockTags.SULFUR_ORES);
+
+			translationBuilder.addAdvancement("root", "Peaceful Progression", "A better way to be peaceful");
+			translationBuilder.addAdvancement("find_effigy_altar_dungeon", "Altar to None", "Enter an Effigy Altar Dungeon");
 		}
 	}
 	
