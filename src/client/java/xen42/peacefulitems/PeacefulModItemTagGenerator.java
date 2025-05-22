@@ -47,6 +47,12 @@ public class PeacefulModItemTagGenerator extends ItemTagProvider {
 			.add(PeacefulModItems.SULPHUR);
 		this.getOrCreateTagBuilder(ConventionalItemTags.CLUSTERS)
 			.add(PeacefulModItems.SULPHUR);
+		this.getOrCreateTagBuilder(ConventionalItemTags.FOOD_POISONING_FOODS)
+			.add(PeacefulModItems.CLAM);
+		this.getOrCreateTagBuilder(ConventionalItemTags.COOKED_FISH_FOODS)
+			.add(PeacefulModItems.COOKED_CLAM);
+		this.getOrCreateTagBuilder(ConventionalItemTags.RAW_FISH_FOODS)
+			.add(PeacefulModItems.CLAM);
 		
 		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.EFFIGIES)
 			.add(PeacefulModItems.DRAGON_EFFIGY)
