@@ -3,6 +3,8 @@ package xen42.peacefulitems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
@@ -36,6 +38,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.Heightmap;
+import net.minecraft.world.World;
 import net.minecraft.world.GameRules.BooleanRule;
 import net.minecraft.world.GameRules.Category;
 import net.minecraft.world.biome.BiomeKeys;
@@ -175,5 +178,16 @@ public class PeacefulMod implements ModInitializer {
 				});
 			}
 		});
+
+		ServerWorldEvents.LOAD.register(((server, world) -> {
+			if (world.getRegistryKey() == World.END) {
+				PeacefulModEndPersistentState.INSTANCE = PeacefulModEndPersistentState.get(world);
+			}
+		}));
+		ServerWorldEvents.UNLOAD.register(((server, world) -> {
+			if (world.getRegistryKey() == World.END) {
+				PeacefulModEndPersistentState.INSTANCE = null;
+			}
+		}));
 	}
 }

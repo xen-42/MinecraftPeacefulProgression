@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.entity.boss.ServerBossBar;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
@@ -18,12 +19,16 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import xen42.peacefulitems.PeacefulMod;
+import xen42.peacefulitems.PeacefulModEndPersistentState;
 
 @Mixin(EnderDragonFight.class)
 public class EnderDragonFightMixin {
 
     @Shadow
     private ServerWorld world;
+
+    @Shadow
+    private BlockPos origin;
 
     @Shadow
     private UUID dragonUuid;
@@ -71,6 +76,15 @@ public class EnderDragonFightMixin {
                 generateEndPortal(true); // if no existing it will generate new one. if existing it will open the portal.
 
                 previouslyKilled = true;
+            }
+            
+            if (!PeacefulModEndPersistentState.INSTANCE.getHasSpawnedEgg()) {
+                BlockPos eggSpawnPos = new BlockPos(this.exitPortalLocation);
+                while (this.world.getBlockState(eggSpawnPos).isOf(Blocks.BEDROCK)) {
+                    eggSpawnPos = eggSpawnPos.up();
+                }
+                this.world.setBlockState(eggSpawnPos, Blocks.DRAGON_EGG.getDefaultState());
+                PeacefulModEndPersistentState.INSTANCE.setHasSpawnedEgg(true);
             }
 
             bossBar.setVisible(false);
