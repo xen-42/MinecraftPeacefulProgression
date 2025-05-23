@@ -211,14 +211,16 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
 
                 createEffigyAltar(PeacefulModItems.DRAGON_EFFIGY)
                         .pattern("ebe",
-                                 "wgw",
+                                 "wsw",
                                   "g")
                         .input('b', Blocks.CRYING_OBSIDIAN)
+                        .input('s', Blocks.END_STONE)
                         .input('e', Items.ENDER_EYE)
                         .input('g', Blocks.OBSIDIAN)
                         .input('w', PeacefulModItems.BAT_WING)
                         .cost(15)
                         // Advancement that gives the recipe
+                        .criterion(hasItem(Blocks.END_STONE), conditionsFromItem(Blocks.END_STONE))
                         .criterion(hasItem(Blocks.CRYING_OBSIDIAN), conditionsFromItem(Blocks.CRYING_OBSIDIAN))
                         .criterion(hasItem(Items.ENDER_EYE), conditionsFromItem(Items.ENDER_EYE))
                         .criterion(hasItem(Blocks.OBSIDIAN), conditionsFromItem(Blocks.OBSIDIAN))
@@ -230,10 +232,10 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                                  "bbb",
                                   "b")
                         .input('b', Items.TROPICAL_FISH)
-                        .input('e', Items.PUFFERFISH)
+                        .input('e', Items.PRISMARINE_CRYSTALS)
                         // Advancement that gives the recipe
                         .criterion(hasItem(Items.TROPICAL_FISH), conditionsFromItem(Items.TROPICAL_FISH))
-                        .criterion(hasItem(Items.PUFFERFISH), conditionsFromItem(Items.PUFFERFISH))
+                        .criterion(hasItem(Items.PRISMARINE_CRYSTALS), conditionsFromItem(Items.PRISMARINE_CRYSTALS))
                         .offerTo(exporter);
 
                 createEffigyAltar(PeacefulModItems.WITHER_EFFIGY)
