@@ -90,6 +90,7 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 		public void generate(WrapperLookup registryLookup, ModTranslationBuilder translationBuilder) {
 			translationBuilder.add(PeacefulModItems.BAT_WING, "Bat Wing");
 			translationBuilder.add(PeacefulModItems.GUANO, "Guano");
+			translationBuilder.add(PeacefulModItems.ECTOPLASM, "Ectoplasm");
 			translationBuilder.add(PeacefulModItems.SULPHUR, "Brimstone");
 			translationBuilder.add(PeacefulModItems.FLAX, "Flax Seeds");
 			

@@ -47,6 +47,7 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
         itemModelGenerator.register(PeacefulModItems.BAT_WING, Models.GENERATED);
         itemModelGenerator.registerWithBrokenCondition(PeacefulModItems.CAPE);
         itemModelGenerator.register(PeacefulModItems.GUANO, Models.GENERATED);
+        itemModelGenerator.register(PeacefulModItems.ECTOPLASM, Models.GENERATED);
         itemModelGenerator.register(PeacefulModItems.SULPHUR, Models.GENERATED);
         
         itemModelGenerator.register(PeacefulModItems.WITHER_EFFIGY, Models.GENERATED);

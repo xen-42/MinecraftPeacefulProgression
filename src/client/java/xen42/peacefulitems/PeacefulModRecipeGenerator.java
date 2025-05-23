@@ -191,9 +191,9 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
 
                 offerTo(createShapeless(RecipeCategory.MISC, Items.PHANTOM_MEMBRANE, 2)
                         .input(PeacefulModItems.BAT_WING, 3) 
-                        .input(Items.GHAST_TEAR)
+                        .input(PeacefulModItems.ECTOPLASM)
                         .criterion(hasItem(PeacefulModItems.BAT_WING), conditionsFromItem(PeacefulModItems.BAT_WING))
-                        .criterion(hasItem(Items.GHAST_TEAR), conditionsFromItem(Items.GHAST_TEAR))
+                        .criterion(hasItem(PeacefulModItems.ECTOPLASM), conditionsFromItem(PeacefulModItems.ECTOPLASM))
                         , exporter);
                 
                 offerTo(createEffigyAltar(Items.TOTEM_OF_UNDYING)

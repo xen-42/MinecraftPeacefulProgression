@@ -36,12 +36,15 @@ import net.minecraft.item.Items;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.equipment.EquipmentAsset;
 import net.minecraft.item.equipment.EquipmentAssetKeys;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.Potions;
+import net.minecraft.recipe.BrewingRecipeRegistry;
 import net.minecraft.recipe.FireworkStarRecipe;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -81,6 +84,7 @@ public class PeacefulModItems {
             )
             .repairable(BAT_WING));
     
+    public static final Item ECTOPLASM = register("ectoplasm", Item::new, new Item.Settings());
     public static final Item GUANO = register("guano", Item::new, new Item.Settings());
     public static final Item SULPHUR = register("sulphur", (settings) -> new BlockItem(PeacefulModBlocks.SULPHUR_CLUSTER, settings), new Item.Settings());
     public static final Item FLAX = register("flax", (settings) -> 
@@ -191,6 +195,7 @@ public class PeacefulModItems {
         
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register((itemGroup) -> { 
             itemGroup.add(BAT_WING);
+            itemGroup.add(ECTOPLASM);
             itemGroup.add(GUANO);
             itemGroup.add(SULPHUR);
         });

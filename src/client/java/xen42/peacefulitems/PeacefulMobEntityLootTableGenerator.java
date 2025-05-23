@@ -45,6 +45,19 @@ public class PeacefulMobEntityLootTableGenerator extends FabricEntityLootTablePr
                 )
             );
         this.register(
+                PeacefulMod.GHASTLING_ENTITY, 
+                LootTable.builder()
+                .pool(
+                    LootPool.builder()
+                        .rolls(ConstantLootNumberProvider.create(1.0F))
+                        .with(
+                            ItemEntry.builder(PeacefulModItems.ECTOPLASM)
+                                .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(0.0F, 2.0F)))
+                                .apply(EnchantedCountIncreaseLootFunction.builder(registries, UniformLootNumberProvider.create(0.0F, 1.0F)))
+                        )
+                )
+            );
+        this.register(
                 PeacefulMod.END_CLAM_ENTITY, 
                 LootTable.builder()
                 .pool(

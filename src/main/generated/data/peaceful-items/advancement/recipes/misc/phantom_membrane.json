@@ -11,11 +11,11 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_ghast_tear": {
+    "has_ectoplasm": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:ghast_tear"
+            "items": "peaceful-items:ectoplasm"
           }
         ]
       },
@@ -32,7 +32,7 @@
     [
       "has_the_recipe",
       "has_bat_wing",
-      "has_ghast_tear"
+      "has_ectoplasm"
     ]
   ],
   "rewards": {
