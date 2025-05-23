@@ -10,9 +10,6 @@ on:
   # Trigger the workflow on pushes to only the 'main' branch
   push:
     branches: [ main ]
-  # Trigger the workflow on any pull request to only the 'main' branch
-  pull_request:
-    branches: [ "main" ]
 
 permissions:
   contents: write
