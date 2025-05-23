@@ -2,10 +2,18 @@
   "type": "peaceful-items:effigy_altar",
   "cost": 15,
   "key": {
-    "b": "minecraft:crying_obsidian",
-    "e": "minecraft:ender_eye",
-    "g": "minecraft:obsidian",
-    "w": "peaceful-items:bat_wing"
+    "b": {
+      "item": "minecraft:crying_obsidian"
+    },
+    "e": {
+      "item": "minecraft:ender_eye"
+    },
+    "g": {
+      "item": "minecraft:obsidian"
+    },
+    "w": {
+      "item": "peaceful-items:bat_wing"
+    }
   },
   "pattern": [
     "ebe",

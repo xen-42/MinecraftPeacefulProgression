@@ -55,7 +55,7 @@ public class BatEntityMixin {
 		if (!bat.getWorld().isClient && bat.isAlive() && !bat.isBaby() && random.nextFloat() < 1f / (300f * 20f)) {
 			bat.emitGameEvent(GameEvent.ENTITY_PLACE);
 			bat.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0f, (random.nextFloat() - random.nextFloat()) * 0.2f + 1.0f);
-            bat.dropItem((ServerWorld)bat.getWorld(), PeacefulModItems.GUANO);
+            bat.dropItem(PeacefulModItems.GUANO);
 		}
 	}
 
@@ -93,7 +93,7 @@ public class BatEntityMixin {
 					}
 
 					if (j > i - 1) {
-						bat.damage(serverWorld, bat.getDamageSources().cramming(), 6.0F);
+						bat.damage(bat.getDamageSources().cramming(), 6.0F);
 					}
 				}
 
@@ -105,8 +105,9 @@ public class BatEntityMixin {
 	}
 
 	@Inject(at = @At("HEAD"), method = "mobTick", cancellable = true)
-    public void mobTick(ServerWorld world, CallbackInfo info) {
+    public void mobTick(CallbackInfo info) {
 		var bat = ((BatEntity)(Object)this);
+		var world = bat.getWorld();
 		var player = world.getClosestPlayer(bat, 10);
 		if (!bat.isRoosting()) {
 			var breedingTicks = bat.getDataTracker().get(PeacefulMod.BAT_BREEDING_TICKS);
@@ -129,9 +130,9 @@ public class BatEntityMixin {
 				}
 				if (mate != null) {
 					if (mate.distanceTo(bat) < 0.5f) {
-						var baby = EntityType.BAT.create(world, SpawnReason.BREEDING);
+						var baby = EntityType.BAT.create(world);
 						baby.refreshPositionAndAngles(bat.getX(), bat.getY(), bat.getZ(), 0.0f, 0.0f);
-						world.spawnEntityAndPassengers(baby);
+						world.spawnEntity(baby);
 						world.sendEntityStatus(bat, EntityStatuses.ADD_BREEDING_PARTICLES);
 						if (world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
 							world.spawnEntity(new ExperienceOrbEntity(world, bat.getParticleX(1.0), bat.getRandomBodyY() + 0.5, bat.getParticleZ(1.0), bat.getRandom().nextInt(7) + 1));
@@ -171,7 +172,7 @@ public class BatEntityMixin {
 				}
 			}
 			if (player != null && player.isHolding(Items.MELON_SLICE)) {
-				var playerPos = player.getPos().add(player.getHorizontalFacing().getDoubleVector());
+				var playerPos = player.getPos().add(Vec3d.of(player.getHorizontalFacing().getVector()));
 
 				BatHelper.FlyTowards(bat, playerPos.add(new Vec3d(0f, 1.0f, 0f)));
 				info.cancel();

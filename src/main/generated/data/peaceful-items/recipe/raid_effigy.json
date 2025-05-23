@@ -1,9 +1,15 @@
 {
   "type": "peaceful-items:effigy_altar",
   "key": {
-    "b": "#c:guano",
-    "e": "minecraft:emerald",
-    "g": "minecraft:iron_ingot"
+    "b": {
+      "tag": "c:guano"
+    },
+    "e": {
+      "item": "minecraft:emerald"
+    },
+    "g": {
+      "item": "minecraft:iron_ingot"
+    }
   },
   "pattern": [
     "ebe",

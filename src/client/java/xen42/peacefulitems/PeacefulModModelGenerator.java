@@ -12,7 +12,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.LeveledCauldronBlock;
 import net.minecraft.client.render.item.ItemModels;
-import net.minecraft.client.render.model.ItemModel;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.BlockStateVariant;
 import net.minecraft.data.client.BlockStateVariantMap;

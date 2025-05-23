@@ -17,8 +17,8 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
-import net.minecraft.world.tick.ScheduledTickView;
 import xen42.peacefulitems.PeacefulModBlocks;
 import xen42.peacefulitems.PeacefulModItems;
 
@@ -69,7 +69,7 @@ public class FlaxCropBlock extends CropBlock {
 	}
 
     @Override
-    public BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView view, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
+    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
         if (!state.canPlaceAt(world, pos) && !world.getBlockState(pos.down()).isOf(this)) {
             return Blocks.AIR.getDefaultState();
         }

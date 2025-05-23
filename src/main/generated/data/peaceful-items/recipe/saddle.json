@@ -2,9 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "X": "minecraft:leather",
-    "Y": "minecraft:slime_ball",
-    "Z": "minecraft:iron_ingot"
+    "X": {
+      "item": "minecraft:leather"
+    },
+    "Y": {
+      "item": "minecraft:slime_ball"
+    },
+    "Z": {
+      "item": "minecraft:iron_ingot"
+    }
   },
   "pattern": [
     "XXX",

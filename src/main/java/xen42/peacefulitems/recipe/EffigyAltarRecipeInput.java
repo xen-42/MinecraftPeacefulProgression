@@ -2,13 +2,13 @@ package xen42.peacefulitems.recipe;
 
 import java.util.List;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.RecipeFinder;
+import net.minecraft.recipe.RecipeMatcher;
 import net.minecraft.recipe.input.RecipeInput;
 
 public class EffigyAltarRecipeInput implements RecipeInput {
 	private static final int MAX_WIDTH_AND_HEIGHT = 3;
 	private final List<ItemStack> stacks;
-	private final RecipeFinder matcher = new RecipeFinder();
+	private final RecipeMatcher matcher = new RecipeMatcher();
 	private final int stackCount;
 
 	private EffigyAltarRecipeInput(List<ItemStack> stacks) {
@@ -38,7 +38,6 @@ public class EffigyAltarRecipeInput implements RecipeInput {
 		return (ItemStack)this.stacks.get(x + y * MAX_WIDTH_AND_HEIGHT);
 	}
 
-	@Override
 	public int size() {
 		return this.stacks.size();
 	}
@@ -48,7 +47,7 @@ public class EffigyAltarRecipeInput implements RecipeInput {
 		return this.stackCount == 0;
 	}
 
-	public RecipeFinder getRecipeMatcher() {
+	public RecipeMatcher getRecipeMatcher() {
 		return this.matcher;
 	}
 
@@ -93,5 +92,10 @@ public class EffigyAltarRecipeInput implements RecipeInput {
 		}
 
 		return i;
+	}
+
+	@Override
+	public int getSize() {
+		return size();
 	}
 }

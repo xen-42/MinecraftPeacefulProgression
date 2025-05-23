@@ -28,7 +28,6 @@ import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.book.RecipeBookCategory;
-import net.minecraft.recipe.display.RecipeDisplay;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -48,10 +47,7 @@ import net.minecraft.world.gen.structure.Structure;
 import xen42.peacefulitems.entities.EndClamEntity;
 import xen42.peacefulitems.entities.GhastlingEntity;
 import xen42.peacefulitems.payloads.EffigyParticlePayload;
-import xen42.peacefulitems.payloads.GhostRecipeCostRequest;
-import xen42.peacefulitems.payloads.GhostRecipeCostResponse;
 import xen42.peacefulitems.recipe.EffigyAltarRecipe;
-import xen42.peacefulitems.recipe.EffigyAltarRecipeDisplay;
 import xen42.peacefulitems.screen.EffigyAltarScreenHandler;
 
 import org.slf4j.Logger;
@@ -74,12 +70,6 @@ public class PeacefulMod implements ModInitializer {
 		}
 	});
 	public static final RecipeSerializer<EffigyAltarRecipe> EFFIGY_ALTAR_RECIPE_SERIALIZER = Registry.register(Registries.RECIPE_SERIALIZER, Identifier.of(MOD_ID, "effigy_altar"), new EffigyAltarRecipe.Serializer());
-	public static final RecipeDisplay.Serializer<EffigyAltarRecipeDisplay> EFFIGY_ALTAR_RECIPE_DISPLAY = Registry.register(Registries.RECIPE_DISPLAY, Identifier.of(MOD_ID, "effigy_altar"), EffigyAltarRecipeDisplay.SERIALIZER);
-	public static final RecipeBookCategory EFFIGY_ALTAR_RECIPE_BOOK_CATEGORY = Registry.register(Registries.RECIPE_BOOK_CATEGORY, Identifier.of(MOD_ID, "effigy_altar"), new RecipeBookCategory() {
-		public String toString() {
-			return "EFFIGY_ALTAR";
-		}
-	});
 	public static final RegistryKey<PlacedFeature> FOSSIL_ORE_PLACED_KEY = RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(MOD_ID,"fossil_ore"));
 	public static final RegistryKey<PlacedFeature> NETHER_FOSSIL_ORE_PLACED_KEY = RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(MOD_ID,"nether_fossil_ore"));
 	public static final RegistryKey<PlacedFeature> SULPHUR_ORE_PLACED_KEY = RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(MOD_ID,"sulphur_ore"));
@@ -104,13 +94,13 @@ public class PeacefulMod implements ModInitializer {
 	public static final EntityType<GhastlingEntity> GHASTLING_ENTITY = Registry.register(
 		Registries.ENTITY_TYPE, 
 		Identifier.of(MOD_ID, "ghastling"), 
-		EntityType.Builder.create(GhastlingEntity::new, SpawnGroup.AMBIENT).dimensions(0.5f, 1.5f).build(GHASTLING_ENTITY_KEY));
+		EntityType.Builder.create(GhastlingEntity::new, SpawnGroup.AMBIENT).dimensions(0.5f, 1.5f).build(GHASTLING_ENTITY_KEY.toString()));
 
 	public static final RegistryKey<EntityType<?>> END_CLAM_ENTITY_KEY = RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(MOD_ID,"end_clam"));
 	public static final EntityType<EndClamEntity> END_CLAM_ENTITY = Registry.register(
 		Registries.ENTITY_TYPE, 
 		Identifier.of(MOD_ID, "end_clam"), 
-		EntityType.Builder.create(EndClamEntity::new, SpawnGroup.AMBIENT).dimensions(0.5f, 0.3f).build(END_CLAM_ENTITY_KEY));
+		EntityType.Builder.create(EndClamEntity::new, SpawnGroup.AMBIENT).dimensions(0.5f, 0.3f).build(END_CLAM_ENTITY_KEY.toString()));
 
 	public static final Identifier EFFIGY_PARTICLE_PAYLOAD = Identifier.of(MOD_ID, "effigy_particle_payload");
 
@@ -160,13 +150,6 @@ public class PeacefulMod implements ModInitializer {
 		SpawnRestriction.register(END_CLAM_ENTITY, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EndClamEntity::isValidSpawn);
 
 		PayloadTypeRegistry.playS2C().register(EffigyParticlePayload.ID, EffigyParticlePayload.CODEC);
-
-		PayloadTypeRegistry.playS2C().register(GhostRecipeCostResponse.PAYLOAD_ID, GhostRecipeCostResponse.CODEC);
-		PayloadTypeRegistry.playC2S().register(GhostRecipeCostRequest.PAYLOAD_ID, GhostRecipeCostRequest.CODEC);
-		ServerPlayNetworking.registerGlobalReceiver(GhostRecipeCostRequest.PAYLOAD_ID, (payload, context) -> {
-			int cost = EffigyAltarScreenHandler.getXPCost(context.player().getServerWorld(), payload.ghostInputs());
-			ServerPlayNetworking.send(context.player(), new GhostRecipeCostResponse(cost));
-		});
 
 		LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
 			if (key.getValue().equals(Identifier.of("minecraft", "archaeology/ocean_ruin_cold"))) {

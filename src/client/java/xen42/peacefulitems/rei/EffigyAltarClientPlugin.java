@@ -9,7 +9,7 @@ import me.shedaniel.rei.api.client.registry.transfer.TransferHandlerRegistry;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import xen42.peacefulitems.PeacefulMod;
 import xen42.peacefulitems.PeacefulModBlocks;
-import xen42.peacefulitems.recipe.EffigyAltarRecipeDisplay;
+import xen42.peacefulitems.recipe.EffigyAltarRecipe;
 import xen42.peacefulitems.screen.EffigyAltarHandledScreen;
 
 public class EffigyAltarClientPlugin implements REIClientPlugin {
@@ -31,16 +31,14 @@ public class EffigyAltarClientPlugin implements REIClientPlugin {
 	@Override
 	public void registerDisplays(DisplayRegistry registry) {
 		PeacefulMod.LOGGER.info("Registering displays");
-		
-		registry.beginRecipeFiller(EffigyAltarRecipeDisplay.class)
-			.filterType(EffigyAltarRecipeDisplay.SERIALIZER)
-			.fill(ClientsidedEffigyAltarREIDisplay::new);
+
+		registry.registerRecipeFiller(EffigyAltarRecipe.class, PeacefulMod.EFFIGY_ALTAR_RECIPE_TYPE, EffigyAltarREIDisplay::new);
 	}
 	
 	@Override
 	public void registerScreens(ScreenRegistry registry) {
 		PeacefulMod.LOGGER.info("Registering screens");
-		
+
 		registry.registerContainerClickArea(new Rectangle(88, 24 - 8, 28, 23), EffigyAltarHandledScreen.class, EffigyAltarServerPlugin.EFFIGY_ALTAR_CATEGORY);
 	}
 	

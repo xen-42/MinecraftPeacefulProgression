@@ -2,10 +2,18 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "peaceful-items:bat_wing",
-    "peaceful-items:bat_wing",
-    "peaceful-items:bat_wing",
-    "peaceful-items:ectoplasm"
+    {
+      "item": "peaceful-items:bat_wing"
+    },
+    {
+      "item": "peaceful-items:bat_wing"
+    },
+    {
+      "item": "peaceful-items:bat_wing"
+    },
+    {
+      "item": "peaceful-items:ectoplasm"
+    }
   ],
   "result": {
     "count": 2,

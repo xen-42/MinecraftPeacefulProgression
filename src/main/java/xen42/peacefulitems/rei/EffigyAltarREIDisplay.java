@@ -20,48 +20,41 @@ import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.entry.InputIngredient;
+import me.shedaniel.rei.api.common.registry.RecipeManagerContext;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeEntry;
-import net.minecraft.recipe.display.RecipeDisplay;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.util.Identifier;
 import xen42.peacefulitems.recipe.EffigyAltarRecipe;
-import xen42.peacefulitems.recipe.EffigyAltarRecipeDisplay;
 
 public class EffigyAltarREIDisplay extends BasicDisplay implements SimpleGridMenuDisplay {
-	public static final DisplaySerializer<EffigyAltarREIDisplay> SERIALIZER = DisplaySerializer.of(
-			RecordCodecBuilder.mapCodec(instance -> instance.group(
-					EntryIngredient.codec().listOf().fieldOf("inputs").forGetter(EffigyAltarREIDisplay::getInputEntries),
-					EntryIngredient.codec().listOf().fieldOf("outputs").forGetter(EffigyAltarREIDisplay::getOutputEntries),
-					Codec.INT.fieldOf("cost").forGetter(EffigyAltarREIDisplay::getCost)
-			).apply(instance, EffigyAltarREIDisplay::new)),
-			PacketCodec.tuple(
-					EntryIngredient.streamCodec().collect(PacketCodecs.toList()),
-					EffigyAltarREIDisplay::getInputEntries,
-					EntryIngredient.streamCodec().collect(PacketCodecs.toList()),
-					EffigyAltarREIDisplay::getOutputEntries,
-					PacketCodecs.INTEGER,
-					EffigyAltarREIDisplay::getCost,
-					EffigyAltarREIDisplay::new
-			), false);
-	
+	public static final BasicDisplay.Serializer<EffigyAltarREIDisplay> SERIALIZER = BasicDisplay.Serializer.<EffigyAltarREIDisplay>of((input, output, location, tag) -> {
+			int cost = tag.getInt("Cost");
+			return EffigyAltarREIDisplay.simple(input, output, cost, location);
+		}, (display, tag) -> {
+			tag.putInt("Cost", display.getCost());
+		});
 	private final int cost;
-	
-	public EffigyAltarREIDisplay(EffigyAltarRecipeDisplay recipe) {
-		this(EntryIngredients.ofSlotDisplays(recipe.ingredients()),
-				List.of(EntryIngredients.ofSlotDisplay(recipe.result())),
-				recipe.cost());
+
+	@SuppressWarnings("unchecked")
+	public static EffigyAltarREIDisplay simple(List<EntryIngredient> input, List<EntryIngredient> output, int cost, Optional<Identifier> location) {
+		Optional<RecipeEntry<?>> optionalRecipe = location.flatMap(resourceLocation -> RecipeManagerContext.getInstance().getRecipeManager().get(resourceLocation));
+		if (optionalRecipe.isPresent()) {
+			return new EffigyAltarREIDisplay((RecipeEntry<EffigyAltarRecipe>)optionalRecipe.get());
+		}
+		else {
+			return new EffigyAltarREIDisplay(input, output, cost);
+		}
 	}
-	
+
 	static List<EntryIngredient> ingredientsFromRecipe(EffigyAltarRecipe recipe){
 		List<EntryIngredient> ingredients = new ArrayList<EntryIngredient>();
-		for (Optional<Ingredient> optionalIngredient : recipe.getIngredients()) {
-			if (optionalIngredient.isPresent()) {
-				ingredients.add(EntryIngredients.ofIngredient(optionalIngredient.get()));
-			}
+		for (Ingredient ingredient : recipe.getIngredients()) {
+			ingredients.add(EntryIngredients.ofIngredient(ingredient));
 		}
 		return ingredients;
 	}
@@ -73,6 +66,8 @@ public class EffigyAltarREIDisplay extends BasicDisplay implements SimpleGridMen
 	public EffigyAltarREIDisplay(EffigyAltarRecipe recipe) {
 		this(ingredientsFromRecipe(recipe), List.of(EntryIngredients.of(recipe.result())), recipe.getCostOrDefault());
 	}
+
+	protected Optional<RecipeEntry<EffigyAltarRecipe>> recipe;
 	
 	public EffigyAltarREIDisplay(List<EntryIngredient> inputs, List<EntryIngredient> outputs, int cost) {
 		super(inputs, outputs);
@@ -91,11 +86,6 @@ public class EffigyAltarREIDisplay extends BasicDisplay implements SimpleGridMen
 	
 	public int getCost() {
 		return cost;
-	}
-
-	@Override
-	public DisplaySerializer<? extends Display> getSerializer() {
-		return SERIALIZER;
 	}
 
 	@Override
@@ -178,16 +168,6 @@ public class EffigyAltarREIDisplay extends BasicDisplay implements SimpleGridMen
 	@Nullable
 	public static EffigyAltarREIDisplay of(RecipeEntry<? extends EffigyAltarRecipe> holder) {
 		EffigyAltarRecipe recipe = holder.value();
-		if (recipe instanceof EffigyAltarRecipe) {
-			return new EffigyAltarREIDisplay(recipe);
-		} else if (!recipe.isIgnoredInRecipeBook()) {
-			for (RecipeDisplay d : recipe.getDisplays()) {
-				if (d instanceof EffigyAltarRecipeDisplay display) {
-					return new EffigyAltarREIDisplay(display);
-				}
-			}
-		}
-		
-		return null;
+		return new EffigyAltarREIDisplay(recipe);
 	}
 }

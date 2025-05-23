@@ -36,7 +36,7 @@ public class PandaEntityMixin {
         // Bump that up to 3 (technically theres a 1 in 2100 chance now that they drop two at once)
         // Also make it spawn near their face
         if (!panda.getWorld().isClient() && random.nextInt(3) == 0) {
-            var item = panda.dropItem((ServerWorld)panda.getWorld(), Items.SLIME_BALL);
+            var item = panda.dropItem(Items.SLIME_BALL);
             item.setPosition(nosePos);
             // Play a sound so you know it happened
             panda.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0f, (random.nextFloat() - random.nextFloat()) * 0.2f + 1.0f);

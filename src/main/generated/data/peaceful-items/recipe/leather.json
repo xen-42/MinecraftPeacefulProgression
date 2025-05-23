@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "X": "peaceful-items:bat_wing"
+    "X": {
+      "item": "peaceful-items:bat_wing"
+    }
   },
   "pattern": [
     "XX",

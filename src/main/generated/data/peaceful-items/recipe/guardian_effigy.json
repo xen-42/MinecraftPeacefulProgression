@@ -1,8 +1,12 @@
 {
   "type": "peaceful-items:effigy_altar",
   "key": {
-    "b": "minecraft:tropical_fish",
-    "e": "minecraft:pufferfish"
+    "b": {
+      "item": "minecraft:tropical_fish"
+    },
+    "e": {
+      "item": "minecraft:pufferfish"
+    }
   },
   "pattern": [
     "beb",

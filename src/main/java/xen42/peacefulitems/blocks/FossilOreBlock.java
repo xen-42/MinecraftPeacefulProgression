@@ -25,7 +25,7 @@ public class FossilOreBlock extends BrushableBlock {
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         BlockEntity entity = world.getBlockEntity(pos);
         if (entity instanceof BrushableBlockEntity brushableBlockEntity) {
-            brushableBlockEntity.scheduledTick(world);
+            brushableBlockEntity.scheduledTick();
         }
 
         // Removes the part where suspicious sand falls

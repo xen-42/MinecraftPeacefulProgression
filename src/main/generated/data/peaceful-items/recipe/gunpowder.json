@@ -2,9 +2,15 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "minecraft:charcoal",
-    "#c:guano",
-    "peaceful-items:sulphur"
+    {
+      "item": "minecraft:charcoal"
+    },
+    {
+      "tag": "c:guano"
+    },
+    {
+      "item": "peaceful-items:sulphur"
+    }
   ],
   "result": {
     "count": 3,

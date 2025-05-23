@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "peaceful-items:blaze_pickle"
+    {
+      "item": "peaceful-items:blaze_pickle"
+    }
   ],
   "result": {
     "count": 1,

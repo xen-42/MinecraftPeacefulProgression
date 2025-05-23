@@ -2,8 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "b": "peaceful-items:bat_wing",
-    "l": "minecraft:leather"
+    "b": {
+      "item": "peaceful-items:bat_wing"
+    },
+    "l": {
+      "item": "minecraft:leather"
+    }
   },
   "pattern": [
     "blb",

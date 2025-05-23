@@ -19,11 +19,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.s2c.play.ScreenHandlerSlotUpdateS2CPacket;
-import net.minecraft.recipe.IngredientPlacement;
+import net.minecraft.recipe.CraftingRecipe;
 import net.minecraft.recipe.RecipeEntry;
-import net.minecraft.recipe.RecipeFinder;
+import net.minecraft.recipe.RecipeMatcher;
 import net.minecraft.recipe.RecipeUnlocker;
-import net.minecraft.recipe.book.RecipeBookType;
+import net.minecraft.recipe.book.RecipeBookCategory;
+import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.AbstractRecipeScreenHandler;
 import net.minecraft.screen.Property;
@@ -43,7 +44,7 @@ import xen42.peacefulitems.recipe.EffigyAltarRecipe;
 import xen42.peacefulitems.recipe.EffigyAltarRecipeInput;
 import net.minecraft.entity.Entity;
 
-public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
+public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler<EffigyAltarRecipeInput, EffigyAltarRecipe> {
 
     public static final int OUTPUT_SLOT = 0;
     public static final int INPUT_SLOTS_START = 1;
@@ -126,6 +127,25 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
         this.addPlayerSlots(playerInventory, 8, 84);
     }
     
+    protected void addPlayerHotbarSlots(Inventory playerInventory, int left, int y) {
+        for (int i = 0; i < 9; i++) {
+            this.addSlot(new Slot(playerInventory, i, left + i * 18, y));
+        }
+    }
+
+    protected void addPlayerInventorySlots(Inventory playerInventory, int left, int top) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 9; j++) {
+                this.addSlot(new Slot(playerInventory, j + (i + 1) * 9, left + j * 18, top + i * 18));
+            }
+        }
+    }
+
+    protected void addPlayerSlots(Inventory playerInventory, int left, int top) {
+        this.addPlayerInventorySlots(playerInventory, left, top);
+        this.addPlayerHotbarSlots(playerInventory, left, top + 58);
+    }
+    
     public static boolean isBrimstone(ItemStack stack) {
         return stack.isOf(PeacefulModItems.SULPHUR);
     }
@@ -148,7 +168,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
             if (optional.isPresent()) {
                 RecipeEntry<EffigyAltarRecipe> recipeEntry = (RecipeEntry<EffigyAltarRecipe>)optional.get();
                 EffigyAltarRecipe altarRecipe = recipeEntry.value();
-                boolean shouldCraftRecipe = resultInventory.shouldCraftRecipe(serverPlayerEntity, recipeEntry);
+                boolean shouldCraftRecipe = resultInventory.shouldCraftRecipe(world, serverPlayerEntity, recipeEntry);
                 if (shouldCraftRecipe) {
                     ItemStack craftedStack = altarRecipe.craft(recipeInput, world.getRegistryManager());
                     boolean isItemEnabled = craftedStack.isItemEnabled(world.getEnabledFeatures());
@@ -230,8 +250,8 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
     }
 
     @Override
-    public boolean canInsertIntoSlot(ItemStack stack, Slot slot) {
-        return slot.inventory != this.resultInventory && super.canInsertIntoSlot(stack, slot);
+    public boolean canInsertIntoSlot(int index) {
+        return index != this.getCraftingResultSlotIndex();
     }
 
     @Override
@@ -240,32 +260,14 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
         this.context.run((world, pos) -> this.dropInventory(player, this.inventory));
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public PostFillAction fillInputSlots(
-        boolean craftAll, boolean creative, RecipeEntry<?> recipe, ServerWorld world, PlayerInventory inventory
-    ) {
-        RecipeEntry<EffigyAltarRecipe> recipeEntry = (RecipeEntry<EffigyAltarRecipe>)recipe;
-        
-        this.onInputSlotFillStart();
-
-        Slot brimstoneSlot = this.getBrimstoneSlot();
-        List<Slot> inputSlots = this.getInputSlots();
-        PostFillAction postFillAction = new EffigyAltarInputSlotFiller(brimstoneSlot, inputSlots, inventory, recipeEntry, craftAll, creative).fill();
-
-        this.onInputSlotFillFinish(world, recipeEntry);
-
-        return postFillAction;
-    }
-
-    @Override
-    public void populateRecipeFinder(RecipeFinder finder) {
+    public void populateRecipeFinder(RecipeMatcher finder) {
         this.inventory.provideRecipeInputs(finder);
     }
 
     @Override
-    public RecipeBookType getCategory() {
-        return RecipeBookType.CRAFTING; // Return crafting because making a RecipeBookType is impossible.
+    public RecipeBookCategory getCategory() {
+        return RecipeBookCategory.CRAFTING; // Return crafting because making a RecipeBookCategory is impossible.
     }
 
     public void onInputSlotFillStart() {
@@ -291,6 +293,37 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
 
     public PlayerEntity getPlayer() {
         return this.player;
+    }
+
+    @Override
+    public int getCraftingResultSlotIndex() {
+        return OUTPUT_SLOT;
+    }
+
+    @Override
+    public int getCraftingWidth() {
+        return MAX_WIDTH_AND_HEIGHT;
+    }
+
+    @Override
+    public int getCraftingHeight() {
+        return MAX_WIDTH_AND_HEIGHT;
+    }
+
+    @Override
+    public int getCraftingSlotCount() {
+        return BRIMSTONE_SLOT;
+    }
+
+    @Override
+    public void clearCraftingSlots() {
+        this.inventory.clear();
+        this.resultInventory.clear();
+    }
+
+    @Override
+    public boolean matches(RecipeEntry<EffigyAltarRecipe> recipe) {
+        return recipe.value().matches(EffigyAltarRecipeInput.create(this.inventory.getHeldStacks()), this.player.getWorld());
     }
     
     private class EffigySimpleInventory extends SimpleInventory implements RecipeInputInventory {
@@ -478,250 +511,5 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
 
 
     private class EffigyAltarInputSlotFiller {
-        private final Slot brimstoneSlot;
-        private final List<Slot> inputSlots;
-        private final List<Slot> slotsToReturn;
-        private final PlayerInventory inventory;
-        private final RecipeEntry<EffigyAltarRecipe> recipe;
-        private final boolean craftAll;
-        private final boolean creative;
-        
-        public EffigyAltarInputSlotFiller(
-            Slot brimstoneSlot,
-              List<Slot> inputSlots,
-               PlayerInventory inventory,
-               RecipeEntry<EffigyAltarRecipe> recipe,
-            boolean craftAll,
-               boolean creative
-           ) {
-            this(brimstoneSlot, inputSlots, inputSlots, inventory, recipe, craftAll, creative);
-        }
-        
-        public EffigyAltarInputSlotFiller(
-            Slot brimstoneSlot,
-               List<Slot> inputSlots,
-               List<Slot> slotsToReturn,
-            PlayerInventory inventory,
-            RecipeEntry<EffigyAltarRecipe> recipe,
-            boolean craftAll,
-               boolean creative
-           ) {
-            this.brimstoneSlot = brimstoneSlot;
-            this.inputSlots = inputSlots;
-            this.slotsToReturn = slotsToReturn;
-            this.inventory = inventory;
-            this.recipe = recipe;
-            this.craftAll = craftAll;
-            this.creative = creative;
-        }
-        
-        public AbstractRecipeScreenHandler.PostFillAction fill() {
-            if (!creative && !canReturnInputs()) {
-                return AbstractRecipeScreenHandler.PostFillAction.NOTHING;
-            } else {
-                RecipeFinder recipeFinder = new RecipeFinder();
-                inventory.populateRecipeFinder(recipeFinder);
-                populateRecipeFinder(recipeFinder);
-                return tryFill(recipe, recipeFinder);
-            }
-        }
-
-        public void clear() {
-            EffigyAltarScreenHandler.this.resultInventory.clear();
-            EffigyAltarScreenHandler.this.inventory.clear();
-        }
-
-        public boolean matches(RecipeEntry<EffigyAltarRecipe> entry) {
-            return entry.value()
-                .matches(EffigyAltarRecipeInput.create(EffigyAltarScreenHandler.this.inventory.getHeldStacks()), getPlayer().getWorld());
-        }
-
-        private AbstractRecipeScreenHandler.PostFillAction tryFill(RecipeEntry<EffigyAltarRecipe> recipe, RecipeFinder finder) {
-            if (finder.isCraftable(recipe.value(), null)) {
-                this.fill(recipe, finder);
-                this.inventory.markDirty();
-                return AbstractRecipeScreenHandler.PostFillAction.NOTHING;
-            } else {
-                this.returnInputs();
-                this.inventory.markDirty();
-                return AbstractRecipeScreenHandler.PostFillAction.PLACE_GHOST_RECIPE;
-            }
-        }
-
-        private void returnInputs() {
-            for (Slot slot : this.slotsToReturn) {
-                ItemStack itemStack = slot.getStack().copy();
-                this.inventory.offer(itemStack, false);
-                slot.setStackNoCallbacks(itemStack);
-            }
-            
-            ItemStack brimstoneStack = brimstoneSlot.getStack().copy();
-            this.inventory.offer(brimstoneStack, false);
-            brimstoneSlot.setStackNoCallbacks(brimstoneStack);
-
-            clear();
-        }
-
-        private void fill(RecipeEntry<EffigyAltarRecipe> recipe, RecipeFinder finder) {
-            boolean match = matches(recipe);
-            int i = finder.countCrafts(recipe.value(), null);
-            if (match) {
-                ItemStack brimstoneItemStack = brimstoneSlot.getStack();
-                if (!brimstoneItemStack.isEmpty() && Math.min(i, brimstoneItemStack.getMaxCount()) < brimstoneItemStack.getCount() + 1) {
-                    return;
-                }
-                for (Slot slot : this.inputSlots) {
-                    ItemStack itemStack = slot.getStack();
-                    if (!itemStack.isEmpty() && Math.min(i, itemStack.getMaxCount()) < itemStack.getCount() + 1) {
-                        return;
-                    }
-                }
-            }
-
-            int j = this.calculateCraftAmount(i, match);
-            List<RegistryEntry<Item>> entries = new ArrayList<RegistryEntry<Item>>();
-            boolean isCraftable = finder.isCraftable(recipe.value(), j, entries::add);
-            if (isCraftable) {
-                int k = clampToMaxCount(j, entries);
-                if (k != j) {
-                    entries.clear();
-                    if (!finder.isCraftable(recipe.value(), k, entries::add)) {
-                        return;
-                    }
-                }
-
-                this.returnInputs();
-                EffigyAltarRecipe recipeValue = recipe.value();
-                IntList placementSlots = recipeValue.getIngredientPlacement().getPlacementSlots().stream()
-                        .flatMap(Optional::stream)
-                        .mapToInt(IngredientPlacement.PlacementSlot::placerOutputPosition)
-                        .collect(IntArrayList::new, IntList::add, IntList::addAll);
-                RegistryEntry<Item> brimstoneRegistryEntry = entries.get(placementSlots.getInt(inputSlots.size()));
-                int jk = k;
-
-                while (jk > 0) {
-                    jk = this.fillInputSlot(brimstoneSlot, brimstoneRegistryEntry, jk);
-                    if (jk == -1) {
-                        return;
-                    }
-                }
-                for (int index = 0; index < inputSlots.size(); index++) {
-                    Slot slot = inputSlots.get(index);
-                    int placementSlot = placementSlots.getInt(index);
-                    RegistryEntry<Item> registryEntry = entries.get(placementSlot);
-                    int jx = k;
-
-                    while (jx > 0) {
-                        jx = this.fillInputSlot(slot, registryEntry, jx);
-                        if (jx == -1) {
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-
-        private static int clampToMaxCount(int count, List<RegistryEntry<Item>> entries) {
-            for (RegistryEntry<Item> registryEntry : entries) {
-                count = Math.min(count, registryEntry.value().getMaxCount());
-            }
-
-            return count;
-        }
-
-        private int calculateCraftAmount(int forCraftAll, boolean match) {
-            if (this.craftAll) {
-                return forCraftAll;
-            } else if (match) {
-                int i = Integer.MAX_VALUE;
-
-                for (Slot slot : this.inputSlots) {
-                    ItemStack itemStack = slot.getStack();
-                    if (!itemStack.isEmpty() && i > itemStack.getCount()) {
-                        i = itemStack.getCount();
-                    }
-                }
-
-                if (i != Integer.MAX_VALUE) {
-                    i++;
-                }
-
-                return i;
-            } else {
-                return 1;
-            }
-        }
-
-        private int fillInputSlot(Slot slot, RegistryEntry<Item> item, int count) {
-            int i = this.inventory.getMatchingSlot(item);
-            if (i == -1) {
-                return -1;
-            } else {
-                ItemStack itemStack = this.inventory.getStack(i);
-                int j;
-                if (count < itemStack.getCount()) {
-                    this.inventory.removeStack(i, count);
-                    j = count;
-                } else {
-                    this.inventory.removeStack(i);
-                    j = itemStack.getCount();
-                }
-
-                if (slot.getStack().isEmpty()) {
-                    slot.setStackNoCallbacks(itemStack.copyWithCount(j));
-                } else {
-                    slot.getStack().increment(j);
-                }
-
-                return count - j;
-            }
-        }
-
-        private boolean canReturnInputs() {
-            List<ItemStack> list = Lists.<ItemStack>newArrayList();
-            int i = this.getFreeInventorySlots();
-
-            for (Slot slot : this.inputSlots) {
-                ItemStack itemStack = slot.getStack().copy();
-                if (!itemStack.isEmpty()) {
-                    int j = this.inventory.getOccupiedSlotWithRoomForStack(itemStack);
-                    if (j == -1 && list.size() <= i) {
-                        for (ItemStack itemStack2 : list) {
-                            if (ItemStack.areItemsEqual(itemStack2, itemStack)
-                                && itemStack2.getCount() != itemStack2.getMaxCount()
-                                && itemStack2.getCount() + itemStack.getCount() <= itemStack2.getMaxCount()) {
-                                itemStack2.increment(itemStack.getCount());
-                                itemStack.setCount(0);
-                                break;
-                            }
-                        }
-
-                        if (!itemStack.isEmpty()) {
-                            if (list.size() >= i) {
-                                return false;
-                            }
-
-                            list.add(itemStack);
-                        }
-                    } else if (j == -1) {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
-        private int getFreeInventorySlots() {
-            int i = 0;
-
-            for (ItemStack itemStack : this.inventory.main) {
-                if (itemStack.isEmpty()) {
-                    i++;
-                }
-            }
-
-            return i;
-        }
     }
 }

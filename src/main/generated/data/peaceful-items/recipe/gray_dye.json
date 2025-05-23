@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "peaceful-items:breeze_coral"
+    {
+      "item": "peaceful-items:breeze_coral"
+    }
   ],
   "result": {
     "count": 1,

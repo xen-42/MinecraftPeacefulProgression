@@ -36,12 +36,12 @@ import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldEvents;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.Precipitation;
-import net.minecraft.world.block.WireOrientation;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.explosion.Explosion;
 import xen42.peacefulitems.PeacefulMod;
@@ -66,8 +66,8 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
         areaEffectCloudEntity.setRadiusGrowth((7.0f - areaEffectCloudEntity.getRadius()) / (float) areaEffectCloudEntity.getDuration());
         areaEffectCloudEntity.addEffect(new StatusEffectInstance(StatusEffects.INSTANT_DAMAGE, 1, 1){
             @Override
-            public void onEntityDamage(ServerWorld world, LivingEntity livingEntity, DamageSource source, float amount){
-                livingEntity.damage(world, world.getDamageSources().dragonBreath(),amount);
+            public void onEntityDamage(LivingEntity livingEntity, DamageSource source, float amount){
+                livingEntity.damage(world.getDamageSources().dragonBreath(),amount);
             }
         });
         world.syncWorldEvent(WorldEvents.DRAGON_BREATH_CLOUD_SPAWNS, pos, 1);
@@ -89,7 +89,7 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
     }
     
     @Override
-    public void onDestroyedByExplosion(ServerWorld world, BlockPos pos, Explosion explosion) {
+    public void onDestroyedByExplosion(World world, BlockPos pos, Explosion explosion) {
         if(!world.isClient()) {
             if (explosion.getCausingEntity() instanceof PlayerEntity player && player.isCreative()) {return;}
             spawnDragonBreathCloud(world, pos);
@@ -99,7 +99,7 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
     @Override
     protected void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if (world instanceof ServerWorld serverWorld && this.isEntityTouchingFluid(state, pos, entity)) {
-            entity.damage(serverWorld, world.getDamageSources().dragonBreath(), 2.5f);
+            entity.damage(world.getDamageSources().dragonBreath(), 2.5f);
         }
     }
 
@@ -191,7 +191,7 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
 
     public static class FillFromEffigyBehavior implements CauldronBehavior {
         @Override
-        public ActionResult interact(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack) { 
+        public ItemActionResult interact(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack) { 
             if (!world.isClient) {
                 Item item = stack.getItem();
                 player.setStackInHand(hand, ItemUsage.exchangeStack(stack, player, ItemStack.EMPTY));
@@ -202,13 +202,13 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
                 world.emitGameEvent(null, GameEvent.FLUID_PLACE, pos);
             }
 
-            return ActionResult.SUCCESS;
+            return ItemActionResult.SUCCESS;
         }
     }
 
     public static class FillFromBottleBehavior implements CauldronBehavior {
         @Override
-        public ActionResult interact(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack) { 
+        public ItemActionResult interact(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack) { 
             if (!world.isClient) {
                 Item item = stack.getItem();
                 player.setStackInHand(hand, ItemUsage.exchangeStack(stack, player, new ItemStack(Items.GLASS_BOTTLE)));
@@ -219,13 +219,13 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
                 world.emitGameEvent(null, GameEvent.FLUID_PLACE, pos);
             }
 
-            return ActionResult.SUCCESS;
+            return ItemActionResult.SUCCESS;
         }
     }
 
     public static class DecrementFluidLevelBehavior implements CauldronBehavior {
         @Override
-        public ActionResult interact(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack) {
+        public ItemActionResult interact(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack) {
             if (!world.isClient) {
                 Item item = stack.getItem();
                 player.setStackInHand(hand, ItemUsage.exchangeStack(stack, player, new ItemStack(Items.DRAGON_BREATH)));
@@ -236,13 +236,13 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
                 world.emitGameEvent(null, GameEvent.FLUID_PLACE, pos);
             }
             
-            return ActionResult.SUCCESS;
+            return ItemActionResult.SUCCESS;
         }
     }
 
     public static class IncrementFluidLevelBehavior implements CauldronBehavior {
         @Override
-        public ActionResult interact(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack) {
+        public ItemActionResult interact(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack) {
             if (canIncrementFluidLevel(state)) {
                 if (!world.isClient) {
                     Item item = stack.getItem();
@@ -254,9 +254,9 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
                     world.emitGameEvent(null, GameEvent.FLUID_PLACE, pos);
                 }
 
-                return ActionResult.SUCCESS;
+                return ItemActionResult.SUCCESS;
             } else {
-                return ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION;
+                return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             }
         }
     }

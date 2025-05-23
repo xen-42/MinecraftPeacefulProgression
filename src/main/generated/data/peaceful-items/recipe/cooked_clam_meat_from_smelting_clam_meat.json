@@ -4,7 +4,9 @@
   "cookingtime": 200,
   "experience": 0.35,
   "group": "translation{key='item.peaceful-items.clam_meat', args=[]}",
-  "ingredient": "peaceful-items:clam_meat",
+  "ingredient": {
+    "item": "peaceful-items:clam_meat"
+  },
   "result": {
     "id": "peaceful-items:cooked_clam_meat"
   }

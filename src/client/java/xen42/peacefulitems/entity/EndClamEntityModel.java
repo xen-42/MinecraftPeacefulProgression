@@ -1,5 +1,7 @@
 package xen42.peacefulitems.entity;
 
+import org.joml.Vector3f;
+
 import net.minecraft.client.model.Dilation;
 import net.minecraft.client.model.ModelData;
 import net.minecraft.client.model.ModelPart;
@@ -7,18 +9,26 @@ import net.minecraft.client.model.ModelPartBuilder;
 import net.minecraft.client.model.ModelPartData;
 import net.minecraft.client.model.ModelTransform;
 import net.minecraft.client.model.TexturedModelData;
-import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.render.entity.animation.Animation;
+import net.minecraft.client.render.entity.model.SinglePartEntityModel;
+import net.minecraft.entity.AnimationState;
+import xen42.peacefulitems.entities.EndClamEntity;
 
-public class EndClamEntityModel extends EntityModel<EndClamEntityRenderState> {
+public class EndClamEntityModel extends SinglePartEntityModel<EndClamEntity> {
 	public final ModelPart clam;
 	public final ModelPart bottom_shell;
 	public final ModelPart top_shell;
 
 	protected EndClamEntityModel(ModelPart root) {
-        super(root);
+        super();
 		this.clam = root.getChild("clam");
 		this.bottom_shell = this.clam.getChild("bottom_shell");
 		this.top_shell = this.clam.getChild("top_shell");
+	}
+
+	@Override
+	public ModelPart getPart() {
+		return this.clam;
 	}
     
 	@SuppressWarnings("unused")
@@ -45,12 +55,16 @@ public class EndClamEntityModel extends EntityModel<EndClamEntityRenderState> {
 	}
 
 	@Override
-	public void setAngles(EndClamEntityRenderState endClamEntityRenderState) {
-		super.setAngles(endClamEntityRenderState);
+	public void setAngles(EndClamEntity endClamEntityRenderState, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
+		this.getPart().traverse().forEach(ModelPart::resetTransform);
 
 		this.animate(endClamEntityRenderState.idleAnimationState, EndClamAnimation.IDLE, endClamEntityRenderState.age, 1.0F);
 		this.animate(endClamEntityRenderState.hitAnimationState, EndClamAnimation.HIT, endClamEntityRenderState.age, 1.0F);
 		this.animate(endClamEntityRenderState.yawnAnimationState, EndClamAnimation.YAWN, endClamEntityRenderState.age, 1.0F);
 		this.animate(endClamEntityRenderState.openAnimationState, EndClamAnimation.OPEN, endClamEntityRenderState.age, 1.0F);
+	}
+
+	private void animate(AnimationState animationState, Animation animation, float animationProgress, float speedMultiplier) {
+		this.updateAnimation(animationState, animation, animationProgress, speedMultiplier);
 	}
 }

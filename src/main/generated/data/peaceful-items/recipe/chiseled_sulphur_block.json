@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "#": "peaceful-items:sulphur_slab"
+    "#": {
+      "item": "peaceful-items:sulphur_slab"
+    }
   },
   "pattern": [
     "#",

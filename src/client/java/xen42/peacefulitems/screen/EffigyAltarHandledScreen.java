@@ -1,34 +1,28 @@
 package xen42.peacefulitems.screen;
 
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.ScreenPos;
-import net.minecraft.client.gui.screen.ingame.RecipeBookScreen;
-import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import xen42.peacefulitems.PeacefulMod;
 
-public class EffigyAltarHandledScreen extends RecipeBookScreen<EffigyAltarScreenHandler> {
+public class EffigyAltarHandledScreen extends HandledScreen<EffigyAltarScreenHandler> {
     private static final Identifier TEXTURE = Identifier.of(PeacefulMod.MOD_ID, "textures/gui/effigy_altar_gui.png");
-    private final EffigyAltarRecipeBookWidget recipeBookWidget;
 
     public EffigyAltarHandledScreen(EffigyAltarScreenHandler handler, PlayerInventory inventory, Text title) {
-        super(handler, new EffigyAltarRecipeBookWidget(handler), inventory, title);
-        this.recipeBookWidget = (EffigyAltarRecipeBookWidget)this.recipeBook;
+        super(handler, inventory, title);
     }
  
     @Override
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
         int i = this.x;
         int j = (this.height - this.backgroundHeight) / 2;
-        context.drawTexture(RenderLayer::getGuiTextured, TEXTURE, i, j, 0.0F, 0.0F, 
+        context.drawTexture(TEXTURE, i, j, 0.0F, 0.0F, 
             this.backgroundWidth, this.backgroundHeight, 256, 256);
         
-        if (handler.hasOutput() || recipeBookWidget.isShowingGhostRecipes()) {
-            var cost = recipeBookWidget.isShowingGhostRecipes()
-            		? ClientData.getGhostXPCost()
-            		: handler.getOutputXPCost();
+        if (handler.hasOutput()) {
+            var cost = handler.getOutputXPCost();
             if (cost > 0) {
                 var string = Text.translatable("container.repair.cost", new Object[] { Integer.valueOf(cost) });;
                 int colour = 8453920;
@@ -55,22 +49,5 @@ public class EffigyAltarHandledScreen extends RecipeBookScreen<EffigyAltarScreen
         super.init();
         // Center the title
         titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2;
-    }
-
-    @Override
-    protected ScreenPos getRecipeBookButtonPos() {
-        return new ScreenPos(this.x + 132, this.height / 2 - 31 - 8);
-    }
-    
-    public static class ClientData {
-        private static int ghostXPCost = 0;
-
-        public static void setGhostXPCost(int cost) {
-            ghostXPCost = cost;
-        }
-
-        public static int getGhostXPCost() {
-            return ghostXPCost;
-        }
     }
 }

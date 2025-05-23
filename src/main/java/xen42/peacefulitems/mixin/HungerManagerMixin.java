@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.entity.player.HungerManager;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.GameRules;
@@ -28,15 +29,15 @@ public class HungerManagerMixin {
     private int foodLevel = 20;
 
     @Inject(at = @At("HEAD"), method = "update", cancellable = true)
-    private void update(ServerPlayerEntity player, CallbackInfo info)
+    private void update(PlayerEntity player, CallbackInfo info)
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         if (player.getWorld().getDifficulty() != Difficulty.PEACEFUL) {
             return;
         }
 
-        var turboHeal = player.getServerWorld().getGameRules().getBoolean(PeacefulMod.ENABLE_SUPER_HEALING_PEACEFUL);
-        var canStarve = player.getServerWorld().getGameRules().getBoolean(PeacefulMod.ENABLE_STARVING_PEACEFUL);
-        var canHeal = player.getServerWorld().getGameRules().getBoolean(GameRules.NATURAL_REGENERATION);
+        var turboHeal = player.getWorld().getGameRules().getBoolean(PeacefulMod.ENABLE_SUPER_HEALING_PEACEFUL);
+        var canStarve = player.getWorld().getGameRules().getBoolean(PeacefulMod.ENABLE_STARVING_PEACEFUL);
+        var canHeal = player.getWorld().getGameRules().getBoolean(GameRules.NATURAL_REGENERATION);
         var hungerManager = (HungerManager) ((Object) this);
         
         // Do the basic not peaceful thing
@@ -81,7 +82,7 @@ public class HungerManagerMixin {
                 ++this.foodTickTimer;
                 if (this.foodTickTimer >= 80) {
                     if (canStarve) {
-                        player.damage(player.getServerWorld(), player.getDamageSources().starve(), 1.0F);
+                        player.damage(player.getDamageSources().starve(), 1.0F);
                     }
 
                     this.foodTickTimer = 0;

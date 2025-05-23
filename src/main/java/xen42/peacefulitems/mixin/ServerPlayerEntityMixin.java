@@ -2,17 +2,20 @@ package xen42.peacefulitems.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.Difficulty;
 
-@Mixin(ServerPlayerEntity.class)
+@Mixin(PlayerEntity.class)
 public class ServerPlayerEntityMixin {
-    @Inject(at = @At("HEAD"), method = "tickHunger", cancellable = true)
-    private void tickHunger(CallbackInfo info) {
-        // This method just makes you heal hunger at all times
-        // Never run it
-        info.cancel();
+    // Redirect the peaceful+regen branch to always return false (skip it)
+    @Redirect(at = @At(value = "INVOKE",target = "Lnet/minecraft/world/World;getDifficulty()Lnet/minecraft/world/Difficulty;"), method = "tickMovement")
+    private Difficulty redirectPeacefulCheck(net.minecraft.world.World world) {
+        // Spoof the difficulty as something other than PEACEFUL
+        if (world.getDifficulty() == Difficulty.PEACEFUL) {
+            return Difficulty.EASY;
+        }
+        return world.getDifficulty();
     }
 }

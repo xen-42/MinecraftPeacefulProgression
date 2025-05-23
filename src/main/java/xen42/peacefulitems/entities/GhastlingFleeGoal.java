@@ -46,8 +46,8 @@ public class GhastlingFleeGoal extends Goal {
 
    protected boolean isInDanger() {
     TargetPredicate predicate = TargetPredicate.createNonAttackable().setBaseMaxDistance(100f)
-        .setPredicate((entity, world) -> ((PlayerEntity)entity).getMainHandStack().isIn(PeacefulModTags.ItemTags.WISP_DISLIKES));
-      this.target = getServerWorld(this.mob).getClosestPlayer(predicate, this.mob);
+        .setPredicate((entity) -> ((PlayerEntity)entity).getMainHandStack().isIn(PeacefulModTags.ItemTags.WISP_DISLIKES));
+      this.target = this.mob.getWorld().getClosestPlayer(predicate, this.mob);
       return this.target != null;
     }
 

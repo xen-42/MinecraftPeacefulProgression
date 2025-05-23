@@ -23,14 +23,13 @@ import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.IngredientPlacement;
+import net.minecraft.recipe.RawShapedRecipe;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.book.RecipeBookCategory;
-import net.minecraft.recipe.display.RecipeDisplay;
-import net.minecraft.recipe.display.SlotDisplay;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.world.World;
@@ -43,8 +42,6 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 	public final ItemStack result;
 	final OptionalInt cost;
 	final String group;
-	@Nullable
-	private IngredientPlacement ingredientPlacement;
 
 	public EffigyAltarRecipe(String group, RawRecipe raw, ItemStack result) {
 		this(group, raw, result, OptionalInt.empty());
@@ -72,11 +69,6 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 	}
 
 	@Override
-	public RecipeBookCategory getRecipeBookCategory() {
-		return PeacefulMod.EFFIGY_ALTAR_RECIPE_BOOK_CATEGORY;
-	}
-
-	@Override
 	public String getGroup() {
 		return this.group;
 	}
@@ -91,6 +83,13 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 		return true;
 	}
 
+	@Override
+	public boolean isEmpty() {
+		DefaultedList<Ingredient> defaultedList = this.getIngredients();
+		return defaultedList.isEmpty()
+			|| defaultedList.stream().filter(ingredient -> !ingredient.isEmpty()).anyMatch(ingredient -> ingredient.getMatchingStacks().length == 0);
+	}
+
 	public DefaultedList<ItemStack> getRecipeRemainders(EffigyAltarRecipeInput input) {
 		return collectRecipeRemainders(input);
 	}
@@ -99,25 +98,16 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 		DefaultedList<ItemStack> defaultedList = DefaultedList.ofSize(input.size(), ItemStack.EMPTY);
 
 		for (int i = 0; i < defaultedList.size(); i++) {
-			Item item = input.getStackInSlot(i).getItem();
-			defaultedList.set(i, item.getRecipeRemainder());
+			defaultedList.set(i, input.getStackInSlot(i));
 		}
 
 		return defaultedList;
 	}
 
-	@VisibleForTesting
-	public List<Optional<Ingredient>> getIngredients() {
-		return this.raw.getIngredients();
-	}
-
 	@Override
-	public IngredientPlacement getIngredientPlacement() {
-		if (this.ingredientPlacement == null) {
-			this.ingredientPlacement = IngredientPlacement.forMultipleSlots(this.getIngredients());
-		}
-
-		return this.ingredientPlacement;
+	@VisibleForTesting
+	public DefaultedList<Ingredient> getIngredients() {
+		return this.raw.getIngredients();
 	}
 
 	public boolean matches(EffigyAltarRecipeInput input, World world) {
@@ -142,23 +132,6 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 	
 	public Optional<Integer> getBoxedCost() {
 		return cost.stream().boxed().findFirst();
-	}
-
-	@Override
-	public List<RecipeDisplay> getDisplays() {
-		return List.of(
-				new EffigyAltarRecipeDisplay(
-					this.raw
-						.getIngredients()
-						.stream()
-						.map(ingredient -> (SlotDisplay)ingredient.map(Ingredient::toDisplay).orElse(SlotDisplay.EmptySlotDisplay.INSTANCE))
-						.toList(),
-					EffigyAltarRecipeDisplay.BrimstoneSlotDisplay.INSTANCE,
-					new SlotDisplay.StackSlotDisplay(this.result),
-					getCostOrDefault(),
-					new SlotDisplay.ItemSlotDisplay(PeacefulModBlocks.EFFIGY_ALTAR.asItem())
-				)
-			);
 	}
 
 	public static class Serializer implements RecipeSerializer<EffigyAltarRecipe> {
@@ -190,7 +163,7 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 			String string = buf.readString();
 			RawRecipe rawRecipe = RawRecipe.PACKET_CODEC.decode(buf);
 			ItemStack result = ItemStack.PACKET_CODEC.decode(buf);
-			OptionalInt cost = PacketCodecs.OPTIONAL_INT.decode(buf);
+			Optional<Integer> cost = PacketCodecs.optional(PacketCodecs.INTEGER).decode(buf);
 			return new EffigyAltarRecipe(string, rawRecipe, result, cost);
 		}
 
@@ -198,7 +171,7 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 			buf.writeString(recipe.group);
 			RawRecipe.PACKET_CODEC.encode(buf, recipe.raw);
 			ItemStack.PACKET_CODEC.encode(buf, recipe.result);
-			PacketCodecs.OPTIONAL_INT.encode(buf, recipe.cost);
+			PacketCodecs.optional(PacketCodecs.INTEGER).encode(buf, recipe.getBoxedCost());
 		}
 	}
 	
@@ -212,25 +185,34 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 				RawRecipe::fromData,
 				recipe -> (DataResult<RawRecipe.Data>)recipe.data.map(DataResult::success).orElseGet(() -> DataResult.error(() -> "Cannot encode unpacked recipe"))
 			);
-		public static final PacketCodec<RegistryByteBuf, RawRecipe> PACKET_CODEC = PacketCodec.tuple(
-			Ingredient.OPTIONAL_PACKET_CODEC.collect(PacketCodecs.toList()),
-			recipe -> recipe.ingredients,
-			RawRecipe::create
-		);
-		private final List<Optional<Ingredient>> ingredients;
+		public static final PacketCodec<RegistryByteBuf, RawRecipe> PACKET_CODEC = PacketCodec.of(RawRecipe::writeToBuf, RawRecipe::readFromBuf);
+
+		private void writeToBuf(RegistryByteBuf buf) {
+			for (Ingredient ingredient : this.ingredients) {
+				Ingredient.PACKET_CODEC.encode(buf, ingredient);
+			}
+		}
+
+		private static RawRecipe readFromBuf(RegistryByteBuf buf) {
+			DefaultedList<Ingredient> defaultedList = DefaultedList.ofSize((MAX_WIDTH_AND_HEIGHT * MAX_WIDTH_AND_HEIGHT) - MAX_WIDTH_END, Ingredient.EMPTY);
+			defaultedList.replaceAll(ingredient -> Ingredient.PACKET_CODEC.decode(buf));
+			return new RawRecipe(defaultedList, Optional.empty());
+		}
+		
+		private final DefaultedList<Ingredient> ingredients;
 		private final Optional<RawRecipe.Data> data;
 		private final int ingredientCount;
-		private final Optional<Ingredient> brimstone;
+		private final Ingredient brimstone;
 	
-		public RawRecipe(List<Optional<Ingredient>> ingredients, Optional<RawRecipe.Data> data) {
+		public RawRecipe(DefaultedList<Ingredient> ingredients, Optional<RawRecipe.Data> data) {
 			this.ingredients = ingredients;
-			brimstone = getBrimstoneOptional();
-			ingredients.add(brimstone);
+			brimstone = getBrimstone();
+			ingredients.set(MAX_WIDTH_END + ((MAX_WIDTH_AND_HEIGHT - MAX_WIDTH_END) * MAX_WIDTH_AND_HEIGHT), brimstone);
 			this.data = data;
-			this.ingredientCount = (int)ingredients.stream().flatMap(Optional::stream).count();
+			this.ingredientCount = (int)ingredients.stream().count();
 		}
 	
-		private static RawRecipe create(List<Optional<Ingredient>> ingredients) {
+		private static RawRecipe create(DefaultedList<Ingredient> ingredients) {
 			return new RawRecipe(ingredients, Optional.empty());
 		}
 	
@@ -247,32 +229,28 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 			String[] strings = removePadding(data.pattern);
 			int i = strings[0].length();
 			int j = strings.length;
-			List<Optional<Ingredient>> list = new ArrayList<Optional<Ingredient>>(i * j);
+			DefaultedList<Ingredient> defaultedList = DefaultedList.ofSize(i * j - MAX_WIDTH_END, Ingredient.EMPTY);
 			CharSet charSet = new CharArraySet(data.key.keySet());
-	
-			for (String string : strings) {
-				for (int k = 0; k < string.length(); k++) {
-					char c = string.charAt(k);
-					Optional<Ingredient> optional;
-					if (c == ' ') {
-						optional = Optional.empty();
-					} else {
-						Ingredient ingredient = (Ingredient)data.key.get(c);
-						if (ingredient == null) {
-							return DataResult.error(() -> "Pattern references symbol '" + c + "' but it's not defined in the key");
-						}
-	
-						optional = Optional.of(ingredient);
+
+			for (int k = 0; k < strings.length; k++) {
+				String string = strings[k];
+
+				for (int l = 0; l < string.length(); l++) {
+					char c = string.charAt(l);
+					Ingredient ingredient = c == ' ' ? Ingredient.EMPTY : (Ingredient)data.key.get(c);
+					if (ingredient == null) {
+						return DataResult.error(() -> "Pattern references symbol '" + c + "' but it's not defined in the key");
 					}
-	
+
 					charSet.remove(c);
-					list.add(optional);
+					PeacefulMod.LOGGER.info("" + (l + i * k));
+					defaultedList.set(l + i * k, ingredient);
 				}
 			}
 	
 			return !charSet.isEmpty()
 				? DataResult.error(() -> "Key defines symbols that aren't used in pattern: " + charSet)
-				: DataResult.success(new RawRecipe(list, Optional.of(data)));
+				: DataResult.success(new RawRecipe(defaultedList, Optional.of(data)));
 		}
 	
 		/**
@@ -326,23 +304,23 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 				for (int i = 0; i < MAX_WIDTH_AND_HEIGHT; i++) {
 					final int fi = i + 1;
 					if (fi == MAX_WIDTH_AND_HEIGHT) {
-						Optional<Ingredient> optional = (Optional<Ingredient>)this.ingredients.get(i * MAX_WIDTH_AND_HEIGHT);
-					
+						Ingredient ingredient = this.ingredients.get(i * MAX_WIDTH_AND_HEIGHT);
+
 						ItemStack itemStack = input.getStackInSlot(0, i);
-						if (!Ingredient.matches(optional, itemStack)) {
+						if (!ingredient.test(itemStack)) {
 							return false;
 						}
 
-						if (!Ingredient.matches(brimstone, input.getStackInSlot(1, i))) {
+						if (!brimstone.test(input.getStackInSlot(1, i))) {
 							return false;
 						}
 					}
 					else {
 						for (int j = 0; j < MAX_WIDTH_AND_HEIGHT; j++) {
-							Optional<Ingredient> optional = (Optional<Ingredient>)this.ingredients.get(j + i * MAX_WIDTH_AND_HEIGHT);
-			
+							Ingredient ingredient = this.ingredients.get(j + i * MAX_WIDTH_AND_HEIGHT);
+
 							ItemStack itemStack = input.getStackInSlot(j, i);
-							if (!Ingredient.matches(optional, itemStack)) {
+							if (!ingredient.test(itemStack)) {
 								return false;
 							}
 						}
@@ -353,7 +331,7 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 			}
 		}
 	
-		public List<Optional<Ingredient>> getIngredients() {
+		public DefaultedList<Ingredient> getIngredients() {
 			return this.ingredients;
 		}
 	
@@ -398,7 +376,7 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 			}, String::valueOf);
 			public static final MapCodec<RawRecipe.Data> CODEC = RecordCodecBuilder.mapCodec(
 				instance -> instance.group(
-						Codecs.strictUnboundedMap(KEY_ENTRY_CODEC, Ingredient.CODEC).fieldOf("key").forGetter(data -> data.key),
+						Codecs.strictUnboundedMap(KEY_ENTRY_CODEC, Ingredient.DISALLOW_EMPTY_CODEC).fieldOf("key").forGetter(data -> data.key),
 						PATTERN_CODEC.fieldOf("pattern").forGetter(data -> data.pattern)
 					)
 					.apply(instance, RawRecipe.Data::new)
@@ -407,10 +385,25 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 	}
 
 	public static Ingredient getBrimstone() {
-		return Ingredient.ofItem(PeacefulModItems.SULPHUR);
+		return Ingredient.ofItems(PeacefulModItems.SULPHUR);
 	}
 	
 	public static Optional<Ingredient> getBrimstoneOptional() {
 		return Optional.of(getBrimstone());
+	}
+
+	@Override
+	public boolean fits(int width, int height) {
+		if (width == RawRecipe.MAX_WIDTH_AND_HEIGHT) {
+			return height <= RawRecipe.MAX_WIDTH_AND_HEIGHT - RawRecipe.MAX_WIDTH_END;
+		}
+		else {
+			return width >= RawRecipe.MAX_WIDTH_AND_HEIGHT && height >= RawRecipe.MAX_WIDTH_AND_HEIGHT;
+		}
+	}
+
+	@Override
+	public ItemStack getResult(WrapperLookup registriesLookup) {
+		return result();
 	}
 }

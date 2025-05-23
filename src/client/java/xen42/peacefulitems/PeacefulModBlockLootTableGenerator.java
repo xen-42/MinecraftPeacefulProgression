@@ -27,10 +27,12 @@ import xen42.peacefulitems.blocks.BlazePickleBlock;
 import xen42.peacefulitems.blocks.FlaxCropBlock;
 
 public class PeacefulModBlockLootTableGenerator extends FabricBlockLootTableProvider {
+	protected final CompletableFuture<WrapperLookup> registryLookupFuture;
 
     protected PeacefulModBlockLootTableGenerator(FabricDataOutput dataOutput,
             CompletableFuture<WrapperLookup> registryLookup) {
         super(dataOutput, registryLookup);
+        this.registryLookupFuture = registryLookup;
     }
 
     @Override
@@ -74,7 +76,7 @@ public class PeacefulModBlockLootTableGenerator extends FabricBlockLootTableProv
     }
 
     private LootTable.Builder fossilOreDrops(Block block) {
-        RegistryWrapper.Impl<Enchantment> impl = this.registries.getOrThrow(RegistryKeys.ENCHANTMENT);
+        RegistryWrapper.Impl<Enchantment> impl = this.registryLookupFuture.join().getWrapperOrThrow(RegistryKeys.ENCHANTMENT);
 
         var boneMealDrop = ItemEntry.builder(Items.BONE_MEAL).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 3.0f)))
             .apply(ApplyBonusLootFunction.oreDrops(impl.getOrThrow(Enchantments.FORTUNE)));

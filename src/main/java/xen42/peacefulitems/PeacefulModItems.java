@@ -6,7 +6,7 @@ import java.util.function.Function;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
-import net.fabricmc.fabric.api.registry.FuelRegistryEvents;
+import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.fabric.api.transfer.v1.fluid.CauldronFluidContent;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.advancement.AdvancementEntry;
@@ -15,8 +15,6 @@ import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.LeveledCauldronBlock;
 import net.minecraft.block.cauldron.CauldronBehavior;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.ConsumableComponents;
-import net.minecraft.component.type.EquippableComponent;
 import net.minecraft.component.type.FireworkExplosionComponent;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.component.type.FoodComponents;
@@ -35,7 +33,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
 import net.minecraft.item.Items;
 import net.minecraft.item.SpawnEggItem;
-import net.minecraft.item.equipment.EquipmentModels;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.Potions;
 import net.minecraft.recipe.BrewingRecipeRegistry;
@@ -61,6 +58,7 @@ import xen42.peacefulitems.item.DispensibleSpawnEggItem;
 import xen42.peacefulitems.item.EffigyItem;
 import xen42.peacefulitems.blocks.DragonBreathCauldronBlock;
 import xen42.peacefulitems.item.BrushDispenserBehavior;
+import xen42.peacefulitems.item.CapeItem;
 import xen42.peacefulitems.mixin.EnderDragonFight_Invoker;
 import net.minecraft.village.raid.Raid;
 import net.minecraft.advancement.criterion.Criteria;
@@ -69,20 +67,10 @@ public class PeacefulModItems {
     public static final Item BAT_WING = register("bat_wing", Item::new, new Item.Settings());
     
     public static final Identifier CAPE_EQUIPMENT_ASSET = Identifier.of(PeacefulMod.MOD_ID, "cape");
-    public static final Item CAPE = register("cape", Item::new,
+    public static final Item CAPE = register("cape", CapeItem::new,
         new Item.Settings()
             .maxDamage(108)
-            .rarity(Rarity.COMMON)
-            .component(DataComponentTypes.GLIDER, Unit.INSTANCE)
-            .component(
-                DataComponentTypes.EQUIPPABLE,
-                EquippableComponent.builder(EquipmentSlot.CHEST)
-                    .equipSound(SoundEvents.ITEM_ARMOR_EQUIP_ELYTRA)
-                    .model(CAPE_EQUIPMENT_ASSET)
-                    .damageOnHurt(false)
-                    .build()
-            )
-            .repairable(BAT_WING));
+            .rarity(Rarity.COMMON));
     
     public static final Item ECTOPLASM = register("ectoplasm", Item::new, new Item.Settings());
     public static final Item GUANO = register("guano", Item::new, new Item.Settings());
@@ -107,14 +95,14 @@ public class PeacefulModItems {
                 }
                 return result;
             }
-        }, new Item.Settings().food(new FoodComponent(2, 1, false)));
+        }, new Item.Settings().food(new FoodComponent.Builder().nutrition(2).saturationModifier(1F).build()));
     public static final Item GHASTLING_SPAWN_EGG = register("ghastling_spawn_egg", (settings) -> 
         new DispensibleSpawnEggItem(PeacefulMod.GHASTLING_ENTITY, 0xFFFFFF, 0x7A7A7A, settings), new Item.Settings());
     public static final Item END_CLAM_SPAWN_EGG = register("end_clam_spawn_egg", (settings) -> 
         new DispensibleSpawnEggItem(PeacefulMod.END_CLAM_ENTITY, 0x6F4B6F, 0x2B1E2B, settings), new Item.Settings());
     public static final Item WITHER_EFFIGY = register("wither_effigy", (settings) -> 
         new EffigyItem(settings, "wither_effigy", (ServerPlayerEntity user) -> {
-            user.dropItem(user.getServerWorld(), Items.NETHER_STAR);
+            user.dropItem(Items.NETHER_STAR);
         }, SoundEvents.ENTITY_WITHER_DEATH),
         new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
 
@@ -122,15 +110,15 @@ public class PeacefulModItems {
         new EffigyItem(settings, "guardian_effigy", (ServerPlayerEntity user) -> { 
             var world = user.getServerWorld();
 
-            user.dropItem(world, Blocks.SPONGE);
+            user.dropItem(Blocks.SPONGE);
             if (user.getRandom().nextFloat() < 0.2) {
-                user.dropItem(world, Items.TIDE_ARMOR_TRIM_SMITHING_TEMPLATE);
+                user.dropItem(Items.TIDE_ARMOR_TRIM_SMITHING_TEMPLATE);
             }
 
             // Will drop more as if you had killed multiple guardians (which you would normally)
-            user.dropStack(world, new ItemStack(Items.COOKED_COD, user.getRandom().nextBetween(1, 6)));
-            user.dropStack(world, new ItemStack(Items.PRISMARINE_CRYSTALS, user.getRandom().nextBetween(2, 12)));
-            user.dropStack(world, new ItemStack(Items.PRISMARINE_SHARD, user.getRandom().nextBetween(2, 8)));
+            user.dropStack(new ItemStack(Items.COOKED_COD, user.getRandom().nextBetween(1, 6)));
+            user.dropStack(new ItemStack(Items.PRISMARINE_CRYSTALS, user.getRandom().nextBetween(2, 12)));
+            user.dropStack(new ItemStack(Items.PRISMARINE_SHARD, user.getRandom().nextBetween(2, 8)));
 
         }, SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE),
         new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
@@ -150,38 +138,38 @@ public class PeacefulModItems {
             var world = user.getServerWorld();
             // Bunch of different raid drops excluding Totem of Undying
             if (r < 0.5) {
-                user.dropItem(world, Items.OMINOUS_BOTTLE);
+                user.dropItem(Items.OMINOUS_BOTTLE);
             }
             else {
-                user.dropStack(world, Raid.createOminousBanner(world.getRegistryManager().getOrThrow(RegistryKeys.BANNER_PATTERN)));
+                user.dropStack(Raid.getOminousBanner(world.getRegistryManager().getWrapperOrThrow(RegistryKeys.BANNER_PATTERN)));
             }
             if (r < 0.33) {
-                user.dropItem(world, Items.CROSSBOW);
+                user.dropItem(Items.CROSSBOW);
             }
             if (r < 0.33) {
-                user.dropItem(world, Items.SADDLE);
+                user.dropItem(Items.SADDLE);
             }
             if (r < 0.33) {
-                user.dropItem(world, Items.IRON_AXE);
+                user.dropItem(Items.IRON_AXE);
             }
 
-            user.dropStack(world, new ItemStack(Items.EMERALD, user.getRandom().nextBetween(1, 20)));
+            user.dropStack(new ItemStack(Items.EMERALD, user.getRandom().nextBetween(1, 20)));
 
             // Witch drops
-            user.dropStack(world, new ItemStack(Blocks.REDSTONE_WIRE, user.getRandom().nextBetween(1, 12)));
-            user.dropStack(world, new ItemStack(Items.GUNPOWDER, user.getRandom().nextBetween(1, 12)));
-            user.dropStack(world, new ItemStack(Items.STICK, user.getRandom().nextBetween(1, 12)));
-            user.dropStack(world, new ItemStack(Items.GLOWSTONE_DUST, user.getRandom().nextBetween(1, 12)));
-            user.dropStack(world, new ItemStack(Items.SUGAR, user.getRandom().nextBetween(1, 12)));
-            user.dropStack(world, new ItemStack(Items.SPIDER_EYE, user.getRandom().nextBetween(1, 12)));
-            user.dropStack(world, new ItemStack(Items.GLASS_BOTTLE, user.getRandom().nextBetween(1, 12)));
+            user.dropStack(new ItemStack(Blocks.REDSTONE_WIRE, user.getRandom().nextBetween(1, 12)));
+            user.dropStack(new ItemStack(Items.GUNPOWDER, user.getRandom().nextBetween(1, 12)));
+            user.dropStack(new ItemStack(Items.STICK, user.getRandom().nextBetween(1, 12)));
+            user.dropStack(new ItemStack(Items.GLOWSTONE_DUST, user.getRandom().nextBetween(1, 12)));
+            user.dropStack(new ItemStack(Items.SUGAR, user.getRandom().nextBetween(1, 12)));
+            user.dropStack(new ItemStack(Items.SPIDER_EYE, user.getRandom().nextBetween(1, 12)));
+            user.dropStack(new ItemStack(Items.GLASS_BOTTLE, user.getRandom().nextBetween(1, 12)));
         }, SoundEvents.EVENT_RAID_HORN), new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
 
     public static final Item CLAM = register("clam_meat", Item::new, 
-        new Item.Settings().food(new FoodComponent(5, 0.6f, false), ConsumableComponents.RAW_CHICKEN));
+        new Item.Settings().food(new FoodComponent.Builder().nutrition(5).saturationModifier(0.6F).statusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 600, 0), 0.3F).build()));
     
     public static final Item COOKED_CLAM = register("cooked_clam_meat", Item::new, 
-        new Item.Settings().food(new FoodComponent(5, 0.6f, false)));
+        new Item.Settings().food(new FoodComponent.Builder().nutrition(5).saturationModifier(0.6F).build()));
 
     public static void initialize() {
         // Add custom items to groups
@@ -242,16 +230,14 @@ public class PeacefulModItems {
         CompostingChanceRegistry.INSTANCE.add(GUANO, 2f);
         CompostingChanceRegistry.INSTANCE.add(FLAX, 0.3f);
 
-        FuelRegistryEvents.BUILD.register((builder, context) -> {
-            int sulphurTime = context.baseSmeltTime() * 4; // More useful than wood, but not as good as coal
-            builder.add(PeacefulModItems.SULPHUR, sulphurTime);
-            int sulphurBlockTime = sulphurTime * 10; // Coal blocks are 10 times so we do that too
-            builder.add(PeacefulModBlocks.SULPHUR_BLOCK, sulphurBlockTime);
-            builder.add(PeacefulModBlocks.SULPHUR_WALL, sulphurBlockTime);
-            builder.add(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK, sulphurBlockTime);
-            builder.add(PeacefulModBlocks.SULPHUR_SLAB, sulphurBlockTime / 2); // 2/4
-            builder.add(PeacefulModBlocks.SULPHUR_STAIRS, sulphurBlockTime / (4 / 3)); // 3/4
-        });
+        int sulphurTime = 200 * 4; // More useful than wood, but not as good as coal
+        FuelRegistry.INSTANCE.add(PeacefulModItems.SULPHUR, sulphurTime);
+        int sulphurBlockTime = sulphurTime * 10; // Coal blocks are 10 times so we do that too
+        FuelRegistry.INSTANCE.add(PeacefulModBlocks.SULPHUR_BLOCK, sulphurBlockTime);
+        FuelRegistry.INSTANCE.add(PeacefulModBlocks.SULPHUR_WALL, sulphurBlockTime);
+        FuelRegistry.INSTANCE.add(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK, sulphurBlockTime);
+        FuelRegistry.INSTANCE.add(PeacefulModBlocks.SULPHUR_SLAB, sulphurBlockTime / 2); // 2/4
+        FuelRegistry.INSTANCE.add(PeacefulModBlocks.SULPHUR_STAIRS, sulphurBlockTime / (4 / 3)); // 3/4
 
         DispenserBlock.registerBehavior(Items.BRUSH.asItem(), new BrushDispenserBehavior());
 
@@ -273,7 +259,7 @@ public class PeacefulModItems {
 		RegistryKey<Item> itemKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(PeacefulMod.MOD_ID, name));
 
 		// Create the item instance.
-		Item item = itemFactory.apply(settings.registryKey(itemKey));
+		Item item = itemFactory.apply(settings);
 
 		// Register the item.
 		Registry.register(Registries.ITEM, itemKey, item);

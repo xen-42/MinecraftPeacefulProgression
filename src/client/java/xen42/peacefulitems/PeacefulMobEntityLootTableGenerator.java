@@ -54,7 +54,7 @@ public class PeacefulMobEntityLootTableGenerator extends SimpleFabricLootTablePr
     @Override
     public void accept(BiConsumer<RegistryKey<LootTable>, Builder> consumer) {
         consumer.accept(
-                EntityType.BAT.getLootTableKey().orElseThrow(), 
+                EntityType.BAT.getLootTableId(), 
                 LootTable.builder()
                 .pool(
                     LootPool.builder()
@@ -67,7 +67,7 @@ public class PeacefulMobEntityLootTableGenerator extends SimpleFabricLootTablePr
                 )
             );
         consumer.accept(
-                PeacefulMod.GHASTLING_ENTITY.getLootTableKey().orElseThrow(), 
+                PeacefulMod.GHASTLING_ENTITY.getLootTableId(), 
                 LootTable.builder()
                 .pool(
                     LootPool.builder()
@@ -80,7 +80,7 @@ public class PeacefulMobEntityLootTableGenerator extends SimpleFabricLootTablePr
                 )
             );
         consumer.accept(
-                PeacefulMod.END_CLAM_ENTITY.getLootTableKey().orElseThrow(), 
+                PeacefulMod.END_CLAM_ENTITY.getLootTableId(), 
                 LootTable.builder()
                 .pool(
                     LootPool.builder()
@@ -96,7 +96,7 @@ public class PeacefulMobEntityLootTableGenerator extends SimpleFabricLootTablePr
     }
     
     protected final AnyOfLootCondition.Builder createSmeltLootCondition() {
-        RegistryWrapper.Impl<Enchantment> impl = registryLookup.join().getOrThrow(RegistryKeys.ENCHANTMENT);
+        RegistryWrapper.Impl<Enchantment> impl = registryLookup.join().getWrapperOrThrow(RegistryKeys.ENCHANTMENT);
         return AnyOfLootCondition.builder(
             EntityPropertiesLootCondition.builder(
                 LootContext.EntityTarget.THIS, EntityPredicate.Builder.create().flags(EntityFlagsPredicate.Builder.create().onFire(true))

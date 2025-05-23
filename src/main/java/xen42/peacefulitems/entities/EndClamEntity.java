@@ -89,12 +89,12 @@ public class EndClamEntity extends AmbientEntity {
 
     public static DefaultAttributeContainer.Builder createMobAttributes() {
         return AmbientEntity.createMobAttributes()
-            .add(EntityAttributes.MAX_HEALTH, 20)
-            .add(EntityAttributes.SCALE, 1.5);
+            .add(EntityAttributes.GENERIC_MAX_HEALTH, 20)
+            .add(EntityAttributes.GENERIC_SCALE, 1.5);
     }
 
     @Override
-    public boolean damage(ServerWorld world, DamageSource source, float amount) {
+    public boolean damage(DamageSource source, float amount) {
         if (random.nextFloat() < 0.6f) {
             this.teleportRandomly();
         }
@@ -103,7 +103,7 @@ public class EndClamEntity extends AmbientEntity {
             this.getDataTracker().set(WAS_JUST_HIT, true);
         }
 
-        return super.damage(world, source, amount);
+        return super.damage(source, amount);
     }
 
     @Override
@@ -117,7 +117,7 @@ public class EndClamEntity extends AmbientEntity {
 
         // Only yawn when the idle animation has the mouth closed
         if (!getWorld().isClient) {
-            if (idleAnimationState.isRunning() && idleAnimationState.getTimeInMilliseconds(this.age) % 4000 == 0 && this.getRandom().nextBoolean()
+            if (idleAnimationState.isRunning() && getTimeInMilliseconds() % 4000 == 0 && this.getRandom().nextBoolean()
                     && this.getWorld().getTime() > _lastYawn + 40) {
                 this.getDataTracker().set(IS_YAWNING, true);
                 this.playSound(SoundEvents.ENTITY_SHULKER_OPEN);
@@ -126,6 +126,11 @@ public class EndClamEntity extends AmbientEntity {
         }
 
         updateAnimations();
+    }
+    
+    public long getTimeInMilliseconds() {
+        float f = age - idleAnimationState.getTimeRunning();
+        return (long)(f * 50.0F);
     }
 
     public void updateAnimations() {
@@ -252,7 +257,7 @@ public class EndClamEntity extends AmbientEntity {
     }
 
     @Override
-    protected void loot(ServerWorld world, ItemEntity itemEntity) {
+    protected void loot(ItemEntity itemEntity) {
         ItemStack itemStack = itemEntity.getStack();
         if (!this.getDataTracker().get(IS_OPENING)) {
             if (!getEquippedStack(EquipmentSlot.MAINHAND).isEmpty()) {
@@ -292,7 +297,7 @@ public class EndClamEntity extends AmbientEntity {
     protected void drop(ServerWorld world, DamageSource damageSource) {
         var itemStack = getEquippedStack(EquipmentSlot.MAINHAND);
         if (!itemStack.isEmpty()) {
-            dropStack(world, itemStack);
+            dropStack(itemStack);
             equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
         }
         super.drop(world, damageSource);

@@ -35,7 +35,6 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 	private static final int MAX_WIDTH_END = 1;
 	public static final String SPACE = " ";
 	Identifier ROOT = Identifier.ofVanilla("recipes/root");
-	private final RegistryEntryLookup<Item> registryLookup;
 	private final Item output;
 	private final int count;
 	private final List<String> pattern = Lists.<String>newArrayList();
@@ -44,6 +43,8 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 	private OptionalInt cost = OptionalInt.empty();
 	@Nullable
 	private String group;
+
+	private final RegistryEntryLookup<Item> registryLookup;
 
 	private EffigyAltarRecipeJsonBuilder(RegistryEntryLookup<Item> registryLookup, ItemConvertible output, int count) {
 		this.registryLookup = registryLookup;
@@ -60,11 +61,11 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 	}
 
 	public EffigyAltarRecipeJsonBuilder input(Character c, TagKey<Item> tag) {
-		return this.input(c, Ingredient.fromTag(this.registryLookup.getOrThrow(tag)));
+		return this.input(c, Ingredient.fromTag(tag));
 	}
 
 	public EffigyAltarRecipeJsonBuilder input(Character c, ItemConvertible item) {
-		return this.input(c, Ingredient.ofItem(item));
+		return this.input(c, Ingredient.ofItems(item));
 	}
 
 	public EffigyAltarRecipeJsonBuilder input(Character c, Ingredient ingredient) {
@@ -128,11 +129,12 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 		return this.output;
 	}
 
-	public void offerTo(RecipeExporter exporter, RegistryKey<Recipe<?>> recipeKey) {
-		EffigyAltarRecipe.RawRecipe rawRecipe = this.validate(recipeKey);
+	@Override
+	public void offerTo(RecipeExporter exporter, Identifier recipeId) {
+		EffigyAltarRecipe.RawRecipe rawRecipe = this.validate(recipeId);
 		Advancement.Builder builder = exporter.getAdvancementBuilder()
-			.criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeKey))
-			.rewards(AdvancementRewards.Builder.recipe(recipeKey))
+			.criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeId))
+			.rewards(AdvancementRewards.Builder.recipe(recipeId))
 			.criteriaMerger(AdvancementRequirements.CriterionMerger.OR);
 		this.criteria.forEach(builder::criterion);
 		EffigyAltarRecipe recipe = new EffigyAltarRecipe(
@@ -141,12 +143,16 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 			new ItemStack(this.output, this.count),
 			this.cost
 		);
-		exporter.accept(recipeKey, recipe, builder.build(recipeKey.getValue().withPrefixedPath("recipes/effigy_altar/")));
+		exporter.accept(recipeId, recipe, builder.build(recipeId.withPrefixedPath("recipes/effigy_altar/")));
 	}
 
-	private EffigyAltarRecipe.RawRecipe validate(RegistryKey<Recipe<?>> recipeKey) {
+	public void offerTo(RecipeExporter exporter, RegistryKey<Recipe<?>> recipeKey) {
+		offerTo(exporter, recipeKey.getValue());
+	}
+
+	private EffigyAltarRecipe.RawRecipe validate(Identifier recipeId) {
 		if (this.criteria.isEmpty()) {
-			throw new IllegalStateException("No way of obtaining recipe " + recipeKey.getValue());
+			throw new IllegalStateException("No way of obtaining recipe " + recipeId);
 		} else {
 			return EffigyAltarRecipe.RawRecipe.create(this.inputs, this.pattern);
 		}

@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "peaceful-items:sulphur"
+    {
+      "item": "peaceful-items:sulphur"
+    }
   ],
   "result": {
     "count": 1,

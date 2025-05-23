@@ -29,14 +29,15 @@ import xen42.peacefulitems.PeacefulMod;
 @Mixin(MobEntity.class)
 public class MobEntityMixin {
     @Inject(at = @At("HEAD"), method = "loot", cancellable = true)
-    private void loot(ServerWorld world, ItemEntity item, CallbackInfo info) {
+    private void loot(ItemEntity item, CallbackInfo info) {
 
         // Make sure the base looting logic doesnt run for frogs else they take all your stuff
         if ((Object)this instanceof FrogEntity) {
             info.cancel();
+            var frog = (FrogEntity)((Object)this);
+            World world = frog.getWorld();
 
             if (!world.isClient && world.getRegistryKey() == World.NETHER) {
-                var frog = (FrogEntity)((Object)this);
                 if (item.getStack().isOf(Items.MAGMA_CREAM)) {
                     var variant = (RegistryKey<FrogVariant>)frog.getVariant().getKey().orElse(null);
                     var block = Blocks.VERDANT_FROGLIGHT;
@@ -51,13 +52,13 @@ public class MobEntityMixin {
                     frog.getWorld().playSoundFromEntity(null, frog, SoundEvents.ENTITY_FROG_EAT, SoundCategory.NEUTRAL, 1.0f, 1.0f);
                     frog.setPose(EntityPose.USING_TONGUE);
                     frog.lookAtEntity(item, 180, 180);
-                    frog.tryAttack(world, item);
+                    frog.tryAttack(item);
     
                     var count = item.getStack().getCount();
                     // Random number between half and all of the magma cream
                     var spawnCount = (int)(frog.getRandom().nextFloat() * count / 2) + count / 2;
                     if (spawnCount > 0) {
-                        frog.dropStack(world, new ItemStack(block.asItem(), spawnCount)); 
+                        frog.dropStack(new ItemStack(block.asItem(), spawnCount)); 
                     }
                     item.discard();
                 }

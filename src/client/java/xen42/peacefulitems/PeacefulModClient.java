@@ -21,7 +21,6 @@ import xen42.peacefulitems.entity.EndClamEntityRenderer;
 import xen42.peacefulitems.entity.GhastlingEntityModel;
 import xen42.peacefulitems.entity.GhastlingEntityRenderer;
 import xen42.peacefulitems.payloads.EffigyParticlePayload;
-import xen42.peacefulitems.payloads.GhostRecipeCostResponse;
 import xen42.peacefulitems.screen.EffigyAltarHandledScreen;
 
 public class PeacefulModClient implements ClientModInitializer {
@@ -64,10 +63,6 @@ public class PeacefulModClient implements ClientModInitializer {
 						break;
 				}
 			});
-		});
-
-		ClientPlayNetworking.registerGlobalReceiver(GhostRecipeCostResponse.PAYLOAD_ID, (payload, context) -> {
-			EffigyAltarHandledScreen.ClientData.setGhostXPCost(payload.cost());
 		});
 	}
 }

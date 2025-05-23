@@ -59,7 +59,7 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
 
     public static boolean isValidSpawn(EntityType<? extends GhastlingEntity> type, WorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
         return world.getBlockState(pos).isAir() 
-            && LocationPredicate.Builder.createStructure(world.getRegistryManager().getOrThrow(RegistryKeys.STRUCTURE).getOrThrow(StructureKeys.FORTRESS)).build()
+            && LocationPredicate.Builder.createStructure(world.getRegistryManager().getWrapperOrThrow(RegistryKeys.STRUCTURE).getOrThrow(StructureKeys.FORTRESS)).build()
                 .test((ServerWorld)world, pos.getX(), pos.getY(), pos.getZ());
     }
 
@@ -75,7 +75,7 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
 
     @Override
     public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
-        return (GhastlingEntity)PeacefulMod.GHASTLING_ENTITY.create(world, SpawnReason.BREEDING);
+        return (GhastlingEntity)PeacefulMod.GHASTLING_ENTITY.create(world);
     }
 
     @Override
@@ -87,42 +87,39 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
             if (isBreedingItem(item)) {
                 setBreedingAge(6000);
                 eat(player, hand, item);
-                playEatSound();
                 if (getWorld().getServer().getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
                     getWorld().spawnEntity(new ExperienceOrbEntity(getWorld(), getX(), getY(), getZ(), getRandom().nextInt(7) + 1));
                 }
                 playSound(SoundEvents.ENTITY_GHAST_AMBIENT, 0.5f, (random.nextFloat() - random.nextFloat()) * 0.2f + 1.3f);
 
-                var baby = PeacefulMod.GHASTLING_ENTITY.create(getWorld(), SpawnReason.BREEDING);
+                var baby = PeacefulMod.GHASTLING_ENTITY.create(getWorld());
                 baby.refreshPositionAndAngles(getX(), getY(), getZ(), 0.0f, 0.0f);
                 getWorld().spawnEntity(baby);
                 baby.setBreedingAge(6000);
 
-                return (ActionResult)ActionResult.SUCCESS_SERVER;
+                return (ActionResult)ActionResult.SUCCESS;
             }
             else if (item.isIn(PeacefulModTags.ItemTags.WISP_DISLIKES)) {
-                var tear = dropItem((ServerWorld)getWorld(), Items.GHAST_TEAR);
+                var tear = dropItem(Items.GHAST_TEAR);
                 tear.setPosition(getPos());
                 playSound(SoundEvents.ENTITY_GHAST_WARN, 0.5f, (random.nextFloat() - random.nextFloat()) * 0.2f + 1.3f);
                 // Treating this as breeding for the sake of having a timer and stuff
                 setBreedingAge(6000);
                 eat(player, hand, item);
-                playEatSound();
                 // Count this as hurting them so they run from you
-                this.damage((ServerWorld)getWorld(), getWorld().getDamageSources().playerAttack(player), 0f);
-                return (ActionResult)ActionResult.SUCCESS_SERVER;
+                this.damage(getWorld().getDamageSources().playerAttack(player), 0f);
+                return (ActionResult)ActionResult.SUCCESS;
             }
         }
         return ActionResult.PASS;
     }
 
     public static DefaultAttributeContainer.Builder createMobAttributes() {
-        return AnimalEntity.createAnimalAttributes()
-            .add(EntityAttributes.MAX_HEALTH, 10)
-            .add(EntityAttributes.FLYING_SPEED, 0.6f)
-            .add(EntityAttributes.MOVEMENT_SPEED, 0.3f)
-            .add(EntityAttributes.FALL_DAMAGE_MULTIPLIER, 0f)
-            .add(EntityAttributes.TEMPT_RANGE, 20f);
+        return AnimalEntity.createMobAttributes()
+            .add(EntityAttributes.GENERIC_FLYING_SPEED, 0.6f)
+            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3f)
+            .add(EntityAttributes.GENERIC_FALL_DAMAGE_MULTIPLIER, 0f)
+            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 20f);
     }
 
     @Override
@@ -162,7 +159,6 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
         };
         navigation.setCanPathThroughDoors(true);
         navigation.setCanSwim(true);
-        navigation.setMaxFollowRange(48f);
         return navigation;
     }
 }

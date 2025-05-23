@@ -3,6 +3,8 @@
 	"package": "xen42.peacefulitems.mixin.client",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
+		"CapeFeatureRendererMixin",
+		"ElytraFeatureRendererMixin",
 		"BatEntityRendererMixin"
 	]
 }

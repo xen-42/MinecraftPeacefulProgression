@@ -15,6 +15,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
@@ -42,7 +43,7 @@ public class EffigyItem extends Item {
     }
     
     @Override
-    public ActionResult use(World world, PlayerEntity user, Hand hand) {
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
 
         if (_sound != null) {
@@ -65,6 +66,6 @@ public class EffigyItem extends Item {
             }
         }
 
-        return ActionResult.CONSUME;
+        return TypedActionResult.consume(itemStack);
     }
 }

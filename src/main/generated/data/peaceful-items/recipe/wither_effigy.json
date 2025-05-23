@@ -2,8 +2,12 @@
   "type": "peaceful-items:effigy_altar",
   "cost": 10,
   "key": {
-    "b": "minecraft:wither_skeleton_skull",
-    "e": "minecraft:soul_sand"
+    "b": {
+      "item": "minecraft:wither_skeleton_skull"
+    },
+    "e": {
+      "item": "minecraft:soul_sand"
+    }
   },
   "pattern": [
     "bbb",

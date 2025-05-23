@@ -8,10 +8,13 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.server.recipe.CookingRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.RecipeExporter;
-import net.minecraft.data.server.recipe.RecipeGenerator;
 import net.minecraft.data.server.recipe.StonecuttingRecipeJsonBuilder;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.AbstractCookingRecipe;
 import net.minecraft.recipe.BlastingRecipe;
@@ -19,16 +22,21 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SmeltingRecipe;
 import net.minecraft.recipe.book.RecipeCategory;
+import net.minecraft.registry.RegistryEntryLookup;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import xen42.peacefulitems.recipe.EffigyAltarRecipeJsonBuilder;
 
 public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
+    private final CompletableFuture<RegistryWrapper.WrapperLookup> registryLookupFuture;
+    
     public PeacefulModRecipeGenerator(FabricDataOutput generator, CompletableFuture<WrapperLookup> registriesFuture) {
         super(generator, registriesFuture);
+        registryLookupFuture = registriesFuture;
     }
 
     @Override
@@ -42,7 +50,7 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
     }
     
     public static void offerTo(CraftingRecipeJsonBuilder builder, RecipeExporter exporter) {
-        builder.offerTo(exporter, RegistryKey.of(RegistryKeys.RECIPE, EffigyAltarRecipeJsonBuilder.getItemId(builder.getOutputItem())));
+        builder.offerTo(exporter, RegistryKey.of(RegistryKeys.RECIPE, EffigyAltarRecipeJsonBuilder.getItemId(builder.getOutputItem())).getValue());
     }
 
     public static void offerTo(CraftingRecipeJsonBuilder builder, RecipeExporter exporter, String recipePath) {
@@ -51,27 +59,30 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
         if (identifier.equals(defaultIdentifier)) {
             throw new IllegalStateException("Recipe " + recipePath + " should remove its 'save' argument as it is equal to default one");
         } else {
-            builder.offerTo(exporter, RegistryKey.of(RegistryKeys.RECIPE, identifier));
+            builder.offerTo(exporter, RegistryKey.of(RegistryKeys.RECIPE, identifier).getValue());
         }
     }
 
     @Override
+    public void generate(RecipeExporter exporter) {
+        getRecipeGenerator(registryLookupFuture.join(), exporter).generate();
+    }
+
     protected RecipeGenerator getRecipeGenerator(WrapperLookup registryLookup, RecipeExporter exporter) {
         return new RecipeGenerator(registryLookup, exporter) {
-            @Override
             public void offerSmelting(List<ItemConvertible> inputs, RecipeCategory category, ItemConvertible output, float experience, int cookingTime, String group) {
                 this.fixedOfferMultipleOptions(RecipeSerializer.SMELTING, SmeltingRecipe::new, inputs, category, output, experience, cookingTime, group, "_from_smelting");
             }
 
-            @Override
+            @SuppressWarnings("unused")
             public void offerBlasting(List<ItemConvertible> inputs, RecipeCategory category, ItemConvertible output, float experience, int cookingTime, String group) {
                 this.fixedOfferMultipleOptions(RecipeSerializer.BLASTING, BlastingRecipe::new, inputs, category, output, experience, cookingTime, group, "_from_blasting");
             }
 
             @Override
             public void offerStonecuttingRecipe(RecipeCategory category, ItemConvertible output, ItemConvertible input, int count) {
-                offerTo(StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItem(input), category, output, count)
-                        .criterion(hasItem(input), this.conditionsFromItem(input))
+                offerTo(StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(input), category, output, count)
+                        .criterion(hasItem(input), conditionsFromItem(input))
                         , exporter, convertBetween(output, input) + "_stonecutting");
             }
             
@@ -87,9 +98,9 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                     String suffix
                 ) {
                     for (ItemConvertible itemConvertible : inputs) {
-                        offerTo(CookingRecipeJsonBuilder.create(Ingredient.ofItem(itemConvertible), category, output, experience, cookingTime, serializer, recipeFactory)
+                        offerTo(CookingRecipeJsonBuilder.create(Ingredient.ofItems(itemConvertible), category, output, experience, cookingTime, serializer, recipeFactory)
                             .group(group)
-                            .criterion(hasItem(itemConvertible), this.conditionsFromItem(itemConvertible))
+                            .criterion(hasItem(itemConvertible), conditionsFromItem(itemConvertible))
                             , exporter, getItemPath(output) + suffix + "_" + getItemPath(itemConvertible));
                     }
             }
@@ -161,12 +172,12 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .criterion(hasItem(PeacefulModBlocks.SULPHUR_BLOCK), conditionsFromItem(PeacefulModBlocks.SULPHUR_BLOCK))
                         .criterion(hasItem(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK), conditionsFromItem(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK))
                         , exporter);
-                offerTo(createChiseledBlockRecipe(RecipeCategory.BUILDING_BLOCKS, PeacefulModBlocks.CHISELED_SULPHUR_BLOCK, Ingredient.ofItem(PeacefulModBlocks.SULPHUR_SLAB))
+                offerTo(createChiseledBlockRecipe(RecipeCategory.BUILDING_BLOCKS, PeacefulModBlocks.CHISELED_SULPHUR_BLOCK, Ingredient.ofItems(PeacefulModBlocks.SULPHUR_SLAB))
                         .criterion(hasItem(PeacefulModBlocks.SULPHUR_BLOCK), conditionsFromItem(PeacefulModBlocks.SULPHUR_BLOCK))
                         .criterion(hasItem(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK), conditionsFromItem(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK))
                         , exporter);
-                offerTo(getWallRecipe(RecipeCategory.DECORATIONS, PeacefulModBlocks.SULPHUR_WALL, Ingredient.ofItem(PeacefulModBlocks.SULPHUR_BLOCK))
-                        .criterion(hasItem(PeacefulModBlocks.SULPHUR_BLOCK), this.conditionsFromItem(PeacefulModBlocks.SULPHUR_BLOCK))
+                offerTo(getWallRecipe(RecipeCategory.DECORATIONS, PeacefulModBlocks.SULPHUR_WALL, Ingredient.ofItems(PeacefulModBlocks.SULPHUR_BLOCK))
+                        .criterion(hasItem(PeacefulModBlocks.SULPHUR_BLOCK), conditionsFromItem(PeacefulModBlocks.SULPHUR_BLOCK))
                         , exporter);
 
                 offerSmelting(List.of(PeacefulModBlocks.BLAZE_PICKLE), RecipeCategory.MISC, Items.BLAZE_ROD, 0.45f, 200, PeacefulModBlocks.BLAZE_PICKLE.getName().toString());
@@ -272,8 +283,46 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
             }
             
             public EffigyAltarRecipeJsonBuilder createEffigyAltar(ItemConvertible output) {
-                return EffigyAltarRecipeJsonBuilder.create(registryLookup.getOrThrow(RegistryKeys.ITEM), output);
+                return EffigyAltarRecipeJsonBuilder.create(registryLookup.getWrapperOrThrow(RegistryKeys.ITEM), output);
             }
         };
+    }
+    
+    public abstract class RecipeGenerator {
+        protected final WrapperLookup registryLookup;
+        protected final RecipeExporter exporter;
+
+        public RecipeGenerator(WrapperLookup registryLookup, RecipeExporter exporter) {
+            this.registryLookup = registryLookup;
+            this.exporter = exporter;
+        }
+
+        public ShapedRecipeJsonBuilder createShaped(RecipeCategory category, ItemConvertible output) {
+            return ShapedRecipeJsonBuilder.create(category, output);
+        }
+
+        public ShapedRecipeJsonBuilder createShaped(RecipeCategory category, ItemConvertible output, int count) {
+            return ShapedRecipeJsonBuilder.create(category, output, count);
+        }
+
+        public ShapelessRecipeJsonBuilder createShapeless(RecipeCategory category, ItemStack output) {
+            return ShapelessRecipeJsonBuilder.create(category, output.getItem(), output.getCount());
+        }
+
+        public ShapelessRecipeJsonBuilder createShapeless(RecipeCategory category, ItemConvertible output) {
+            return ShapelessRecipeJsonBuilder.create(category, output);
+        }
+
+        public ShapelessRecipeJsonBuilder createShapeless(RecipeCategory category, ItemConvertible output, int count) {
+            return ShapelessRecipeJsonBuilder.create(category, output, count);
+        }
+
+    	public void offerStonecuttingRecipe(RecipeCategory category, ItemConvertible output, ItemConvertible input) {
+    		this.offerStonecuttingRecipe(category, output, input, 1);
+    	}
+
+    	public abstract void offerStonecuttingRecipe(RecipeCategory category, ItemConvertible output, ItemConvertible input, int count);
+
+        public abstract void generate();
     }
 }

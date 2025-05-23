@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": "peaceful-items:sulphur_block"
+    "#": {
+      "item": "peaceful-items:sulphur_block"
+    }
   },
   "pattern": [
     "###",
