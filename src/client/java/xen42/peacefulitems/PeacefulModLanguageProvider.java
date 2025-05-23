@@ -199,6 +199,7 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 		public void generate(WrapperLookup registryLookup, ModTranslationBuilder translationBuilder) {
 			translationBuilder.add(PeacefulModItems.BAT_WING, "蝙蝠翅膀");
 			translationBuilder.add(PeacefulModItems.GUANO, "粪便");
+			translationBuilder.add(PeacefulModItems.ECTOPLASM, "灵质");
 			translationBuilder.add(PeacefulModItems.SULPHUR, "硫磺");
 			translationBuilder.add(PeacefulModItems.FLAX, "亚麻种子");
 			
@@ -212,6 +213,8 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.add(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE, "深层化石矿石");
 			translationBuilder.add(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE, "下界化石矿石");
 			translationBuilder.add(PeacefulModBlocks.EFFIGY_ALTAR, "塑像祭坛");
+			translationBuilder.add(PeacefulModItems.CLAM, "蛤");
+			translationBuilder.add(PeacefulModItems.COOKED_CLAM, "熟蛤");
 			
 			translationBuilder.add(PeacefulModBlocks.BLAZE_PICKLE, "烈焰珊瑚");
 			translationBuilder.add(PeacefulModBlocks.BREEZE_CORAL, "旋风珊瑚");
@@ -235,9 +238,9 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addFilledMap(PeacefulModTags.StructureTags.TRAIL_RUINS, "古迹废墟地图");
 			translationBuilder.addFilledMap(StructureTags.OCEAN_RUIN, "海底废墟地图");
 			
-			// Need to fix these
-			//translationBuilder.add(PeacefulMod.DISABLE_HUNGER_PEACEFUL, "禁用和平中的饥饿");
-			//translationBuilder.add(PeacefulMod.ENABLE_ENDER_DRAGON_FIGHT_PEACEFUL, "禁用和平中的末影龙");
+			translationBuilder.add(PeacefulMod.ENABLE_STARVING_PEACEFUL, "启用和平中的饿死");
+			translationBuilder.add(PeacefulMod.ENABLE_SUPER_HEALING_PEACEFUL, "启用和平中的超级生命恢复");
+			translationBuilder.add(PeacefulMod.ENABLE_ENDER_DRAGON_FIGHT_PEACEFUL, "启用和平中的末影龙");
 
 			translationBuilder.add(PeacefulModTags.ItemTags.EFFIGIES, "塑像");
 			translationBuilder.add(PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, "塑像祭坛");
