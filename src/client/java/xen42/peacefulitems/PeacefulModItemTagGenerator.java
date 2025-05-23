@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.ItemTagProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
@@ -68,5 +69,14 @@ public class PeacefulModItemTagGenerator extends ItemTagProvider {
 			.add(PeacefulModItems.CAPE);
 		this.getOrCreateTagBuilder(ItemTags.EQUIPPABLE_ENCHANTABLE)
 			.add(PeacefulModItems.CAPE);
+		
+		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.WISP_LIKES)
+			.addOptionalTags(ConventionalItemTags.COOKED_FISH_FOODS, ConventionalItemTags.COOKED_MEAT_FOODS, ConventionalItemTags.VEGETABLE_FOODS)
+			.add(PeacefulModItems.SULPHUR)
+			.add(Items.QUARTZ)
+			.add(Items.GOLD_NUGGET);
+
+		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.WISP_DISLIKES)
+			.addOptionalTags(PeacefulModTags.ItemTags.GUANO, ConventionalItemTags.RAW_FISH_FOODS, ConventionalItemTags.RAW_MEAT_FOODS);
 	}
 }

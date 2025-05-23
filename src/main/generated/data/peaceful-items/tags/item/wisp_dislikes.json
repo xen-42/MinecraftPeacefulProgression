@@ -1,0 +1,16 @@
+{
+  "values": [
+    {
+      "id": "#c:guano",
+      "required": false
+    },
+    {
+      "id": "#c:foods/raw_fish",
+      "required": false
+    },
+    {
+      "id": "#c:foods/raw_meat",
+      "required": false
+    }
+  ]
+}
