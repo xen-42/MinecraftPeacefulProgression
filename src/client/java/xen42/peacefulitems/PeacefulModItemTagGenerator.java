@@ -44,6 +44,10 @@ public class PeacefulModItemTagGenerator extends ItemTagProvider {
 			.add(PeacefulModItems.FLAX);
 		this.getOrCreateTagBuilder(ItemTags.CHICKEN_FOOD)
 			.add(PeacefulModItems.FLAX);
+		this.getOrCreateTagBuilder(ItemTags.PARROT_FOOD)
+			.add(PeacefulModItems.FLAX);
+		this.getOrCreateTagBuilder(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+			.add(PeacefulModItems.FLAX);
 		this.getOrCreateTagBuilder(ConventionalItemTags.CROPS)
 			.add(PeacefulModItems.FLAX);
 		this.getOrCreateTagBuilder(ConventionalItemTags.CLUMPS)
