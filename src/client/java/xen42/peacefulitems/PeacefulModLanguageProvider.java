@@ -129,7 +129,8 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addFilledMap(PeacefulModTags.StructureTags.TRAIL_RUINS, "Trail Ruins Map");
 			translationBuilder.addFilledMap(StructureTags.OCEAN_RUIN, "Ocean Ruin Map");
 			
-			translationBuilder.add(PeacefulMod.DISABLE_HUNGER_PEACEFUL, "Disable hunger in peaceful");
+			translationBuilder.add(PeacefulMod.ENABLE_STARVING_PEACEFUL, "Enable starving in peaceful");
+			translationBuilder.add(PeacefulMod.ENABLE_SUPER_HEALING_PEACEFUL, "Enable super healing in peaceful");
 			translationBuilder.add(PeacefulMod.DISABLE_ENDER_DRAGON_FIGHT_PEACEFUL, "Disable Ender Dragon fight in peaceful");
 
 			translationBuilder.add(PeacefulModTags.ItemTags.EFFIGIES, "Effigies");
@@ -234,7 +235,7 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addFilledMap(PeacefulModTags.StructureTags.TRAIL_RUINS, "古迹废墟地图");
 			translationBuilder.addFilledMap(StructureTags.OCEAN_RUIN, "海底废墟地图");
 			
-			translationBuilder.add(PeacefulMod.DISABLE_HUNGER_PEACEFUL, "禁用和平中的饥饿");
+			//translationBuilder.add(PeacefulMod.DISABLE_HUNGER_PEACEFUL, "禁用和平中的饥饿");
 			translationBuilder.add(PeacefulMod.DISABLE_ENDER_DRAGON_FIGHT_PEACEFUL, "禁用和平中的末影龙");
 
 			translationBuilder.add(PeacefulModTags.ItemTags.EFFIGIES, "塑像");

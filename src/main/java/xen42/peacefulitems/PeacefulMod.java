@@ -93,10 +93,12 @@ public class PeacefulMod implements ModInitializer {
 	public static int BatGrowUpTicks = 5 * 60 * 20; // Normal mobs its 20 minutes but I feel like bats can grow up fast maybe idk!
 	public static int BatBreedingCooldown = 5 * 60 * 20;
 
-	public static final GameRules.Key<BooleanRule> DISABLE_HUNGER_PEACEFUL =
-		GameRuleRegistry.register("disableHungerPeaceful", Category.PLAYER, GameRuleFactory.createBooleanRule(false));
 	public static final GameRules.Key<BooleanRule> DISABLE_ENDER_DRAGON_FIGHT_PEACEFUL =
 		GameRuleRegistry.register("disableEnderDragonFightPeaceful", Category.MOBS, GameRuleFactory.createBooleanRule(true));
+	public static final GameRules.Key<BooleanRule> ENABLE_SUPER_HEALING_PEACEFUL =
+		GameRuleRegistry.register("enableSuperHealingPeaceful", Category.PLAYER, GameRuleFactory.createBooleanRule(true));
+	public static final GameRules.Key<BooleanRule> ENABLE_STARVING_PEACEFUL =
+		GameRuleRegistry.register("enableStarvingPeaceful", Category.PLAYER, GameRuleFactory.createBooleanRule(false));
 
 	public static final RegistryKey<EntityType<?>> GHASTLING_ENTITY_KEY = RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(MOD_ID,"ghastling"));
 	public static final EntityType<GhastlingEntity> GHASTLING_ENTITY = Registry.register(
