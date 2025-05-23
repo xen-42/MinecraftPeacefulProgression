@@ -19,7 +19,7 @@
   "filled_map.minecraft.ocean_ruin": "Ocean Ruin Map",
   "filled_map.peaceful-items.effigy_altar_dungeon": "Effigy Altar Dungeon Map",
   "filled_map.peaceful-items.trail_ruins": "Trail Ruins Map",
-  "gamerule.disableEnderDragonFightPeaceful": "Disable Ender Dragon fight in peaceful",
+  "gamerule.enableEnderDragonFightPeaceful": "Enable Ender Dragon fight in peaceful",
   "gamerule.enableStarvingPeaceful": "Enable starving in peaceful",
   "gamerule.enableSuperHealingPeaceful": "Enable super healing in peaceful",
   "item.peaceful-items.bat_wing": "Bat Wing",
