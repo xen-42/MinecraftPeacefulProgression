@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "level=1": {
+      "model": "peaceful-items:block/dragon_breath_cauldron_level1"
+    },
+    "level=2": {
+      "model": "peaceful-items:block/dragon_breath_cauldron_level2"
+    },
+    "level=3": {
+      "model": "peaceful-items:block/dragon_breath_cauldron_full"
+    }
+  }
+}

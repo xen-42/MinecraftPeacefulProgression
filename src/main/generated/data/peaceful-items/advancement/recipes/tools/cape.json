@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_bat_wing": {
+      "conditions": {
+        "items": [
+          {
+            "items": "peaceful-items:bat_wing"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_leather": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:leather"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "peaceful-items:cape"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_bat_wing",
+      "has_leather"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "peaceful-items:cape"
+    ]
+  }
+}

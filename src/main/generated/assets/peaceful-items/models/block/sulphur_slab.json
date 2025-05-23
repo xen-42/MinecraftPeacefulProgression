@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "peaceful-items:block/sulphur_block",
+    "side": "peaceful-items:block/sulphur_block",
+    "top": "peaceful-items:block/sulphur_block"
+  }
+}

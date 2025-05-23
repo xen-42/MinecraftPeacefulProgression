@@ -1,9 +1,10 @@
-package xen42.peacefulitems;
+package xen42.peacefulitems.payloads;
 
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.network.packet.CustomPayload;
+import xen42.peacefulitems.PeacefulMod;
 
 public record EffigyParticlePayload(String particleID) implements CustomPayload {
 

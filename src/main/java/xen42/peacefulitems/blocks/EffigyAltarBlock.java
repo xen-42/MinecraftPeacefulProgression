@@ -19,7 +19,6 @@ import net.minecraft.world.World;
 import xen42.peacefulitems.screen.EffigyAltarScreenHandler;
 
 public class EffigyAltarBlock extends Block {
-    private static final Text TITLE = Text.translatable("item.peaceful-items.effigy_altar");
     public static final MapCodec<EffigyAltarBlock> CODEC = createCodec(EffigyAltarBlock::new);
 
     private static VoxelShape SHAPE = Block.createCuboidShape(0, 0, 0, 16, 14, 16);
@@ -44,9 +43,13 @@ public class EffigyAltarBlock extends Block {
         }
         return ActionResult.SUCCESS;
     }
+    
+    public Text getTitle() {
+        return Text.translatable(getTranslationKey());
+    }
 
     public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
         return (NamedScreenHandlerFactory)new SimpleNamedScreenHandlerFactory((syncId, inventory, player) -> 
-            new EffigyAltarScreenHandler(syncId, inventory, ScreenHandlerContext.create(world, pos)), TITLE);
+            new EffigyAltarScreenHandler(syncId, inventory, ScreenHandlerContext.create(world, pos)), getTitle());
     }
 }

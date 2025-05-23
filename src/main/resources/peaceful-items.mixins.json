@@ -5,6 +5,7 @@
 	"mixins": [
 		"BatEntityMixin",
 		"PandaEntityMixin",
+		"BrushItemMixin",
 		"AmbientEntityMixin",
 		"MobEntityMixin",
 		"FrogEntityMixin",
@@ -14,7 +15,10 @@
 		"ServerPlayerEntityMixin",
 		"EnderDragonFightMixin",
 		"EnderDragonEntityMixin",
+		"EndPortalBlockMixin",
 		"AxeItemMixin",
-		"EnderDragonFight_Invoker"
+		"EnderDragonFight_Invoker",
+		"SoulFireBlockMixin",
+		"FireworkRocketItemMixin"
 	]
 }

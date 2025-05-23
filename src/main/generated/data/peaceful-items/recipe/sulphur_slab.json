@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": [
+      "peaceful-items:sulphur_block",
+      "peaceful-items:chiseled_sulphur_block"
+    ]
+  },
+  "pattern": [
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "id": "peaceful-items:sulphur_slab"
+  }
+}

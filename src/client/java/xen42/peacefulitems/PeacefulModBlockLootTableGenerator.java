@@ -6,6 +6,7 @@ import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
@@ -40,6 +41,10 @@ public class PeacefulModBlockLootTableGenerator extends FabricBlockLootTableProv
     @Override
     public void generate() {
         addDrop(PeacefulModBlocks.SULPHUR_BLOCK);
+        addDrop(PeacefulModBlocks.SULPHUR_STAIRS);
+		addDrop(PeacefulModBlocks.SULPHUR_SLAB, block -> slabDrops(block));
+        addDrop(PeacefulModBlocks.SULPHUR_WALL);
+        addDrop(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK);
         addDrop(PeacefulModBlocks.FOSSIL_ORE, block -> fossilOreDrops(block));
         addDrop(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE, block -> fossilOreDrops(block));
         addDrop(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE, block -> fossilOreDrops(block));
@@ -64,18 +69,17 @@ public class PeacefulModBlockLootTableGenerator extends FabricBlockLootTableProv
         BlockStatePropertyLootCondition.Builder flax_condition = BlockStatePropertyLootCondition.builder(PeacefulModBlocks.FLAX_CROP)
             .properties(StatePredicate.Builder.create().exactMatch(FlaxCropBlock.AGE, 7));
         addDrop(PeacefulModBlocks.FLAX_CROP, block -> this.cropDrops(block, Items.STRING, PeacefulModItems.FLAX, flax_condition));
+
+        addDrop(PeacefulModBlocks.DRAGON_BREATH_CAULDRON, Blocks.CAULDRON);
     }
 
     private LootTable.Builder fossilOreDrops(Block block) {
         RegistryWrapper.Impl<Enchantment> impl = this.registries.getOrThrow(RegistryKeys.ENCHANTMENT);
 
-        var boneDrop = ItemEntry.builder(Items.BONE).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(0.0f, 2.0f)))
-        .apply(ApplyBonusLootFunction.oreDrops(impl.getOrThrow(Enchantments.FORTUNE)));
-
-        var boneMealDrop = (ItemEntry.builder(Items.BONE_MEAL).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 3.0f))));
+        var boneMealDrop = ItemEntry.builder(Items.BONE_MEAL).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 3.0f)))
+            .apply(ApplyBonusLootFunction.oreDrops(impl.getOrThrow(Enchantments.FORTUNE)));
 
         var normalDrop = (LootTable.Builder)LootTable.builder()
-            .pool(LootPool.builder().with(boneDrop).conditionally(createWithoutSilkTouchCondition()))
             .pool(LootPool.builder().with(boneMealDrop).conditionally(createWithoutSilkTouchCondition()))
             .pool(LootPool.builder().with(ItemEntry.builder(block)).conditionally(createSilkTouchCondition()));
 

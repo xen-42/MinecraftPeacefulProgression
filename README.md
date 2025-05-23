@@ -53,5 +53,6 @@ https://github.com/2xsaiko/mixin-cheatsheet/tree/master
 ### Thank you
 
 - MegaPiggy for naming the mod and contributing some nice additions, fixes, and the GitHub action
+- Ansurfen for the Chinese (Simplified) translation
 - Kaupenjoe and Diamondxr for the Youtube tutorials
 - Everyone who works on Fabric and all the modding framework stuff that's a bunch of work man very cool

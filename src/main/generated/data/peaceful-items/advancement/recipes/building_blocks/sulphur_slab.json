@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_chiseled_sulphur_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "peaceful-items:chiseled_sulphur_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_sulphur_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "peaceful-items:sulphur_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "peaceful-items:sulphur_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_sulphur_block",
+      "has_chiseled_sulphur_block"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "peaceful-items:sulphur_slab"
+    ]
+  }
+}

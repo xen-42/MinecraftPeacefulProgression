@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "peaceful-items:block/sulphur_slab"
+    },
+    "type=double": {
+      "model": "peaceful-items:block/sulphur_block"
+    },
+    "type=top": {
+      "model": "peaceful-items:block/sulphur_slab_top"
+    }
+  }
+}

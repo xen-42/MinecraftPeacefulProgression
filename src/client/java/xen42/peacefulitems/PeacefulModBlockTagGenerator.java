@@ -22,11 +22,19 @@ public class PeacefulModBlockTagGenerator extends BlockTagProvider {
     protected void configure(WrapperLookup wrapperLookup) {
         this.getOrCreateTagBuilder(BlockTags.SOUL_FIRE_BASE_BLOCKS)
             .add(PeacefulModBlocks.SULPHUR_BLOCK)
+            .add(PeacefulModBlocks.SULPHUR_STAIRS)
+            .add(PeacefulModBlocks.SULPHUR_SLAB)
+            .add(PeacefulModBlocks.SULPHUR_WALL)
+            .add(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK)
             .add(PeacefulModBlocks.SULPHUR_ORE)
             .add(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE);
         
         this.getOrCreateTagBuilder(BlockTags.INFINIBURN_OVERWORLD)
             .add(PeacefulModBlocks.SULPHUR_BLOCK)
+            .add(PeacefulModBlocks.SULPHUR_STAIRS)
+            .add(PeacefulModBlocks.SULPHUR_SLAB)
+            .add(PeacefulModBlocks.SULPHUR_WALL)
+            .add(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK)
             .add(PeacefulModBlocks.SULPHUR_ORE)
             .add(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE);
         
@@ -38,6 +46,10 @@ public class PeacefulModBlockTagGenerator extends BlockTagProvider {
         
         this.getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
             .add(PeacefulModBlocks.SULPHUR_BLOCK)
+            .add(PeacefulModBlocks.SULPHUR_STAIRS)
+            .add(PeacefulModBlocks.SULPHUR_SLAB)
+            .add(PeacefulModBlocks.SULPHUR_WALL)
+            .add(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK)
             .add(PeacefulModBlocks.FOSSIL_ORE)
             .add(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE);
         
@@ -74,6 +86,15 @@ public class PeacefulModBlockTagGenerator extends BlockTagProvider {
         
         this.getOrCreateTagBuilder(PeacefulModTags.BlockTags.SULFUR_ORES)
             .addOptionalTag(PeacefulModTags.BlockTags.SULPHUR_ORES);
+
+        this.getOrCreateTagBuilder(BlockTags.STAIRS)
+            .add(PeacefulModBlocks.SULPHUR_STAIRS);
+        
+        this.getOrCreateTagBuilder(BlockTags.SLABS)
+            .add(PeacefulModBlocks.SULPHUR_SLAB);
+        
+        this.getOrCreateTagBuilder(BlockTags.WALLS)
+            .add(PeacefulModBlocks.SULPHUR_WALL);
         
         this.getOrCreateTagBuilder(PeacefulModTags.BlockTags.FOSSIL_ORES)
             .add(PeacefulModBlocks.FOSSIL_ORE)
@@ -103,5 +124,8 @@ public class PeacefulModBlockTagGenerator extends BlockTagProvider {
         this.aliasGroup("ores/sulphur").add(PeacefulModTags.BlockTags.SULPHUR_ORES);
         this.aliasGroup("ores/sulfur").add(PeacefulModTags.BlockTags.SULFUR_ORES);
         this.aliasGroup("ores/fossil").add(PeacefulModTags.BlockTags.FOSSIL_ORES);
+        
+        this.getOrCreateTagBuilder(BlockTags.CAULDRONS)
+	        .add(PeacefulModBlocks.DRAGON_BREATH_CAULDRON);
     }
 }

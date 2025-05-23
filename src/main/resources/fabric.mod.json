@@ -48,5 +48,8 @@
 	},
 	"suggests": {
 		"roughlyenoughitems": ">=18.0.804"
+	},
+	"breaks": {
+		"jeb": "*"
 	}
 }
