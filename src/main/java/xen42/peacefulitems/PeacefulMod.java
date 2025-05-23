@@ -178,6 +178,18 @@ public class PeacefulMod implements ModInitializer {
 					pool.with(ItemEntry.builder(Items.PRISMARINE_CRYSTALS).weight(1));
 				});
 			}
+			if (key.getValue().equals(Identifier.of("minecraft", "chests/simple_dungeon"))) {
+				tableBuilder.modifyPools(pool -> {
+					pool.with(ItemEntry.builder(Items.ZOMBIE_HEAD).weight(1));
+					pool.with(ItemEntry.builder(Items.CREEPER_HEAD).weight(1));
+				});
+			}
+			if (key.getValue().equals(Identifier.of("minecraft", "chests/ruined_portal")) ||
+				key.getValue().equals(Identifier.of("minecraft", "chests/nether_bridge"))) {
+				tableBuilder.modifyPools(pool -> {
+					pool.with(ItemEntry.builder(Items.PIGLIN_HEAD).weight(1));
+				});
+			}
 		});
 
 		ServerWorldEvents.LOAD.register(((server, world) -> {

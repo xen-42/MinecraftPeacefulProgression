@@ -72,24 +72,6 @@ public class PeacefulModVillagers {
 				new ItemStack(Items.SPIDER_EYE, 3), 12, 1, 0.05f));
 		});
 
-		TradeOfferHelper.registerVillagerOffers(VillagerProfession.CLERIC, 3, factories -> {
-			factories.add((entity, random) -> new TradeOffer(
-				new TradedItem(Items.EMERALD, 5),
-				new ItemStack(Blocks.ZOMBIE_HEAD, 1), 12, 30, 0.05f));
-		});
-
-		TradeOfferHelper.registerVillagerOffers(VillagerProfession.CLERIC, 4, factories -> {
-			factories.add((entity, random) -> new TradeOffer(
-				new TradedItem(Items.EMERALD, 5),
-				new ItemStack(Blocks.CREEPER_HEAD, 1), 12, 30, 0.05f));
-		});
-
-		TradeOfferHelper.registerVillagerOffers(VillagerProfession.CLERIC, 5, factories -> {
-			factories.add((entity, random) -> new TradeOffer(
-				new TradedItem(Items.EMERALD, 5),
-				new ItemStack(Blocks.PIGLIN_HEAD, 1), 12, 30, 0.05f));
-		});
-
 		// Identical trade to wheat
 		TradeOfferHelper.registerVillagerOffers(VillagerProfession.FARMER, 1, factories -> {
 			factories.add((entity, random) -> new TradeOffer(
@@ -151,6 +133,18 @@ public class PeacefulModVillagers {
 				new TradeOfferFactory(new TradeOffer(
 					new TradedItem(Items.EMERALD, 10),
 					new ItemStack(Items.OMINOUS_TRIAL_KEY, 1), 12, 20, 0.05f)
+				),
+				new TradeOfferFactory(new TradeOffer(
+					new TradedItem(Items.EMERALD, 5),
+					new ItemStack(Items.PIGLIN_HEAD, 1), 12, 20, 0.05f)
+				),
+				new TradeOfferFactory(new TradeOffer(
+					new TradedItem(Items.EMERALD, 5),
+					new ItemStack(Items.CREEPER_HEAD, 1), 12, 20, 0.05f)
+				),
+				new TradeOfferFactory(new TradeOffer(
+					new TradedItem(Items.EMERALD, 5),
+					new ItemStack(Items.ZOMBIE_HEAD, 1), 12, 20, 0.05f)
 				)
 			);
 		});
