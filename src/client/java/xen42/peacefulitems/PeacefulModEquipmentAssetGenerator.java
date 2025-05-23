@@ -6,13 +6,12 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.minecraft.client.render.entity.equipment.EquipmentModel;
+import net.minecraft.item.equipment.EquipmentModel;
 import net.minecraft.data.DataOutput.OutputType;
 import net.minecraft.data.DataOutput.PathResolver;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.DataWriter;
-import net.minecraft.item.equipment.EquipmentAsset;
-import net.minecraft.registry.RegistryKey;
+import net.minecraft.util.Identifier;
 
 public class PeacefulModEquipmentAssetGenerator implements DataProvider {
 	private final PathResolver pathResolver;
@@ -28,11 +27,11 @@ public class PeacefulModEquipmentAssetGenerator implements DataProvider {
 
 	@Override
 	public CompletableFuture<?> run(DataWriter writer) {
-		Map<RegistryKey<EquipmentAsset>, EquipmentModel> map = new HashMap<RegistryKey<EquipmentAsset>, EquipmentModel>();
+		Map<Identifier, EquipmentModel> map = new HashMap<Identifier, EquipmentModel>();
 		map.put(
 			PeacefulModItems.CAPE_EQUIPMENT_ASSET,
-			EquipmentModel.builder().addLayers(EquipmentModel.LayerType.WINGS, new EquipmentModel.Layer(PeacefulModItems.CAPE_EQUIPMENT_ASSET.getValue(), Optional.empty(), false)).build()
+			EquipmentModel.builder().addLayers(EquipmentModel.LayerType.WINGS, new EquipmentModel.Layer(PeacefulModItems.CAPE_EQUIPMENT_ASSET, Optional.empty(), false)).build()
 		);
-		return DataProvider.writeAllToPath(writer, EquipmentModel.CODEC, this.pathResolver::resolveJson, map);
+		return DataProvider.writeAllToPath(writer, EquipmentModel.CODEC, this.pathResolver, map);
 	}
 }

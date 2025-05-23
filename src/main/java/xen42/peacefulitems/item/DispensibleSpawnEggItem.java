@@ -21,7 +21,7 @@ public class DispensibleSpawnEggItem extends SpawnEggItem {
             @Override
             public ItemStack dispenseSilently(BlockPointer source, ItemStack stack) {
                 Direction direction = source.state().get(DispenserBlock.FACING);
-                EntityType<?> entityType = ((SpawnEggItem) stack.getItem()).getEntityType(source.world().getRegistryManager(), stack);
+                EntityType<?> entityType = ((SpawnEggItem) stack.getItem()).getEntityType(stack);
                 
                 try {
                     entityType.spawnFromItemStack(source.world(), stack, null, source.pos().offset(direction), SpawnReason.DISPENSER, direction != Direction.UP, false);
@@ -37,14 +37,13 @@ public class DispensibleSpawnEggItem extends SpawnEggItem {
         };
     }
     
-    public DispensibleSpawnEggItem(EntityType<? extends MobEntity> entityType, Settings properties) {
-        this(entityType, properties, createDispenseItemBehavior());
+    public DispensibleSpawnEggItem(EntityType<? extends MobEntity> entityType, int backgroundColor, int highlightColor, Settings properties) {
+        this(entityType, backgroundColor, highlightColor, properties, createDispenseItemBehavior());
     }
     
-    public DispensibleSpawnEggItem(EntityType<? extends MobEntity> entityType, Settings properties,
+    public DispensibleSpawnEggItem(EntityType<? extends MobEntity> entityType, int backgroundColor, int highlightColor, Settings properties,
                                     @Nullable DispenserBehavior dispenseItemBehavior) {
-        super(entityType, properties);
-        SpawnEggItem.SPAWN_EGGS.remove(entityType);
+        super(entityType, backgroundColor, highlightColor, properties);
         if (dispenseItemBehavior != null) {
             DispenserBlock.registerBehavior(this, dispenseItemBehavior);
         }

@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.Lists;
 
+import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -18,6 +19,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.s2c.play.ScreenHandlerSlotUpdateS2CPacket;
+import net.minecraft.recipe.IngredientPlacement;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.RecipeFinder;
 import net.minecraft.recipe.RecipeUnlocker;
@@ -590,7 +592,10 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
 
                 this.returnInputs();
                 EffigyAltarRecipe recipeValue = recipe.value();
-                IntList placementSlots = recipeValue.getIngredientPlacement().getPlacementSlots();
+                IntList placementSlots = recipeValue.getIngredientPlacement().getPlacementSlots().stream()
+                        .flatMap(Optional::stream)
+                        .mapToInt(IngredientPlacement.PlacementSlot::placerOutputPosition)
+                        .collect(IntArrayList::new, IntList::add, IntList::addAll);
                 RegistryEntry<Item> brimstoneRegistryEntry = entries.get(placementSlots.getInt(inputSlots.size()));
                 int jk = k;
 
@@ -648,24 +653,24 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
         }
 
         private int fillInputSlot(Slot slot, RegistryEntry<Item> item, int count) {
-            ItemStack itemStack = slot.getStack();
-            int i = this.inventory.getMatchingSlot(item, itemStack);
+            int i = this.inventory.getMatchingSlot(item);
             if (i == -1) {
                 return -1;
             } else {
-                ItemStack itemStackAtIndex = this.inventory.getStack(i);
-                ItemStack itemStack3;
-                if (count < itemStackAtIndex.getCount()) {
-                    itemStack3 = this.inventory.removeStack(i, count);
+                ItemStack itemStack = this.inventory.getStack(i);
+                int j;
+                if (count < itemStack.getCount()) {
+                    this.inventory.removeStack(i, count);
+                    j = count;
                 } else {
-                    itemStack3 = this.inventory.removeStack(i);
+                    this.inventory.removeStack(i);
+                    j = itemStack.getCount();
                 }
 
-                int j = itemStack3.getCount();
-                if (itemStack.isEmpty()) {
-                    slot.setStackNoCallbacks(itemStack3);
+                if (slot.getStack().isEmpty()) {
+                    slot.setStackNoCallbacks(itemStack.copyWithCount(j));
                 } else {
-                    itemStack.increment(j);
+                    slot.getStack().increment(j);
                 }
 
                 return count - j;

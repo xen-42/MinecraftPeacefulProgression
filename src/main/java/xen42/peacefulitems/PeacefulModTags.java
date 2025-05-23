@@ -18,6 +18,9 @@ public class PeacefulModTags {
 		public static final TagKey<Block> SULFUR_ORES = TagRegistration.BLOCK_TAG.registerC("ores/sulfur");
 		public static final TagKey<Block> ORE_BEARING_GROUND_SOUL_SOIL = TagRegistration.BLOCK_TAG.registerC("ore_bearing_ground/soul_soil");
 		public static final TagKey<Block> ORES_IN_GROUND_SOUL_SOIL = TagRegistration.BLOCK_TAG.registerC("ores_in_ground/soul_soil");
+
+		public static final TagKey<Block> ORES_IN_GROUND_STONE = TagRegistration.BLOCK_TAG.registerC("ores_in_ground/stone");
+		public static final TagKey<Block> ORES_IN_GROUND_DEEPSLATE = TagRegistration.BLOCK_TAG.registerC("ores_in_ground/deepslate");
 	}
 	
 	public class ItemTags {
@@ -32,6 +35,10 @@ public class PeacefulModTags {
 		public static final TagKey<Item> GUANO = TagRegistration.ITEM_TAG.registerC("guano");
 		public static final TagKey<Item> WISP_LIKES = ofItem("wisp_likes");
 		public static final TagKey<Item> WISP_DISLIKES = ofItem("wisp_dislikes");
+
+		public static final TagKey<Item> ORES_IN_GROUND_STONE = TagRegistration.ITEM_TAG.registerC("ores_in_ground/stone");
+		public static final TagKey<Item> ORES_IN_GROUND_DEEPSLATE = TagRegistration.ITEM_TAG.registerC("ores_in_ground/deepslate");
+        public static final TagKey<Item> SEEDS = TagRegistration.ITEM_TAG.registerC("seeds");
 	}
 	
 	public class StructureTags {

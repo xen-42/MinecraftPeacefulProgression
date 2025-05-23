@@ -1,23 +1,31 @@
 package xen42.peacefulitems;
 
+import java.util.Map;
 import java.util.Optional;
 
-import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.LeveledCauldronBlock;
-import net.minecraft.client.data.BlockStateModelGenerator;
-import net.minecraft.client.data.BlockStateVariant;
-import net.minecraft.client.data.BlockStateVariantMap;
-import net.minecraft.client.data.ItemModelGenerator;
-import net.minecraft.client.data.Models;
-import net.minecraft.client.data.TextureKey;
-import net.minecraft.client.data.TextureMap;
-import net.minecraft.client.data.VariantSettings;
-import net.minecraft.client.data.VariantsBlockStateSupplier;
-import net.minecraft.client.data.Model;
+import net.minecraft.client.render.item.ItemModels;
+import net.minecraft.client.render.model.ItemModel;
+import net.minecraft.data.client.BlockStateModelGenerator;
+import net.minecraft.data.client.BlockStateVariant;
+import net.minecraft.data.client.BlockStateVariantMap;
+import net.minecraft.data.client.ItemModelGenerator;
+import net.minecraft.data.client.Models;
+import net.minecraft.data.client.TextureKey;
+import net.minecraft.data.client.TextureMap;
+import net.minecraft.data.client.VariantSettings;
+import net.minecraft.data.client.VariantsBlockStateSupplier;
+import net.minecraft.data.client.Model;
+import net.minecraft.data.client.ModelIds;
 import net.minecraft.item.Item;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 
@@ -29,6 +37,10 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
+    	blockStateModelGenerator.registerParentedItemModel(PeacefulModBlocks.EFFIGY_ALTAR, ModelIds.getBlockModelId(PeacefulModBlocks.EFFIGY_ALTAR));
+        registerSpawnEgg(blockStateModelGenerator, PeacefulModItems.GHASTLING_SPAWN_EGG);
+        registerSpawnEgg(blockStateModelGenerator, PeacefulModItems.END_CLAM_SPAWN_EGG);
+
         blockStateModelGenerator.registerCubeAllModelTexturePool(PeacefulModBlocks.SULPHUR_BLOCK).family(PeacefulModBlocks.SULPHUR);
         blockStateModelGenerator.registerSimpleCubeAll(PeacefulModBlocks.FOSSIL_ORE);
         blockStateModelGenerator.registerSimpleCubeAll(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE);
@@ -46,7 +58,7 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         itemModelGenerator.register(PeacefulModItems.BAT_WING, Models.GENERATED);
-        itemModelGenerator.registerWithBrokenCondition(PeacefulModItems.CAPE);
+        registerWithBrokenCondition(itemModelGenerator, PeacefulModItems.CAPE);
         itemModelGenerator.register(PeacefulModItems.GUANO, Models.GENERATED);
         itemModelGenerator.register(PeacefulModItems.ECTOPLASM, Models.GENERATED);
         itemModelGenerator.register(PeacefulModItems.SULPHUR, Models.GENERATED);
@@ -55,9 +67,6 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
         itemModelGenerator.register(PeacefulModItems.GUARDIAN_EFFIGY, Models.GENERATED);
         itemModelGenerator.register(PeacefulModItems.DRAGON_EFFIGY, Models.GENERATED);
         itemModelGenerator.register(PeacefulModItems.RAID_EFFIGY, Models.GENERATED);
-
-        itemModelGenerator.registerSpawnEgg(PeacefulModItems.GHASTLING_SPAWN_EGG, 0xFFFFFF, 0x7A7A7A);
-        itemModelGenerator.registerSpawnEgg(PeacefulModItems.END_CLAM_SPAWN_EGG, 0x6F4B6F, 0x2B1E2B);
 
         itemModelGenerator.register(PeacefulModItems.CLAM, Models.GENERATED);
         itemModelGenerator.register(PeacefulModItems.COOKED_CLAM, Models.GENERATED);
@@ -70,6 +79,35 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
 
     private Model GetModel(String parent) {
         return new Model(Optional.of(Identifier.ofVanilla("block/" + parent)), Optional.empty(), TextureKey.ALL, TextureKey.PARTICLE);
+    }
+    
+    public void registerWithBrokenCondition(ItemModelGenerator itemModelGenerator, Item item) {
+    	Identifier model = ModelIds.getItemModelId(item);
+    	Identifier brokenModel = model.withSuffixedPath("_broken");
+    	Identifier texture = TextureMap.getId(item);
+    	Identifier brokenTexture = texture.withSuffixedPath("_broken");
+		Models.GENERATED.upload(model, TextureMap.layer0(texture), itemModelGenerator.writer, (identifier, textures) -> createBrokenConditionJson(model, brokenModel, textures));
+		Models.GENERATED.upload(brokenModel, TextureMap.layer0(brokenTexture), itemModelGenerator.writer);
+    }
+
+	public final JsonObject createBrokenConditionJson(Identifier id,
+			Identifier brokenId, Map<TextureKey, Identifier> textures) {
+		JsonObject model = Models.GENERATED.createJson(id, textures);
+		JsonArray overrides = new JsonArray();
+
+		JsonObject override = new JsonObject();
+		JsonObject predicate = new JsonObject();
+		predicate.addProperty("broken", 1);
+		override.add("predicate", predicate);
+		override.addProperty("model", brokenId.toString());
+		overrides.add(override);
+
+		model.add("overrides", overrides);
+		return model;
+	}
+
+    public void registerSpawnEgg(BlockStateModelGenerator blockStateModelGenerator, Item item) {
+    	blockStateModelGenerator.registerParentedItemModel(item, ModelIds.getMinecraftNamespacedItem("template_spawn_egg"));
     }
 
     public void registerSeaPickle(BlockStateModelGenerator blockStateModelGenerator, Item item, Block block) {

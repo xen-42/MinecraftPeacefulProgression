@@ -35,8 +35,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
 import net.minecraft.item.Items;
 import net.minecraft.item.SpawnEggItem;
-import net.minecraft.item.equipment.EquipmentAsset;
-import net.minecraft.item.equipment.EquipmentAssetKeys;
+import net.minecraft.item.equipment.EquipmentModels;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.Potions;
 import net.minecraft.recipe.BrewingRecipeRegistry;
@@ -69,7 +68,7 @@ import net.minecraft.advancement.criterion.Criteria;
 public class PeacefulModItems {
     public static final Item BAT_WING = register("bat_wing", Item::new, new Item.Settings());
     
-    public static final RegistryKey<EquipmentAsset> CAPE_EQUIPMENT_ASSET = RegistryKey.of(EquipmentAssetKeys.REGISTRY_KEY, Identifier.of(PeacefulMod.MOD_ID, "cape"));
+    public static final Identifier CAPE_EQUIPMENT_ASSET = Identifier.of(PeacefulMod.MOD_ID, "cape");
     public static final Item CAPE = register("cape", Item::new,
         new Item.Settings()
             .maxDamage(108)
@@ -110,9 +109,9 @@ public class PeacefulModItems {
             }
         }, new Item.Settings().food(new FoodComponent(2, 1, false)));
     public static final Item GHASTLING_SPAWN_EGG = register("ghastling_spawn_egg", (settings) -> 
-        new DispensibleSpawnEggItem(PeacefulMod.GHASTLING_ENTITY, settings), new Item.Settings());
+        new DispensibleSpawnEggItem(PeacefulMod.GHASTLING_ENTITY, 0xFFFFFF, 0x7A7A7A, settings), new Item.Settings());
     public static final Item END_CLAM_SPAWN_EGG = register("end_clam_spawn_egg", (settings) -> 
-        new DispensibleSpawnEggItem(PeacefulMod.END_CLAM_ENTITY, settings), new Item.Settings());
+        new DispensibleSpawnEggItem(PeacefulMod.END_CLAM_ENTITY, 0x6F4B6F, 0x2B1E2B, settings), new Item.Settings());
     public static final Item WITHER_EFFIGY = register("wither_effigy", (settings) -> 
         new EffigyItem(settings, "wither_effigy", (ServerPlayerEntity user) -> {
             user.dropItem(user.getServerWorld(), Items.NETHER_STAR);

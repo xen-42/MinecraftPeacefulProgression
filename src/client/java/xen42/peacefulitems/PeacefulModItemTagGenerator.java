@@ -27,8 +27,8 @@ public class PeacefulModItemTagGenerator extends ItemTagProvider {
 		this.copy(BlockTags.SOUL_FIRE_BASE_BLOCKS, ItemTags.SOUL_FIRE_BASE_BLOCKS);
 		this.copy(ConventionalBlockTags.VILLAGER_JOB_SITES, ConventionalItemTags.VILLAGER_JOB_SITES);
 		this.copy(ConventionalBlockTags.ORES, ConventionalItemTags.ORES);
-		this.copy(ConventionalBlockTags.ORES_IN_GROUND_DEEPSLATE, ConventionalItemTags.ORES_IN_GROUND_DEEPSLATE);
-		this.copy(ConventionalBlockTags.ORES_IN_GROUND_STONE, ConventionalItemTags.ORES_IN_GROUND_STONE);
+		this.copy(PeacefulModTags.BlockTags.ORES_IN_GROUND_DEEPSLATE, PeacefulModTags.ItemTags.ORES_IN_GROUND_DEEPSLATE);
+		this.copy(PeacefulModTags.BlockTags.ORES_IN_GROUND_STONE, PeacefulModTags.ItemTags.ORES_IN_GROUND_STONE);
 		this.copy(PeacefulModTags.BlockTags.ORE_BEARING_GROUND_SOUL_SOIL, PeacefulModTags.ItemTags.ORE_BEARING_GROUND_SOUL_SOIL);
 		this.copy(PeacefulModTags.BlockTags.ORES_IN_GROUND_SOUL_SOIL, PeacefulModTags.ItemTags.ORES_IN_GROUND_SOUL_SOIL);
 		this.copy(PeacefulModTags.BlockTags.FOSSIL_ORES, PeacefulModTags.ItemTags.FOSSIL_ORES);
@@ -40,7 +40,7 @@ public class PeacefulModItemTagGenerator extends ItemTagProvider {
 		this.copy(BlockTags.SLABS, ItemTags.SLABS);
 		this.copy(BlockTags.WALLS, ItemTags.WALLS);
 
-		this.getOrCreateTagBuilder(ConventionalItemTags.SEEDS)
+		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.SEEDS)
 			.add(PeacefulModItems.FLAX);
 		this.getOrCreateTagBuilder(ItemTags.CHICKEN_FOOD)
 			.add(PeacefulModItems.FLAX);
@@ -50,8 +50,6 @@ public class PeacefulModItemTagGenerator extends ItemTagProvider {
 			.add(PeacefulModItems.FLAX);
 		this.getOrCreateTagBuilder(ConventionalItemTags.CROPS)
 			.add(PeacefulModItems.FLAX);
-		this.getOrCreateTagBuilder(ConventionalItemTags.CLUMPS)
-			.add(PeacefulModItems.SULPHUR);
 		this.getOrCreateTagBuilder(ConventionalItemTags.CLUSTERS)
 			.add(PeacefulModItems.SULPHUR);
 		this.getOrCreateTagBuilder(ConventionalItemTags.FOOD_POISONING_FOODS)
@@ -77,12 +75,16 @@ public class PeacefulModItemTagGenerator extends ItemTagProvider {
 			.add(PeacefulModItems.CAPE);
 		
 		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.WISP_LIKES)
-			.addOptionalTags(ConventionalItemTags.COOKED_FISH_FOODS, ConventionalItemTags.COOKED_MEAT_FOODS, ConventionalItemTags.VEGETABLE_FOODS)
+			.addOptionalTag(ConventionalItemTags.COOKED_FISH_FOODS)
+			.addOptionalTag(ConventionalItemTags.COOKED_MEAT_FOODS)
+			.addOptionalTag(ConventionalItemTags.VEGETABLE_FOODS)
 			.add(PeacefulModItems.SULPHUR)
 			.add(Items.QUARTZ)
 			.add(Items.GOLD_NUGGET);
 
 		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.WISP_DISLIKES)
-			.addOptionalTags(PeacefulModTags.ItemTags.GUANO, ConventionalItemTags.RAW_FISH_FOODS, ConventionalItemTags.RAW_MEAT_FOODS);
+			.addOptionalTag(PeacefulModTags.ItemTags.GUANO)
+			.addOptionalTag(ConventionalItemTags.RAW_FISH_FOODS)
+			.addOptionalTag(ConventionalItemTags.RAW_MEAT_FOODS);
 	}
 }

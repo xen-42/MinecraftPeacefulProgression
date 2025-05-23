@@ -1,5 +1,13 @@
 {
   "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "peaceful-items:item/cape_broken",
+      "predicate": {
+        "broken": 1
+      }
+    }
+  ],
   "textures": {
     "layer0": "peaceful-items:item/cape"
   }

@@ -112,7 +112,7 @@ public class SulphurClusterBlock extends Block implements Waterloggable {
     }
 
     @Override
-    protected ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state, boolean includeData) {
+    public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {
         return new ItemStack(PeacefulModItems.SULPHUR);
     }
 

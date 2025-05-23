@@ -111,10 +111,10 @@ public class PeacefulModBlockTagGenerator extends BlockTagProvider {
         this.getOrCreateTagBuilder(PeacefulModTags.BlockTags.ORE_BEARING_GROUND_SOUL_SOIL)
             .add(Blocks.SOUL_SOIL);
         
-        this.getOrCreateTagBuilder(ConventionalBlockTags.ORES_IN_GROUND_STONE)
+        this.getOrCreateTagBuilder(PeacefulModTags.BlockTags.ORES_IN_GROUND_STONE)
             .add(PeacefulModBlocks.FOSSIL_ORE);
         
-        this.getOrCreateTagBuilder(ConventionalBlockTags.ORES_IN_GROUND_DEEPSLATE)
+        this.getOrCreateTagBuilder(PeacefulModTags.BlockTags.ORES_IN_GROUND_DEEPSLATE)
             .add(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE);
         
         this.getOrCreateTagBuilder(PeacefulModTags.BlockTags.ORES_IN_GROUND_SOUL_SOIL)
