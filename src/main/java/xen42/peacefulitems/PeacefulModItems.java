@@ -6,6 +6,7 @@ import java.util.function.Function;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
+import net.fabricmc.fabric.api.registry.FuelRegistryEvents;
 import net.fabricmc.fabric.api.transfer.v1.fluid.CauldronFluidContent;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.advancement.AdvancementEntry;
@@ -241,6 +242,17 @@ public class PeacefulModItems {
 
         CompostingChanceRegistry.INSTANCE.add(GUANO, 2f);
         CompostingChanceRegistry.INSTANCE.add(FLAX, 0.3f);
+
+        FuelRegistryEvents.BUILD.register((builder, context) -> {
+            int sulphurTime = context.baseSmeltTime() * 4; // More useful than wood, but not as good as coal
+            builder.add(PeacefulModItems.SULPHUR, sulphurTime);
+            int sulphurBlockTime = sulphurTime * 10; // Coal blocks are 10 times so we do that too
+            builder.add(PeacefulModBlocks.SULPHUR_BLOCK, sulphurBlockTime);
+            builder.add(PeacefulModBlocks.SULPHUR_WALL, sulphurBlockTime);
+            builder.add(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK, sulphurBlockTime);
+            builder.add(PeacefulModBlocks.SULPHUR_SLAB, sulphurBlockTime / 2); // 2/4
+            builder.add(PeacefulModBlocks.SULPHUR_STAIRS, sulphurBlockTime / (4 / 3)); // 3/4
+        });
 
         DispenserBlock.registerBehavior(Items.BRUSH.asItem(), new BrushDispenserBehavior());
 
