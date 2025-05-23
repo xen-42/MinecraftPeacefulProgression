@@ -3,6 +3,7 @@ package xen42.peacefulitems.blocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BrushableBlockEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
@@ -22,7 +23,7 @@ public class FossilOreBlockEntity extends BrushableBlockEntity {
     }
 
     @Override
-    public void generateItem(ServerWorld world, LivingEntity brusher, ItemStack brush) {
+    public void generateItem(ServerWorld world, PlayerEntity brusher, ItemStack brush) {
         this.item = new ItemStack(Items.BONE, world.random.nextBetween(1, 3));
         this.markDirty();
     }

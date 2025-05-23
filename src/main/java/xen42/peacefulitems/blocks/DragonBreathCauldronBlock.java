@@ -15,7 +15,6 @@ import net.minecraft.block.cauldron.CauldronBehavior;
 import net.minecraft.block.cauldron.CauldronBehavior.CauldronBehaviorMap;
 import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCollisionHandler;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -65,7 +64,6 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
         areaEffectCloudEntity.setRadius(radius);
         areaEffectCloudEntity.setDuration(duration);
         areaEffectCloudEntity.setRadiusGrowth((7.0f - areaEffectCloudEntity.getRadius()) / (float) areaEffectCloudEntity.getDuration());
-        areaEffectCloudEntity.setPotionDurationScale(0.25F);
         areaEffectCloudEntity.addEffect(new StatusEffectInstance(StatusEffects.INSTANT_DAMAGE, 1, 1){
             @Override
             public void onEntityDamage(ServerWorld world, LivingEntity livingEntity, DamageSource source, float amount){
@@ -99,7 +97,7 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
     }
     
     @Override
-    protected void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler) {
+    protected void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if (world instanceof ServerWorld serverWorld && this.isEntityTouchingFluid(state, pos, entity)) {
             entity.damage(serverWorld, world.getDamageSources().dragonBreath(), 2.5f);
         }

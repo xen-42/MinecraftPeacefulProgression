@@ -98,26 +98,29 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
     	TextureMap cauldronTextureMap = TextureMap.cauldron(fluidTexture);
         blockStateModelGenerator.blockStateCollector
 			.accept(
-				VariantsBlockModelDefinitionCreator.of(cauldronBlock)
-					.with(
-						BlockStateVariantMap.models(LeveledCauldronBlock.LEVEL)
+				VariantsBlockStateSupplier.create(cauldronBlock)
+					.coordinate(
+						BlockStateVariantMap.create(LeveledCauldronBlock.LEVEL)
 							.register(
 								1,
-								BlockStateModelGenerator.createWeightedVariant(
+								BlockStateVariant.create().put(
+									VariantSettings.MODEL,
 									Models.TEMPLATE_CAULDRON_LEVEL1
 										.upload(cauldronBlock, "_level1", cauldronTextureMap, blockStateModelGenerator.modelCollector)
 								)
 							)
 							.register(
 								2,
-								BlockStateModelGenerator.createWeightedVariant(
+								BlockStateVariant.create().put(
+									VariantSettings.MODEL,
 									Models.TEMPLATE_CAULDRON_LEVEL2
 										.upload(cauldronBlock, "_level2", cauldronTextureMap, blockStateModelGenerator.modelCollector)
 								)
 							)
 							.register(
 								3,
-								BlockStateModelGenerator.createWeightedVariant(
+								BlockStateVariant.create().put(
+									VariantSettings.MODEL,
 									Models.TEMPLATE_CAULDRON_FULL
 										.upload(cauldronBlock, "_full", cauldronTextureMap, blockStateModelGenerator.modelCollector)
 								)

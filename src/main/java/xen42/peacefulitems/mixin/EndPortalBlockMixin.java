@@ -9,7 +9,6 @@ import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.EndPortalBlock;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCollisionHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
@@ -19,7 +18,7 @@ import net.minecraft.world.World;
 @Mixin(EndPortalBlock.class)
 public class EndPortalBlockMixin {
     @Inject(at = @At("HEAD"), method = "onEntityCollision", cancellable = true)
-    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, CallbackInfo info) {
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, CallbackInfo info) {
         // Grant the player the "Free the End" advancement
     	if (entity.canUsePortals(false) && !world.isClient && world.getRegistryKey() == World.END && entity instanceof ServerPlayerEntity player && player.getServer() != null)
         {
