@@ -16,6 +16,7 @@ import net.minecraft.block.WallBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.BlockEntityType.BlockEntityFactory;
+import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.data.family.BlockFamilies;
 import net.minecraft.data.family.BlockFamily;
@@ -45,35 +46,35 @@ public class PeacefulModBlocks {
 	public static final Block SULPHUR_BLOCK = register(
 		"sulphur_block",
 		Block::new,
-		AbstractBlock.Settings.create().mapColor(MapColor.PALE_YELLOW).strength(3.0f, 3.0f).requiresTool(),
+		AbstractBlock.Settings.create().mapColor(MapColor.PALE_YELLOW).strength(3.0f, 3.0f).requiresTool().instrument(NoteBlockInstrument.BASEDRUM),
 		true
 	);
 
 	public static final Block SULPHUR_STAIRS = register(
 		"sulphur_stairs",
 		settings -> new StairsBlock(SULPHUR_BLOCK.getDefaultState(), settings),
-		AbstractBlock.Settings.create().mapColor(MapColor.PALE_YELLOW).strength(3.0f, 3.0f).requiresTool(),
+		AbstractBlock.Settings.copy(SULPHUR_BLOCK),
 		true
 	);
 
 	public static final Block SULPHUR_SLAB = register(
 		"sulphur_slab",
 		SlabBlock::new,
-		AbstractBlock.Settings.create().mapColor(MapColor.PALE_YELLOW).strength(3.0f, 3.0f).requiresTool(),
+		AbstractBlock.Settings.copy(SULPHUR_BLOCK),
 		true
 	);
 
 	public static final Block SULPHUR_WALL = register(
 		"sulphur_wall",
 		WallBlock::new,
-		AbstractBlock.Settings.create().mapColor(MapColor.PALE_YELLOW).strength(3.0f, 3.0f).requiresTool(),
+		AbstractBlock.Settings.copy(SULPHUR_BLOCK),
 		true
 	);
 
 	public static final Block CHISELED_SULPHUR_BLOCK = register(
 		"chiseled_sulphur_block",
 		Block::new,
-		AbstractBlock.Settings.create().mapColor(MapColor.PALE_YELLOW).strength(3.0f, 3.0f).requiresTool(),
+		AbstractBlock.Settings.copy(SULPHUR_BLOCK),
 		true
 	);
 	
