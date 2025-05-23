@@ -24,7 +24,11 @@ import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.function.EnchantedCountIncreaseLootFunction;
+import net.minecraft.loot.function.LootFunction;
+import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
+import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.book.RecipeBookCategory;
@@ -191,6 +195,24 @@ public class PeacefulMod implements ModInitializer {
 				tableBuilder.modifyPools(pool -> {
 					pool.with(ItemEntry.builder(Items.PIGLIN_HEAD).weight(1));
 				});
+			}
+			if (key.getValue().equals(Identifier.of("minecraft", "entities/cod")) ||
+				key.getValue().equals(Identifier.of("minecraft", "entities/salmon")) ||
+				key.getValue().equals(Identifier.of("minecraft", "entities/salmon")) ||
+				key.getValue().equals(Identifier.of("minecraft", "entities/tropical_fish"))
+				) {
+				tableBuilder.pool(LootPool.builder()
+					.rolls(ConstantLootNumberProvider.create(0.25f))
+					.with(ItemEntry.builder(Items.BONE))
+					.apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(0, 1)))
+					.apply((LootFunction.Builder)EnchantedCountIncreaseLootFunction.builder(registries, UniformLootNumberProvider.create(0f, 1f)))
+				);
+				tableBuilder.pool(LootPool.builder()
+					.rolls(ConstantLootNumberProvider.create(0.05f))
+					.with(ItemEntry.builder(Items.BONE_MEAL))
+					.apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(0, 1)))
+					.apply((LootFunction.Builder)EnchantedCountIncreaseLootFunction.builder(registries, UniformLootNumberProvider.create(0f, 1f)))
+				);
 			}
 		});
 
