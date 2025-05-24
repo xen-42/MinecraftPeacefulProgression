@@ -40,7 +40,7 @@ public class SulphurClusterBlock extends Block implements Waterloggable {
 
     public SulphurClusterBlock(int height, int xzOffset, AbstractBlock.Settings settings) {
         super(settings);
-        this.setDefaultState((BlockState)((BlockState)this.getDefaultState().with(WATERLOGGED, false)).with(FACING, Direction.UP));
+        this.setDefaultState(this.getDefaultState().with(WATERLOGGED, false).with(FACING, Direction.UP));
         this.upShape = Block.createCuboidShape(xzOffset, 0.0, xzOffset, 16 - xzOffset, height, 16 - xzOffset);
         this.downShape = Block.createCuboidShape(xzOffset, 16 - height, xzOffset, 16 - xzOffset, 16.0, 16 - xzOffset);
         this.northShape = Block.createCuboidShape(xzOffset, xzOffset, 16 - height, 16 - xzOffset, 16 - xzOffset, 16.0);
@@ -85,12 +85,12 @@ public class SulphurClusterBlock extends Block implements Waterloggable {
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         World lv = ctx.getWorld();
         BlockPos lv2 = ctx.getBlockPos();
-        return (BlockState)((BlockState)this.getDefaultState().with(WATERLOGGED, lv.getFluidState(lv2).getFluid() == Fluids.WATER)).with(FACING, ctx.getSide());
+        return this.getDefaultState().with(WATERLOGGED, lv.getFluidState(lv2).getFluid() == Fluids.WATER).with(FACING, ctx.getSide());
     }
 
     @Override
     public BlockState rotate(BlockState state, BlockRotation rotation) {
-        return (BlockState)state.with(FACING, rotation.rotate(state.get(FACING)));
+        return state.with(FACING, rotation.rotate(state.get(FACING)));
     }
 
     @Override
@@ -117,10 +117,10 @@ public class SulphurClusterBlock extends Block implements Waterloggable {
     }
 
     protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
-        if ((Boolean)state.get(WATERLOGGED)) {
+        if (state.get(WATERLOGGED)) {
             tickView.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
 
-        return direction == ((Direction)state.get(FACING)).getOpposite() && !state.canPlaceAt(world, pos) ? Blocks.AIR.getDefaultState() : super.getStateForNeighborUpdate(state, world, tickView, pos, direction, neighborPos, neighborState, random);
+        return direction == state.get(FACING).getOpposite() && !state.canPlaceAt(world, pos) ? Blocks.AIR.getDefaultState() : super.getStateForNeighborUpdate(state, world, tickView, pos, direction, neighborPos, neighborState, random);
    }
 }

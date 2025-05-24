@@ -48,7 +48,7 @@ public class PeacefulModClient implements ClientModInitializer {
 
 		ClientPlayNetworking.registerGlobalReceiver(EffigyParticlePayload.ID, (payload, context) -> {
 			context.client().execute(() -> {
-				context.client().particleManager.addEmitter(context.player(), (ParticleEffect)ParticleTypes.TOTEM_OF_UNDYING, 30);
+				context.client().particleManager.addEmitter(context.player(), ParticleTypes.TOTEM_OF_UNDYING, 30);
 				switch (payload.particleID()) {
 					case "wither_effigy":
 						context.client().gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.WITHER_EFFIGY));

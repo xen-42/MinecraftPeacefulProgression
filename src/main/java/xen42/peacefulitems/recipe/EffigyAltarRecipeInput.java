@@ -31,11 +31,11 @@ public class EffigyAltarRecipeInput implements RecipeInput {
 
 	@Override
 	public ItemStack getStackInSlot(int slot) {
-		return (ItemStack)this.stacks.get(slot);
+		return this.stacks.get(slot);
 	}
 
 	public ItemStack getStackInSlot(int x, int y) {
-		return (ItemStack)this.stacks.get(x + y * MAX_WIDTH_AND_HEIGHT);
+		return this.stacks.get(x + y * MAX_WIDTH_AND_HEIGHT);
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public class EffigyAltarRecipeInput implements RecipeInput {
 			return false;
 		} else {
 			for (int i = 0; i < left.size(); i++) {
-				if (!ItemStack.areEqual((ItemStack)left.get(i), (ItemStack)right.get(i))) {
+				if (!ItemStack.areEqual(left.get(i), right.get(i))) {
 					return false;
 				}
 			}
