@@ -121,7 +121,7 @@ public class PeacefulMod implements ModInitializer {
 	public static final ScreenHandlerType<EffigyAltarScreenHandler> EFFIGY_ALTAR_SCREEN_HANDLER = Registry.register(
 		Registries.SCREEN_HANDLER,
 		Identifier.of(MOD_ID, "effigy_altar"),
-		new ScreenHandlerType<EffigyAltarScreenHandler>(EffigyAltarScreenHandler::new, null));
+        new ScreenHandlerType<>(EffigyAltarScreenHandler::new, null));
 
 	public static final SoundEvent ITEM_BOTTLE_EMPTY_DRAGONBREATH = Registry.register(
 		Registries.SOUND_EVENT,
@@ -174,9 +174,9 @@ public class PeacefulMod implements ModInitializer {
 
 		LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
 			if (key.getValue().equals(Identifier.of("minecraft", "archaeology/ocean_ruin_cold"))) {
-				tableBuilder.modifyPools(pool -> {
-					pool.with(ItemEntry.builder(Items.TRIDENT).weight(1));
-				});
+				tableBuilder.modifyPools(pool ->
+					pool.with(ItemEntry.builder(Items.TRIDENT).weight(1))
+				);
 			}
 			if (key.getValue().equals(Identifier.of("minecraft", "archaeology/ocean_ruin_warm"))) {
 				tableBuilder.modifyPools(pool -> {
@@ -192,9 +192,9 @@ public class PeacefulMod implements ModInitializer {
 			}
 			if (key.getValue().equals(Identifier.of("minecraft", "chests/ruined_portal")) ||
 				key.getValue().equals(Identifier.of("minecraft", "chests/nether_bridge"))) {
-				tableBuilder.modifyPools(pool -> {
-					pool.with(ItemEntry.builder(Items.PIGLIN_HEAD).weight(1));
-				});
+				tableBuilder.modifyPools(pool ->
+					pool.with(ItemEntry.builder(Items.PIGLIN_HEAD).weight(1))
+				);
 			}
 			if (key.getValue().equals(Identifier.of("minecraft", "entities/cod")) ||
 				key.getValue().equals(Identifier.of("minecraft", "entities/salmon")) ||

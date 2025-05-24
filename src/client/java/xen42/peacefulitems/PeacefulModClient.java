@@ -38,15 +38,15 @@ public class PeacefulModClient implements ClientModInitializer {
 		Identifier dragonBreathTexture = Identifier.of(PeacefulMod.MOD_ID, "dragon_breath").withPrefixedPath("block/");
 		FluidRenderHandlerRegistry.INSTANCE.register(PeacefulModFluids.DRAGON_BREATH, new SimpleFluidRenderHandler(dragonBreathTexture, dragonBreathTexture));
 		
-		EntityRendererRegistry.register(PeacefulMod.GHASTLING_ENTITY, context -> new GhastlingEntityRenderer(context)); 
+		EntityRendererRegistry.register(PeacefulMod.GHASTLING_ENTITY, GhastlingEntityRenderer::new);
 		EntityModelLayerRegistry.registerModelLayer(MODEL_GHASTLING_LAYER, GhastlingEntityModel::getTexturedModelData);
 
-		EntityRendererRegistry.register(PeacefulMod.END_CLAM_ENTITY, context -> new EndClamEntityRenderer(context));
+		EntityRendererRegistry.register(PeacefulMod.END_CLAM_ENTITY, EndClamEntityRenderer::new);
 		EntityModelLayerRegistry.registerModelLayer(MODEL_END_CLAM_LAYER, EndClamEntityModel::getTexturedModelData);
 
 		HandledScreens.register(PeacefulMod.EFFIGY_ALTAR_SCREEN_HANDLER, EffigyAltarHandledScreen::new);
 
-		ClientPlayNetworking.registerGlobalReceiver(EffigyParticlePayload.ID, (payload, context) -> {
+		ClientPlayNetworking.registerGlobalReceiver(EffigyParticlePayload.ID, (payload, context) ->
 			context.client().execute(() -> {
 				context.client().particleManager.addEmitter(context.player(), (ParticleEffect)ParticleTypes.TOTEM_OF_UNDYING, 30);
 				switch (payload.particleID()) {
@@ -63,11 +63,11 @@ public class PeacefulModClient implements ClientModInitializer {
 						context.client().gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.RAID_EFFIGY));
 						break;
 				}
-			});
-		});
+			})
+		);
 
-		ClientPlayNetworking.registerGlobalReceiver(GhostRecipeCostResponse.PAYLOAD_ID, (payload, context) -> {
-			EffigyAltarHandledScreen.ClientData.setGhostXPCost(payload.cost());
-		});
+		ClientPlayNetworking.registerGlobalReceiver(GhostRecipeCostResponse.PAYLOAD_ID, (payload, context) ->
+			EffigyAltarHandledScreen.ClientData.setGhostXPCost(payload.cost())
+		);
 	}
 }

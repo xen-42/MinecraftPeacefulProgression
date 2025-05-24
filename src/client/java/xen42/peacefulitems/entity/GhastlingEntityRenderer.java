@@ -11,7 +11,7 @@ import xen42.peacefulitems.entities.GhastlingEntity;
 public class GhastlingEntityRenderer extends MobEntityRenderer<GhastlingEntity, AllayEntityRenderState, GhastlingEntityModel<GhastlingEntity>> {
 
     public GhastlingEntityRenderer(Context context) {
-        super(context, new GhastlingEntityModel<GhastlingEntity>(context.getPart(PeacefulModClient.MODEL_GHASTLING_LAYER)), 0.2F);
+        super(context, new GhastlingEntityModel<>(context.getPart(PeacefulModClient.MODEL_GHASTLING_LAYER)), 0.2F);
     }
 
     @Override

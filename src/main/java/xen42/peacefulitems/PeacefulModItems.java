@@ -114,9 +114,9 @@ public class PeacefulModItems {
     public static final Item END_CLAM_SPAWN_EGG = register("end_clam_spawn_egg", (settings) -> 
         new DispensibleSpawnEggItem(PeacefulMod.END_CLAM_ENTITY, settings), new Item.Settings());
     public static final Item WITHER_EFFIGY = register("wither_effigy", (settings) -> 
-        new EffigyItem(settings, "wither_effigy", (ServerPlayerEntity user) -> {
-            user.dropItem(user.getServerWorld(), Items.NETHER_STAR);
-        }, SoundEvents.ENTITY_WITHER_DEATH),
+        new EffigyItem(settings, "wither_effigy", (ServerPlayerEntity user) ->
+            user.dropItem(user.getServerWorld(), Items.NETHER_STAR),
+        SoundEvents.ENTITY_WITHER_DEATH),
         new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
 
     public static final Item GUARDIAN_EFFIGY = register("guardian_effigy", (settings) -> 

@@ -61,7 +61,7 @@ public class EffigyAltarCategory implements DisplayCategory<EffigyAltarREIDispla
 			slots.get(ingredient.getIndex()).entries(ingredient.get());
 		}
 		widgets.addAll(slots);
-		widgets.add(Widgets.createSlot(new Point(startPoint.x + 95, startPoint.y + 19)).entries(display.getOutputEntries().get(0)).disableBackground().markOutput());
+		widgets.add(Widgets.createSlot(new Point(startPoint.x + 95, startPoint.y + 19)).entries(display.getOutputEntries().getFirst()).disableBackground().markOutput());
 		if (display.getCost() > 0) {
 			widgets.add(Widgets.createDrawableWidget((graphics, mouseX, mouseY, delta) -> {
 				TextRenderer font = MinecraftClient.getInstance().textRenderer;
@@ -78,7 +78,7 @@ public class EffigyAltarCategory implements DisplayCategory<EffigyAltarREIDispla
 	@Override
 	@Nullable
 	public DisplayMerger<EffigyAltarREIDisplay> getDisplayMerger() {
-		return new DisplayMerger<EffigyAltarREIDisplay>() {
+		return new DisplayMerger<>() {
 			@Override
 			public boolean canMerge(EffigyAltarREIDisplay first, EffigyAltarREIDisplay second) {
 				if (!first.getCategoryIdentifier().equals(second.getCategoryIdentifier())) return false;

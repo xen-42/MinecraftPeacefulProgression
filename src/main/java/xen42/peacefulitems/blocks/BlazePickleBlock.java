@@ -123,17 +123,12 @@ public class BlazePickleBlock extends PlantBlock implements Fertilizable {
 
     @Override
 	protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-		switch (state.get(PICKLES)) {
-			case 1:
-			default:
-				return ONE_PICKLE_SHAPE;
-			case 2:
-				return TWO_PICKLES_SHAPE;
-			case 3:
-				return THREE_PICKLES_SHAPE;
-			case 4:
-				return FOUR_PICKLES_SHAPE;
-		}
+        return switch (state.get(PICKLES)) {
+            default -> ONE_PICKLE_SHAPE;
+            case 2 -> TWO_PICKLES_SHAPE;
+            case 3 -> THREE_PICKLES_SHAPE;
+            case 4 -> FOUR_PICKLES_SHAPE;
+        };
 	}
 
     @Override

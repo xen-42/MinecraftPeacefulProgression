@@ -69,9 +69,8 @@ public class MobEntityMixin {
     @Inject(at = @At("HEAD"), method = "interactMob", cancellable = true)
     private void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> info) {
         
-        if ((Object)this instanceof BatEntity) {
+        if ((Object) this instanceof BatEntity bat) {
             ItemStack item = player.getStackInHand(hand);
-            var bat = ((BatEntity)(Object)this);
 
             if (item.isOf(Items.MELON_SLICE) && bat.getDataTracker().get(PeacefulMod.BAT_BREEDING_TICKS) <= 0f 
                     && bat.getDataTracker().get(PeacefulMod.BAT_BREEDING_COOLDOWN) <= 0f) {                

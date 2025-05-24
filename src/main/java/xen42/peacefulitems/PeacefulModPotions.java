@@ -18,12 +18,12 @@ public class PeacefulModPotions {
     }
 
     public static void initialize() {
-        FabricBrewingRecipeRegistryBuilder.BUILD.register(builder -> {
+        FabricBrewingRecipeRegistryBuilder.BUILD.register(builder ->
             builder.registerPotionRecipe(
                     Potions.AWKWARD,
                     PeacefulModItems.ECTOPLASM,
                     LEVITATION
-            );
-        });
+            )
+        );
     }
 }

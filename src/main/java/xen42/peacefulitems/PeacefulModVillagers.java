@@ -66,25 +66,25 @@ public class PeacefulModVillagers {
 		
 		// 0.05 is a "low" price modifier. High is 0.2
 		// I think level 1 is Novice, level 5 is Master
-		TradeOfferHelper.registerVillagerOffers(VillagerProfession.CLERIC, 1, factories -> {
+		TradeOfferHelper.registerVillagerOffers(VillagerProfession.CLERIC, 1, factories ->
 			factories.add((entity, random) -> new TradeOffer(
 				new TradedItem(Items.EMERALD, 1),
-				new ItemStack(Items.SPIDER_EYE, 3), 12, 1, 0.05f));
-		});
+				new ItemStack(Items.SPIDER_EYE, 3), 12, 1, 0.05f))
+		);
 
 		// Identical trade to wheat
-		TradeOfferHelper.registerVillagerOffers(VillagerProfession.FARMER, 1, factories -> {
+		TradeOfferHelper.registerVillagerOffers(VillagerProfession.FARMER, 1, factories ->
 			factories.add((entity, random) -> new TradeOffer(
 				new TradedItem(PeacefulModItems.FLAX, 20),
-				new ItemStack(Items.EMERALD, 1), 16, 2, 0.05f));
-		});
+				new ItemStack(Items.EMERALD, 1), 16, 2, 0.05f))
+		);
 
 		// Identical trade to rabbit hide
-		TradeOfferHelper.registerVillagerOffers(VillagerProfession.LEATHERWORKER, 3, factories -> {
+		TradeOfferHelper.registerVillagerOffers(VillagerProfession.LEATHERWORKER, 3, factories ->
 			factories.add((entity, random) -> new TradeOffer(
 				new TradedItem(PeacefulModItems.BAT_WING, 9),
-				new ItemStack(Items.EMERALD, 1), 12, 20, 0.05f));
-		});
+				new ItemStack(Items.EMERALD, 1), 12, 20, 0.05f))
+		);
 
         // CUSTOM VILLAGER
         TradeOfferHelper.registerVillagerOffers(DJ_VILLAGER_KEY, 1, factories -> {
@@ -101,29 +101,29 @@ public class PeacefulModVillagers {
             factories.add((entity, random) -> new TradeOffer(
 				new TradedItem(Items.EMERALD, 2),
 				new ItemStack(Blocks.NOTE_BLOCK, 1), 12, 5, 0.05f));
-            factories.add((entity, random) -> RandomHorn(entity, random));
+            factories.add(PeacefulModVillagers::RandomHorn);
 		});
 
         TradeOfferHelper.registerVillagerOffers(DJ_VILLAGER_KEY, 3, factories -> {
             factories.add((entity, random) -> new TradeOffer(
 				new TradedItem(Items.EMERALD, 6),
 				new ItemStack(Blocks.JUKEBOX, 1), 12, 20, 0.05f));
-            factories.add((entity, random) -> RandomDisc(entity, random));
+            factories.add(PeacefulModVillagers::RandomDisc);
 		});
 
         TradeOfferHelper.registerVillagerOffers(DJ_VILLAGER_KEY, 4, factories -> {
             factories.add((entity, random) -> new TradeOffer(
 				new TradedItem(Items.EMERALD, 12),
 				new ItemStack(Blocks.BELL, 1), 12, 20, 0.05f));
-            factories.add((entity, random) -> RandomDisc(entity, random));
+            factories.add(PeacefulModVillagers::RandomDisc);
 		});
 
         TradeOfferHelper.registerVillagerOffers(DJ_VILLAGER_KEY, 5, factories -> {
-            factories.add((entity, random) -> RandomHorn(entity, random));
-            factories.add((entity, random) -> RandomDisc(entity, random));
+            factories.add(PeacefulModVillagers::RandomHorn);
+            factories.add(PeacefulModVillagers::RandomDisc);
 		});
 
-		TradeOfferHelper.registerWanderingTraderOffers(builder -> {
+		TradeOfferHelper.registerWanderingTraderOffers(builder ->
 			builder.addOffersToPool(
 				TradeOfferHelper.WanderingTraderOffersBuilder.SELL_SPECIAL_ITEMS_POOL, 
 				new TradeOfferFactory(new TradeOffer(
@@ -146,8 +146,8 @@ public class PeacefulModVillagers {
 					new TradedItem(Items.EMERALD, 5),
 					new ItemStack(Items.ZOMBIE_HEAD, 1), 12, 20, 0.05f)
 				)
-			);
-		});
+			)
+		);
 		
 		TradeOfferHelper.registerVillagerOffers(VillagerProfession.CARTOGRAPHER, 3, factories -> {
 			// Map to altar

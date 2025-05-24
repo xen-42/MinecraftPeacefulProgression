@@ -577,7 +577,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
             }
 
             int j = this.calculateCraftAmount(i, match);
-            List<RegistryEntry<Item>> entries = new ArrayList<RegistryEntry<Item>>();
+            List<RegistryEntry<Item>> entries = new ArrayList<>();
             boolean isCraftable = finder.isCraftable(recipe.value(), j, entries::add);
             if (isCraftable) {
                 int k = clampToMaxCount(j, entries);
