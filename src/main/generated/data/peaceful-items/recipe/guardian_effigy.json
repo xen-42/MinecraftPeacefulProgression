@@ -2,7 +2,7 @@
   "type": "peaceful-items:effigy_altar",
   "key": {
     "b": "minecraft:tropical_fish",
-    "e": "minecraft:pufferfish"
+    "e": "minecraft:prismarine_crystals"
   },
   "pattern": [
     "beb",

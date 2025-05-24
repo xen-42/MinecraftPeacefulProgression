@@ -5,11 +5,12 @@
     "b": "minecraft:crying_obsidian",
     "e": "minecraft:ender_eye",
     "g": "minecraft:obsidian",
+    "s": "minecraft:end_stone",
     "w": "peaceful-items:bat_wing"
   },
   "pattern": [
     "ebe",
-    "wgw",
+    "wsw",
     "g"
   ],
   "result": {
