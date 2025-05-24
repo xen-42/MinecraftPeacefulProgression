@@ -59,7 +59,7 @@ public class PeacefulModFluids {
             }
     
             @Override
-            protected int getMaxFlowDistance(WorldView world) {
+            protected int getFlowSpeed(WorldView world) {
                 return 4;
             }
     

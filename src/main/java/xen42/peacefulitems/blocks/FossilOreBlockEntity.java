@@ -18,11 +18,6 @@ public class FossilOreBlockEntity extends BrushableBlockEntity {
     }
 
     @Override
-    public boolean supports(BlockState state) {
-        return PeacefulModBlocks.FOSSIL_ORE_ENTITY.supports(state);
-    }
-
-    @Override
     public void generateItem(PlayerEntity player) {
         this.item = new ItemStack(Items.BONE, player.getWorld().getRandom().nextBetween(2, 4));
         this.markDirty();

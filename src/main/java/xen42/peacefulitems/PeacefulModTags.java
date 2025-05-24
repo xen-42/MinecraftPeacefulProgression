@@ -39,6 +39,7 @@ public class PeacefulModTags {
 		public static final TagKey<Item> ORES_IN_GROUND_STONE = TagRegistration.ITEM_TAG.registerC("ores_in_ground/stone");
 		public static final TagKey<Item> ORES_IN_GROUND_DEEPSLATE = TagRegistration.ITEM_TAG.registerC("ores_in_ground/deepslate");
         public static final TagKey<Item> SEEDS = TagRegistration.ITEM_TAG.registerC("seeds");
+        public static final TagKey<Item> CROPS = TagRegistration.ITEM_TAG.registerC("crops");
 	}
 	
 	public class StructureTags {
