@@ -57,7 +57,7 @@ public class EffigyAltarREIDisplay extends BasicDisplay implements SimpleGridMen
 	}
 	
 	static List<EntryIngredient> ingredientsFromRecipe(EffigyAltarRecipe recipe){
-		List<EntryIngredient> ingredients = new ArrayList<EntryIngredient>();
+		List<EntryIngredient> ingredients = new ArrayList<>();
 		for (Optional<Ingredient> optionalIngredient : recipe.getIngredients()) {
 			if (optionalIngredient.isPresent()) {
 				ingredients.add(EntryIngredients.ofIngredient(optionalIngredient.get()));
@@ -124,7 +124,7 @@ public class EffigyAltarREIDisplay extends BasicDisplay implements SimpleGridMen
 	}
 	
 	public List<EntryIngredient> getOrganisedInputEntries(int menuWidth, int menuHeight) {
-		List<EntryIngredient> list = new ArrayList<EntryIngredient>(menuWidth * menuHeight);
+		List<EntryIngredient> list = new ArrayList<>(menuWidth * menuHeight);
 		for (int i = 0; i < menuWidth * menuHeight; i++) {
 			list.add(EntryIngredient.empty());
 		}

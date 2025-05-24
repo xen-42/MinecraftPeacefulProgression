@@ -28,7 +28,7 @@ public class PeacefulModEquipmentAssetGenerator implements DataProvider {
 
 	@Override
 	public CompletableFuture<?> run(DataWriter writer) {
-		Map<RegistryKey<EquipmentAsset>, EquipmentModel> map = new HashMap<RegistryKey<EquipmentAsset>, EquipmentModel>();
+		Map<RegistryKey<EquipmentAsset>, EquipmentModel> map = new HashMap<>();
 		map.put(
 			PeacefulModItems.CAPE_EQUIPMENT_ASSET,
 			EquipmentModel.builder().addLayers(EquipmentModel.LayerType.WINGS, new EquipmentModel.Layer(PeacefulModItems.CAPE_EQUIPMENT_ASSET.getValue(), Optional.empty(), false)).build()

@@ -247,7 +247,7 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 			String[] strings = removePadding(data.pattern);
 			int i = strings[0].length();
 			int j = strings.length;
-			List<Optional<Ingredient>> list = new ArrayList<Optional<Ingredient>>(i * j);
+			List<Optional<Ingredient>> list = new ArrayList<>(i * j);
 			CharSet charSet = new CharArraySet(data.key.keySet());
 	
 			for (String string : strings) {

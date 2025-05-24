@@ -51,26 +51,14 @@ public class SulphurClusterBlock extends Block implements Waterloggable {
 
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        switch (state.get(FACING)) {
-            case NORTH: {
-                return this.northShape;
-            }
-            case SOUTH: {
-                return this.southShape;
-            }
-            case EAST: {
-                return this.eastShape;
-            }
-            case WEST: {
-                return this.westShape;
-            }
-            case DOWN: {
-                return this.downShape;
-            }
-            default:
-                break;
-        }
-        return this.upShape;
+        return switch (state.get(FACING)) {
+            case NORTH -> this.northShape;
+            case SOUTH -> this.southShape;
+            case EAST -> this.eastShape;
+            case WEST -> this.westShape;
+            case DOWN -> this.downShape;
+            default -> this.upShape;
+        };
     }
 
     @Override
@@ -100,7 +88,7 @@ public class SulphurClusterBlock extends Block implements Waterloggable {
 
     @Override
     public FluidState getFluidState(BlockState state) {
-        if (state.get(WATERLOGGED).booleanValue()) {
+        if (state.get(WATERLOGGED)) {
             return Fluids.WATER.getStill(false);
         }
         return super.getFluidState(state);

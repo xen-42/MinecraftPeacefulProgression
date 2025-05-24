@@ -39,7 +39,7 @@ public class EffigyAltarTransferHandler implements SimpleTransferHandler {
 	public Iterable<SlotAccessor> getInputSlots(Context context) {
 		EffigyAltarScreenHandler altarMenu = getEffigyAltarMenu(context);
 		List<Slot> slots = altarMenu.getInputSlots();
-		List<SlotAccessor> accessors = new ArrayList<SlotAccessor>();
+		List<SlotAccessor> accessors = new ArrayList<>();
 		for (Slot slot : slots) {
 			accessors.add(SlotAccessor.fromSlot(slot));
 		}

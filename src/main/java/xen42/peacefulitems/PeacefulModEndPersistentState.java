@@ -39,7 +39,7 @@ public class PeacefulModEndPersistentState extends PersistentState {
 	}
 
 	public static PersistentStateType<PeacefulModEndPersistentState> getType() {
-		return new PersistentStateType<PeacefulModEndPersistentState>(
+		return new PersistentStateType<>(
 			ID,
 			PeacefulModEndPersistentState::new,
 			CODEC,

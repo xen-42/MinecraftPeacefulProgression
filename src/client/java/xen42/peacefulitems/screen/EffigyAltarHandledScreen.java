@@ -30,7 +30,7 @@ public class EffigyAltarHandledScreen extends RecipeBookScreen<EffigyAltarScreen
             		? ClientData.getGhostXPCost()
             		: handler.getOutputXPCost();
             if (cost > 0) {
-                var string = Text.translatable("container.repair.cost", new Object[] { Integer.valueOf(cost) });;
+                var string = Text.translatable("container.repair.cost", new Object[] {cost});;
                 int colour = 8453920;
                 if (!handler.canTake(cost)) {
                     colour = 16736352;

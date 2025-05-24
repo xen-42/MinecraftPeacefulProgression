@@ -40,7 +40,7 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 	private final int count;
 	private final List<String> pattern = Lists.<String>newArrayList();
 	private final Map<Character, Ingredient> inputs = Maps.<Character, Ingredient>newLinkedHashMap();
-	private final Map<String, AdvancementCriterion<?>> criteria = new LinkedHashMap<String, AdvancementCriterion<?>>();
+	private final Map<String, AdvancementCriterion<?>> criteria = new LinkedHashMap<>();
 	private OptionalInt cost = OptionalInt.empty();
 	@Nullable
 	private String group;
