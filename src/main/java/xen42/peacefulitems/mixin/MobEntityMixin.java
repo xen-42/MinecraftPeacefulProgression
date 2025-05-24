@@ -91,7 +91,7 @@ public class MobEntityMixin {
         }
     }
 
-    @Inject(at = @At("RETURN"), method = "setBaby", cancellable = true)
+    @Inject(at = @At("RETURN"), method = "setBaby")
     private void setBaby(boolean baby, CallbackInfo info) {
         if (((Object)this) instanceof BatEntity) {
             var bat = ((BatEntity)(Object)this);
