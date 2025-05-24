@@ -11,13 +11,16 @@
     "g": {
       "item": "minecraft:obsidian"
     },
+    "s": {
+      "item": "minecraft:end_stone"
+    },
     "w": {
       "item": "peaceful-items:bat_wing"
     }
   },
   "pattern": [
     "ebe",
-    "wgw",
+    "wsw",
     "g"
   ],
   "result": {

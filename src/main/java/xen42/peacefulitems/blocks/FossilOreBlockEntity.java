@@ -24,7 +24,7 @@ public class FossilOreBlockEntity extends BrushableBlockEntity {
 
     @Override
     public void generateItem(PlayerEntity player) {
-        this.item = new ItemStack(Items.BONE, player.getWorld().getRandom().nextBetween(1, 3));
+        this.item = new ItemStack(Items.BONE, player.getWorld().getRandom().nextBetween(2, 4));
         this.markDirty();
     }
 }
