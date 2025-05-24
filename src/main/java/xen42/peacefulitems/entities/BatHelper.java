@@ -7,9 +7,9 @@ import net.minecraft.util.math.Vec3d;
 public class BatHelper {
 	public static void FlyTowards(BatEntity bat, Vec3d target) {
 		// Fly towards the player using similar logic as going to roost
-		double d = (double)target.getX() - bat.getX();
-		double e = (double)target.getY() - bat.getY();
-		double f = (double)target.getZ() - bat.getZ();
+		double d = target.getX() - bat.getX();
+		double e = target.getY() - bat.getY();
+		double f = target.getZ() - bat.getZ();
 		Vec3d lv3 = bat.getVelocity();
 		Vec3d lv4 = lv3.add((Math.signum(d) * 0.5 - lv3.x) * (double)0.1f, (Math.signum(e) * (double)0.7f - lv3.y) * (double)0.1f, (Math.signum(f) * 0.5 - lv3.z) * (double)0.1f);
 		bat.setVelocity(lv4);

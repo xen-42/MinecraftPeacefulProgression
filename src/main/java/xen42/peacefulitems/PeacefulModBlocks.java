@@ -143,7 +143,7 @@ public class PeacefulModBlocks {
 	public static final BlazePickleBlock BLAZE_PICKLE = (BlazePickleBlock)register(
 		"blaze_pickle",
 		BlazePickleBlock::new,
-		AbstractBlock.Settings.create().mapColor(MapColor.YELLOW).sounds(BlockSoundGroup.NETHER_WART).nonOpaque().pistonBehavior(PistonBehavior.DESTROY).luminance(state -> 3 + 3 * (Integer)state.get(SeaPickleBlock.PICKLES)),
+		AbstractBlock.Settings.create().mapColor(MapColor.YELLOW).sounds(BlockSoundGroup.NETHER_WART).nonOpaque().pistonBehavior(PistonBehavior.DESTROY).luminance(state -> 3 + 3 * state.get(SeaPickleBlock.PICKLES)),
 		true
 	);
 
@@ -151,7 +151,7 @@ public class PeacefulModBlocks {
 	public static final BlazePickleBlock BREEZE_CORAL = (BreezeCoralBlock)register(
 		"breeze_coral",
 		BreezeCoralBlock::new,
-		AbstractBlock.Settings.create().mapColor(MapColor.GRAY).sounds(BlockSoundGroup.NETHER_WART).nonOpaque().pistonBehavior(PistonBehavior.DESTROY).luminance(state -> 3 + 3 * (Integer)state.get(SeaPickleBlock.PICKLES)),
+		AbstractBlock.Settings.create().mapColor(MapColor.GRAY).sounds(BlockSoundGroup.NETHER_WART).nonOpaque().pistonBehavior(PistonBehavior.DESTROY).luminance(state -> 3 + 3 * state.get(SeaPickleBlock.PICKLES)),
 		true
 	);
 

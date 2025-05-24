@@ -39,7 +39,7 @@ public class MobEntityMixin {
             if (!world.isClient && world.getRegistryKey() == World.NETHER) {
                 var frog = (FrogEntity)((Object)this);
                 if (item.getStack().isOf(Items.MAGMA_CREAM)) {
-                    var variant = (RegistryKey<FrogVariant>)frog.getVariant().getKey().orElse(null);
+                    var variant = frog.getVariant().getKey().orElse(null);
                     var block = Blocks.VERDANT_FROGLIGHT;
                     if (variant == FrogVariants.TEMPERATE) {
                         block = Blocks.OCHRE_FROGLIGHT;

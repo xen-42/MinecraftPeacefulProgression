@@ -242,7 +242,7 @@ public class EndClamEntity extends AmbientEntity {
     public void tickMovement() {
         super.tickMovement();
         if ((getWorld()).isClient && getEquippedStack(EquipmentSlot.MAINHAND).isOf(Items.ENDER_PEARL)) {
-            getWorld().addParticleClient((ParticleEffect)ParticleTypes.PORTAL, 
+            getWorld().addParticleClient(ParticleTypes.PORTAL,
                 getParticleX(0.25D), 
                 getRandomBodyY() + 0.25D, 
                 getParticleZ(0.25D), 

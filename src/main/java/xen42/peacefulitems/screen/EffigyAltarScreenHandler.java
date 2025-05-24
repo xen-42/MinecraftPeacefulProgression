@@ -144,7 +144,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
         if (isBrimstone(_brimstoneSlot.getStack())) {
             Optional<RecipeEntry<EffigyAltarRecipe>> optional = world.getServer().getRecipeManager().getFirstMatch(PeacefulMod.EFFIGY_ALTAR_RECIPE_TYPE, recipeInput, world, recipe);
             if (optional.isPresent()) {
-                RecipeEntry<EffigyAltarRecipe> recipeEntry = (RecipeEntry<EffigyAltarRecipe>)optional.get();
+                RecipeEntry<EffigyAltarRecipe> recipeEntry = optional.get();
                 EffigyAltarRecipe altarRecipe = recipeEntry.value();
                 boolean shouldCraftRecipe = resultInventory.shouldCraftRecipe(serverPlayerEntity, recipeEntry);
                 if (shouldCraftRecipe) {
@@ -424,9 +424,9 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
 
         private DefaultedList<ItemStack> getRecipeRemainders(EffigyAltarRecipeInput input, World world) {
             return world instanceof ServerWorld serverWorld
-                ? (DefaultedList<ItemStack>)serverWorld.getRecipeManager()
+                ? serverWorld.getRecipeManager()
                     .getFirstMatch(PeacefulMod.EFFIGY_ALTAR_RECIPE_TYPE, input, serverWorld)
-                    .map(recipe -> ((EffigyAltarRecipe)recipe.value()).getRecipeRemainders(input))
+                    .map(recipe -> recipe.value().getRecipeRemainders(input))
                     .orElseGet(() -> copyInput(input))
                 : EffigyAltarRecipe.collectRecipeRemainders(input);
         }

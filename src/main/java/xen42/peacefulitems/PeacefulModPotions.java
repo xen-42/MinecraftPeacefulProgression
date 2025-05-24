@@ -14,7 +14,7 @@ public class PeacefulModPotions {
     public static final RegistryEntry<Potion> LEVITATION = register("levitation", new Potion("levitation", new StatusEffectInstance[] { new StatusEffectInstance(StatusEffects.LEVITATION, 600) }));
 
     private static RegistryEntry<Potion> register(String name, Potion potion) {
-        return (RegistryEntry<Potion>)Registry.registerReference(Registries.POTION, Identifier.of(PeacefulMod.MOD_ID, name), potion);
+        return Registry.registerReference(Registries.POTION, Identifier.of(PeacefulMod.MOD_ID, name), potion);
     }
 
     public static void initialize() {

@@ -151,7 +151,7 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 					this.raw
 						.getIngredients()
 						.stream()
-						.map(ingredient -> (SlotDisplay)ingredient.map(Ingredient::toDisplay).orElse(SlotDisplay.EmptySlotDisplay.INSTANCE))
+						.map(ingredient -> ingredient.map(Ingredient::toDisplay).orElse(SlotDisplay.EmptySlotDisplay.INSTANCE))
 						.toList(),
 					EffigyAltarRecipeDisplay.BrimstoneSlotDisplay.INSTANCE,
 					new SlotDisplay.StackSlotDisplay(this.result),
@@ -210,7 +210,7 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 		public static final MapCodec<RawRecipe> CODEC = RawRecipe.Data.CODEC
 			.flatXmap(
 				RawRecipe::fromData,
-				recipe -> (DataResult<RawRecipe.Data>)recipe.data.map(DataResult::success).orElseGet(() -> DataResult.error(() -> "Cannot encode unpacked recipe"))
+				recipe -> recipe.data.map(DataResult::success).orElseGet(() -> DataResult.error(() -> "Cannot encode unpacked recipe"))
 			);
 		public static final PacketCodec<RegistryByteBuf, RawRecipe> PACKET_CODEC = PacketCodec.tuple(
 			Ingredient.OPTIONAL_PACKET_CODEC.collect(PacketCodecs.toList()),
@@ -257,7 +257,7 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 					if (c == ' ') {
 						optional = Optional.empty();
 					} else {
-						Ingredient ingredient = (Ingredient)data.key.get(c);
+						Ingredient ingredient = data.key.get(c);
 						if (ingredient == null) {
 							return DataResult.error(() -> "Pattern references symbol '" + c + "' but it's not defined in the key");
 						}
@@ -326,7 +326,7 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 				for (int i = 0; i < MAX_WIDTH_AND_HEIGHT; i++) {
 					final int fi = i + 1;
 					if (fi == MAX_WIDTH_AND_HEIGHT) {
-						Optional<Ingredient> optional = (Optional<Ingredient>)this.ingredients.get(i * MAX_WIDTH_AND_HEIGHT);
+						Optional<Ingredient> optional = this.ingredients.get(i * MAX_WIDTH_AND_HEIGHT);
 					
 						ItemStack itemStack = input.getStackInSlot(0, i);
 						if (!Ingredient.matches(optional, itemStack)) {
@@ -339,7 +339,7 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 					}
 					else {
 						for (int j = 0; j < MAX_WIDTH_AND_HEIGHT; j++) {
-							Optional<Ingredient> optional = (Optional<Ingredient>)this.ingredients.get(j + i * MAX_WIDTH_AND_HEIGHT);
+							Optional<Ingredient> optional = this.ingredients.get(j + i * MAX_WIDTH_AND_HEIGHT);
 			
 							ItemStack itemStack = input.getStackInSlot(j, i);
 							if (!Ingredient.matches(optional, itemStack)) {

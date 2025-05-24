@@ -136,7 +136,7 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 			.criteriaMerger(AdvancementRequirements.CriterionMerger.OR);
 		this.criteria.forEach(builder::criterion);
 		EffigyAltarRecipe recipe = new EffigyAltarRecipe(
-			(String)Objects.requireNonNullElse(this.group, ""),
+            Objects.requireNonNullElse(this.group, ""),
 			rawRecipe,
 			new ItemStack(this.output, this.count),
 			this.cost
