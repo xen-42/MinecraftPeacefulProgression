@@ -150,6 +150,17 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addAdvancement("guardian_effigy", "From the Depths", "Craft an effigy of the Elder Guardian");
 			translationBuilder.addAdvancement("raid_effigy", "Sound the Horn", "Craft an effigy of a village raid");
 			translationBuilder.addAdvancement("totem_of_undying", "Fail-Safe", "Craft a Totem of Undying at an Effigy Altar");
+			translationBuilder.addAdvancement("flax_crop", "Delicate Threads", "Plant flax seeds");
+			translationBuilder.addAdvancement("breed_a_bat", "Love at First Bite", "Breed two bats using melon slices");
+			translationBuilder.addAdvancement("wisp_tear", "Tears by Force", "Feed guano to a Wisp");
+			translationBuilder.addAdvancement("end_clam_pearl", "By Hand or By Heart", "Get an Ender Pearl from an Enderclam");
+			translationBuilder.addAdvancement("brimstone", "Awakening Flame", "Find Brimstone in the Soul Sand Valleys");
+			translationBuilder.addAdvancement("sniffer_blaze", "Cinders in the Soil", "Let a Sniffer dig up a Blaze Coral");
+			translationBuilder.addAdvancement("blaze_rod", "Into Fire", "Smelt a Blaze Coral into a Blaze Rod");
+			translationBuilder.addAdvancement("sniffer_breeze", "Whispers in the Gravel", "Let a Sniffer dig up a Breeze Coral");
+			translationBuilder.addAdvancement("breeze_rod", "Into Wind", "Smelt a Breeze Coral into a Breeze Rod");
+			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine Bones from Fossil Ore");
+			translationBuilder.addAdvancement("strip_resin", "Sap Tap", "Strip a Pale Oak Log to get a Resin Clump");
 		}
 	}
 	

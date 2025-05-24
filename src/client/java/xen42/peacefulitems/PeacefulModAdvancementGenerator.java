@@ -20,6 +20,8 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import xen42.peacefulitems.criterion.BredBatsCriterion;
+import xen42.peacefulitems.criterion.GhastlingTearCriterion;
 
 public class PeacefulModAdvancementGenerator extends FabricAdvancementProvider {
     public PeacefulModAdvancementGenerator(FabricDataOutput generator, CompletableFuture<WrapperLookup> registriesFuture) {
@@ -49,7 +51,23 @@ public class PeacefulModAdvancementGenerator extends FabricAdvancementProvider {
                 )
                 .criterion("crafting_table", InventoryChangedCriterion.Conditions.items(Blocks.CRAFTING_TABLE))
                 , exporter, "root");
-
+        
+        AdvancementEntry flax_crop = build(Advancement.Builder.create()
+                .display(
+                        PeacefulModItems.FLAX,
+                        Text.translatable("advancements.peaceful_items.flax_crop.title"),
+                        Text.translatable("advancements.peaceful_items.flax_crop.description"),
+                        null,
+                        AdvancementFrame.TASK,
+                        true,
+                        true,
+                        false
+                )
+                .parent(root)
+                .criteriaMerger(AdvancementRequirements.CriterionMerger.OR)
+                .criterion("placed_flax_crop", ItemCriterion.Conditions.createPlacedBlock(PeacefulModBlocks.FLAX_CROP))
+                , exporter, "flax_crop");
+        
         // Moved to JSON because it doesn't allow you to access structures that are from resources
         /*AdvancementEntry findEffigyAltarDungeon = build(Advancement.Builder.create()
                 .display(
@@ -144,6 +162,169 @@ public class PeacefulModAdvancementGenerator extends FabricAdvancementProvider {
                 .parent(findEffigyAltarDungeon)
                 .criterion("has_totem_of_undying", InventoryChangedCriterion.Conditions.items(Items.TOTEM_OF_UNDYING))
                 , exporter, "totem_of_undying");
+
+        AdvancementEntry brimstone = build(Advancement.Builder.create()
+                .display(
+                        PeacefulModItems.SULPHUR,
+                        Text.translatable("advancements.peaceful_items.brimstone.title"),
+                        Text.translatable("advancements.peaceful_items.brimstone.description"),
+                        null,
+                        AdvancementFrame.GOAL,
+                        true,
+                        true,
+                        false
+                )
+                .parent(root)
+                .criterion("has_brimstone", InventoryChangedCriterion.Conditions.items(PeacefulModItems.SULPHUR))
+                , exporter, "brimstone");
+        
+        AdvancementEntry end_clam_pearl = build(Advancement.Builder.create()
+                .display(
+                        Items.ENDER_PEARL,
+                        Text.translatable("advancements.peaceful_items.end_clam_pearl.title"),
+                        Text.translatable("advancements.peaceful_items.end_clam_pearl.description"),
+                        null,
+                        AdvancementFrame.GOAL,
+                        true,
+                        true,
+                        false
+                )
+                .parent(root)
+                .criterion("has_ender_pearl", InventoryChangedCriterion.Conditions.items(Items.ENDER_PEARL))
+                , exporter, "end_clam_pearl");
+        
+        AdvancementEntry wisp_tear = build(Advancement.Builder.create()
+                .display(
+                        Items.GHAST_TEAR,
+                        Text.translatable("advancements.peaceful_items.wisp_tear.title"),
+                        Text.translatable("advancements.peaceful_items.wisp_tear.description"),
+                        null,
+                        AdvancementFrame.TASK,
+                        true,
+                        true,
+                        false
+                )
+                .parent(root)
+                .criterion(
+                        "wisp_cried", 
+                        GhastlingTearCriterion.Conditions.create(Optional.of(
+                                EntityPredicate.contextPredicateFromEntityPredicate(
+                                        EntityPredicate.Builder.create().type(
+                                                registryLookup.getOrThrow(RegistryKeys.ENTITY_TYPE),
+                                                PeacefulMod.GHASTLING_ENTITY
+                                        )
+                                )
+                        ))
+                )
+                , exporter, "wisp_tear");
+        
+        AdvancementEntry breed_a_bat = build(Advancement.Builder.create()
+                .display(
+                        Items.MELON_SLICE,
+                        Text.translatable("advancements.peaceful_items.breed_a_bat.title"),
+                        Text.translatable("advancements.peaceful_items.breed_a_bat.description"),
+                        null,
+                        AdvancementFrame.TASK,
+                        true,
+                        true,
+                        false
+                )
+                .parent(root)
+                .criteriaMerger(AdvancementRequirements.CriterionMerger.OR)
+                .criterion("bred_bats", BredBatsCriterion.Conditions.any())
+                , exporter, "breed_a_bat");
+        
+        AdvancementEntry sniffer_blaze = build(Advancement.Builder.create()
+                .display(
+                        PeacefulModBlocks.BLAZE_PICKLE,
+                        Text.translatable("advancements.peaceful_items.sniffer_blaze.title"),
+                        Text.translatable("advancements.peaceful_items.sniffer_blaze.description"),
+                        null,
+                        AdvancementFrame.TASK,
+                        true,
+                        true,
+                        false
+                )
+                .parent(root)
+                .criterion("has_blaze_coral", InventoryChangedCriterion.Conditions.items(PeacefulModBlocks.BLAZE_PICKLE))
+                , exporter, "sniffer_blaze");
+        
+        AdvancementEntry blaze_rod = Advancement.Builder.create()
+                .display(
+                        Items.BLAZE_ROD,
+                        Text.translatable("advancements.nether.obtain_blaze_rod.title"),
+                        Text.translatable("advancements.peaceful_items.blaze_rod.description"),
+                        null,
+                        AdvancementFrame.TASK,
+                        true,
+                        true,
+                        false
+                )
+                .parent(sniffer_blaze)
+                .criterion("blaze_rod", InventoryChangedCriterion.Conditions.items(Items.BLAZE_ROD))
+                .build(exporter, "nether/obtain_blaze_rod");
+
+        AdvancementEntry sniffer_breeze = build(Advancement.Builder.create()
+                .display(
+                        PeacefulModBlocks.BREEZE_CORAL,
+                        Text.translatable("advancements.peaceful_items.sniffer_breeze.title"),
+                        Text.translatable("advancements.peaceful_items.sniffer_breeze.description"),
+                        null,
+                        AdvancementFrame.TASK,
+                        true,
+                        true,
+                        false
+                )
+                .parent(root)
+                .criterion("has_breeze_coral", InventoryChangedCriterion.Conditions.items(PeacefulModBlocks.BREEZE_CORAL))
+                , exporter, "sniffer_breeze");
+
+        AdvancementEntry breeze_rod = build(Advancement.Builder.create()
+                .display(
+                        Items.BREEZE_ROD,
+                        Text.translatable("advancements.peaceful_items.breeze_rod.title"),
+                        Text.translatable("advancements.peaceful_items.breeze_rod.description"),
+                        null,
+                        AdvancementFrame.TASK,
+                        true,
+                        true,
+                        false
+                )
+                .parent(sniffer_breeze)
+                .criterion("has_breeze_rod", InventoryChangedCriterion.Conditions.items(Items.BREEZE_ROD))
+                , exporter, "breeze_rod");
+
+        AdvancementEntry mine_fossil_ore = build(Advancement.Builder.create()
+                .display(
+                        PeacefulModBlocks.FOSSIL_ORE,
+                        Text.translatable("advancements.peaceful_items.mine_fossil_ore.title"),
+                        Text.translatable("advancements.peaceful_items.mine_fossil_ore.description"),
+                        null,
+                        AdvancementFrame.TASK,
+                        true,
+                        true,
+                        false
+                )
+                .parent(root)
+                .criteriaMerger(AdvancementRequirements.CriterionMerger.OR)
+                .criterion("has_bone", InventoryChangedCriterion.Conditions.items(Items.BONE))
+                .criterion("has_bone_meal", InventoryChangedCriterion.Conditions.items(Items.BONE_MEAL))
+                , exporter, "mine_fossil_ore");
+
+        AdvancementEntry strip_resin = build(Advancement.Builder.create()
+                .display(
+                        Items.RESIN_CLUMP,
+                        Text.translatable("advancements.peaceful_items.strip_resin.title"),
+                        Text.translatable("advancements.peaceful_items.strip_resin.description"),
+                        null,
+                        AdvancementFrame.TASK,
+                        true,
+                        true,
+                        false
+                )
+                .parent(root)
+                .criterion("has_resin_clump", InventoryChangedCriterion.Conditions.items(Items.RESIN_CLUMP))
+                , exporter, "strip_resin");
     }
     
     public AdvancementEntry build(Advancement.Builder builder, Consumer<AdvancementEntry> exporter, String id) {

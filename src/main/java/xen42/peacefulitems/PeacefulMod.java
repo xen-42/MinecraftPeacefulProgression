@@ -45,6 +45,8 @@ import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import net.minecraft.world.gen.structure.Structure;
+import xen42.peacefulitems.criterion.BredBatsCriterion;
+import xen42.peacefulitems.criterion.GhastlingTearCriterion;
 import xen42.peacefulitems.entities.EndClamEntity;
 import xen42.peacefulitems.entities.GhastlingEntity;
 import xen42.peacefulitems.payloads.EffigyParticlePayload;
@@ -92,6 +94,7 @@ public class PeacefulMod implements ModInitializer {
 	public static final TrackedData<Integer> BAT_BREEDING_COOLDOWN = DataTracker.registerData(BatEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	public static int BatGrowUpTicks = 5 * 60 * 20; // Normal mobs its 20 minutes but I feel like bats can grow up fast maybe idk!
 	public static int BatBreedingCooldown = 5 * 60 * 20;
+	public static final BredBatsCriterion BRED_BATS_CRITERIA = Registry.register(Registries.CRITERION, Identifier.of(MOD_ID, "bred_bats"), new BredBatsCriterion());
 
 	public static final GameRules.Key<BooleanRule> DISABLE_HUNGER_PEACEFUL =
 		GameRuleRegistry.register("disableHungerPeaceful", Category.PLAYER, GameRuleFactory.createBooleanRule(false));
@@ -103,6 +106,7 @@ public class PeacefulMod implements ModInitializer {
 		Registries.ENTITY_TYPE, 
 		Identifier.of(MOD_ID, "ghastling"), 
 		EntityType.Builder.create(GhastlingEntity::new, SpawnGroup.AMBIENT).dimensions(0.5f, 1.5f).build(GHASTLING_ENTITY_KEY));
+	public static final GhastlingTearCriterion GHASTLING_TEAR_CRITERIA = Registry.register(Registries.CRITERION, Identifier.of(MOD_ID, "ghastling_tear"), new GhastlingTearCriterion());
 
 	public static final RegistryKey<EntityType<?>> END_CLAM_ENTITY_KEY = RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(MOD_ID,"end_clam"));
 	public static final EntityType<EndClamEntity> END_CLAM_ENTITY = Registry.register(
