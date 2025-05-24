@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "peaceful-items:sulphur_block",
+  "result": {
+    "count": 1,
+    "id": "peaceful-items:chiseled_sulphur_block"
+  }
+}

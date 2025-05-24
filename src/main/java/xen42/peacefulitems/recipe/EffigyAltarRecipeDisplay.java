@@ -1,5 +1,6 @@
 package xen42.peacefulitems.recipe;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.List;
@@ -11,18 +12,21 @@ import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.recipe.display.DisplayedItemFactory;
 import net.minecraft.recipe.display.RecipeDisplay;
 import net.minecraft.recipe.display.SlotDisplay;
+import net.minecraft.recipe.display.SlotDisplay.ItemSlotDisplay;
+import net.minecraft.recipe.display.SlotDisplay.StackSlotDisplay;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.util.context.ContextParameterMap;
 import xen42.peacefulitems.PeacefulModItems;
 
-public record EffigyAltarRecipeDisplay(List<SlotDisplay> ingredients, BrimstoneSlotDisplay brimstone, SlotDisplay result, SlotDisplay craftingStation)
+public record EffigyAltarRecipeDisplay(List<SlotDisplay> ingredients, BrimstoneSlotDisplay brimstone, StackSlotDisplay result, int cost, ItemSlotDisplay craftingStation)
 	implements RecipeDisplay {
 	public static final MapCodec<EffigyAltarRecipeDisplay> CODEC = RecordCodecBuilder.mapCodec(
 		instance -> instance.group(
 				SlotDisplay.CODEC.listOf().fieldOf("ingredients").forGetter(EffigyAltarRecipeDisplay::ingredients),
 				BrimstoneSlotDisplay.CODEC.fieldOf("brimstone").forGetter(EffigyAltarRecipeDisplay::brimstone),
-				SlotDisplay.CODEC.fieldOf("result").forGetter(EffigyAltarRecipeDisplay::result),
-				SlotDisplay.CODEC.fieldOf("crafting_station").forGetter(EffigyAltarRecipeDisplay::craftingStation)
+				StackSlotDisplay.CODEC.fieldOf("result").forGetter(EffigyAltarRecipeDisplay::result),
+				Codec.INT.fieldOf("cost").forGetter(EffigyAltarRecipeDisplay::cost),
+				ItemSlotDisplay.CODEC.fieldOf("crafting_station").forGetter(EffigyAltarRecipeDisplay::craftingStation)
 			)
 			.apply(instance, EffigyAltarRecipeDisplay::new)
 	);
@@ -31,9 +35,11 @@ public record EffigyAltarRecipeDisplay(List<SlotDisplay> ingredients, BrimstoneS
 		EffigyAltarRecipeDisplay::ingredients,
 		BrimstoneSlotDisplay.PACKET_CODEC,
 		EffigyAltarRecipeDisplay::brimstone,
-		SlotDisplay.PACKET_CODEC,
+		StackSlotDisplay.PACKET_CODEC,
 		EffigyAltarRecipeDisplay::result,
-		SlotDisplay.PACKET_CODEC,
+		PacketCodecs.INTEGER,
+		EffigyAltarRecipeDisplay::cost,
+		ItemSlotDisplay.PACKET_CODEC,
 		EffigyAltarRecipeDisplay::craftingStation,
 		EffigyAltarRecipeDisplay::new
 	);
@@ -41,7 +47,7 @@ public record EffigyAltarRecipeDisplay(List<SlotDisplay> ingredients, BrimstoneS
 
 	public static final int MAX_INGREDIENTS = (3 * 2) + 1;
 	
-	public EffigyAltarRecipeDisplay(List<SlotDisplay> ingredients, BrimstoneSlotDisplay brimstone, SlotDisplay result, SlotDisplay craftingStation) {
+	public EffigyAltarRecipeDisplay(List<SlotDisplay> ingredients, BrimstoneSlotDisplay brimstone, StackSlotDisplay result, int cost, ItemSlotDisplay craftingStation) {
 		List<SlotDisplay> subbedIngredients = ingredients.subList(0, MAX_INGREDIENTS);
 		if (subbedIngredients.size() != MAX_INGREDIENTS) {
 			throw new IllegalArgumentException("Invalid shaped recipe display contents");
@@ -49,6 +55,7 @@ public record EffigyAltarRecipeDisplay(List<SlotDisplay> ingredients, BrimstoneS
 			this.ingredients = subbedIngredients;
 			this.brimstone = brimstone;
 			this.result = result;
+			this.cost = cost;
 			this.craftingStation = craftingStation;
 		}
 	}

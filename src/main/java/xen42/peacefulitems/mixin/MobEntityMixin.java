@@ -105,4 +105,11 @@ public class MobEntityMixin {
             }
         }
     }
+
+    @Inject(at = @At("RETURN"), method = "canImmediatelyDespawn", cancellable = true)
+    public void canImmediatelyDespawn(double distanceSquared, CallbackInfoReturnable<Boolean> info) {
+        if (((Object)this) instanceof BatEntity) {
+            info.setReturnValue(false);
+        }
+    }
 }

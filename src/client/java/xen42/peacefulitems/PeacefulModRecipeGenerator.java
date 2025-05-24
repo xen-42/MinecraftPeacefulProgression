@@ -10,6 +10,7 @@ import net.minecraft.data.recipe.CookingRecipeJsonBuilder;
 import net.minecraft.data.recipe.CraftingRecipeJsonBuilder;
 import net.minecraft.data.recipe.RecipeExporter;
 import net.minecraft.data.recipe.RecipeGenerator;
+import net.minecraft.data.recipe.StonecuttingRecipeJsonBuilder;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.AbstractCookingRecipe;
@@ -66,6 +67,13 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
             public void offerBlasting(List<ItemConvertible> inputs, RecipeCategory category, ItemConvertible output, float experience, int cookingTime, String group) {
                 this.fixedOfferMultipleOptions(RecipeSerializer.BLASTING, BlastingRecipe::new, inputs, category, output, experience, cookingTime, group, "_from_blasting");
             }
+
+            @Override
+            public void offerStonecuttingRecipe(RecipeCategory category, ItemConvertible output, ItemConvertible input, int count) {
+                offerTo(StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItem(input), category, output, count)
+                        .criterion(hasItem(input), this.conditionsFromItem(input))
+                        , exporter, convertBetween(output, input) + "_stonecutting");
+            }
             
             public final <T extends AbstractCookingRecipe> void fixedOfferMultipleOptions(
                     RecipeSerializer<T> serializer,
@@ -98,16 +106,16 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                 
                 offerTo(createShapeless(RecipeCategory.MISC, Items.GUNPOWDER, 3)
                         .input(Items.CHARCOAL) 
-                        .input(PeacefulModItems.GUANO) 
+                        .input(PeacefulModTags.ItemTags.GUANO) 
                         .input(PeacefulModItems.SULPHUR) 
                         .criterion(hasItem(Items.CHARCOAL), conditionsFromItem(Items.CHARCOAL))
-                        .criterion(hasItem(PeacefulModItems.GUANO), conditionsFromItem(PeacefulModItems.GUANO))
+                        .criterion(hasItem(PeacefulModItems.GUANO), conditionsFromTag(PeacefulModTags.ItemTags.GUANO))
                         .criterion(hasItem(PeacefulModItems.SULPHUR), conditionsFromItem(PeacefulModItems.SULPHUR))
                         , exporter);
                 
                 offerTo(createShapeless(RecipeCategory.MISC, Items.PURPLE_DYE, 1)
-                        .input(PeacefulModItems.GUANO)
-                        .criterion(hasItem(PeacefulModItems.GUANO), conditionsFromItem(PeacefulModItems.GUANO))
+                        .input(PeacefulModTags.ItemTags.GUANO)
+                        .criterion(hasItem(PeacefulModItems.GUANO), conditionsFromTag(PeacefulModTags.ItemTags.GUANO))
                         , exporter);
 
                 offerTo(createShaped(RecipeCategory.MISC, PeacefulModBlocks.SULPHUR_BLOCK)
@@ -141,9 +149,30 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .input(PeacefulModBlocks.SULPHUR_BLOCK) 
                         .criterion(hasItem(PeacefulModBlocks.SULPHUR_BLOCK), conditionsFromItem(PeacefulModBlocks.SULPHUR_BLOCK))
                         , exporter);
+                offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, PeacefulModBlocks.SULPHUR_SLAB, PeacefulModBlocks.SULPHUR_BLOCK, 2);
+                offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, PeacefulModBlocks.SULPHUR_STAIRS, PeacefulModBlocks.SULPHUR_BLOCK);
+                offerStonecuttingRecipe(RecipeCategory.DECORATIONS, PeacefulModBlocks.SULPHUR_WALL, PeacefulModBlocks.SULPHUR_BLOCK);
+                offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, PeacefulModBlocks.CHISELED_SULPHUR_BLOCK, PeacefulModBlocks.SULPHUR_BLOCK);
+                offerTo(createSlabRecipe(RecipeCategory.BUILDING_BLOCKS, PeacefulModBlocks.SULPHUR_SLAB, Ingredient.ofItems(PeacefulModBlocks.SULPHUR_BLOCK, PeacefulModBlocks.CHISELED_SULPHUR_BLOCK))
+                        .criterion(hasItem(PeacefulModBlocks.SULPHUR_BLOCK), conditionsFromItem(PeacefulModBlocks.SULPHUR_BLOCK))
+                        .criterion(hasItem(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK), conditionsFromItem(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK))
+                        , exporter);
+                offerTo(createStairsRecipe(PeacefulModBlocks.SULPHUR_STAIRS, Ingredient.ofItems(PeacefulModBlocks.SULPHUR_BLOCK, PeacefulModBlocks.CHISELED_SULPHUR_BLOCK))
+                        .criterion(hasItem(PeacefulModBlocks.SULPHUR_BLOCK), conditionsFromItem(PeacefulModBlocks.SULPHUR_BLOCK))
+                        .criterion(hasItem(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK), conditionsFromItem(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK))
+                        , exporter);
+                offerTo(createChiseledBlockRecipe(RecipeCategory.BUILDING_BLOCKS, PeacefulModBlocks.CHISELED_SULPHUR_BLOCK, Ingredient.ofItem(PeacefulModBlocks.SULPHUR_SLAB))
+                        .criterion(hasItem(PeacefulModBlocks.SULPHUR_BLOCK), conditionsFromItem(PeacefulModBlocks.SULPHUR_BLOCK))
+                        .criterion(hasItem(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK), conditionsFromItem(PeacefulModBlocks.CHISELED_SULPHUR_BLOCK))
+                        , exporter);
+                offerTo(getWallRecipe(RecipeCategory.DECORATIONS, PeacefulModBlocks.SULPHUR_WALL, Ingredient.ofItem(PeacefulModBlocks.SULPHUR_BLOCK))
+                        .criterion(hasItem(PeacefulModBlocks.SULPHUR_BLOCK), this.conditionsFromItem(PeacefulModBlocks.SULPHUR_BLOCK))
+                        , exporter);
 
                 offerSmelting(List.of(PeacefulModBlocks.BLAZE_PICKLE), RecipeCategory.MISC, Items.BLAZE_ROD, 0.45f, 200, PeacefulModBlocks.BLAZE_PICKLE.getName().toString());
                 offerSmelting(List.of(PeacefulModBlocks.BREEZE_CORAL), RecipeCategory.MISC, Items.BREEZE_ROD, 0.45f, 200, PeacefulModBlocks.BREEZE_CORAL.getName().toString());
+                
+                offerSmelting(List.of(PeacefulModItems.CLAM), RecipeCategory.FOOD, PeacefulModItems.COOKED_CLAM, 0.35f, 200, PeacefulModItems.CLAM.getName().toString());
 
                 offerTo(createShapeless(RecipeCategory.MISC, Items.YELLOW_DYE, 1)
                         .input(PeacefulModItems.SULPHUR)
@@ -162,9 +191,9 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
 
                 offerTo(createShapeless(RecipeCategory.MISC, Items.PHANTOM_MEMBRANE, 2)
                         .input(PeacefulModItems.BAT_WING, 3) 
-                        .input(Items.GHAST_TEAR)
+                        .input(PeacefulModItems.ECTOPLASM)
                         .criterion(hasItem(PeacefulModItems.BAT_WING), conditionsFromItem(PeacefulModItems.BAT_WING))
-                        .criterion(hasItem(Items.GHAST_TEAR), conditionsFromItem(Items.GHAST_TEAR))
+                        .criterion(hasItem(PeacefulModItems.ECTOPLASM), conditionsFromItem(PeacefulModItems.ECTOPLASM))
                         , exporter);
                 
                 offerTo(createEffigyAltar(Items.TOTEM_OF_UNDYING)
@@ -182,13 +211,16 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
 
                 createEffigyAltar(PeacefulModItems.DRAGON_EFFIGY)
                         .pattern("ebe",
-                                 "wgw",
+                                 "wsw",
                                   "g")
                         .input('b', Blocks.CRYING_OBSIDIAN)
+                        .input('s', Blocks.END_STONE)
                         .input('e', Items.ENDER_EYE)
                         .input('g', Blocks.OBSIDIAN)
                         .input('w', PeacefulModItems.BAT_WING)
+                        .cost(15)
                         // Advancement that gives the recipe
+                        .criterion(hasItem(Blocks.END_STONE), conditionsFromItem(Blocks.END_STONE))
                         .criterion(hasItem(Blocks.CRYING_OBSIDIAN), conditionsFromItem(Blocks.CRYING_OBSIDIAN))
                         .criterion(hasItem(Items.ENDER_EYE), conditionsFromItem(Items.ENDER_EYE))
                         .criterion(hasItem(Blocks.OBSIDIAN), conditionsFromItem(Blocks.OBSIDIAN))
@@ -200,10 +232,10 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                                  "bbb",
                                   "b")
                         .input('b', Items.TROPICAL_FISH)
-                        .input('e', Items.PUFFERFISH)
+                        .input('e', Items.PRISMARINE_CRYSTALS)
                         // Advancement that gives the recipe
                         .criterion(hasItem(Items.TROPICAL_FISH), conditionsFromItem(Items.TROPICAL_FISH))
-                        .criterion(hasItem(Items.PUFFERFISH), conditionsFromItem(Items.PUFFERFISH))
+                        .criterion(hasItem(Items.PRISMARINE_CRYSTALS), conditionsFromItem(Items.PRISMARINE_CRYSTALS))
                         .offerTo(exporter);
 
                 createEffigyAltar(PeacefulModItems.WITHER_EFFIGY)
@@ -212,10 +244,33 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                                   "e")
                         .input('b', Items.WITHER_SKELETON_SKULL)
                         .input('e', Blocks.SOUL_SAND)
+                        .cost(10)
                         // Advancement that gives the recipe
                         .criterion(hasItem(Items.WITHER_SKELETON_SKULL), conditionsFromItem(Items.WITHER_SKELETON_SKULL))
                         .criterion(hasItem(Blocks.SOUL_SAND), conditionsFromItem(Blocks.SOUL_SAND))
                         .offerTo(exporter);
+
+                createEffigyAltar(PeacefulModItems.RAID_EFFIGY)
+                        .pattern("ebe",
+                                 "ggg",
+                                  "g")
+                        .input('b', PeacefulModTags.ItemTags.GUANO)
+                        .input('e', Items.EMERALD)
+                        .input('g', Items.IRON_INGOT)
+                        // Advancement that gives the recipe
+                        .criterion(hasItem(PeacefulModItems.GUANO), conditionsFromTag(PeacefulModTags.ItemTags.GUANO))
+                        .criterion(hasItem(Items.EMERALD), conditionsFromItem(Items.EMERALD))
+                        .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
+                        .offerTo(exporter);
+
+                offerTo(createShaped(RecipeCategory.TOOLS, PeacefulModItems.CAPE)
+                        .pattern("blb")
+                        .pattern("b b")
+                        .input('b', PeacefulModItems.BAT_WING)
+                        .input('l', Items.LEATHER)
+                        .criterion(hasItem(PeacefulModItems.BAT_WING), conditionsFromItem(PeacefulModItems.BAT_WING))
+                        .criterion(hasItem(Items.LEATHER), conditionsFromItem(Items.LEATHER))
+                        , exporter);
             }
             
             public EffigyAltarRecipeJsonBuilder createEffigyAltar(ItemConvertible output) {

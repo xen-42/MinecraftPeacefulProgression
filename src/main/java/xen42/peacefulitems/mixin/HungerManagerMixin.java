@@ -21,33 +21,38 @@ public class HungerManagerMixin {
     @Shadow
     private int foodTickTimer;
 
+    @Shadow
+    private float saturationLevel;
+
+    @Shadow
+    private int foodLevel = 20;
+
     @Inject(at = @At("HEAD"), method = "update", cancellable = true)
-    private void update(ServerPlayerEntity player, CallbackInfo info) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-        if (player.getServerWorld().getGameRules().getBoolean(PeacefulMod.DISABLE_HUNGER_PEACEFUL)) {
-            // Default behaviour
+    private void update(ServerPlayerEntity player, CallbackInfo info)
+            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+        if (player.getWorld().getDifficulty() != Difficulty.PEACEFUL) {
             return;
         }
 
-        // Apply hunger even when in peaceful
-        // Just gonna entirely hijack this method since it also does healing
-        // We want the player to constantly heal like in normal peaceful, just allow the hunger to drop
-        // It's entirely cosmetic and won't affect gameplay but eating food is fun? idk
-        if (player.getWorld().getDifficulty() == Difficulty.PEACEFUL) {
-            var hungerManager = (HungerManager)((Object)this);
-
-            // Apply hunger
-            if (exhaustion > 4f) {
-                exhaustion = exhaustion - 4f;
-                if (hungerManager.getSaturationLevel() > 0f) {
-                    hungerManager.setSaturationLevel(Math.max(hungerManager.getSaturationLevel() - 1f, 0));
-                }
-                else {
-                    hungerManager.setFoodLevel(Math.max(hungerManager.getFoodLevel() - 1, 10));
-                }
+        var turboHeal = player.getServerWorld().getGameRules().getBoolean(PeacefulMod.ENABLE_SUPER_HEALING_PEACEFUL);
+        var canStarve = player.getServerWorld().getGameRules().getBoolean(PeacefulMod.ENABLE_STARVING_PEACEFUL);
+        var canHeal = player.getServerWorld().getGameRules().getBoolean(GameRules.NATURAL_REGENERATION);
+        var hungerManager = (HungerManager) ((Object) this);
+        
+        // Do the basic not peaceful thing
+        if (exhaustion > 4f) {
+            exhaustion = exhaustion - 4f;
+            if (hungerManager.getSaturationLevel() > 0f) {
+                hungerManager.setSaturationLevel(Math.max(hungerManager.getSaturationLevel() - 1f, 0));
+            } else {
+                // If canStarve is off or turbo heal is on keep hunger above 5 bars 
+                hungerManager.setFoodLevel(Math.max(hungerManager.getFoodLevel() - 1, canStarve ? 0 : 8));
             }
+        }
 
-            if (player.getServerWorld().getGameRules().getBoolean(GameRules.NATURAL_REGENERATION) && player.canFoodHeal()) {
-                // Apply healing               
+        if (turboHeal) {
+            if (canHeal && player.canFoodHeal()) {
+                // Apply healing
                 foodTickTimer++;
                 if (foodTickTimer >= 10) {
                     player.heal(1);
@@ -55,8 +60,37 @@ public class HungerManagerMixin {
                     foodTickTimer = 0;
                 }
             }
-
-            info.cancel();
         }
+        else {
+            if (canHeal && this.saturationLevel > 0.0F && player.canFoodHeal() && this.foodLevel >= 20) {
+                ++this.foodTickTimer;
+                if (this.foodTickTimer >= 10) {
+                    float f = Math.min(this.saturationLevel, 6.0F);
+                    player.heal(f / 6.0F);
+                    hungerManager.addExhaustion(f);
+                    this.foodTickTimer = 0;
+                }
+            } else if (canHeal && this.foodLevel >= 18 && player.canFoodHeal()) {
+                ++this.foodTickTimer;
+                if (this.foodTickTimer >= 80) {
+                    player.heal(1.0F);
+                    hungerManager.addExhaustion(6.0F);
+                    this.foodTickTimer = 0;
+                }
+            } else if (this.foodLevel <= 0) {
+                ++this.foodTickTimer;
+                if (this.foodTickTimer >= 80) {
+                    if (canStarve) {
+                        player.damage(player.getServerWorld(), player.getDamageSources().starve(), 1.0F);
+                    }
+
+                    this.foodTickTimer = 0;
+                }
+            } else {
+                this.foodTickTimer = 0;
+            }
+        }
+            
+        info.cancel();
     }
 }

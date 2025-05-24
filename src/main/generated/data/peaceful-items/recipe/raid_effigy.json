@@ -1,0 +1,17 @@
+{
+  "type": "peaceful-items:effigy_altar",
+  "key": {
+    "b": "#c:guano",
+    "e": "minecraft:emerald",
+    "g": "minecraft:iron_ingot"
+  },
+  "pattern": [
+    "ebe",
+    "ggg",
+    "g"
+  ],
+  "result": {
+    "count": 1,
+    "id": "peaceful-items:raid_effigy"
+  }
+}

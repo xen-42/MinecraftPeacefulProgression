@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "peaceful-items:guano"
+    "#c:guano"
   ],
   "result": {
     "count": 1,

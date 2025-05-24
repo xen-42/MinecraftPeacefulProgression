@@ -1,0 +1,9 @@
+{
+	"item.bottle.empty_dragonbreath": {
+		"sounds": [
+			"peaceful-items:item/bottle/empty_dragonbreath1",
+			"peaceful-items:item/bottle/empty_dragonbreath2"
+		],
+		"subtitle": "subtitles.item.bottle.empty"
+	}
+}

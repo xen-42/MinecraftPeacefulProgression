@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.function.Function;
 
 import org.jetbrains.annotations.Nullable;
@@ -40,16 +41,26 @@ import xen42.peacefulitems.PeacefulModItems;
 public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 	final RawRecipe raw;
 	public final ItemStack result;
+	final OptionalInt cost;
 	final String group;
 	@Nullable
 	private IngredientPlacement ingredientPlacement;
 
 	public EffigyAltarRecipe(String group, RawRecipe raw, ItemStack result) {
+		this(group, raw, result, OptionalInt.empty());
+	}
+
+	public EffigyAltarRecipe(String group, RawRecipe raw, ItemStack result, Optional<Integer> cost) {
+		this(group, raw, result, cost.stream().mapToInt(i -> i).findFirst());
+	}
+
+	public EffigyAltarRecipe(String group, RawRecipe raw, ItemStack result, OptionalInt cost) {
 		this.group = group;
 		this.raw = raw;
 		this.result = result;
+		this.cost = cost;
 	}
-	
+
 	@Override
 	public RecipeType<EffigyAltarRecipe> getType() {
 		return PeacefulMod.EFFIGY_ALTAR_RECIPE_TYPE;
@@ -120,6 +131,18 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 	public ItemStack result() {
 		return this.result;
 	}
+	
+	public OptionalInt getCost() {
+		return cost;
+	}
+	
+	public int getCostOrDefault() {
+		return getCost().orElse(5);
+	}
+	
+	public Optional<Integer> getBoxedCost() {
+		return cost.stream().boxed().findFirst();
+	}
 
 	@Override
 	public List<RecipeDisplay> getDisplays() {
@@ -132,6 +155,7 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 						.toList(),
 					EffigyAltarRecipeDisplay.BrimstoneSlotDisplay.INSTANCE,
 					new SlotDisplay.StackSlotDisplay(this.result),
+					getCostOrDefault(),
 					new SlotDisplay.ItemSlotDisplay(PeacefulModBlocks.EFFIGY_ALTAR.asItem())
 				)
 			);
@@ -142,7 +166,8 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 			instance -> instance.group(
 					Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group),
 					RawRecipe.CODEC.forGetter(recipe -> recipe.raw),
-					ItemStack.VALIDATED_CODEC.fieldOf("result").forGetter(recipe -> recipe.result)
+					ItemStack.VALIDATED_CODEC.fieldOf("result").forGetter(recipe -> recipe.result),
+					Codec.INT.optionalFieldOf("cost").forGetter(EffigyAltarRecipe::getBoxedCost)
 				)
 				.apply(instance, EffigyAltarRecipe::new)
 		);
@@ -165,13 +190,15 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 			String string = buf.readString();
 			RawRecipe rawRecipe = RawRecipe.PACKET_CODEC.decode(buf);
 			ItemStack result = ItemStack.PACKET_CODEC.decode(buf);
-			return new EffigyAltarRecipe(string, rawRecipe, result);
+			OptionalInt cost = PacketCodecs.OPTIONAL_INT.decode(buf);
+			return new EffigyAltarRecipe(string, rawRecipe, result, cost);
 		}
 
 		private static void write(RegistryByteBuf buf, EffigyAltarRecipe recipe) {
 			buf.writeString(recipe.group);
 			RawRecipe.PACKET_CODEC.encode(buf, recipe.raw);
 			ItemStack.PACKET_CODEC.encode(buf, recipe.result);
+			PacketCodecs.OPTIONAL_INT.encode(buf, recipe.cost);
 		}
 	}
 	
@@ -256,7 +283,7 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 		 * {@code
 		 * "   o"
 		 * "   a"
-		 * "    "
+		 * "	"
 		 * }
 		 * </pre>
 		 * Into:
@@ -271,25 +298,25 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 		 */
 		@VisibleForTesting
 		static String[] removePadding(List<String> pattern) {
-		    // Trim each line
-		    List<String> trimmedLines = pattern.stream()
-		        .map(String::trim)
-		        .toList();
+			// Trim each line
+			List<String> trimmedLines = pattern.stream()
+				.map(String::trim)
+				.toList();
 
-		    // Remove leading empty lines
-		    int start = 0;
-		    while (start < trimmedLines.size() && trimmedLines.get(start).isEmpty()) {
-		        start++;
-		    }
+			// Remove leading empty lines
+			int start = 0;
+			while (start < trimmedLines.size() && trimmedLines.get(start).isEmpty()) {
+				start++;
+			}
 
-		    // Remove trailing empty lines
-		    int end = trimmedLines.size();
-		    while (end > start && trimmedLines.get(end - 1).isEmpty()) {
-		        end--;
-		    }
+			// Remove trailing empty lines
+			int end = trimmedLines.size();
+			while (end > start && trimmedLines.get(end - 1).isEmpty()) {
+				end--;
+			}
 
-		    // Return the cleaned pattern
-		    return trimmedLines.subList(start, end).toArray(new String[0]);
+			// Return the cleaned pattern
+			return trimmedLines.subList(start, end).toArray(new String[0]);
 		}
 	
 		public boolean matches(EffigyAltarRecipeInput input) {

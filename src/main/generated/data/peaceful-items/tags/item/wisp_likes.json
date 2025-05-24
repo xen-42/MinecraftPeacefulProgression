@@ -1,0 +1,19 @@
+{
+  "values": [
+    {
+      "id": "#c:foods/cooked_fish",
+      "required": false
+    },
+    {
+      "id": "#c:foods/cooked_meat",
+      "required": false
+    },
+    {
+      "id": "#c:foods/vegetable",
+      "required": false
+    },
+    "peaceful-items:sulphur",
+    "minecraft:quartz",
+    "minecraft:gold_nugget"
+  ]
+}

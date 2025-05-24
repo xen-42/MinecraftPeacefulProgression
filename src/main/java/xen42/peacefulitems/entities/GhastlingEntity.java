@@ -23,7 +23,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.predicate.entity.LocationPredicate;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -38,7 +37,7 @@ import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.gen.structure.StructureKeys;
 import xen42.peacefulitems.PeacefulMod;
-import xen42.peacefulitems.PeacefulModItems;
+import xen42.peacefulitems.PeacefulModTags;
 
 public class GhastlingEntity extends AnimalEntity implements Flutterer {
 
@@ -51,10 +50,11 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
     protected void initGoals() {
         this.goalSelector.add(0, new SwimGoal(this));
         this.goalSelector.add(1, new EscapeDangerGoal(this, 2f));
-        this.goalSelector.add(2, new TemptGoal(this, 1.5f, Ingredient.ofItem(PeacefulModItems.SULPHUR), false));
-        this.goalSelector.add(3, new FlyGoal(this, 1f));
-        this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 3f));
-        this.goalSelector.add(5, new LookAroundGoal(this));
+        this.goalSelector.add(2, new GhastlingFleeGoal(this, 16.0F, 1.4D));
+        this.goalSelector.add(3, new TemptGoal(this, 1.5f, stack -> stack.isIn(PeacefulModTags.ItemTags.WISP_LIKES), false));
+        this.goalSelector.add(4, new FlyGoal(this, 1f));
+        this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 3f));
+        this.goalSelector.add(6, new LookAroundGoal(this));
     }
 
     public static boolean isValidSpawn(EntityType<? extends GhastlingEntity> type, WorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
@@ -65,7 +65,7 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
 
     @Override
     public boolean isBreedingItem(ItemStack stack) {
-        return stack.isOf(PeacefulModItems.SULPHUR);
+        return stack.isIn(PeacefulModTags.ItemTags.WISP_LIKES);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
 
                 return (ActionResult)ActionResult.SUCCESS_SERVER;
             }
-            else if (item.isOf(PeacefulModItems.GUANO)) {
+            else if (item.isIn(PeacefulModTags.ItemTags.WISP_DISLIKES)) {
                 var tear = dropItem((ServerWorld)getWorld(), Items.GHAST_TEAR);
                 tear.setPosition(getPos());
                 playSound(SoundEvents.ENTITY_GHAST_WARN, 0.5f, (random.nextFloat() - random.nextFloat()) * 0.2f + 1.3f);

@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableSet;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.GoatHornItem;
@@ -19,6 +20,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.InstrumentTags;
 import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.registry.tag.StructureTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -32,6 +34,7 @@ import net.minecraft.village.VillagerProfession;
 import net.minecraft.village.TradeOffers.SellMapFactory;
 import net.minecraft.world.gen.structure.Structure;
 import net.minecraft.world.poi.PointOfInterestType;
+import net.minecraft.world.poi.PointOfInterestTypes;
 
 public class PeacefulModVillagers {
     public static final RegistryKey<PointOfInterestType> JUKEBOX_KEY = RegistryKey.of(RegistryKeys.POINT_OF_INTEREST_TYPE, Identifier.of(PeacefulMod.MOD_ID, "jukebox_poi"));
@@ -57,30 +60,16 @@ public class PeacefulModVillagers {
 
     
     public static void initialize() {
+		RegistryEntry<PointOfInterestType> poiTypeEntry = Registries.POINT_OF_INTEREST_TYPE.getOrThrow(PointOfInterestTypes.LEATHERWORKER);
+		for (BlockState state : PeacefulModBlocks.DRAGON_BREATH_CAULDRON.getStateManager().getStates())
+			PointOfInterestTypes.POI_STATES_TO_TYPE.put(state, poiTypeEntry);
+		
 		// 0.05 is a "low" price modifier. High is 0.2
 		// I think level 1 is Novice, level 5 is Master
 		TradeOfferHelper.registerVillagerOffers(VillagerProfession.CLERIC, 1, factories -> {
 			factories.add((entity, random) -> new TradeOffer(
 				new TradedItem(Items.EMERALD, 1),
 				new ItemStack(Items.SPIDER_EYE, 3), 12, 1, 0.05f));
-		});
-
-		TradeOfferHelper.registerVillagerOffers(VillagerProfession.CLERIC, 3, factories -> {
-			factories.add((entity, random) -> new TradeOffer(
-				new TradedItem(Items.EMERALD, 5),
-				new ItemStack(Blocks.ZOMBIE_HEAD, 1), 12, 30, 0.05f));
-		});
-
-		TradeOfferHelper.registerVillagerOffers(VillagerProfession.CLERIC, 4, factories -> {
-			factories.add((entity, random) -> new TradeOffer(
-				new TradedItem(Items.EMERALD, 5),
-				new ItemStack(Blocks.CREEPER_HEAD, 1), 12, 30, 0.05f));
-		});
-
-		TradeOfferHelper.registerVillagerOffers(VillagerProfession.CLERIC, 5, factories -> {
-			factories.add((entity, random) -> new TradeOffer(
-				new TradedItem(Items.EMERALD, 5),
-				new ItemStack(Blocks.PIGLIN_HEAD, 1), 12, 30, 0.05f));
 		});
 
 		// Identical trade to wheat
@@ -144,14 +133,34 @@ public class PeacefulModVillagers {
 				new TradeOfferFactory(new TradeOffer(
 					new TradedItem(Items.EMERALD, 10),
 					new ItemStack(Items.OMINOUS_TRIAL_KEY, 1), 12, 20, 0.05f)
+				),
+				new TradeOfferFactory(new TradeOffer(
+					new TradedItem(Items.EMERALD, 5),
+					new ItemStack(Items.PIGLIN_HEAD, 1), 12, 20, 0.05f)
+				),
+				new TradeOfferFactory(new TradeOffer(
+					new TradedItem(Items.EMERALD, 5),
+					new ItemStack(Items.CREEPER_HEAD, 1), 12, 20, 0.05f)
+				),
+				new TradeOfferFactory(new TradeOffer(
+					new TradedItem(Items.EMERALD, 5),
+					new ItemStack(Items.ZOMBIE_HEAD, 1), 12, 20, 0.05f)
 				)
 			);
 		});
 		
-		// Map to altar
 		TradeOfferHelper.registerVillagerOffers(VillagerProfession.CARTOGRAPHER, 3, factories -> {
+			// Map to altar
 			factories.add((entity, random) -> SellMap(entity, random, 10,
 				PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, MapDecorationTypes.TARGET_X, 4, 15));
+			
+			// Map to trail ruin
+			factories.add((entity, random) -> SellMap(entity, random, 10,
+				PeacefulModTags.StructureTags.TRAIL_RUINS, MapDecorationTypes.TARGET_X, 12, 10));
+			
+			// Map to ocean ruin
+			factories.add((entity, random) -> SellMap(entity, random, 10,
+				StructureTags.OCEAN_RUIN, MapDecorationTypes.TARGET_X, 12, 10));
 		});
     }
     

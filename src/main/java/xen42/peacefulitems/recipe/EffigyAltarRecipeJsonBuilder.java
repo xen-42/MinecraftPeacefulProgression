@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.OptionalInt;
+
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.advancement.AdvancementRequirements;
@@ -39,6 +41,7 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 	private final List<String> pattern = Lists.<String>newArrayList();
 	private final Map<Character, Ingredient> inputs = Maps.<Character, Ingredient>newLinkedHashMap();
 	private final Map<String, AdvancementCriterion<?>> criteria = new LinkedHashMap<String, AdvancementCriterion<?>>();
+	private OptionalInt cost = OptionalInt.empty();
 	@Nullable
 	private String group;
 
@@ -107,6 +110,15 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 		return this;
 	}
 
+	public EffigyAltarRecipeJsonBuilder cost(int cost) {
+		if (cost > 0) {
+			this.cost = OptionalInt.of(cost);
+		} else {
+			this.cost = OptionalInt.empty();
+		}
+		return this;
+	}
+
 	public EffigyAltarRecipeJsonBuilder group(@Nullable String string) {
 		this.group = string;
 		return this;
@@ -126,7 +138,8 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 		EffigyAltarRecipe recipe = new EffigyAltarRecipe(
 			(String)Objects.requireNonNullElse(this.group, ""),
 			rawRecipe,
-			new ItemStack(this.output, this.count)
+			new ItemStack(this.output, this.count),
+			this.cost
 		);
 		exporter.accept(recipeKey, recipe, builder.build(recipeKey.getValue().withPrefixedPath("recipes/effigy_altar/")));
 	}

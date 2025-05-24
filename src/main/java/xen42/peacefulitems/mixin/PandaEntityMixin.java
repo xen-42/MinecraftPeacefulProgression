@@ -23,21 +23,6 @@ import net.minecraft.util.math.Vec3d;
 public class PandaEntityMixin {
 	private static final Random random = new Random();
 
-	@Inject(at = @At("RETURN"), method = "interactMob", cancellable = true)
-	private void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> info) {
-		var panda = ((PandaEntity)(Object)this);
-
-        ItemStack item = player.getStackInHand(hand);
-
-        if (item.isOf(Items.FEATHER)) {
-            if (!panda.isSneezing()) {
-                panda.setSneezing(true);
-            }
-
-            info.setReturnValue(ActionResult.SUCCESS);
-        }
-	}
-
     @Inject(at = @At("HEAD"), method = "sneeze", cancellable = true)
 	private void sneeze(CallbackInfo info) {
 		var panda = ((PandaEntity)(Object)this);
