@@ -55,24 +55,22 @@ public class PeacefulModClient implements ClientModInitializer {
 
 		HandledScreens.register(PeacefulMod.EFFIGY_ALTAR_SCREEN_HANDLER, EffigyAltarHandledScreen::new);
 		ClientPlayNetworking.registerGlobalReceiver(EffigyParticlePayload.ID, (client, handler, buf, responseSender) -> {
-			client.execute(() -> {
-				client.particleManager.addEmitter(client.player, (ParticleEffect)ParticleTypes.TOTEM_OF_UNDYING, 30);
-				EffigyParticlePayload payload = new EffigyParticlePayload(buf);
-				switch (payload.particleID()) {
-					case "wither_effigy":
-						client.gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.WITHER_EFFIGY));
-						break;
-					case "dragon_effigy":
-						client.gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.DRAGON_EFFIGY));
-						break;
-					case "guardian_effigy":
-						client.gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.GUARDIAN_EFFIGY));
-						break;
-					case "raid_effigy":
-						client.gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.RAID_EFFIGY));
-						break;
-				}
-			});
+			client.particleManager.addEmitter(client.player, (ParticleEffect)ParticleTypes.TOTEM_OF_UNDYING, 30);
+			EffigyParticlePayload payload = new EffigyParticlePayload(buf);
+			switch (payload.particleID()) {
+				case "wither_effigy":
+					client.gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.WITHER_EFFIGY));
+					break;
+				case "dragon_effigy":
+					client.gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.DRAGON_EFFIGY));
+					break;
+				case "guardian_effigy":
+					client.gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.GUARDIAN_EFFIGY));
+					break;
+				case "raid_effigy":
+					client.gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.RAID_EFFIGY));
+					break;
+			}
 		});
 	}
 }
