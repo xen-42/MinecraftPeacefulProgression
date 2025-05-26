@@ -10,9 +10,6 @@ on:
   # Trigger the workflow on pushes to only the 'main' branch
   push:
     branches: [ main ]
-  # Trigger the workflow on any pull request to only the 'main' branch
-  pull_request:
-    branches: [ "main" ]
 
 permissions:
   contents: write
@@ -64,10 +61,10 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      - name: Set up JDK 21
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: 21
+          java-version: ${{ needs.pre_job.outputs.java_version }}
           distribution: 'microsoft'
           cache: gradle
       - name: Loom Cache
