@@ -2,24 +2,34 @@ package xen42.peacefulitems.recipe;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.OptionalInt;
+import java.util.Map.Entry;
 
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.AdvancementCriterion;
+import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.advancement.AdvancementRequirements;
 import net.minecraft.advancement.AdvancementRewards;
 import net.minecraft.advancement.criterion.RecipeUnlockedCriterion;
+import net.minecraft.data.server.recipe.ComplexRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.RecipeExporter;
+import net.minecraft.data.server.recipe.RecipeJsonBuilder;
+import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryEntryLookup;
 import net.minecraft.registry.RegistryKey;
@@ -143,7 +153,15 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 			new ItemStack(this.output, this.count),
 			this.cost
 		);
-		exporter.accept(recipeId, recipe, builder.build(recipeId.withPrefixedPath("recipes/effigy_altar/")));
+		exporter.accept(new JsonProvider(
+				recipeId,
+				this.output,
+				this.count,
+				this.group == null ? "" : this.group,
+				this.pattern,
+				this.inputs,
+				this.cost,
+				builder.build(recipeId.withPrefixedPath("recipes/effigy_altar/"))));
 	}
 
 	public void offerTo(RecipeExporter exporter, RegistryKey<Recipe<?>> recipeKey) {
@@ -174,5 +192,79 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 
 	public static Identifier getItemId(ItemConvertible item) {
 		return Identifier.of(PeacefulMod.MOD_ID, Registries.ITEM.getId(item.asItem()).getPath());
+	}
+
+	private static class JsonProvider implements RecipeJsonProvider {
+		private final Identifier id;
+		private final Item output;
+		private final int resultCount;
+		private final String group;
+		private final List<String> pattern;
+		private final Map<Character, Ingredient> inputs;
+		private final OptionalInt cost;
+		private final AdvancementEntry advancement;
+
+		protected JsonProvider(
+				Identifier id,
+				Item output,
+				int resultCount,
+				String group,
+				List<String> pattern,
+				Map<Character, Ingredient> inputs,
+				OptionalInt cost,
+				AdvancementEntry advancement) {
+			this.id = id;
+			this.output = output;
+			this.resultCount = resultCount;
+			this.group = group;
+			this.pattern = pattern;
+			this.inputs = inputs;
+			this.cost = cost;
+			this.advancement = advancement;
+		}
+
+		@Override
+		public void serialize(JsonObject json) {
+			if (!this.group.isEmpty()) {
+				json.addProperty("group", this.group);
+			}
+			if (!this.cost.isEmpty()) {
+				json.addProperty("cost", this.cost.getAsInt());
+			}
+
+			JsonArray pattern = new JsonArray();
+			for (String string : this.pattern) {
+				pattern.add(string);
+			}
+			json.add("pattern", pattern);
+
+			JsonObject key = new JsonObject();
+			for (Entry<Character, Ingredient> entry : this.inputs.entrySet()) {
+				key.add(String.valueOf(entry.getKey()), ((Ingredient)entry.getValue()).toJson(false));
+			}
+			json.add("key", key);
+
+			JsonObject result = new JsonObject();
+			result.addProperty("item", Registries.ITEM.getId(this.output).toString());
+			if (this.resultCount > 1) {
+				result.addProperty("count", this.resultCount);
+			}
+			json.add("result", result);
+		}
+
+		@Override
+		public Identifier id() {
+			return id;
+		}
+
+		@Override
+		public RecipeSerializer<?> serializer() {
+			return PeacefulMod.EFFIGY_ALTAR_RECIPE_SERIALIZER;
+		}
+
+		@Override
+		public AdvancementEntry advancement() {
+			return advancement;
+		}
 	}
 }

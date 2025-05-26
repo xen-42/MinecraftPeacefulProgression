@@ -161,7 +161,7 @@ public class EffigyAltarRecipeInput implements RecipeInputInventory {
 	}
 
 	@Override
-	public List<ItemStack> getHeldStacks() {
+	public List<ItemStack> getInputStacks() {
 		return List.copyOf(getStacks());
 	}
 }

@@ -31,6 +31,7 @@ import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Util;
 import xen42.peacefulitems.blocks.BlazePickleBlock;
 import xen42.peacefulitems.blocks.BreezeCoralBlock;
 import xen42.peacefulitems.blocks.DragonBreathCauldronBlock;
@@ -131,7 +132,7 @@ public class PeacefulModBlocks {
 	public static final BlockEntityType<FossilOreBlockEntity> FOSSIL_ORE_ENTITY = registerBlockEntityType(
 		"fossil_ore_entity",
 		BlockEntityType.Builder.create(FossilOreBlockEntity::new, 
-			new Block[] { FOSSIL_ORE, DEEPSLATE_FOSSIL_ORE, SOUL_SOIL_FOSSIL_ORE}).build()
+			new Block[] { FOSSIL_ORE, DEEPSLATE_FOSSIL_ORE, SOUL_SOIL_FOSSIL_ORE}).build(Util.getChoiceType(TypeReferences.BLOCK_ENTITY, "fossil_ore_entity"))
 	);
 
 	public static final FlaxCropBlock FLAX_CROP = (FlaxCropBlock)register(

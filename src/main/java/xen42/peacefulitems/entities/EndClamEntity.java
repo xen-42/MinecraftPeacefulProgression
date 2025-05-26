@@ -270,7 +270,7 @@ public class EndClamEntity extends AmbientEntity {
                     var thrownItem = new ItemEntity(getWorld(), getX() + (getRotationVector()).x, getY() + 1.0D, getZ() + (getRotationVector()).z, 
                         getEquippedStack(EquipmentSlot.MAINHAND));
                     thrownItem.setPickupDelay(40);
-                    thrownItem.setThrower(this);
+                    thrownItem.setThrower(this.getUuid());
                     getWorld().spawnEntity(thrownItem);
                 }
             }

@@ -43,5 +43,6 @@
     "recipes": [
       "peaceful-items:cape"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

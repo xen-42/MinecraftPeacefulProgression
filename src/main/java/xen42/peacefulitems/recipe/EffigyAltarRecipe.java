@@ -19,15 +19,18 @@ import it.unimi.dsi.fastutil.chars.CharArraySet;
 import it.unimi.dsi.fastutil.chars.CharSet;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.encoding.VarInts;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.RawShapedRecipe;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.book.RecipeBookCategory;
 import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.util.Util;
@@ -136,11 +139,21 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 	}
 
 	public static class Serializer implements RecipeSerializer<EffigyAltarRecipe> {
+		private static final Codec<Item> ITEM_CODEC = Codecs.validate(
+			Registries.ITEM.getCodec(), item -> item == Items.AIR ? DataResult.error(() -> "Item must not be minecraft:air") : DataResult.success(item)
+		);
+		public static final Codec<ItemStack> RECIPE_RESULT_CODEC = RecordCodecBuilder.create(
+			instance -> instance.group(
+					ITEM_CODEC.fieldOf("item").forGetter(ItemStack::getItem),
+					Codecs.createStrictOptionalFieldCodec(Codecs.POSITIVE_INT, "count", 1).forGetter(ItemStack::getCount)
+				)
+				.apply(instance, ItemStack::new)
+			);
 		public static final Codec<EffigyAltarRecipe> CODEC = RecordCodecBuilder.create(
 			instance -> instance.group(
 					Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group),
 					RawRecipe.CODEC.forGetter(recipe -> recipe.raw),
-					ItemStack.RECIPE_RESULT_CODEC.fieldOf("result").forGetter(recipe -> recipe.result),
+					RECIPE_RESULT_CODEC.fieldOf("result").forGetter(recipe -> recipe.result),
 					Codec.INT.optionalFieldOf("cost").forGetter(EffigyAltarRecipe::getBoxedCost)
 				)
 				.apply(instance, EffigyAltarRecipe::new)

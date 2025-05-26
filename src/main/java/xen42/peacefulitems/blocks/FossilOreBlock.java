@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 
 public class FossilOreBlock extends BrushableBlock {
     public FossilOreBlock(Block baseBlock, SoundEvent brushingSound, SoundEvent brushingCompleteSound, Settings settings) {
-        super(baseBlock, brushingSound, brushingCompleteSound, settings);
+        super(baseBlock, settings, brushingSound, brushingCompleteSound);
     }
 
     @Override

@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "peaceful-items:sulphur_block"
-  }
+  },
+  "show_notification": true
 }

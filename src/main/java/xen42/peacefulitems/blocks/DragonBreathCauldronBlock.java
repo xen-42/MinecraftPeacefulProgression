@@ -12,7 +12,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.LeveledCauldronBlock;
 import net.minecraft.block.cauldron.CauldronBehavior;
-import net.minecraft.block.cauldron.CauldronBehavior.CauldronBehaviorMap;
 import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -48,12 +47,12 @@ import xen42.peacefulitems.PeacefulMod;
 import xen42.peacefulitems.PeacefulModBlocks;
 
 public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
-    public static final CauldronBehavior.CauldronBehaviorMap DRAGON_BREATH_CAULDRON_BEHAVIOR = CauldronBehavior.createMap("dragon_breath");
+    public static final Map<Item, CauldronBehavior> DRAGON_BREATH_CAULDRON_BEHAVIOR = CauldronBehavior.createMap();
     
     public static final IntProperty LEVEL = Properties.LEVEL_3;
     
     public DragonBreathCauldronBlock(Settings settings) {
-        super(Biome.Precipitation.NONE, DRAGON_BREATH_CAULDRON_BEHAVIOR, settings);
+        super(settings, precipitation -> false, DRAGON_BREATH_CAULDRON_BEHAVIOR);
         this.setDefaultState((this.stateManager.getDefaultState()));
         Item.BLOCK_ITEMS.put(this, Items.CAULDRON);
     }
@@ -74,13 +73,12 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
     }
     
     @Override
-    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         this.spawnBreakParticles(world, player, pos, state);
         if(!world.isClient() && !player.isCreative()) {
             spawnDragonBreathCloud(world, pos);
         }
         world.emitGameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Emitter.of(player, state));
-        return state;
     }
     
     @Override

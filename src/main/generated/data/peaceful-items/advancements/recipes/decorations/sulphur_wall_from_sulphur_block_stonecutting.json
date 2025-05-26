@@ -30,5 +30,6 @@
     "recipes": [
       "peaceful-items:sulphur_wall_from_sulphur_block_stonecutting"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

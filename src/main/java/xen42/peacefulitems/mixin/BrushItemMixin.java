@@ -31,7 +31,7 @@ public class BrushItemMixin extends Item {
 	}
 	
 	@Shadow
-	private HitResult getHitResult(PlayerEntity user) { return null; }
+	private HitResult getHitResult(LivingEntity user) { return null; }
 
 	@Override
 	public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {

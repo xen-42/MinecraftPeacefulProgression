@@ -18,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.AbstractCookingRecipe;
 import net.minecraft.recipe.BlastingRecipe;
+import net.minecraft.recipe.CookingRecipeSerializer;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SmeltingRecipe;
@@ -71,12 +72,12 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
     protected RecipeGenerator getRecipeGenerator(WrapperLookup registryLookup, RecipeExporter exporter) {
         return new RecipeGenerator(registryLookup, exporter) {
             public void offerSmelting(List<ItemConvertible> inputs, RecipeCategory category, ItemConvertible output, float experience, int cookingTime, String group) {
-                this.fixedOfferMultipleOptions(RecipeSerializer.SMELTING, SmeltingRecipe::new, inputs, category, output, experience, cookingTime, group, "_from_smelting");
+                this.fixedOfferMultipleOptions(RecipeSerializer.SMELTING, inputs, category, output, experience, cookingTime, group, "_from_smelting");
             }
 
             @SuppressWarnings("unused")
             public void offerBlasting(List<ItemConvertible> inputs, RecipeCategory category, ItemConvertible output, float experience, int cookingTime, String group) {
-                this.fixedOfferMultipleOptions(RecipeSerializer.BLASTING, BlastingRecipe::new, inputs, category, output, experience, cookingTime, group, "_from_blasting");
+                this.fixedOfferMultipleOptions(RecipeSerializer.BLASTING, inputs, category, output, experience, cookingTime, group, "_from_blasting");
             }
 
             @Override
@@ -87,8 +88,7 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
             }
             
             public final <T extends AbstractCookingRecipe> void fixedOfferMultipleOptions(
-                    RecipeSerializer<T> serializer,
-                    AbstractCookingRecipe.RecipeFactory<T> recipeFactory,
+            		RecipeSerializer<T> serializer,
                     List<ItemConvertible> inputs,
                     RecipeCategory category,
                     ItemConvertible output,
@@ -98,7 +98,7 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                     String suffix
                 ) {
                     for (ItemConvertible itemConvertible : inputs) {
-                        offerTo(CookingRecipeJsonBuilder.create(Ingredient.ofItems(itemConvertible), category, output, experience, cookingTime, serializer, recipeFactory)
+                        offerTo(CookingRecipeJsonBuilder.create(Ingredient.ofItems(itemConvertible), category, output, experience, cookingTime, serializer)
                             .group(group)
                             .criterion(hasItem(itemConvertible), conditionsFromItem(itemConvertible))
                             , exporter, getItemPath(output) + suffix + "_" + getItemPath(itemConvertible));

@@ -43,5 +43,6 @@
     "recipes": [
       "peaceful-items:phantom_membrane"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

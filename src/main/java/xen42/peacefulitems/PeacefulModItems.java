@@ -243,10 +243,10 @@ public class PeacefulModItems {
         DispenserBlock.registerBehavior(Items.BRUSH.asItem(), new BrushDispenserBehavior());
 
         CauldronFluidContent.registerCauldron(PeacefulModBlocks.DRAGON_BREATH_CAULDRON, PeacefulModFluids.DRAGON_BREATH, FluidConstants.BOTTLE, LeveledCauldronBlock.LEVEL);
-        CauldronBehavior.EMPTY_CAULDRON_BEHAVIOR.map().put(DRAGON_EFFIGY, new DragonBreathCauldronBlock.FillFromEffigyBehavior());
-        CauldronBehavior.EMPTY_CAULDRON_BEHAVIOR.map().put(Items.DRAGON_BREATH, new DragonBreathCauldronBlock.FillFromBottleBehavior());
-        DragonBreathCauldronBlock.DRAGON_BREATH_CAULDRON_BEHAVIOR.map().put(Items.GLASS_BOTTLE, new DragonBreathCauldronBlock.DecrementFluidLevelBehavior());
-        DragonBreathCauldronBlock.DRAGON_BREATH_CAULDRON_BEHAVIOR.map().put(Items.DRAGON_BREATH, new DragonBreathCauldronBlock.IncrementFluidLevelBehavior());
+        CauldronBehavior.EMPTY_CAULDRON_BEHAVIOR.put(DRAGON_EFFIGY, new DragonBreathCauldronBlock.FillFromEffigyBehavior());
+        CauldronBehavior.EMPTY_CAULDRON_BEHAVIOR.put(Items.DRAGON_BREATH, new DragonBreathCauldronBlock.FillFromBottleBehavior());
+        DragonBreathCauldronBlock.DRAGON_BREATH_CAULDRON_BEHAVIOR.put(Items.GLASS_BOTTLE, new DragonBreathCauldronBlock.DecrementFluidLevelBehavior());
+        DragonBreathCauldronBlock.DRAGON_BREATH_CAULDRON_BEHAVIOR.put(Items.DRAGON_BREATH, new DragonBreathCauldronBlock.IncrementFluidLevelBehavior());
 
         ItemStack[] chickenBreedingItems = ChickenEntity.BREEDING_INGREDIENT.getMatchingStacks();
         List<Item> baseItems = new ArrayList<>();

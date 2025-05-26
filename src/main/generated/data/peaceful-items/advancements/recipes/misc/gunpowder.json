@@ -54,5 +54,6 @@
     "recipes": [
       "peaceful-items:gunpowder"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

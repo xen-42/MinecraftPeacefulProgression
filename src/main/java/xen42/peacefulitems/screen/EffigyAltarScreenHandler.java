@@ -158,7 +158,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler<Effigy
         ServerWorld world,
         @Nullable RecipeEntry<EffigyAltarRecipe> recipe
     ) {
-        EffigyAltarRecipeInput recipeInput = EffigyAltarRecipeInput.create(this, inventory.getHeldStacks());
+        EffigyAltarRecipeInput recipeInput = EffigyAltarRecipeInput.create(this, inventory.getInputStacks());
         ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity)player;
         ItemStack resultStack = ItemStack.EMPTY;
         int cost = 0;
@@ -205,7 +205,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler<Effigy
             ItemStack itemStackAtIndex = slotAtIndex.getStack();
             itemStack = itemStackAtIndex.copy();
             if (slot == OUTPUT_SLOT) {
-                itemStackAtIndex.getItem().onCraftByPlayer(itemStackAtIndex, player.getWorld(), player);
+                itemStackAtIndex.getItem().onCraft(itemStackAtIndex, player.getWorld(), player);
                 if (!this.insertItem(itemStackAtIndex, INVENTORY_SLOTS_START, HOTBAR_SLOTS_END, true)) {
                     return ItemStack.EMPTY;
                 }
@@ -324,7 +324,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler<Effigy
     @Override
     public boolean matches(RecipeEntry<? extends Recipe<EffigyAltarRecipeInput>> recipe) {
     	EffigyAltarRecipe recipeValue = (EffigyAltarRecipe)recipe.value();
-        return recipeValue.matches(EffigyAltarRecipeInput.create(this, this.inventory.getHeldStacks()), this.player.getWorld());
+        return recipeValue.matches(EffigyAltarRecipeInput.create(this, this.inventory.getInputStacks()), this.player.getWorld());
     }
     
     private class EffigySimpleInventory extends SimpleInventory implements RecipeInputInventory {
@@ -348,6 +348,11 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler<Effigy
         public int getHeight() {
             return MAX_WIDTH_AND_HEIGHT;
         }
+
+		@Override
+		public List<ItemStack> getInputStacks() {
+			return this.stacks;
+		}
     }
 
     private class EffigyCraftingResultInventory extends CraftingResultInventory {
@@ -438,11 +443,11 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler<Effigy
         @Override
         protected void onCrafted(ItemStack stack) {
             if (this.amount > 0) {
-                stack.onCraftByPlayer(this.player.getWorld(), this.player, this.amount);
+                stack.onCraft(this.player.getWorld(), this.player, this.amount);
             }
 
             if (this.inventory instanceof RecipeUnlocker recipeUnlocker) {
-                recipeUnlocker.unlockLastRecipe(this.player, this.input.getHeldStacks());
+                recipeUnlocker.unlockLastRecipe(this.player, this.input.getInputStacks());
             }
 
             this.amount = 0;
@@ -470,7 +475,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler<Effigy
         @Override
         public void onTakeItem(PlayerEntity player, ItemStack stack) {
             this.onCrafted(stack);
-            EffigyAltarRecipeInput recipeInput = EffigyAltarRecipeInput.create(this.handler, this.input.getHeldStacks());
+            EffigyAltarRecipeInput recipeInput = EffigyAltarRecipeInput.create(this.handler, this.input.getInputStacks());
             DefaultedList<ItemStack> defaultedList = this.getRecipeRemainders(recipeInput, player.getWorld());
 
             this.handler.context.run((world, pos) -> {
@@ -502,11 +507,6 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler<Effigy
                     }
                 }
             }
-        }
-
-        @Override
-        public boolean disablesDynamicDisplay() {
-            return true;
         }
     }
 

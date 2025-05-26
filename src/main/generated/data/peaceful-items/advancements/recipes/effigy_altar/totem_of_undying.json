@@ -56,5 +56,6 @@
     "recipes": [
       "peaceful-items:totem_of_undying"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

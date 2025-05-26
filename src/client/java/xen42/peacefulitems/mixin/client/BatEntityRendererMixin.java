@@ -2,6 +2,10 @@ package xen42.peacefulitems.mixin.client;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
 import net.minecraft.client.render.entity.BatEntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.render.entity.MobEntityRenderer;
@@ -19,8 +23,8 @@ public class BatEntityRendererMixin extends MobEntityRenderer<BatEntity, BatEnti
     @Shadow
     public Identifier getTexture(BatEntity entity) { return null; }
 
-    @Override
-    public void scale(BatEntity batEntity, MatrixStack matrixStack, float f) {
+    @Inject(at = @At("TAIL"), method = "scale", cancellable = true)
+    public void scale(BatEntity batEntity, MatrixStack matrixStack, float f, CallbackInfo info) {
         float scaleFactor = batEntity.isBaby() ? 0.5f : 1f;
         matrixStack.scale(scaleFactor, scaleFactor, scaleFactor);
     }

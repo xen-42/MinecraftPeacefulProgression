@@ -30,5 +30,6 @@
     "recipes": [
       "peaceful-items:blaze_rod_from_smelting_blaze_pickle"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

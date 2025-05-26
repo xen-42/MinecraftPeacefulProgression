@@ -54,5 +54,6 @@
     "recipes": [
       "peaceful-items:raid_effigy"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

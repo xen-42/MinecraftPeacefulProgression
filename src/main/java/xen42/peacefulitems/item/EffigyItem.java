@@ -47,7 +47,7 @@ public class EffigyItem extends Item {
         ItemStack itemStack = user.getStackInHand(hand);
 
         if (_sound != null) {
-            world.playSoundFromEntity(user, _sound, SoundCategory.HOSTILE, 0.2f, 1f);
+            world.playSoundFromEntity(user, user, _sound, SoundCategory.HOSTILE, 0.2f, 1f);
         }
 
         if (!user.isCreative()) {

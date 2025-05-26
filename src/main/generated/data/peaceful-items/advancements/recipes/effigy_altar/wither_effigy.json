@@ -43,5 +43,6 @@
     "recipes": [
       "peaceful-items:wither_effigy"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

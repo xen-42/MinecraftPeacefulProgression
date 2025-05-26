@@ -25,18 +25,12 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 
 public class BlazePickleBlock extends PlantBlock implements Fertilizable {
-	public static final MapCodec<BlazePickleBlock> CODEC = createCodec(BlazePickleBlock::new);
 	public static final int MAX_PICKLES = 4;
 	public static final IntProperty PICKLES = Properties.PICKLES;
 	protected static final VoxelShape ONE_PICKLE_SHAPE = Block.createCuboidShape(6.0, 0.0, 6.0, 10.0, 6.0, 10.0);
 	protected static final VoxelShape TWO_PICKLES_SHAPE = Block.createCuboidShape(3.0, 0.0, 3.0, 13.0, 6.0, 13.0);
 	protected static final VoxelShape THREE_PICKLES_SHAPE = Block.createCuboidShape(2.0, 0.0, 2.0, 14.0, 6.0, 14.0);
 	protected static final VoxelShape FOUR_PICKLES_SHAPE = Block.createCuboidShape(2.0, 0.0, 2.0, 14.0, 7.0, 14.0);
-
-	@Override
-	public MapCodec<BlazePickleBlock> getCodec() {
-		return CODEC;
-	}
 
     public BlazePickleBlock(Settings settings) {
         super(settings);

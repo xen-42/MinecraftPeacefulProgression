@@ -15,5 +15,6 @@
   ],
   "result": {
     "item": "peaceful-items:cape"
-  }
+  },
+  "show_notification": true
 }

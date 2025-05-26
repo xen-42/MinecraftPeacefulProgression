@@ -82,5 +82,6 @@
     "recipes": [
       "peaceful-items:dragon_effigy"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

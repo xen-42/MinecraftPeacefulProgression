@@ -28,5 +28,6 @@
     "recipes": [
       "peaceful-items:purple_dye"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

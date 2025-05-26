@@ -1,7 +1,9 @@
 package xen42.peacefulitems.blocks;
 
 import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -20,17 +22,12 @@ import net.minecraft.world.World;
 import xen42.peacefulitems.screen.EffigyAltarScreenHandler;
 
 public class EffigyAltarBlock extends Block {
-    public static final MapCodec<EffigyAltarBlock> CODEC = createCodec(EffigyAltarBlock::new);
 
     private static VoxelShape SHAPE = Block.createCuboidShape(0, 0, 0, 16, 14, 16);
 
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return SHAPE;
-    }
-
-    public MapCodec<EffigyAltarBlock> getCodec() {
-        return CODEC;
     }
 
     public EffigyAltarBlock(Settings settings) {
