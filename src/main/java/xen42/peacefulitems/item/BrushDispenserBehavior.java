@@ -18,19 +18,11 @@ public class BrushDispenserBehavior extends FallibleItemDispenserBehavior {
     protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
         ServerWorld serverWorld = pointer.world();
         BlockPos blockPos = pointer.pos().offset(pointer.state().get(DispenserBlock.FACING));
-        List<ArmadilloEntity> armadilloList = serverWorld.getEntitiesByClass(ArmadilloEntity.class, new Box(blockPos), EntityPredicates.EXCEPT_SPECTATOR);
         List<PandaEntity> pandaList = serverWorld.getEntitiesByClass(PandaEntity.class, new Box(blockPos), EntityPredicates.EXCEPT_SPECTATOR);
-        if (armadilloList.isEmpty() && pandaList.isEmpty()) {
+        if (pandaList.isEmpty()) {
             this.setSuccess(false);
             return stack;
         } else {
-            for (ArmadilloEntity armadilloEntity : armadilloList) {
-                if (armadilloEntity.brushScute()) {
-                    this.setSuccess(true);
-                    stack.damage(16, armadilloEntity, null);
-                    return stack;
-                }
-            }
             for (PandaEntity pandaEntity : pandaList) {
                 if (!pandaEntity.isSneezing()) {
                     pandaEntity.setSneezing(true);
