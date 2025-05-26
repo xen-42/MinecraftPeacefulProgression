@@ -11,6 +11,7 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.StructureTags;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.util.Identifier;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.gen.structure.Structure;
@@ -43,7 +44,24 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 		}
 		
 		public void add(TagKey<?> key, String value) {
-			add(key.getTranslationKey(), value);
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.append("tag.");
+
+			Identifier registryIdentifier = key.registry().getValue();
+			Identifier tagIdentifier = key.id();
+
+			if (!registryIdentifier.getNamespace().equals(Identifier.DEFAULT_NAMESPACE)) {
+				stringBuilder.append(registryIdentifier.getNamespace())
+						.append(".");
+			}
+
+			stringBuilder.append(registryIdentifier.getPath().replace("/", "."))
+					.append(".")
+					.append(tagIdentifier.getNamespace())
+					.append(".")
+					.append(tagIdentifier.getPath().replace("/", ".").replace(":", "."));
+
+			add(stringBuilder.toString(), value);
 		}
 		
 		public void addTags(String value, TagKey<?>... keys) {
