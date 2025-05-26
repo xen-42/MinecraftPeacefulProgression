@@ -42,6 +42,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -137,7 +138,7 @@ public class PeacefulModItems {
             var r = user.getRandom().nextFloat();
             var world = user.getServerWorld();
             // Bunch of different raid drops excluding Totem of Undying
-            if (r < 0.5) {
+            if (world.getEnabledFeatures().contains(FeatureFlags.UPDATE_1_21) && r < 0.5) {
                 user.dropItem(Items.OMINOUS_BOTTLE);
             }
             else {
