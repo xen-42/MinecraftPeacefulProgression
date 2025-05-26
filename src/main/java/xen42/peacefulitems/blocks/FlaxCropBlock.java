@@ -105,7 +105,7 @@ public class FlaxCropBlock extends CropBlock {
     }
 
     @Override
-    public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state) {
+    public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state, boolean isClient) {
         return !this.isMature(state) && !world.getBlockState(pos.up()).isOf(this);
     }
  

@@ -1,6 +1,6 @@
 package xen42.peacefulitems.mixin;
 
-import net.minecraft.advancement.AdvancementEntry;
+import net.minecraft.advancement.Advancement;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.EntityType;
@@ -158,10 +158,10 @@ public class BatEntityMixin {
 						if (player != null && player instanceof ServerPlayerEntity serverPlayer && serverPlayer.getServer() != null) {
 							serverPlayer.incrementStat(Stats.ANIMALS_BRED);
 							// Grant the player the "The Parrots and the Bats" advancement
-							AdvancementEntry parrotsAndBats = serverPlayer.getServer().getAdvancementLoader().get(Identifier.of("minecraft","husbandry/breed_an_animal"));
+							Advancement parrotsAndBats = serverPlayer.getServer().getAdvancementLoader().get(Identifier.of("minecraft","husbandry/breed_an_animal"));
 							if (parrotsAndBats != null)
 							{
-								String first = parrotsAndBats.value().criteria().keySet().iterator().next();
+								String first = parrotsAndBats.getCriteria().keySet().iterator().next();
 								serverPlayer.getAdvancementTracker().grantCriterion(parrotsAndBats, first);
 							}
 						}

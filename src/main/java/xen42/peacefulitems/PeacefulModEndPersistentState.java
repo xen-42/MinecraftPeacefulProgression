@@ -36,16 +36,8 @@ public class PeacefulModEndPersistentState extends PersistentState {
 		this.markDirty(); // ensures the data will be saved
 	}
 
-	public static PersistentState.Type<PeacefulModEndPersistentState> getType() {
-		return new PersistentState.Type<PeacefulModEndPersistentState>(
-			PeacefulModEndPersistentState::new,
-			PeacefulModEndPersistentState::readNbt,
-			null
-		);
-	}
-
 	public static PeacefulModEndPersistentState get(ServerWorld world) {
-		return world.getPersistentStateManager().getOrCreate(PeacefulModEndPersistentState.getType(), ID);
+		return world.getPersistentStateManager().getOrCreate(PeacefulModEndPersistentState::readNbt, PeacefulModEndPersistentState::new, ID);
 	}
 
 	@Override

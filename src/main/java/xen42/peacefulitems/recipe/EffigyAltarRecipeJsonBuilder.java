@@ -10,17 +10,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.OptionalInt;
+import java.util.function.Consumer;
 import java.util.Map.Entry;
 
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.AdvancementCriterion;
-import net.minecraft.advancement.AdvancementEntry;
-import net.minecraft.advancement.AdvancementRequirements;
+import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.AdvancementRewards;
+import net.minecraft.advancement.CriterionMerger;
+import net.minecraft.advancement.criterion.CriterionConditions;
 import net.minecraft.advancement.criterion.RecipeUnlockedCriterion;
 import net.minecraft.data.server.recipe.ComplexRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder;
-import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.RecipeJsonBuilder;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.item.Item;
@@ -40,7 +41,7 @@ import xen42.peacefulitems.PeacefulMod;
 
 import org.jetbrains.annotations.Nullable;
 
-public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
+public class EffigyAltarRecipeJsonBuilder extends RecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 	private static final int MAX_WIDTH_AND_HEIGHT = 3;
 	private static final int MAX_WIDTH_END = 1;
 	public static final String SPACE = " ";
@@ -49,7 +50,7 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 	private final int count;
 	private final List<String> pattern = Lists.<String>newArrayList();
 	private final Map<Character, Ingredient> inputs = Maps.<Character, Ingredient>newLinkedHashMap();
-	private final Map<String, AdvancementCriterion<?>> criteria = new LinkedHashMap<String, AdvancementCriterion<?>>();
+	private final Map<String, CriterionConditions> criteria = new LinkedHashMap<String, CriterionConditions>();
 	private OptionalInt cost = OptionalInt.empty();
 	@Nullable
 	private String group;
@@ -116,8 +117,9 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 		}
 	}
 
-	public EffigyAltarRecipeJsonBuilder criterion(String string, AdvancementCriterion<?> advancementCriterion) {
-		this.criteria.put(string, advancementCriterion);
+	@Override
+	public EffigyAltarRecipeJsonBuilder criterion(String name, CriterionConditions conditions) {
+		this.criteria.put(name, conditions);
 		return this;
 	}
 
@@ -140,14 +142,16 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 	}
 
 	@Override
-	public void offerTo(RecipeExporter exporter, Identifier recipeId) {
+	public void offerTo(Consumer<RecipeJsonProvider> exporter, Identifier recipeId) {
 		EffigyAltarRecipe.RawRecipe rawRecipe = this.validate(recipeId);
-		Advancement.Builder builder = exporter.getAdvancementBuilder()
+		Advancement.Builder builder = Advancement.Builder.createUntelemetered()
+			.parent(ROOT)
 			.criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeId))
 			.rewards(AdvancementRewards.Builder.recipe(recipeId))
-			.criteriaMerger(AdvancementRequirements.CriterionMerger.OR);
+			.criteriaMerger(CriterionMerger.OR);
 		this.criteria.forEach(builder::criterion);
 		EffigyAltarRecipe recipe = new EffigyAltarRecipe(
+			recipeId,
 			(String)Objects.requireNonNullElse(this.group, ""),
 			rawRecipe,
 			new ItemStack(this.output, this.count),
@@ -161,10 +165,11 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 				this.pattern,
 				this.inputs,
 				this.cost,
-				builder.build(recipeId.withPrefixedPath("recipes/effigy_altar/"))));
+				recipeId.withPrefixedPath("recipes/effigy_altar/"),
+				builder));
 	}
 
-	public void offerTo(RecipeExporter exporter, RegistryKey<Recipe<?>> recipeKey) {
+	public void offerTo(Consumer<RecipeJsonProvider> exporter, RegistryKey<Recipe<?>> recipeKey) {
 		offerTo(exporter, recipeKey.getValue());
 	}
 
@@ -176,11 +181,11 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 		}
 	}
 	
-	public void offerTo(RecipeExporter exporter) {
+	public void offerTo(Consumer<RecipeJsonProvider> exporter) {
 		this.offerTo(exporter, getItemId(this.getOutputItem()));
 	}
 
-	public void offerTo(RecipeExporter exporter, String recipePath) {
+	public void offerTo(Consumer<RecipeJsonProvider> exporter, String recipePath) {
 		Identifier identifier = getItemId(this.getOutputItem());
 		Identifier identifier2 = Identifier.of(PeacefulMod.MOD_ID, recipePath);
 		if (identifier2.equals(identifier)) {
@@ -202,7 +207,8 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 		private final List<String> pattern;
 		private final Map<Character, Ingredient> inputs;
 		private final OptionalInt cost;
-		private final AdvancementEntry advancement;
+		private final Identifier advancementId;
+		private final Advancement.Builder advancementBuilder;
 
 		protected JsonProvider(
 				Identifier id,
@@ -212,7 +218,8 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 				List<String> pattern,
 				Map<Character, Ingredient> inputs,
 				OptionalInt cost,
-				AdvancementEntry advancement) {
+				Identifier advancementId,
+				Advancement.Builder advancementBuilder) {
 			this.id = id;
 			this.output = output;
 			this.resultCount = resultCount;
@@ -220,7 +227,8 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 			this.pattern = pattern;
 			this.inputs = inputs;
 			this.cost = cost;
-			this.advancement = advancement;
+			this.advancementId = advancementId;
+			this.advancementBuilder = advancementBuilder;
 		}
 
 		@Override
@@ -240,7 +248,7 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 
 			JsonObject key = new JsonObject();
 			for (Entry<Character, Ingredient> entry : this.inputs.entrySet()) {
-				key.add(String.valueOf(entry.getKey()), ((Ingredient)entry.getValue()).toJson(false));
+				key.add(String.valueOf(entry.getKey()), ((Ingredient)entry.getValue()).toJson());
 			}
 			json.add("key", key);
 
@@ -253,18 +261,23 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 		}
 
 		@Override
-		public Identifier id() {
+		public Identifier getRecipeId() {
 			return id;
 		}
 
 		@Override
-		public RecipeSerializer<?> serializer() {
+		public RecipeSerializer<?> getSerializer() {
 			return PeacefulMod.EFFIGY_ALTAR_RECIPE_SERIALIZER;
 		}
 
 		@Override
-		public AdvancementEntry advancement() {
-			return advancement;
+		public Identifier getAdvancementId() {
+			return advancementId;
+		}
+
+		@Override
+		public JsonObject toAdvancementJson() {
+			return advancementBuilder.toJson();
 		}
 	}
 }

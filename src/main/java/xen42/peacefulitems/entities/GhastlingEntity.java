@@ -60,7 +60,7 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
 
     public static boolean isValidSpawn(EntityType<? extends GhastlingEntity> type, WorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
         return world.getBlockState(pos).isAir() 
-            && LocationPredicate.Builder.createStructure(StructureKeys.FORTRESS).build()
+            && LocationPredicate.Builder.create().feature(StructureKeys.FORTRESS).build()
                 .test((ServerWorld)world, pos.getX(), pos.getY(), pos.getZ());
     }
 

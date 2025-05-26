@@ -14,7 +14,7 @@ import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.fabric.api.transfer.v1.fluid.CauldronFluidContent;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
-import net.minecraft.advancement.AdvancementEntry;
+import net.minecraft.advancement.Advancement;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.LeveledCauldronBlock;
@@ -92,10 +92,10 @@ public class PeacefulModItems {
                     // Grant the player the "A Seedy Place" advancement
                     if (context.getPlayer() instanceof ServerPlayerEntity player && player.getServer() != null)
                     {
-                    	AdvancementEntry seedyPlace = player.getServer().getAdvancementLoader().get(Identifier.of("minecraft","husbandry/plant_seed"));
+                    	Advancement seedyPlace = player.getServer().getAdvancementLoader().get(Identifier.of("minecraft","husbandry/plant_seed"));
                         if (seedyPlace != null)
                         {
-                        	String first = seedyPlace.value().criteria().keySet().iterator().next();
+                        	String first = seedyPlace.getCriteria().keySet().iterator().next();
                         	player.getAdvancementTracker().grantCriterion(seedyPlace, first);
                         }
                     }

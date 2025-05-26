@@ -15,8 +15,8 @@ import net.minecraft.util.math.Box;
 public class BrushDispenserBehavior extends FallibleItemDispenserBehavior {
     @Override
     protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
-        ServerWorld serverWorld = pointer.world();
-        BlockPos blockPos = pointer.pos().offset(pointer.state().get(DispenserBlock.FACING));
+        ServerWorld serverWorld = pointer.getWorld();
+        BlockPos blockPos = pointer.getPos().offset(pointer.getBlockState().get(DispenserBlock.FACING));
         List<PandaEntity> pandaList = serverWorld.getEntitiesByClass(PandaEntity.class, new Box(blockPos), EntityPredicates.EXCEPT_SPECTATOR);
         if (pandaList.isEmpty()) {
             this.setSuccess(false);

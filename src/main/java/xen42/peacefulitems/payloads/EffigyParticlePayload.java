@@ -3,16 +3,14 @@ package xen42.peacefulitems.payloads;
 import net.fabricmc.fabric.api.networking.v1.FabricPacket;
 import net.fabricmc.fabric.api.networking.v1.PacketType;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 import xen42.peacefulitems.PeacefulMod;
 
-public record EffigyParticlePayload(String particleID) implements CustomPayload, FabricPacket {
+public record EffigyParticlePayload(String particleID) implements FabricPacket {
 
     public static final Identifier ID = PeacefulMod.EFFIGY_PARTICLE_PAYLOAD;
 	public static final PacketType<EffigyParticlePayload> PACKET_TYPE = PacketType.create(ID, EffigyParticlePayload::new);
 
-    @Override
     public Identifier id() {
         return ID;
     }

@@ -24,7 +24,7 @@ import me.shedaniel.rei.api.common.registry.RecipeManagerContext;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.RecipeEntry;
+import net.minecraft.recipe.Recipe;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.util.Identifier;
 import xen42.peacefulitems.recipe.EffigyAltarRecipe;
@@ -40,9 +40,9 @@ public class EffigyAltarREIDisplay extends BasicDisplay implements SimpleGridMen
 
 	@SuppressWarnings("unchecked")
 	public static EffigyAltarREIDisplay simple(List<EntryIngredient> input, List<EntryIngredient> output, int cost, Optional<Identifier> location) {
-		Optional<RecipeEntry<?>> optionalRecipe = location.flatMap(resourceLocation -> RecipeManagerContext.getInstance().getRecipeManager().get(resourceLocation));
+		Optional<Recipe<?>> optionalRecipe = location.flatMap(resourceLocation -> RecipeManagerContext.getInstance().getRecipeManager().get(resourceLocation));
 		if (optionalRecipe.isPresent()) {
-			return new EffigyAltarREIDisplay((RecipeEntry<EffigyAltarRecipe>)optionalRecipe.get());
+			return new EffigyAltarREIDisplay((EffigyAltarRecipe)optionalRecipe.get());
 		}
 		else {
 			return new EffigyAltarREIDisplay(input, output, cost);
@@ -57,15 +57,11 @@ public class EffigyAltarREIDisplay extends BasicDisplay implements SimpleGridMen
 		return ingredients;
 	}
 	
-	public EffigyAltarREIDisplay(RecipeEntry<EffigyAltarRecipe> recipe) {
-		this(recipe.value());
-	}
-	
 	public EffigyAltarREIDisplay(EffigyAltarRecipe recipe) {
 		this(ingredientsFromRecipe(recipe), List.of(EntryIngredients.of(recipe.result())), recipe.getCostOrDefault());
 	}
 
-	protected Optional<RecipeEntry<EffigyAltarRecipe>> recipe;
+	protected Optional<EffigyAltarRecipe> recipe;
 	
 	public EffigyAltarREIDisplay(List<EntryIngredient> inputs, List<EntryIngredient> outputs, int cost) {
 		super(inputs, outputs);
@@ -164,8 +160,7 @@ public class EffigyAltarREIDisplay extends BasicDisplay implements SimpleGridMen
 	}
 	
 	@Nullable
-	public static EffigyAltarREIDisplay of(RecipeEntry<? extends EffigyAltarRecipe> holder) {
-		EffigyAltarRecipe recipe = holder.value();
+	public static EffigyAltarREIDisplay of(EffigyAltarRecipe recipe) {
 		return new EffigyAltarREIDisplay(recipe);
 	}
 }

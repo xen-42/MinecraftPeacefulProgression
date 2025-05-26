@@ -1,18 +1,34 @@
 package xen42.peacefulitems.recipe;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSyntaxException;
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
+import com.mojang.serialization.DataResult.PartialResult;
+import com.mojang.serialization.DynamicOps;
+import com.mojang.serialization.Lifecycle;
 import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.MapLike;
+import com.mojang.serialization.RecordBuilder;
+import com.mojang.serialization.codecs.BaseMapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import it.unimi.dsi.fastutil.chars.CharArraySet;
@@ -23,16 +39,18 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.encoding.VarInts;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.recipe.ShapedRecipe;
 import net.minecraft.recipe.book.RecipeBookCategory;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.JsonHelper;
 import net.minecraft.util.Util;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.dynamic.Codecs;
@@ -42,20 +60,22 @@ import xen42.peacefulitems.PeacefulModBlocks;
 import xen42.peacefulitems.PeacefulModItems;
 
 public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
+	final Identifier id;
 	final RawRecipe raw;
 	public final ItemStack result;
 	final OptionalInt cost;
 	final String group;
 
-	public EffigyAltarRecipe(String group, RawRecipe raw, ItemStack result) {
-		this(group, raw, result, OptionalInt.empty());
+	public EffigyAltarRecipe(Identifier id, String group, RawRecipe raw, ItemStack result) {
+		this(id, group, raw, result, OptionalInt.empty());
 	}
 
-	public EffigyAltarRecipe(String group, RawRecipe raw, ItemStack result, Optional<Integer> cost) {
-		this(group, raw, result, cost.stream().mapToInt(i -> i).findFirst());
+	public EffigyAltarRecipe(Identifier id, String group, RawRecipe raw, ItemStack result, Optional<Integer> cost) {
+		this(id, group, raw, result, cost.stream().mapToInt(i -> i).findFirst());
 	}
 
-	public EffigyAltarRecipe(String group, RawRecipe raw, ItemStack result, OptionalInt cost) {
+	public EffigyAltarRecipe(Identifier id, String group, RawRecipe raw, ItemStack result, OptionalInt cost) {
+		this.id = id;
 		this.group = group;
 		this.raw = raw;
 		this.result = result;
@@ -145,12 +165,13 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 		public static final Codec<ItemStack> RECIPE_RESULT_CODEC = RecordCodecBuilder.create(
 			instance -> instance.group(
 					ITEM_CODEC.fieldOf("item").forGetter(ItemStack::getItem),
-					Codecs.createStrictOptionalFieldCodec(Codecs.POSITIVE_INT, "count", 1).forGetter(ItemStack::getCount)
+					createStrictOptionalFieldCodec(Codecs.POSITIVE_INT, "count", 1).forGetter(ItemStack::getCount)
 				)
 				.apply(instance, ItemStack::new)
 			);
 		public static final Codec<EffigyAltarRecipe> CODEC = RecordCodecBuilder.create(
 			instance -> instance.group(
+					Identifier.CODEC.fieldOf("id").forGetter(recipe -> recipe.id),
 					Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group),
 					RawRecipe.CODEC.forGetter(recipe -> recipe.raw),
 					RECIPE_RESULT_CODEC.fieldOf("result").forGetter(recipe -> recipe.result),
@@ -159,18 +180,57 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 				.apply(instance, EffigyAltarRecipe::new)
 		);
 
-		@Override
 		public Codec<EffigyAltarRecipe> codec() {
 			return CODEC;
 		}
 
-		public EffigyAltarRecipe read(PacketByteBuf buf) {
+		public EffigyAltarRecipe read(Identifier id, PacketByteBuf buf) {
 			String string = buf.readString();
 			RawRecipe rawRecipe = RawRecipe.readFromBuf(buf);
 			ItemStack result = buf.readItemStack();
 			var value = buf.readVarInt();
 			OptionalInt cost = value == 0 ? OptionalInt.empty() : OptionalInt.of(value - 1);
-			return new EffigyAltarRecipe(string, rawRecipe, result, cost);
+			return new EffigyAltarRecipe(id, string, rawRecipe, result, cost);
+		}
+
+		@Override
+		public EffigyAltarRecipe read(Identifier id, JsonObject json) {
+			// Read optional group
+			String group = json.has("group") ? json.get("group").getAsString() : "";
+
+			// Read optional cost
+			OptionalInt cost = OptionalInt.empty();
+			if (json.has("cost")) {
+				cost = OptionalInt.of(json.get("cost").getAsInt());
+			}
+
+			// Parse RawRecipe from pattern and key
+			JsonArray patternArray = JsonHelper.getArray(json, "pattern");
+			List<String> pattern = new ArrayList<>();
+			for (JsonElement element : patternArray) {
+				pattern.add(element.getAsString());
+			}
+
+			JsonObject keyObj = JsonHelper.getObject(json, "key");
+			Map<Character, Ingredient> key = new HashMap<>();
+			for (Map.Entry<String, JsonElement> entry : keyObj.entrySet()) {
+				if (entry.getKey().length() != 1) {
+					throw new JsonParseException("Invalid key entry: '" + entry.getKey() + "' is not a single character.");
+				}
+				key.put(entry.getKey().charAt(0), Ingredient.fromJson(entry.getValue()));
+			}
+
+			RawRecipe rawRecipe = RawRecipe.create(key, pattern);
+
+			// Parse result item stack
+			JsonObject resultObj = JsonHelper.getObject(json, "result");
+			Item item = Registries.ITEM.get(new Identifier(JsonHelper.getString(resultObj, "item")));
+			if (item == Items.AIR) throw new JsonParseException("Result item cannot be AIR");
+
+			int count = JsonHelper.getInt(resultObj, "count", 1);
+			ItemStack result = new ItemStack(item, count);
+
+			return new EffigyAltarRecipe(id, group, rawRecipe, result, cost);
 		}
 
 		public void write(PacketByteBuf buf, EffigyAltarRecipe recipe) {
@@ -379,9 +439,17 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 					return " ".equals(keyEntry) ? DataResult.error(() -> "Invalid key entry: ' ' is a reserved symbol.") : DataResult.success(keyEntry.charAt(0));
 				}
 			}, String::valueOf);
+			private static final Codec<Ingredient> KEY_CODEC = Codec.STRING.comapFlatMap(key -> {
+				Item item = (Item)Registries.ITEM.getOrEmpty(Identifier.tryParse(key)).orElseThrow(() -> new JsonSyntaxException("Unknown item '" + key + "'"));
+				if (item == Items.AIR) {
+					return DataResult.error(() -> "Empty ingredient not allowed here");
+				} else {
+					return DataResult.success(Ingredient.ofItems(item));
+				}
+			}, String::valueOf);
 			public static final MapCodec<RawRecipe.Data> CODEC = RecordCodecBuilder.mapCodec(
 				instance -> instance.group(
-						Codecs.strictUnboundedMap(KEY_ENTRY_CODEC, Ingredient.DISALLOW_EMPTY_CODEC).fieldOf("key").forGetter(data -> data.key),
+						strictUnboundedMap(KEY_ENTRY_CODEC, KEY_CODEC).fieldOf("key").forGetter(data -> data.key),
 						PATTERN_CODEC.fieldOf("pattern").forGetter(data -> data.pattern)
 					)
 					.apply(instance, RawRecipe.Data::new)
@@ -408,7 +476,117 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 	}
 
 	@Override
-	public ItemStack getResult(DynamicRegistryManager registryManager) {
+	public ItemStack getOutput(DynamicRegistryManager registryManager) {
 		return result();
+	}
+
+	@Override
+	public Identifier getId() {
+		return this.id;
+	}
+
+	public static <A> MapCodec<A> createStrictOptionalFieldCodec(Codec<A> codec, String field, A fallback) {
+		return createStrictOptionalFieldCodec(codec, field)
+			.xmap(value -> value.orElse(fallback), value -> Objects.equals(value, fallback) ? Optional.empty() : Optional.of(value));
+	}
+
+	public static <A> MapCodec<Optional<A>> createStrictOptionalFieldCodec(Codec<A> codec, String field) {
+		return new StrictOptionalField<>(field, codec);
+	}
+
+	static final class StrictOptionalField<A> extends MapCodec<Optional<A>> {
+		private final String field;
+		private final Codec<A> codec;
+
+		public StrictOptionalField(String field, Codec<A> codec) {
+			this.field = field;
+			this.codec = codec;
+		}
+
+		@Override
+		public <T> DataResult<Optional<A>> decode(DynamicOps<T> ops, MapLike<T> input) {
+			T object = input.get(this.field);
+			return object == null ? DataResult.success(Optional.empty()) : this.codec.parse(ops, object).map(Optional::of);
+		}
+
+		public <T> RecordBuilder<T> encode(Optional<A> optional, DynamicOps<T> dynamicOps, RecordBuilder<T> recordBuilder) {
+			return optional.isPresent() ? recordBuilder.add(this.field, this.codec.encodeStart(dynamicOps, (A)optional.get())) : recordBuilder;
+		}
+
+		@Override
+		public <T> Stream<T> keys(DynamicOps<T> ops) {
+			return Stream.of(ops.createString(this.field));
+		}
+
+		public boolean equals(Object o) {
+			if (this == o) {
+				return true;
+			} else {
+				return !(o instanceof StrictOptionalField<?> strictOptionalField)
+					? false
+					: Objects.equals(this.field, strictOptionalField.field) && Objects.equals(this.codec, strictOptionalField.codec);
+			}
+		}
+
+		public int hashCode() {
+			return Objects.hash(new Object[]{this.field, this.codec});
+		}
+
+		public String toString() {
+			return "StrictOptionalFieldCodec[" + this.field + ": " + this.codec + "]";
+		}
+	}
+
+	public static <K, V> StrictUnboundedMapCodec<K, V> strictUnboundedMap(Codec<K> keyCodec, Codec<V> elementCodec) {
+		return new StrictUnboundedMapCodec<>(keyCodec, elementCodec);
+	}
+
+	public record StrictUnboundedMapCodec<K, V>(Codec<K> keyCodec, Codec<V> elementCodec) implements Codec<Map<K, V>>, BaseMapCodec<K, V> {
+		@Override
+		public <T> DataResult<Map<K, V>> decode(DynamicOps<T> ops, MapLike<T> input) {
+			ImmutableMap.Builder<K, V> builder = ImmutableMap.builder();
+
+			for (Pair<T, T> pair : input.entries().toList()) {
+				DataResult<K> dataResult = this.keyCodec().parse(ops, pair.getFirst());
+				DataResult<V> dataResult2 = this.elementCodec().parse(ops, pair.getSecond());
+				DataResult<Pair<K, V>> dataResult3 = dataResult.apply2stable(Pair::of, dataResult2);
+				if (dataResult3.error().isPresent()) {
+					return DataResult.error(() -> {
+						PartialResult<Pair<K, V>> partialResult = (PartialResult<Pair<K, V>>)dataResult3.error().get();
+						String string;
+						if (dataResult.result().isPresent()) {
+							string = "Map entry '" + dataResult.result().get() + "' : " + partialResult.message();
+						} else {
+							string = partialResult.message();
+						}
+
+						return string;
+					});
+				}
+
+				if (!dataResult3.result().isPresent()) {
+					return DataResult.error(() -> "Empty or invalid map contents are not allowed");
+				}
+
+				Pair<K, V> pair2 = (Pair<K, V>)dataResult3.result().get();
+				builder.put(pair2.getFirst(), pair2.getSecond());
+			}
+
+			Map<K, V> map = builder.build();
+			return DataResult.success(map);
+		}
+
+		@Override
+		public <T> DataResult<Pair<Map<K, V>, T>> decode(DynamicOps<T> ops, T input) {
+			return ops.getMap(input).setLifecycle(Lifecycle.stable()).flatMap(map -> this.decode(ops, map)).map(map -> Pair.of(map, input));
+		}
+
+		public <T> DataResult<T> encode(Map<K, V> map, DynamicOps<T> dynamicOps, T object) {
+			return this.encode(map, dynamicOps, dynamicOps.mapBuilder()).build(object);
+		}
+
+		public String toString() {
+			return "StrictUnboundedMapCodec[" + this.keyCodec + " -> " + this.elementCodec + "]";
+		}
 	}
 }

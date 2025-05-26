@@ -21,7 +21,6 @@ import net.minecraft.item.Items;
 import net.minecraft.network.packet.s2c.play.ScreenHandlerSlotUpdateS2CPacket;
 import net.minecraft.recipe.CraftingRecipe;
 import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.RecipeMatcher;
 import net.minecraft.recipe.RecipeUnlocker;
 import net.minecraft.recipe.book.RecipeBookCategory;
@@ -78,10 +77,9 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler<Effigy
     
     public int getXPCost(ServerWorld serverWorld, List<ItemStack> input) {
         EffigyAltarRecipeInput recipeInput = EffigyAltarRecipeInput.create(this, input);
-        Optional<RecipeEntry<EffigyAltarRecipe>> optional = serverWorld.getRecipeManager().getFirstMatch(PeacefulMod.EFFIGY_ALTAR_RECIPE_TYPE, recipeInput, serverWorld);
+        Optional<EffigyAltarRecipe> optional = serverWorld.getRecipeManager().getFirstMatch(PeacefulMod.EFFIGY_ALTAR_RECIPE_TYPE, recipeInput, serverWorld);
         if (optional.isPresent()) {
-            RecipeEntry<EffigyAltarRecipe> recipeEntry = (RecipeEntry<EffigyAltarRecipe>)optional.get();
-            EffigyAltarRecipe altarRecipe = recipeEntry.value();
+            EffigyAltarRecipe altarRecipe = optional.get();
             return altarRecipe.getCostOrDefault();
         }
         return 0;
@@ -156,7 +154,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler<Effigy
     
     public void updateResult(
         ServerWorld world,
-        @Nullable RecipeEntry<EffigyAltarRecipe> recipe
+        @Nullable EffigyAltarRecipe recipe
     ) {
         EffigyAltarRecipeInput recipeInput = EffigyAltarRecipeInput.create(this, inventory.getInputStacks());
         ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity)player;
@@ -164,11 +162,10 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler<Effigy
         int cost = 0;
         
         if (isBrimstone(_brimstoneSlot.getStack())) {
-            Optional<RecipeEntry<EffigyAltarRecipe>> optional = world.getServer().getRecipeManager().getFirstMatch(PeacefulMod.EFFIGY_ALTAR_RECIPE_TYPE, recipeInput, world);
+            Optional<EffigyAltarRecipe> optional = world.getServer().getRecipeManager().getFirstMatch(PeacefulMod.EFFIGY_ALTAR_RECIPE_TYPE, recipeInput, world);
             if (optional.isPresent()) {
-                RecipeEntry<EffigyAltarRecipe> recipeEntry = (RecipeEntry<EffigyAltarRecipe>)optional.get();
-                EffigyAltarRecipe altarRecipe = recipeEntry.value();
-                boolean shouldCraftRecipe = resultInventory.shouldCraftRecipe(world, serverPlayerEntity, recipeEntry);
+                EffigyAltarRecipe altarRecipe = optional.get();
+                boolean shouldCraftRecipe = resultInventory.shouldCraftRecipe(world, serverPlayerEntity, altarRecipe);
                 if (shouldCraftRecipe) {
                     ItemStack craftedStack = altarRecipe.craft(recipeInput, world.getRegistryManager());
                     boolean isItemEnabled = craftedStack.isItemEnabled(world.getEnabledFeatures());
@@ -274,7 +271,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler<Effigy
         this.filling = true;
     }
 
-    public void onInputSlotFillFinish(ServerWorld world, RecipeEntry<EffigyAltarRecipe> recipe) {
+    public void onInputSlotFillFinish(ServerWorld world, EffigyAltarRecipe recipe) {
         this.filling = false;
         updateResult(world, recipe);
     }
@@ -322,8 +319,8 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler<Effigy
     }
 
     @Override
-    public boolean matches(RecipeEntry<? extends Recipe<EffigyAltarRecipeInput>> recipe) {
-    	EffigyAltarRecipe recipeValue = (EffigyAltarRecipe)recipe.value();
+    public boolean matches(Recipe<? super EffigyAltarRecipeInput> recipe) {
+    	EffigyAltarRecipe recipeValue = (EffigyAltarRecipe)recipe;
         return recipeValue.matches(EffigyAltarRecipeInput.create(this, this.inventory.getInputStacks()), this.player.getWorld());
     }
     
@@ -467,7 +464,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler<Effigy
             return world instanceof ServerWorld serverWorld
                 ? (DefaultedList<ItemStack>)serverWorld.getRecipeManager()
                     .getFirstMatch(PeacefulMod.EFFIGY_ALTAR_RECIPE_TYPE, input, serverWorld)
-                    .map(recipe -> ((EffigyAltarRecipe)recipe.value()).getRecipeRemainders(input))
+                    .map(recipe -> recipe.getRecipeRemainders(input))
                     .orElseGet(() -> copyInput(input))
                 : EffigyAltarRecipe.collectRecipeRemainders(input);
         }

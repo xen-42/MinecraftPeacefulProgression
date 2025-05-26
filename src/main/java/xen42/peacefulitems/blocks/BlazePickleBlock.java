@@ -38,7 +38,7 @@ public class BlazePickleBlock extends PlantBlock implements Fertilizable {
     }
 
     @Override
-	public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state) {
+	public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state, boolean isClient) {
 		return true;
 	}
 

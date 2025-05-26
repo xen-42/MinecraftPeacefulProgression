@@ -95,6 +95,6 @@ public class PeacefulMobEntityLootTableGenerator extends SimpleFabricLootTablePr
     }
     
     protected final EntityPropertiesLootCondition.Builder createSmeltLootCondition() {
-        return EntityPropertiesLootCondition.builder(LootContext.EntityTarget.THIS, EntityPredicate.Builder.create().flags(EntityFlagsPredicate.Builder.create().onFire(true)));
+        return EntityPropertiesLootCondition.builder(LootContext.EntityTarget.THIS, EntityPredicate.Builder.create().flags(EntityFlagsPredicate.Builder.create().onFire(true).build()));
     }
 }

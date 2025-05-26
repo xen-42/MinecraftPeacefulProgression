@@ -20,18 +20,18 @@ public class DispensibleSpawnEggItem extends SpawnEggItem {
         return new ItemDispenserBehavior() {
             @Override
             public ItemStack dispenseSilently(BlockPointer source, ItemStack stack) {
-                Direction direction = source.state().get(DispenserBlock.FACING);
+                Direction direction = source.getBlockState().get(DispenserBlock.FACING);
                 EntityType<?> entityType = ((SpawnEggItem) stack.getItem()).getEntityType(stack.getNbt());
                 
                 try {
-                    entityType.spawnFromItemStack(source.world(), stack, null, source.pos().offset(direction), SpawnReason.DISPENSER, direction != Direction.UP, false);
+                    entityType.spawnFromItemStack(source.getWorld(), stack, null, source.getPos().offset(direction), SpawnReason.DISPENSER, direction != Direction.UP, false);
                 } catch (Exception ex) {
-                    LOGGER.error("Error while dispensing spawn egg from dispenser at {}", source.pos(), ex);
+                    LOGGER.error("Error while dispensing spawn egg from dispenser at {}", source.getPos(), ex);
                     return ItemStack.EMPTY;
                 }
                 
                 stack.decrement(1);
-                source.world().emitGameEvent(null, GameEvent.ENTITY_PLACE, source.pos());
+                source.getWorld().emitGameEvent(null, GameEvent.ENTITY_PLACE, source.getPos());
                 return stack;
             }
         };

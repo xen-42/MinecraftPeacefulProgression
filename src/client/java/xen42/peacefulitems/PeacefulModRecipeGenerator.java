@@ -2,6 +2,7 @@ package xen42.peacefulitems;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
@@ -11,7 +12,7 @@ import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.SingleItemRecipeJsonBuilder;
-import net.minecraft.data.server.recipe.RecipeExporter;
+import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
@@ -50,11 +51,11 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
         return Identifier.of(PeacefulMod.MOD_ID, identifier.getPath());
     }
     
-    public static void offerTo(CraftingRecipeJsonBuilder builder, RecipeExporter exporter) {
+    public static void offerTo(CraftingRecipeJsonBuilder builder, Consumer<RecipeJsonProvider> exporter) {
         builder.offerTo(exporter, EffigyAltarRecipeJsonBuilder.getItemId(builder.getOutputItem()));
     }
 
-    public static void offerTo(CraftingRecipeJsonBuilder builder, RecipeExporter exporter, String recipePath) {
+    public static void offerTo(CraftingRecipeJsonBuilder builder, Consumer<RecipeJsonProvider> exporter, String recipePath) {
         Identifier defaultIdentifier = EffigyAltarRecipeJsonBuilder.getItemId(builder.getOutputItem());
         Identifier identifier = Identifier.of(PeacefulMod.MOD_ID, recipePath);
         if (identifier.equals(defaultIdentifier)) {
@@ -65,11 +66,11 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
     }
 
     @Override
-    public void generate(RecipeExporter exporter) {
+    public void generate(Consumer<RecipeJsonProvider> exporter) {
         getRecipeGenerator(registryLookupFuture.join(), exporter).generate();
     }
 
-    protected RecipeGenerator getRecipeGenerator(WrapperLookup registryLookup, RecipeExporter exporter) {
+    protected RecipeGenerator getRecipeGenerator(WrapperLookup registryLookup, Consumer<RecipeJsonProvider> exporter) {
         return new RecipeGenerator(registryLookup, exporter) {
             public void offerSmelting(List<ItemConvertible> inputs, RecipeCategory category, ItemConvertible output, float experience, int cookingTime, String group) {
                 this.fixedOfferMultipleOptions(RecipeSerializer.SMELTING, inputs, category, output, experience, cookingTime, group, "_from_smelting");
@@ -286,9 +287,9 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
     
     public abstract class RecipeGenerator {
         protected final WrapperLookup registryLookup;
-        protected final RecipeExporter exporter;
+        protected final Consumer<RecipeJsonProvider> exporter;
 
-        public RecipeGenerator(WrapperLookup registryLookup, RecipeExporter exporter) {
+        public RecipeGenerator(WrapperLookup registryLookup, Consumer<RecipeJsonProvider> exporter) {
             this.registryLookup = registryLookup;
             this.exporter = exporter;
         }

@@ -34,9 +34,9 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
       "has_sulphur_block",
-      "has_chiseled_sulphur_block"
+      "has_chiseled_sulphur_block",
+      "has_the_recipe"
     ]
   ],
   "rewards": {

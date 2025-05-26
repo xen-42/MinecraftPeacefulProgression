@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import net.minecraft.advancement.AdvancementEntry;
+import net.minecraft.advancement.Advancement;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.EndPortalBlock;
 import net.minecraft.entity.Entity;
@@ -22,10 +22,10 @@ public class EndPortalBlockMixin {
         // Grant the player the "Free the End" advancement
     	if (entity.canUsePortals() && !world.isClient && world.getRegistryKey() == World.END && entity instanceof ServerPlayerEntity player && player.getServer() != null)
         {
-    		AdvancementEntry freeTheEnd = player.getServer().getAdvancementLoader().get(Identifier.of("minecraft","end/kill_dragon"));
+    		Advancement freeTheEnd = player.getServer().getAdvancementLoader().get(Identifier.of("minecraft","end/kill_dragon"));
     		if (freeTheEnd != null)
     		{
-    			String first = freeTheEnd.value().criteria().keySet().iterator().next();
+    			String first = freeTheEnd.getCriteria().keySet().iterator().next();
     			player.getAdvancementTracker().grantCriterion(freeTheEnd, first);
     		}
     	}

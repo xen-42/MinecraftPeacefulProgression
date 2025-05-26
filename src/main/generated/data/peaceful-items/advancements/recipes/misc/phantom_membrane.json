@@ -34,9 +34,9 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
       "has_bat_wing",
-      "has_ectoplasm"
+      "has_ectoplasm",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
