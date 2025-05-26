@@ -5,11 +5,11 @@
       "required": false
     },
     {
-      "id": "#c:foods/raw_fish",
+      "id": "#c:foods/raw_fishes",
       "required": false
     },
     {
-      "id": "#c:foods/raw_meat",
+      "id": "#c:foods/raw_meats",
       "required": false
     }
   ]

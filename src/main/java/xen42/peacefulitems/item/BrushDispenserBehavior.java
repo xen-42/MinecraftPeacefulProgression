@@ -27,7 +27,7 @@ public class BrushDispenserBehavior extends FallibleItemDispenserBehavior {
             for (ArmadilloEntity armadilloEntity : armadilloList) {
                 if (armadilloEntity.brushScute()) {
                     this.setSuccess(true);
-                    stack.damage(16, serverWorld, null, item -> {});
+                    stack.damage(16, armadilloEntity, null);
                     return stack;
                 }
             }
@@ -35,7 +35,7 @@ public class BrushDispenserBehavior extends FallibleItemDispenserBehavior {
                 if (!pandaEntity.isSneezing()) {
                     pandaEntity.setSneezing(true);
                     this.setSuccess(true);
-                    stack.damage(1, serverWorld, null, item -> {});
+                    stack.damage(1, pandaEntity, null);
                     return stack;
                 }
             }

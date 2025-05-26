@@ -156,7 +156,7 @@ public class BatEntityMixin {
 						if (player != null && player instanceof ServerPlayerEntity serverPlayer && serverPlayer.getServer() != null) {
 							serverPlayer.incrementStat(Stats.ANIMALS_BRED);
 							// Grant the player the "The Parrots and the Bats" advancement
-							AdvancementEntry parrotsAndBats = serverPlayer.getServer().getAdvancementLoader().get(Identifier.ofVanilla("husbandry/breed_an_animal"));
+							AdvancementEntry parrotsAndBats = serverPlayer.getServer().getAdvancementLoader().get(Identifier.of("minecraft","husbandry/breed_an_animal"));
 							if (parrotsAndBats != null)
 							{
 								String first = parrotsAndBats.value().criteria().keySet().iterator().next();

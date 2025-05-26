@@ -18,9 +18,9 @@ import net.minecraft.loot.condition.AnyOfLootCondition;
 import net.minecraft.loot.condition.EntityPropertiesLootCondition;
 import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.loot.entry.ItemEntry;
-import net.minecraft.loot.function.EnchantedCountIncreaseLootFunction;
 import net.minecraft.loot.function.FurnaceSmeltLootFunction;
 import net.minecraft.loot.function.LootFunction;
+import net.minecraft.loot.function.LootingEnchantLootFunction;
 import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
@@ -53,7 +53,7 @@ public class PeacefulMobEntityLootTableGenerator extends SimpleFabricLootTablePr
     }
 
     @Override
-    public void accept(BiConsumer<RegistryKey<LootTable>, Builder> consumer) {
+    public void accept(RegistryWrapper.WrapperLookup registryLookup, BiConsumer<RegistryKey<LootTable>, Builder> consumer) {
         consumer.accept(
                 EntityType.BAT.getLootTableId(), 
                 LootTable.builder()
@@ -63,7 +63,7 @@ public class PeacefulMobEntityLootTableGenerator extends SimpleFabricLootTablePr
                         .with(
                             ItemEntry.builder(PeacefulModItems.BAT_WING)
                                 .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(0.0F, 2.0F)))
-                                .apply(EnchantedCountIncreaseLootFunction.builder(registryLookup.join(), UniformLootNumberProvider.create(0.0F, 1.0F)))
+                                .apply(LootingEnchantLootFunction.builder(UniformLootNumberProvider.create(0.0F, 1.0F)))
                         )
                 )
             );
@@ -76,7 +76,7 @@ public class PeacefulMobEntityLootTableGenerator extends SimpleFabricLootTablePr
                         .with(
                             ItemEntry.builder(PeacefulModItems.ECTOPLASM)
                                 .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(0.0F, 2.0F)))
-                                .apply(EnchantedCountIncreaseLootFunction.builder(registryLookup.join(), UniformLootNumberProvider.create(0.0F, 1.0F)))
+                                .apply(LootingEnchantLootFunction.builder(UniformLootNumberProvider.create(0.0F, 1.0F)))
                         )
                 )
             );
@@ -96,26 +96,7 @@ public class PeacefulMobEntityLootTableGenerator extends SimpleFabricLootTablePr
             );
     }
     
-    protected final AnyOfLootCondition.Builder createSmeltLootCondition() {
-        RegistryWrapper.Impl<Enchantment> impl = registryLookup.join().getWrapperOrThrow(RegistryKeys.ENCHANTMENT);
-        return AnyOfLootCondition.builder(
-            EntityPropertiesLootCondition.builder(
-                LootContext.EntityTarget.THIS, EntityPredicate.Builder.create().flags(EntityFlagsPredicate.Builder.create().onFire(true))
-            ),
-            EntityPropertiesLootCondition.builder(
-                LootContext.EntityTarget.DIRECT_ATTACKER,
-                EntityPredicate.Builder.create()
-                    .equipment(
-                        EntityEquipmentPredicate.Builder.create()
-                            .mainhand(
-                                ItemPredicate.Builder.create()
-                                    .subPredicate(
-                                        ItemSubPredicateTypes.ENCHANTMENTS,
-                                        EnchantmentsPredicate.enchantments(List.of(new EnchantmentPredicate(impl.getOrThrow(EnchantmentTags.SMELTS_LOOT), NumberRange.IntRange.ANY)))
-                                    )
-                            )
-                    )
-            )
-        );
+    protected final EntityPropertiesLootCondition.Builder createSmeltLootCondition() {
+        return EntityPropertiesLootCondition.builder(LootContext.EntityTarget.THIS, EntityPredicate.Builder.create().flags(EntityFlagsPredicate.Builder.create().onFire(true)));
     }
 }

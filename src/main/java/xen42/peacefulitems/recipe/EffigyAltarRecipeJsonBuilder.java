@@ -34,7 +34,7 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 	private static final int MAX_WIDTH_AND_HEIGHT = 3;
 	private static final int MAX_WIDTH_END = 1;
 	public static final String SPACE = " ";
-	Identifier ROOT = Identifier.ofVanilla("recipes/root");
+	Identifier ROOT = Identifier.of("minecraft","recipes/root");
 	private final Item output;
 	private final int count;
 	private final List<String> pattern = Lists.<String>newArrayList();
@@ -159,7 +159,7 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 	}
 	
 	public void offerTo(RecipeExporter exporter) {
-		this.offerTo(exporter, RegistryKey.of(RegistryKeys.RECIPE, getItemId(this.getOutputItem())));
+		this.offerTo(exporter, getItemId(this.getOutputItem()));
 	}
 
 	public void offerTo(RecipeExporter exporter, String recipePath) {
@@ -168,7 +168,7 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 		if (identifier2.equals(identifier)) {
 			throw new IllegalStateException("Recipe " + recipePath + " should remove its 'save' argument as it is equal to default one");
 		} else {
-			this.offerTo(exporter, RegistryKey.of(RegistryKeys.RECIPE, identifier2));
+			this.offerTo(exporter, identifier2);
 		}
 	}
 

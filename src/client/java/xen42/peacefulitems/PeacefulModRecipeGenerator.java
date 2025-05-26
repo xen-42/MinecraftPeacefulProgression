@@ -10,8 +10,8 @@ import net.minecraft.data.server.recipe.CookingRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.SingleItemRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.RecipeExporter;
-import net.minecraft.data.server.recipe.StonecuttingRecipeJsonBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
@@ -50,7 +50,7 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
     }
     
     public static void offerTo(CraftingRecipeJsonBuilder builder, RecipeExporter exporter) {
-        builder.offerTo(exporter, RegistryKey.of(RegistryKeys.RECIPE, EffigyAltarRecipeJsonBuilder.getItemId(builder.getOutputItem())).getValue());
+        builder.offerTo(exporter, EffigyAltarRecipeJsonBuilder.getItemId(builder.getOutputItem()));
     }
 
     public static void offerTo(CraftingRecipeJsonBuilder builder, RecipeExporter exporter, String recipePath) {
@@ -59,7 +59,7 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
         if (identifier.equals(defaultIdentifier)) {
             throw new IllegalStateException("Recipe " + recipePath + " should remove its 'save' argument as it is equal to default one");
         } else {
-            builder.offerTo(exporter, RegistryKey.of(RegistryKeys.RECIPE, identifier).getValue());
+            builder.offerTo(exporter, identifier);
         }
     }
 
@@ -81,7 +81,7 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
 
             @Override
             public void offerStonecuttingRecipe(RecipeCategory category, ItemConvertible output, ItemConvertible input, int count) {
-                offerTo(StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(input), category, output, count)
+                offerTo(SingleItemRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(input), category, output, count)
                         .criterion(hasItem(input), conditionsFromItem(input))
                         , exporter, convertBetween(output, input) + "_stonecutting");
             }

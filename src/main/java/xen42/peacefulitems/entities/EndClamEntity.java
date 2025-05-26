@@ -294,13 +294,13 @@ public class EndClamEntity extends AmbientEntity {
     }
 
     @Override
-    protected void drop(ServerWorld world, DamageSource damageSource) {
+    protected void drop(DamageSource damageSource) {
         var itemStack = getEquippedStack(EquipmentSlot.MAINHAND);
         if (!itemStack.isEmpty()) {
             dropStack(itemStack);
             equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
         }
-        super.drop(world, damageSource);
+        super.drop(damageSource);
     }
 
     @Override

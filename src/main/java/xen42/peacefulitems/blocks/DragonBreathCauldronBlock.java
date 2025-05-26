@@ -38,6 +38,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldEvents;
 import net.minecraft.world.biome.Biome;
@@ -59,7 +60,7 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
     }
     
     public static void spawnDragonBreathCloud(World world, BlockPos pos, float radius, int duration) {
-        AreaEffectCloudEntity areaEffectCloudEntity = new AreaEffectCloudEntity(world, pos.toBottomCenterPos().getX(), pos.toBottomCenterPos().getY(), pos.toBottomCenterPos().getZ());
+        AreaEffectCloudEntity areaEffectCloudEntity = new AreaEffectCloudEntity(world, Vec3d.ofBottomCenter(pos).getX(), Vec3d.ofBottomCenter(pos).getY(), Vec3d.ofBottomCenter(pos).getZ());
         areaEffectCloudEntity.setParticleType(ParticleTypes.DRAGON_BREATH);
         areaEffectCloudEntity.setRadius(radius);
         areaEffectCloudEntity.setDuration(duration);

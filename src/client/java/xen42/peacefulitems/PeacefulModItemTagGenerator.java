@@ -54,9 +54,9 @@ public class PeacefulModItemTagGenerator extends ItemTagProvider {
 			.add(PeacefulModItems.SULPHUR);
 		this.getOrCreateTagBuilder(ConventionalItemTags.FOOD_POISONING_FOODS)
 			.add(PeacefulModItems.CLAM);
-		this.getOrCreateTagBuilder(ConventionalItemTags.COOKED_FISH_FOODS)
+		this.getOrCreateTagBuilder(ConventionalItemTags.COOKED_FISHES_FOODS)
 			.add(PeacefulModItems.COOKED_CLAM);
-		this.getOrCreateTagBuilder(ConventionalItemTags.RAW_FISH_FOODS)
+		this.getOrCreateTagBuilder(ConventionalItemTags.RAW_FISHES_FOODS)
 			.add(PeacefulModItems.CLAM);
 		
 		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.EFFIGIES)
@@ -75,16 +75,16 @@ public class PeacefulModItemTagGenerator extends ItemTagProvider {
 			.add(PeacefulModItems.CAPE);
 		
 		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.WISP_LIKES)
-			.addOptionalTag(ConventionalItemTags.COOKED_FISH_FOODS)
-			.addOptionalTag(ConventionalItemTags.COOKED_MEAT_FOODS)
-			.addOptionalTag(ConventionalItemTags.VEGETABLE_FOODS)
+			.addOptionalTag(ConventionalItemTags.COOKED_FISHES_FOODS)
+			.addOptionalTag(ConventionalItemTags.COOKED_MEATS_FOODS)
+			.addOptionalTag(ConventionalItemTags.VEGETABLES_FOODS)
 			.add(PeacefulModItems.SULPHUR)
 			.add(Items.QUARTZ)
 			.add(Items.GOLD_NUGGET);
 
 		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.WISP_DISLIKES)
 			.addOptionalTag(PeacefulModTags.ItemTags.GUANO)
-			.addOptionalTag(ConventionalItemTags.RAW_FISH_FOODS)
-			.addOptionalTag(ConventionalItemTags.RAW_MEAT_FOODS);
+			.addOptionalTag(ConventionalItemTags.RAW_FISHES_FOODS)
+			.addOptionalTag(ConventionalItemTags.RAW_MEATS_FOODS);
 	}
 }

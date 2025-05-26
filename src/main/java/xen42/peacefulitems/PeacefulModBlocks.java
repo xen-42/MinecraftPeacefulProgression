@@ -16,7 +16,7 @@ import net.minecraft.block.WallBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.BlockEntityType.BlockEntityFactory;
-import net.minecraft.block.enums.NoteBlockInstrument;
+import net.minecraft.block.enums.Instrument;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.data.family.BlockFamilies;
 import net.minecraft.data.family.BlockFamily;
@@ -46,7 +46,7 @@ public class PeacefulModBlocks {
 	public static final Block SULPHUR_BLOCK = register(
 		"sulphur_block",
 		Block::new,
-		AbstractBlock.Settings.create().mapColor(MapColor.PALE_YELLOW).strength(3.0f, 3.0f).requiresTool().instrument(NoteBlockInstrument.BASEDRUM),
+		AbstractBlock.Settings.create().mapColor(MapColor.PALE_YELLOW).strength(3.0f, 3.0f).requiresTool().instrument(Instrument.BASEDRUM),
 		true
 	);
 

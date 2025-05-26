@@ -1,15 +1,15 @@
 {
   "values": [
     {
-      "id": "#c:foods/cooked_fish",
+      "id": "#c:foods/cooked_fishes",
       "required": false
     },
     {
-      "id": "#c:foods/cooked_meat",
+      "id": "#c:foods/cooked_meats",
       "required": false
     },
     {
-      "id": "#c:foods/vegetable",
+      "id": "#c:foods/vegetables",
       "required": false
     },
     "peaceful-items:sulphur",

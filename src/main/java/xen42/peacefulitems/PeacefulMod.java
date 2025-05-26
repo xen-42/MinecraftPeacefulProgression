@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
-import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
+import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
@@ -24,8 +24,8 @@ import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.entry.ItemEntry;
-import net.minecraft.loot.function.EnchantedCountIncreaseLootFunction;
 import net.minecraft.loot.function.LootFunction;
+import net.minecraft.loot.function.LootingEnchantLootFunction;
 import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
@@ -155,7 +155,7 @@ public class PeacefulMod implements ModInitializer {
 
 		PayloadTypeRegistry.playS2C().register(EffigyParticlePayload.ID, EffigyParticlePayload.CODEC);
 
-		LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+		LootTableEvents.MODIFY.register((key, tableBuilder, source) -> {
 			if (key.getValue().equals(Identifier.of("minecraft", "archaeology/ocean_ruin_cold"))) {
 				tableBuilder.modifyPools(pool -> {
 					pool.with(ItemEntry.builder(Items.TRIDENT).weight(1));
@@ -188,13 +188,13 @@ public class PeacefulMod implements ModInitializer {
 					.rolls(ConstantLootNumberProvider.create(0.25f))
 					.with(ItemEntry.builder(Items.BONE))
 					.apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(0, 1)))
-					.apply((LootFunction.Builder)EnchantedCountIncreaseLootFunction.builder(registries, UniformLootNumberProvider.create(0f, 1f)))
+					.apply((LootFunction.Builder)LootingEnchantLootFunction.builder(UniformLootNumberProvider.create(0f, 1f)))
 				);
 				tableBuilder.pool(LootPool.builder()
 					.rolls(ConstantLootNumberProvider.create(0.05f))
 					.with(ItemEntry.builder(Items.BONE_MEAL))
 					.apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(0, 1)))
-					.apply((LootFunction.Builder)EnchantedCountIncreaseLootFunction.builder(registries, UniformLootNumberProvider.create(0f, 1f)))
+					.apply((LootFunction.Builder)LootingEnchantLootFunction.builder(UniformLootNumberProvider.create(0f, 1f)))
 				);
 			}
 		});

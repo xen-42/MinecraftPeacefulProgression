@@ -85,7 +85,7 @@ public class PeacefulModItems {
                     // Grant the player the "A Seedy Place" advancement
                     if (context.getPlayer() instanceof ServerPlayerEntity player && player.getServer() != null)
                     {
-                    	AdvancementEntry seedyPlace = player.getServer().getAdvancementLoader().get(Identifier.ofVanilla("husbandry/plant_seed"));
+                    	AdvancementEntry seedyPlace = player.getServer().getAdvancementLoader().get(Identifier.of("minecraft","husbandry/plant_seed"));
                         if (seedyPlace != null)
                         {
                         	String first = seedyPlace.value().criteria().keySet().iterator().next();

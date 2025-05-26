@@ -14,7 +14,9 @@ import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.condition.BlockStatePropertyLootCondition;
+import net.minecraft.loot.condition.MatchToolLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.entry.LootPoolEntry;
 import net.minecraft.loot.function.ApplyBonusLootFunction;
 import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
@@ -76,14 +78,13 @@ public class PeacefulModBlockLootTableGenerator extends FabricBlockLootTableProv
     }
 
     private LootTable.Builder fossilOreDrops(Block block) {
-        RegistryWrapper.Impl<Enchantment> impl = this.registryLookupFuture.join().getWrapperOrThrow(RegistryKeys.ENCHANTMENT);
-
         var boneMealDrop = ItemEntry.builder(Items.BONE_MEAL).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 3.0f)))
-            .apply(ApplyBonusLootFunction.oreDrops(impl.getOrThrow(Enchantments.FORTUNE)));
-
-        var normalDrop = (LootTable.Builder)LootTable.builder()
-            .pool(LootPool.builder().with(boneMealDrop).conditionally(createWithoutSilkTouchCondition()))
-            .pool(LootPool.builder().with(ItemEntry.builder(block)).conditionally(createSilkTouchCondition()));
+            .apply(ApplyBonusLootFunction.oreDrops(Enchantments.FORTUNE));
+        
+        var normalDrop = (LootTable.Builder)dropsWithSilkTouch(block, applyExplosionDecay(
+        		block,
+				boneMealDrop
+			));
 
         return normalDrop;
     }

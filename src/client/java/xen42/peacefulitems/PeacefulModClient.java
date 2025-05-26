@@ -40,7 +40,7 @@ public class PeacefulModClient implements ClientModInitializer {
 		Identifier dragonBreathTexture = Identifier.of(PeacefulMod.MOD_ID, "dragon_breath").withPrefixedPath("block/");
 		FluidRenderHandlerRegistry.INSTANCE.register(PeacefulModFluids.DRAGON_BREATH, new SimpleFluidRenderHandler(dragonBreathTexture, dragonBreathTexture));
 		
-		ModelPredicateProviderRegistry.register(PeacefulModItems.CAPE, Identifier.ofVanilla("broken"), (stack, world, entity, seed) -> ElytraItem.isUsable(stack) ? 0.0F : 1.0F);
+		ModelPredicateProviderRegistry.register(PeacefulModItems.CAPE, Identifier.of("minecraft","broken"), (stack, world, entity, seed) -> ElytraItem.isUsable(stack) ? 0.0F : 1.0F);
 		
 		EntityRendererRegistry.register(PeacefulMod.GHASTLING_ENTITY, context -> new GhastlingEntityRenderer(context)); 
 		EntityModelLayerRegistry.registerModelLayer(MODEL_GHASTLING_LAYER, GhastlingEntityModel::getTexturedModelData);

@@ -47,7 +47,7 @@ public class BrushItemMixin extends Item {
 		if (remainingUseTicks >= 0 && user instanceof PlayerEntity playerEntity) {
 			HitResult hitResult = this.getHitResult(playerEntity);
 			if (hitResult instanceof EntityHitResult entityHitResult && hitResult.getType() == HitResult.Type.ENTITY) {
-				if ((this.getMaxUseTime(stack, user) - remainingUseTicks + 1) % 10 == 5) {
+				if ((this.getMaxUseTime(stack) - remainingUseTicks + 1) % 10 == 5) {
 					Entity entity = entityHitResult.getEntity();
 					BlockPos blockPos = entity.getBlockPos();
 					world.playSound(playerEntity, blockPos, SoundEvents.ITEM_BRUSH_BRUSHING_GENERIC, SoundCategory.BLOCKS);

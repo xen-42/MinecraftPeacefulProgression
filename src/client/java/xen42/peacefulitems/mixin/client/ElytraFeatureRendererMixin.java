@@ -56,9 +56,9 @@ public class ElytraFeatureRendererMixin<T extends LivingEntity, M extends Entity
 			this.getContextModel().copyStateTo(this.elytra);
 			this.elytra.setAngles(livingEntity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
 			VertexConsumer vertexConsumer = ItemRenderer.getArmorGlintConsumer(
-				vertexConsumerProvider, RenderLayer.getArmorCutoutNoCull(CAPE_TEXTURE), itemStack.hasGlint()
+				vertexConsumerProvider, RenderLayer.getArmorCutoutNoCull(CAPE_TEXTURE), false, itemStack.hasGlint()
 			);
-			this.elytra.render(matrixStack, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
+			this.elytra.render(matrixStack, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
 			matrixStack.pop();
 			info.cancel();
 		}

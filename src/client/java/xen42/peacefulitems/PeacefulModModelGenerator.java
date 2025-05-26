@@ -77,7 +77,7 @@ public class PeacefulModModelGenerator extends FabricModelProvider {
     }
 
     private Model GetModel(String parent) {
-        return new Model(Optional.of(Identifier.ofVanilla("block/" + parent)), Optional.empty(), TextureKey.ALL, TextureKey.PARTICLE);
+        return new Model(Optional.of(Identifier.of("minecraft","block/" + parent)), Optional.empty(), TextureKey.ALL, TextureKey.PARTICLE);
     }
     
     public void registerWithBrokenCondition(ItemModelGenerator itemModelGenerator, Item item) {
