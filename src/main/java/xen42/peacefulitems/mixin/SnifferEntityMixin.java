@@ -13,6 +13,7 @@ import net.minecraft.entity.passive.SnifferEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -66,7 +67,7 @@ public class SnifferEntityMixin {
                 }
             }
             else if (blockState.isOf(Blocks.GRAVEL)) {
-                if (r < 0.4) {
+                if (serverWorld.getEnabledFeatures().contains(FeatureFlags.UPDATE_1_21) && r < 0.4) {
                     customDrop = PeacefulModBlocks.BREEZE_CORAL.asItem();
                 }
                 else {
