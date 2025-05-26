@@ -17,12 +17,15 @@ import net.minecraft.world.GameRules;
 import net.minecraft.world.gen.structure.Structure;
 
 public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider {
+	protected final CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture;
+	
     public PeacefulModLanguageProvider(FabricDataOutput output, String languageCode, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
-    	super(output, languageCode, registryLookup);
+    	super(output, languageCode);
+    	this.registriesFuture = registryLookup;
     }
 
-	public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
-		generate(registryLookup, new ModTranslationBuilder(translationBuilder));
+	public void generateTranslations(TranslationBuilder translationBuilder) {
+		generate(registriesFuture.join(), new ModTranslationBuilder(translationBuilder));
 	}
 	
 	public String processValue(String value) {
@@ -126,7 +129,6 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.add(PeacefulModItems.COOKED_CLAM, "Cooked Clam");
 			
 			translationBuilder.add(PeacefulModBlocks.BLAZE_PICKLE, "Blaze Coral");
-			translationBuilder.add(PeacefulModBlocks.BREEZE_CORAL, "Breeze Coral");
 			translationBuilder.add(PeacefulModItems.GHASTLING_SPAWN_EGG, "Wisp Spawn Egg");
 			translationBuilder.add(PeacefulModItems.END_CLAM_SPAWN_EGG, "Enderclam Spawn Egg");
 
@@ -235,7 +237,6 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.add(PeacefulModItems.COOKED_CLAM, "熟蛤");
 			
 			translationBuilder.add(PeacefulModBlocks.BLAZE_PICKLE, "烈焰珊瑚");
-			translationBuilder.add(PeacefulModBlocks.BREEZE_CORAL, "旋风珊瑚");
 			translationBuilder.add(PeacefulModItems.GHASTLING_SPAWN_EGG, "小精灵刷怪蛋");
 			translationBuilder.add(PeacefulModItems.END_CLAM_SPAWN_EGG, "末影蛤刷怪蛋");
 

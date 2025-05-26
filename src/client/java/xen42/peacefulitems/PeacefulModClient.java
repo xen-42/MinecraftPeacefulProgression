@@ -2,13 +2,17 @@ package xen42.peacefulitems;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.block.entity.BrushableBlockEntityRenderer;
@@ -16,6 +20,7 @@ import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.item.ElytraItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.Identifier;
@@ -49,22 +54,22 @@ public class PeacefulModClient implements ClientModInitializer {
 		EntityModelLayerRegistry.registerModelLayer(MODEL_END_CLAM_LAYER, EndClamEntityModel::getTexturedModelData);
 
 		HandledScreens.register(PeacefulMod.EFFIGY_ALTAR_SCREEN_HANDLER, EffigyAltarHandledScreen::new);
-
-		ClientPlayNetworking.registerGlobalReceiver(EffigyParticlePayload.ID, (payload, context) -> {
-			context.client().execute(() -> {
-				context.client().particleManager.addEmitter(context.player(), (ParticleEffect)ParticleTypes.TOTEM_OF_UNDYING, 30);
+		ClientPlayNetworking.registerGlobalReceiver(EffigyParticlePayload.ID, (client, handler, buf, responseSender) -> {
+			client.execute(() -> {
+				client.particleManager.addEmitter(client.player, (ParticleEffect)ParticleTypes.TOTEM_OF_UNDYING, 30);
+				EffigyParticlePayload payload = new EffigyParticlePayload(buf);
 				switch (payload.particleID()) {
 					case "wither_effigy":
-						context.client().gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.WITHER_EFFIGY));
+						client.gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.WITHER_EFFIGY));
 						break;
 					case "dragon_effigy":
-						context.client().gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.DRAGON_EFFIGY));
+						client.gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.DRAGON_EFFIGY));
 						break;
 					case "guardian_effigy":
-						context.client().gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.GUARDIAN_EFFIGY));
+						client.gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.GUARDIAN_EFFIGY));
 						break;
 					case "raid_effigy":
-						context.client().gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.RAID_EFFIGY));
+						client.gameRenderer.showFloatingItem(new ItemStack(PeacefulModItems.RAID_EFFIGY));
 						break;
 				}
 			});

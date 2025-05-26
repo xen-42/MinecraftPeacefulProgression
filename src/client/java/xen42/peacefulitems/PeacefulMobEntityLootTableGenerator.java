@@ -29,21 +29,19 @@ import net.minecraft.predicate.entity.EntityEquipmentPredicate;
 import net.minecraft.predicate.entity.EntityFlagsPredicate;
 import net.minecraft.predicate.entity.EntityPredicate;
 import net.minecraft.predicate.item.EnchantmentPredicate;
-import net.minecraft.predicate.item.EnchantmentsPredicate;
 import net.minecraft.predicate.item.ItemPredicate;
-import net.minecraft.predicate.item.ItemSubPredicateTypes;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
-import net.minecraft.registry.tag.EnchantmentTags;
+import net.minecraft.util.Identifier;
 
 public class PeacefulMobEntityLootTableGenerator extends SimpleFabricLootTableProvider {
     private final CompletableFuture<WrapperLookup> registryLookup;
 
     protected PeacefulMobEntityLootTableGenerator(FabricDataOutput dataOutput,
             CompletableFuture<WrapperLookup> registryLookup) {
-        super(dataOutput, registryLookup, LootContextTypes.ENTITY);
+        super(dataOutput, LootContextTypes.ENTITY);
         this.registryLookup = registryLookup;
     }
 
@@ -53,7 +51,7 @@ public class PeacefulMobEntityLootTableGenerator extends SimpleFabricLootTablePr
     }
 
     @Override
-    public void accept(RegistryWrapper.WrapperLookup registryLookup, BiConsumer<RegistryKey<LootTable>, Builder> consumer) {
+    public void accept(BiConsumer<Identifier, Builder> consumer) {
         consumer.accept(
                 EntityType.BAT.getLootTableId(), 
                 LootTable.builder()

@@ -33,7 +33,7 @@ public class PeacefulModBlockLootTableGenerator extends FabricBlockLootTableProv
 
     protected PeacefulModBlockLootTableGenerator(FabricDataOutput dataOutput,
             CompletableFuture<WrapperLookup> registryLookup) {
-        super(dataOutput, registryLookup);
+        super(dataOutput);
         this.registryLookupFuture = registryLookup;
     }
 
@@ -62,13 +62,7 @@ public class PeacefulModBlockLootTableGenerator extends FabricBlockLootTableProv
             .conditionally(BlockStatePropertyLootCondition.builder(block)
             .properties(StatePredicate.Builder.create().exactMatch(BlazePickleBlock.PICKLES, pickles.intValue()))))))));
         
-        this.addDrop(PeacefulModBlocks.BREEZE_CORAL, (Block block) 
-            -> LootTable.builder().pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f))
-            .with(this.applyExplosionDecay(PeacefulModBlocks.BREEZE_CORAL, ItemEntry.builder(block)
-            .apply(List.of(Integer.valueOf(2), Integer.valueOf(3), Integer.valueOf(4)), pickles 
-            -> SetCountLootFunction.builder(ConstantLootNumberProvider.create(pickles.intValue()))
-            .conditionally(BlockStatePropertyLootCondition.builder(block)
-            .properties(StatePredicate.Builder.create().exactMatch(BlazePickleBlock.PICKLES, pickles.intValue()))))))));
+
 
         BlockStatePropertyLootCondition.Builder flax_condition = BlockStatePropertyLootCondition.builder(PeacefulModBlocks.FLAX_CROP)
             .properties(StatePredicate.Builder.create().exactMatch(FlaxCropBlock.AGE, 7));

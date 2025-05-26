@@ -40,10 +40,12 @@ public class BatEntityMixin {
 	private static final Random random = new Random();
 
 	@Inject(at = @At("TAIL"), method = "initDataTracker")
-    public void initDataTracker(DataTracker.Builder builder, CallbackInfo info) {
-		builder.add(PeacefulMod.BAT_BREEDING_TICKS, 0);
-		builder.add(PeacefulMod.BAT_IS_BABY, false);
-		builder.add(PeacefulMod.BAT_BREEDING_COOLDOWN, 0);
+    public void initDataTracker(CallbackInfo info) {
+		var bat = ((BatEntity)(Object)this);
+
+		bat.getDataTracker().startTracking(PeacefulMod.BAT_BREEDING_TICKS, 0);
+		bat.getDataTracker().startTracking(PeacefulMod.BAT_IS_BABY, false);
+		bat.getDataTracker().startTracking(PeacefulMod.BAT_BREEDING_COOLDOWN, 0);
     }
 
 	@Inject(at = @At("HEAD"), method = "tick")

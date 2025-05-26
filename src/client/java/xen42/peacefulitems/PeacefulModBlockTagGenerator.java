@@ -3,7 +3,7 @@ package xen42.peacefulitems;
 import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.BlockTagProvider;
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
 import net.minecraft.block.Blocks;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.BlockTags;
@@ -74,9 +74,6 @@ public class PeacefulModBlockTagGenerator extends BlockTagProvider {
         
         this.getOrCreateTagBuilder(ConventionalBlockTags.CLUSTERS)
             .add(PeacefulModBlocks.SULPHUR_CLUSTER);
-        
-        this.getOrCreateTagBuilder(ConventionalBlockTags.STORAGE_BLOCKS)
-            .add(PeacefulModBlocks.SULPHUR_BLOCK);
         
         this.getOrCreateTagBuilder(PeacefulModTags.BlockTags.SULPHUR_ORES)
             .add(PeacefulModBlocks.SULPHUR_ORE);

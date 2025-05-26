@@ -23,6 +23,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.predicate.entity.LocationPredicate;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -51,7 +52,7 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
         this.goalSelector.add(0, new SwimGoal(this));
         this.goalSelector.add(1, new EscapeDangerGoal(this, 2f));
         this.goalSelector.add(2, new GhastlingFleeGoal(this, 16.0F, 1.4D));
-        this.goalSelector.add(3, new TemptGoal(this, 1.5f, stack -> stack.isIn(PeacefulModTags.ItemTags.WISP_LIKES), false));
+        this.goalSelector.add(3, new TemptGoal(this, 1.5f, Ingredient.fromTag(PeacefulModTags.ItemTags.WISP_LIKES), false));
         this.goalSelector.add(4, new FlyGoal(this, 1f));
         this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 3f));
         this.goalSelector.add(6, new LookAroundGoal(this));
@@ -59,7 +60,7 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
 
     public static boolean isValidSpawn(EntityType<? extends GhastlingEntity> type, WorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
         return world.getBlockState(pos).isAir() 
-            && LocationPredicate.Builder.createStructure(world.getRegistryManager().getWrapperOrThrow(RegistryKeys.STRUCTURE).getOrThrow(StructureKeys.FORTRESS)).build()
+            && LocationPredicate.Builder.createStructure(StructureKeys.FORTRESS).build()
                 .test((ServerWorld)world, pos.getX(), pos.getY(), pos.getZ());
     }
 
@@ -118,7 +119,6 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
         return AnimalEntity.createMobAttributes()
             .add(EntityAttributes.GENERIC_FLYING_SPEED, 0.6f)
             .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3f)
-            .add(EntityAttributes.GENERIC_FALL_DAMAGE_MULTIPLIER, 0f)
             .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 20f);
     }
 

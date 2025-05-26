@@ -15,14 +15,14 @@ public class PeacefulModEndPersistentState extends PersistentState {
 	private boolean isDirty = false;
 	private boolean hasSpawnedEgg = false;
 
-	private static PeacefulModEndPersistentState readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+	private static PeacefulModEndPersistentState readNbt(NbtCompound nbt) {
 		PeacefulModEndPersistentState data = new PeacefulModEndPersistentState();
 		data.hasSpawnedEgg = nbt.getBoolean("hasSpawnedEgg");
 		return data;
 	}
 
 	@Override
-	public NbtCompound writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+	public NbtCompound writeNbt(NbtCompound nbt) {
 		nbt.putBoolean("hasSpawnedEgg", hasSpawnedEgg);
 		return nbt;
 	}

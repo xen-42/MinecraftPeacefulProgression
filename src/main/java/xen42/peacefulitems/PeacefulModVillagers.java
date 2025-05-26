@@ -11,8 +11,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.GoatHornItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.item.map.MapDecorationType;
-import net.minecraft.item.map.MapDecorationTypes;
+import net.minecraft.item.map.MapIcon.Type;
+import net.minecraft.item.map.MapIcon;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -27,7 +27,6 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.village.TradeOffer;
-import net.minecraft.village.TradedItem;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.village.TradeOffers.SellMapFactory;
 import net.minecraft.world.gen.structure.Structure;
@@ -66,21 +65,21 @@ public class PeacefulModVillagers {
 		// I think level 1 is Novice, level 5 is Master
 		TradeOfferHelper.registerVillagerOffers(VillagerProfession.CLERIC, 1, factories -> {
 			factories.add((entity, random) -> new TradeOffer(
-				new TradedItem(Items.EMERALD, 1),
+				new ItemStack(Items.EMERALD, 1),
 				new ItemStack(Items.SPIDER_EYE, 3), 12, 1, 0.05f));
 		});
 
 		// Identical trade to wheat
 		TradeOfferHelper.registerVillagerOffers(VillagerProfession.FARMER, 1, factories -> {
 			factories.add((entity, random) -> new TradeOffer(
-				new TradedItem(PeacefulModItems.FLAX, 20),
+				new ItemStack(PeacefulModItems.FLAX, 20),
 				new ItemStack(Items.EMERALD, 1), 16, 2, 0.05f));
 		});
 
 		// Identical trade to rabbit hide
 		TradeOfferHelper.registerVillagerOffers(VillagerProfession.LEATHERWORKER, 3, factories -> {
 			factories.add((entity, random) -> new TradeOffer(
-				new TradedItem(PeacefulModItems.BAT_WING, 9),
+				new ItemStack(PeacefulModItems.BAT_WING, 9),
 				new ItemStack(Items.EMERALD, 1), 12, 20, 0.05f));
 		});
 
@@ -88,30 +87,30 @@ public class PeacefulModVillagers {
         TradeOfferHelper.registerVillagerOffers(DJ_VILLAGER, 1, factories -> {
 			// Same as librarian
             factories.add((entity, random) -> new TradeOffer(
-				new TradedItem(Items.PAPER, 24),
+				new ItemStack(Items.PAPER, 24),
 				new ItemStack(Items.EMERALD, 1), 16, 2, 0.05f));
             factories.add((entity, random) -> new TradeOffer(
-                new TradedItem(Items.STRING, 12),
+                new ItemStack(Items.STRING, 12),
                 new ItemStack(Items.EMERALD, 1), 16, 2, 0.05f));
 		});
 
         TradeOfferHelper.registerVillagerOffers(DJ_VILLAGER, 2, factories -> {
             factories.add((entity, random) -> new TradeOffer(
-				new TradedItem(Items.EMERALD, 2),
+				new ItemStack(Items.EMERALD, 2),
 				new ItemStack(Blocks.NOTE_BLOCK, 1), 12, 5, 0.05f));
             factories.add((entity, random) -> RandomHorn(entity, random));
 		});
 
         TradeOfferHelper.registerVillagerOffers(DJ_VILLAGER, 3, factories -> {
             factories.add((entity, random) -> new TradeOffer(
-				new TradedItem(Items.EMERALD, 6),
+				new ItemStack(Items.EMERALD, 6),
 				new ItemStack(Blocks.JUKEBOX, 1), 12, 20, 0.05f));
             factories.add((entity, random) -> RandomDisc(entity, random));
 		});
 
         TradeOfferHelper.registerVillagerOffers(DJ_VILLAGER, 4, factories -> {
             factories.add((entity, random) -> new TradeOffer(
-				new TradedItem(Items.EMERALD, 12),
+				new ItemStack(Items.EMERALD, 12),
 				new ItemStack(Blocks.BELL, 1), 12, 20, 0.05f));
             factories.add((entity, random) -> RandomDisc(entity, random));
 		});
@@ -123,57 +122,54 @@ public class PeacefulModVillagers {
 
 		TradeOfferHelper.registerWanderingTraderOffers(0, factories -> {
             factories.add((entity, random) -> new TradeOffer(
-				new TradedItem(Items.EMERALD, 5),
+				new ItemStack(Items.EMERALD, 5),
 				new ItemStack(Items.TRIAL_KEY, 1), 12, 20, 0.05f));
 			factories.add((entity, random) -> new TradeOffer(
-				new TradedItem(Items.EMERALD, 10),
-				new ItemStack(Items.OMINOUS_TRIAL_KEY, 1), 12, 20, 0.05f));
-			factories.add((entity, random) -> new TradeOffer(
-				new TradedItem(Items.EMERALD, 5),
+				new ItemStack(Items.EMERALD, 5),
 				new ItemStack(Items.PIGLIN_HEAD, 1), 12, 20, 0.05f));
 			factories.add((entity, random) -> new TradeOffer(
-				new TradedItem(Items.EMERALD, 5),
+				new ItemStack(Items.EMERALD, 5),
 				new ItemStack(Items.CREEPER_HEAD, 1), 12, 20, 0.05f));
 			factories.add((entity, random) -> new TradeOffer(
-				new TradedItem(Items.EMERALD, 5),
+				new ItemStack(Items.EMERALD, 5),
 				new ItemStack(Items.ZOMBIE_HEAD, 1), 12, 20, 0.05f));
 		});
 
 		TradeOfferHelper.registerVillagerOffers(VillagerProfession.CARTOGRAPHER, 3, factories -> {
 			// Map to altar
 			factories.add((entity, random) -> SellMap(entity, random, 10,
-				PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, MapDecorationTypes.TARGET_X, 4, 15));
+				PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, MapIcon.Type.TARGET_X, 4, 15));
 			
 			// Map to trail ruin
 			factories.add((entity, random) -> SellMap(entity, random, 10,
-				PeacefulModTags.StructureTags.TRAIL_RUINS, MapDecorationTypes.TARGET_X, 12, 10));
+				PeacefulModTags.StructureTags.TRAIL_RUINS, MapIcon.Type.TARGET_X, 12, 10));
 			
 			// Map to ocean ruin
 			factories.add((entity, random) -> SellMap(entity, random, 10,
-				StructureTags.OCEAN_RUIN, MapDecorationTypes.TARGET_X, 12, 10));
+				StructureTags.OCEAN_RUIN, MapIcon.Type.TARGET_X, 12, 10));
 		});
     }
     
-    private static TradeOffer SellMap(Entity entity, Random random, int price, TagKey<Structure> structure, RegistryEntry<MapDecorationType> decoration, int maxUses, int experience) {
+    private static TradeOffer SellMap(Entity entity, Random random, int price, TagKey<Structure> structure, MapIcon.Type decoration, int maxUses, int experience) {
     	return new SellMapFactory(price, structure, 
     		"filled_map." + structure.id().getNamespace() + "." + structure.id().getPath(),
     		decoration, maxUses, experience).create(entity, random);
     }
 
     private static TradeOffer RandomDisc(Entity entity, Random random) {
-        var item = entity.getWorld().getRegistryManager().get(RegistryKeys.ITEM).getRandomEntry(ItemTags.CREEPER_DROP_MUSIC_DISCS, random).get();
+        var item = entity.getWorld().getRegistryManager().get(RegistryKeys.ITEM).getOrCreateEntryList(ItemTags.CREEPER_DROP_MUSIC_DISCS).getRandom(random).get();
         return new TradeOffer(
-            new TradedItem(Items.EMERALD, 24),
+            new ItemStack(Items.EMERALD, 24),
             new ItemStack(item, 1), 1, 30, 0.05f);
     }
 
 	private static TradeOffer RandomHorn(Entity entity, Random random) {
 		var tag = random.nextBoolean() ? InstrumentTags.SCREAMING_GOAT_HORNS : InstrumentTags.REGULAR_GOAT_HORNS;
-		var horn = entity.getWorld().getRegistryManager().get(RegistryKeys.INSTRUMENT).getRandomEntry(tag, random)
+		var horn = entity.getWorld().getRegistryManager().get(RegistryKeys.INSTRUMENT).getOrCreateEntryList(tag).getRandom(random)
 			.map(registryEntry -> GoatHornItem.getStackForInstrument(Items.GOAT_HORN, registryEntry))
 			.orElseGet(() -> new ItemStack(Items.GOAT_HORN));
 		return new TradeOffer(
-			new TradedItem(Items.EMERALD, 6),
+			new ItemStack(Items.EMERALD, 6),
 			horn, 2, 5, 0.05f);
 	}
 }

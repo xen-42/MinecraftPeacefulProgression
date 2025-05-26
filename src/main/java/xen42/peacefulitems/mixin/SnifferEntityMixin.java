@@ -67,12 +67,7 @@ public class SnifferEntityMixin {
                 }
             }
             else if (blockState.isOf(Blocks.GRAVEL)) {
-                if (serverWorld.getEnabledFeatures().contains(FeatureFlags.UPDATE_1_21) && r < 0.4) {
-                    customDrop = PeacefulModBlocks.BREEZE_CORAL.asItem();
-                }
-                else {
-                    customDrop = Items.FLINT;
-                }
+            	customDrop = Items.FLINT;
             }
 
             // Replacing the base game implementation with our custom drops if needed

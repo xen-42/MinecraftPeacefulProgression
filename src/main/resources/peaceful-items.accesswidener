@@ -1,4 +1,8 @@
 accessWidener v2 named
+accessible field net/minecraft/entity/passive/ChickenEntity BREEDING_INGREDIENT Lnet/minecraft/recipe/Ingredient;
+mutable field net/minecraft/entity/passive/ChickenEntity BREEDING_INGREDIENT Lnet/minecraft/recipe/Ingredient;
+accessible field net/minecraft/entity/passive/ParrotEntity TAMING_INGREDIENTS Ljava/util/Set;
+mutable field net/minecraft/entity/passive/ParrotEntity TAMING_INGREDIENTS Ljava/util/Set;
 accessible field net/minecraft/item/SpawnEggItem SPAWN_EGGS Ljava/util/Map;
 accessible field net/minecraft/item/SpawnEggItem type Lnet/minecraft/entity/EntityType;
 mutable field net/minecraft/item/SpawnEggItem type Lnet/minecraft/entity/EntityType;

@@ -1,4 +1,5 @@
 {
+  "replace": false,
   "values": [
     "peaceful-items:sulphur_ore",
     "peaceful-items:soul_soil_fossil_ore"

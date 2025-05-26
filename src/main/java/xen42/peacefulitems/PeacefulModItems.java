@@ -1,8 +1,13 @@
 package xen42.peacefulitems;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
+
+import com.google.common.collect.Sets;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
@@ -14,15 +19,15 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.LeveledCauldronBlock;
 import net.minecraft.block.cauldron.CauldronBehavior;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.FireworkExplosionComponent;
-import net.minecraft.component.type.FoodComponent;
-import net.minecraft.component.type.FoodComponents;
-import net.minecraft.component.type.PotionContentsComponent;
+import net.minecraft.item.FireworkRocketItem;
+import net.minecraft.item.FoodComponent;
+import net.minecraft.item.FoodComponents;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.passive.ChickenEntity;
+import net.minecraft.entity.passive.ParrotEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItem;
@@ -37,6 +42,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.Potions;
 import net.minecraft.recipe.BrewingRecipeRegistry;
 import net.minecraft.recipe.FireworkStarRecipe;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -96,7 +102,7 @@ public class PeacefulModItems {
                 }
                 return result;
             }
-        }, new Item.Settings().food(new FoodComponent.Builder().nutrition(2).saturationModifier(1F).build()));
+        }, new Item.Settings().food(new FoodComponent.Builder().hunger(2).saturationModifier(1F).build()));
     public static final Item GHASTLING_SPAWN_EGG = register("ghastling_spawn_egg", (settings) -> 
         new DispensibleSpawnEggItem(PeacefulMod.GHASTLING_ENTITY, 0xFFFFFF, 0x7A7A7A, settings), new Item.Settings());
     public static final Item END_CLAM_SPAWN_EGG = register("end_clam_spawn_egg", (settings) -> 
@@ -138,12 +144,7 @@ public class PeacefulModItems {
             var r = user.getRandom().nextFloat();
             var world = user.getServerWorld();
             // Bunch of different raid drops excluding Totem of Undying
-            if (world.getEnabledFeatures().contains(FeatureFlags.UPDATE_1_21) && r < 0.5) {
-                user.dropItem(Items.OMINOUS_BOTTLE);
-            }
-            else {
-                user.dropStack(Raid.getOminousBanner(world.getRegistryManager().getWrapperOrThrow(RegistryKeys.BANNER_PATTERN)));
-            }
+            user.dropStack(Raid.getOminousBanner());
             if (r < 0.33) {
                 user.dropItem(Items.CROSSBOW);
             }
@@ -167,10 +168,10 @@ public class PeacefulModItems {
         }, SoundEvents.EVENT_RAID_HORN), new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
 
     public static final Item CLAM = register("clam_meat", Item::new, 
-        new Item.Settings().food(new FoodComponent.Builder().nutrition(5).saturationModifier(0.6F).statusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 600, 0), 0.3F).build()));
+        new Item.Settings().food(new FoodComponent.Builder().hunger(5).saturationModifier(0.6F).statusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 600, 0), 0.3F).build()));
     
     public static final Item COOKED_CLAM = register("cooked_clam_meat", Item::new, 
-        new Item.Settings().food(new FoodComponent.Builder().nutrition(5).saturationModifier(0.6F).build()));
+        new Item.Settings().food(new FoodComponent.Builder().hunger(5).saturationModifier(0.6F).build()));
 
     public static void initialize() {
         // Add custom items to groups
@@ -198,7 +199,6 @@ public class PeacefulModItems {
             itemGroup.add(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE.asItem());
             itemGroup.add(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE.asItem());
             itemGroup.add(PeacefulModBlocks.BLAZE_PICKLE.asItem());
-            itemGroup.add(PeacefulModBlocks.BREEZE_CORAL.asItem());
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register((itemGroup) -> { 
@@ -247,11 +247,23 @@ public class PeacefulModItems {
         CauldronBehavior.EMPTY_CAULDRON_BEHAVIOR.map().put(Items.DRAGON_BREATH, new DragonBreathCauldronBlock.FillFromBottleBehavior());
         DragonBreathCauldronBlock.DRAGON_BREATH_CAULDRON_BEHAVIOR.map().put(Items.GLASS_BOTTLE, new DragonBreathCauldronBlock.DecrementFluidLevelBehavior());
         DragonBreathCauldronBlock.DRAGON_BREATH_CAULDRON_BEHAVIOR.map().put(Items.DRAGON_BREATH, new DragonBreathCauldronBlock.IncrementFluidLevelBehavior());
+
+        ItemStack[] chickenBreedingItems = ChickenEntity.BREEDING_INGREDIENT.getMatchingStacks();
+        List<Item> baseItems = new ArrayList<>();
+        for (ItemStack stack : chickenBreedingItems) {
+            baseItems.add(stack.getItem());
+        }
+        baseItems.add(FLAX);
+        ChickenEntity.BREEDING_INGREDIENT = Ingredient.ofItems(baseItems.toArray(new Item[0]));
+
+        Set<Item> parrotTamingIngredients = ParrotEntity.TAMING_INGREDIENTS;
+        Set<Item> newItems = Sets.newHashSet(parrotTamingIngredients);
+        newItems.add(FLAX);
+        ParrotEntity.TAMING_INGREDIENTS = newItems;
         
         // Replace the original immutable map with a mutable one and add custom items
-        Map<Item, FireworkExplosionComponent.Type> fireworkExplosionTypeModifierMap = new HashMap<>(FireworkStarRecipe.TYPE_MODIFIER_MAP);
-        fireworkExplosionTypeModifierMap.put(PeacefulModBlocks.BLAZE_PICKLE.asItem(), FireworkExplosionComponent.Type.LARGE_BALL);
-        fireworkExplosionTypeModifierMap.put(PeacefulModBlocks.BREEZE_CORAL.asItem(), FireworkExplosionComponent.Type.BURST);
+        Map<Item, FireworkRocketItem.Type> fireworkExplosionTypeModifierMap = new HashMap<>(FireworkStarRecipe.TYPE_MODIFIER_MAP);
+        fireworkExplosionTypeModifierMap.put(PeacefulModBlocks.BLAZE_PICKLE.asItem(), FireworkRocketItem.Type.LARGE_BALL);
         FireworkStarRecipe.TYPE_MODIFIER_MAP = fireworkExplosionTypeModifierMap;
     }
 

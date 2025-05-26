@@ -49,7 +49,7 @@ public class BlazePickleBlock extends PlantBlock implements Fertilizable {
 	}
 
 	@Override
-	protected void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+	public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
 		if (!this.canPlaceAt(state, world, pos)) {
 			world.breakBlock(pos, true);
 		}
@@ -117,12 +117,12 @@ public class BlazePickleBlock extends PlantBlock implements Fertilizable {
 	}
 
     @Override
-	protected boolean canPathfindThrough(BlockState state, NavigationType type) {
+	public boolean canPathfindThrough(BlockState state, BlockView world, BlockPos pos, NavigationType type) {
 		return false;
 	}
 
     @Override
-	protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		switch (state.get(PICKLES)) {
 			case 1:
 			default:
@@ -137,7 +137,7 @@ public class BlazePickleBlock extends PlantBlock implements Fertilizable {
 	}
 
     @Override
-	protected boolean canReplace(BlockState state, ItemPlacementContext context) {
+    public boolean canReplace(BlockState state, ItemPlacementContext context) {
 		return !context.shouldCancelInteraction() && context.getStack().isOf(this.asItem()) && state.get(PICKLES) < 4 ? true : super.canReplace(state, context);
 	}
 

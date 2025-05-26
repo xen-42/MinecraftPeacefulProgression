@@ -39,7 +39,7 @@ public class MobEntityMixin {
 
             if (!world.isClient && world.getRegistryKey() == World.NETHER) {
                 if (item.getStack().isOf(Items.MAGMA_CREAM)) {
-                    var variant = (RegistryKey<FrogVariant>)frog.getVariant().getKey().orElse(null);
+                    var variant = frog.getVariant();
                     var block = Blocks.VERDANT_FROGLIGHT;
                     if (variant == FrogVariant.TEMPERATE) {
                         block = Blocks.OCHRE_FROGLIGHT;
@@ -48,7 +48,7 @@ public class MobEntityMixin {
                         block = Blocks.PEARLESCENT_FROGLIGHT;
                     }
     
-                    frog.playSound(SoundEvents.ENTITY_FROG_EAT);
+                    frog.playSound(SoundEvents.ENTITY_FROG_EAT, 1.0F, 1.0F);
                     frog.getWorld().playSoundFromEntity(null, frog, SoundEvents.ENTITY_FROG_EAT, SoundCategory.NEUTRAL, 1.0f, 1.0f);
                     frog.setPose(EntityPose.USING_TONGUE);
                     frog.lookAtEntity(item, 180, 180);

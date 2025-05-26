@@ -19,6 +19,7 @@ import net.minecraft.entity.mob.AmbientEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
@@ -66,11 +67,11 @@ public class EndClamEntity extends AmbientEntity {
     }
 
     @Override
-    protected void initDataTracker(DataTracker.Builder builder) {
-        super.initDataTracker(builder);
-		builder.add(IS_OPENING, false);
-		builder.add(IS_YAWNING, false);
-		builder.add(WAS_JUST_HIT, false);
+    protected void initDataTracker() {
+        super.initDataTracker();
+		this.getDataTracker().startTracking(IS_OPENING, false);
+		this.getDataTracker().startTracking(IS_YAWNING, false);
+		this.getDataTracker().startTracking(WAS_JUST_HIT, false);
     }
     
     @Override
@@ -89,8 +90,12 @@ public class EndClamEntity extends AmbientEntity {
 
     public static DefaultAttributeContainer.Builder createMobAttributes() {
         return AmbientEntity.createMobAttributes()
-            .add(EntityAttributes.GENERIC_MAX_HEALTH, 20)
-            .add(EntityAttributes.GENERIC_SCALE, 1.5);
+            .add(EntityAttributes.GENERIC_MAX_HEALTH, 20);
+    }
+    
+    @Override
+    public float getScaleFactor() {
+    	return super.getScaleFactor() * 1.5f;
     }
 
     @Override
@@ -120,7 +125,7 @@ public class EndClamEntity extends AmbientEntity {
             if (idleAnimationState.isRunning() && getTimeInMilliseconds() % 4000 == 0 && this.getRandom().nextBoolean()
                     && this.getWorld().getTime() > _lastYawn + 40) {
                 this.getDataTracker().set(IS_YAWNING, true);
-                this.playSound(SoundEvents.ENTITY_SHULKER_OPEN);
+                this.playSound(SoundEvents.ENTITY_SHULKER_OPEN, 1.0F, 1.0F);
                 _lastYawn = this.getWorld().getTime();
             }
         }
@@ -283,7 +288,7 @@ public class EndClamEntity extends AmbientEntity {
 
             if(!this.getWorld().isClient) {
                 this.getDataTracker().set(IS_OPENING, true);
-                this.playSound(SoundEvents.ENTITY_SHULKER_OPEN);
+                this.playSound(SoundEvents.ENTITY_SHULKER_OPEN, 1.0F, 1.0F);
             }
         } 
     }
@@ -304,7 +309,7 @@ public class EndClamEntity extends AmbientEntity {
     }
 
     @Override
-    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData) {
+    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
         // Spawn with item
         if (random.nextFloat() < 0.5f) {
             var r = random.nextFloat();
@@ -325,6 +330,6 @@ public class EndClamEntity extends AmbientEntity {
         setYaw(this.random.nextFloat() * 360f);
         this.headYaw = getYaw();
         resetPosition();
-        return super.initialize(world, difficulty, spawnReason, entityData);
+        return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
     }
 }

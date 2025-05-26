@@ -17,7 +17,6 @@
     "g"
   ],
   "result": {
-    "count": 1,
-    "id": "peaceful-items:raid_effigy"
+    "item": "peaceful-items:raid_effigy"
   }
 }

@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "peaceful-items:sulphur_block"
+            "items": [
+              "peaceful-items:sulphur_block"
+            ]
           }
         ]
       },

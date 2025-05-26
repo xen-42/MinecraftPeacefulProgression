@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "minecraft:emerald"
+            "items": [
+              "minecraft:emerald"
+            ]
           }
         ]
       },
@@ -15,7 +17,7 @@
       "conditions": {
         "items": [
           {
-            "items": "#c:guano"
+            "tag": "c:guano"
           }
         ]
       },
@@ -25,7 +27,9 @@
       "conditions": {
         "items": [
           {
-            "items": "minecraft:iron_ingot"
+            "items": [
+              "minecraft:iron_ingot"
+            ]
           }
         ]
       },

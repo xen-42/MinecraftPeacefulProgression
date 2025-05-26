@@ -65,7 +65,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler<Effigy
     private final PlayerEntity player;
 
     public boolean canTake(int xpCost) {
-        return (player.isInCreativeMode() || player.experienceLevel >= xpCost) && xpCost > 0;
+        return (player.isCreative() || player.experienceLevel >= xpCost) && xpCost > 0;
     }
 
     public boolean canTake() {
@@ -474,7 +474,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler<Effigy
             DefaultedList<ItemStack> defaultedList = this.getRecipeRemainders(recipeInput, player.getWorld());
 
             this.handler.context.run((world, pos) -> {
-                if (!player.isInCreativeMode()) {
+                if (!player.isCreative()) {
                     player.addExperienceLevels(-getOutputXPCost());
                 }
                 world.playSound((Entity)null, pos, SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
@@ -493,7 +493,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler<Effigy
                     if (!defaultStack.isEmpty()) {
                         if (itemStack.isEmpty()) {
                             this.input.setStack(z, defaultStack);
-                        } else if (ItemStack.areItemsAndComponentsEqual(itemStack, defaultStack)) {
+                        } else if (ItemStack.areItemsEqual(itemStack, defaultStack)) {
                             defaultStack.increment(itemStack.getCount());
                             this.input.setStack(z, defaultStack);
                         } else if (!this.player.getInventory().insertStack(defaultStack)) {

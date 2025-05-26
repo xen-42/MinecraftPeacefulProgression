@@ -1,21 +1,39 @@
 package xen42.peacefulitems.payloads;
 
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.PacketCodecs;
+import net.fabricmc.fabric.api.networking.v1.FabricPacket;
+import net.fabricmc.fabric.api.networking.v1.PacketType;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.CustomPayload;
+import net.minecraft.util.Identifier;
 import xen42.peacefulitems.PeacefulMod;
 
-public record EffigyParticlePayload(String particleID) implements CustomPayload {
+public record EffigyParticlePayload(String particleID) implements CustomPayload, FabricPacket {
 
-    public static final CustomPayload.Id<EffigyParticlePayload> ID = new CustomPayload.Id<>(PeacefulMod.EFFIGY_PARTICLE_PAYLOAD);
-    public static final PacketCodec<RegistryByteBuf, EffigyParticlePayload> CODEC = PacketCodec.tuple(
-        PacketCodecs.STRING, EffigyParticlePayload::particleID,
-        EffigyParticlePayload::new
-        );
+    public static final Identifier ID = PeacefulMod.EFFIGY_PARTICLE_PAYLOAD;
+	public static final PacketType<EffigyParticlePayload> PACKET_TYPE = PacketType.create(ID, EffigyParticlePayload::new);
 
     @Override
-    public Id<? extends CustomPayload> getId() {
+    public Identifier id() {
         return ID;
+    }
+
+    @Override
+    public PacketType<?> getType() {
+        return PACKET_TYPE;
+    }
+
+    public EffigyParticlePayload(String particleID)
+    {
+        this.particleID = particleID;
+    }
+
+    public EffigyParticlePayload(PacketByteBuf buf)
+    {
+        this(buf.readString());
+    }
+
+    @Override
+    public void write(PacketByteBuf buf) {
+        buf.writeString(particleID);
     }
 }

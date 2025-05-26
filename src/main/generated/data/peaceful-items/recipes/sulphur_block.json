@@ -12,7 +12,6 @@
     "XXX"
   ],
   "result": {
-    "count": 1,
-    "id": "peaceful-items:sulphur_block"
+    "item": "peaceful-items:sulphur_block"
   }
 }

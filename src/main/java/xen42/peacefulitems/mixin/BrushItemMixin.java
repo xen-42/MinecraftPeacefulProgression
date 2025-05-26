@@ -55,7 +55,7 @@ public class BrushItemMixin extends Item {
 						if (!pandaEntity.isSneezing()) {
 							pandaEntity.setSneezing(true);
 							EquipmentSlot equipmentSlot = stack.equals(playerEntity.getEquippedStack(EquipmentSlot.OFFHAND)) ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND;
-							stack.damage(1, playerEntity, equipmentSlot);
+							stack.damage(1, playerEntity, playerEntityX -> playerEntityX.sendEquipmentBreakStatus(equipmentSlot));
 						}
 					}
 				}

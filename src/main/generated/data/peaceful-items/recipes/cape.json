@@ -14,7 +14,6 @@
     "b b"
   ],
   "result": {
-    "count": 1,
-    "id": "peaceful-items:cape"
+    "item": "peaceful-items:cape"
   }
 }

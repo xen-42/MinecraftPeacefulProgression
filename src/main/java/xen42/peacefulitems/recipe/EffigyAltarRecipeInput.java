@@ -93,7 +93,7 @@ public class EffigyAltarRecipeInput implements RecipeInputInventory {
 		int i = 0;
 		
 		for (ItemStack itemStack : this.stacks) {
-			i = i * 31 + ItemStack.hashCode(itemStack);
+			i = i * 31 + itemStack.hashCode();
 		}
 
 		return i;

@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "peaceful-items:blaze_pickle"
+            "items": [
+              "peaceful-items:blaze_pickle"
+            ]
           }
         ]
       },

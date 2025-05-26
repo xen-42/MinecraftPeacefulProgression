@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
-import net.minecraft.entity.passive.ArmadilloEntity;
 import net.minecraft.entity.passive.PandaEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.predicate.entity.EntityPredicates;

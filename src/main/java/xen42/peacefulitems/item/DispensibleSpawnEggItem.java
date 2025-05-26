@@ -21,7 +21,7 @@ public class DispensibleSpawnEggItem extends SpawnEggItem {
             @Override
             public ItemStack dispenseSilently(BlockPointer source, ItemStack stack) {
                 Direction direction = source.state().get(DispenserBlock.FACING);
-                EntityType<?> entityType = ((SpawnEggItem) stack.getItem()).getEntityType(stack);
+                EntityType<?> entityType = ((SpawnEggItem) stack.getItem()).getEntityType(stack.getNbt());
                 
                 try {
                     entityType.spawnFromItemStack(source.world(), stack, null, source.pos().offset(direction), SpawnReason.DISPENSER, direction != Direction.UP, false);

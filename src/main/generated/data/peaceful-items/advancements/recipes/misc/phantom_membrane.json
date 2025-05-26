@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "peaceful-items:bat_wing"
+            "items": [
+              "peaceful-items:bat_wing"
+            ]
           }
         ]
       },
@@ -15,7 +17,9 @@
       "conditions": {
         "items": [
           {
-            "items": "peaceful-items:ectoplasm"
+            "items": [
+              "peaceful-items:ectoplasm"
+            ]
           }
         ]
       },

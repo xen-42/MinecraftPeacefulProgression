@@ -36,7 +36,6 @@ import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -65,12 +64,7 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
         areaEffectCloudEntity.setRadius(radius);
         areaEffectCloudEntity.setDuration(duration);
         areaEffectCloudEntity.setRadiusGrowth((7.0f - areaEffectCloudEntity.getRadius()) / (float) areaEffectCloudEntity.getDuration());
-        areaEffectCloudEntity.addEffect(new StatusEffectInstance(StatusEffects.INSTANT_DAMAGE, 1, 1){
-            @Override
-            public void onEntityDamage(LivingEntity livingEntity, DamageSource source, float amount){
-                livingEntity.damage(world.getDamageSources().dragonBreath(),amount);
-            }
-        });
+        areaEffectCloudEntity.addEffect(new StatusEffectInstance(StatusEffects.INSTANT_DAMAGE, 1, 1));
         world.syncWorldEvent(WorldEvents.DRAGON_BREATH_CLOUD_SPAWNS, pos, 1);
         world.spawnEntity(areaEffectCloudEntity);
     }
@@ -98,14 +92,14 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
     }
     
     @Override
-    protected void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if (world instanceof ServerWorld serverWorld && this.isEntityTouchingFluid(state, pos, entity)) {
             entity.damage(world.getDamageSources().dragonBreath(), 2.5f);
         }
     }
 
     @Override
-    protected int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+    public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
         return state.get(LEVEL)*4;
     }
 
@@ -192,7 +186,7 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
 
     public static class FillFromEffigyBehavior implements CauldronBehavior {
         @Override
-        public ItemActionResult interact(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack) { 
+        public ActionResult interact(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack) { 
             if (!world.isClient) {
                 Item item = stack.getItem();
                 player.setStackInHand(hand, ItemUsage.exchangeStack(stack, player, ItemStack.EMPTY));
@@ -203,13 +197,13 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
                 world.emitGameEvent(null, GameEvent.FLUID_PLACE, pos);
             }
 
-            return ItemActionResult.SUCCESS;
+            return ActionResult.SUCCESS;
         }
     }
 
     public static class FillFromBottleBehavior implements CauldronBehavior {
         @Override
-        public ItemActionResult interact(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack) { 
+        public ActionResult interact(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack) { 
             if (!world.isClient) {
                 Item item = stack.getItem();
                 player.setStackInHand(hand, ItemUsage.exchangeStack(stack, player, new ItemStack(Items.GLASS_BOTTLE)));
@@ -220,13 +214,13 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
                 world.emitGameEvent(null, GameEvent.FLUID_PLACE, pos);
             }
 
-            return ItemActionResult.SUCCESS;
+            return ActionResult.SUCCESS;
         }
     }
 
     public static class DecrementFluidLevelBehavior implements CauldronBehavior {
         @Override
-        public ItemActionResult interact(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack) {
+        public ActionResult interact(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack) {
             if (!world.isClient) {
                 Item item = stack.getItem();
                 player.setStackInHand(hand, ItemUsage.exchangeStack(stack, player, new ItemStack(Items.DRAGON_BREATH)));
@@ -237,13 +231,13 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
                 world.emitGameEvent(null, GameEvent.FLUID_PLACE, pos);
             }
             
-            return ItemActionResult.SUCCESS;
+            return ActionResult.SUCCESS;
         }
     }
 
     public static class IncrementFluidLevelBehavior implements CauldronBehavior {
         @Override
-        public ItemActionResult interact(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack) {
+        public ActionResult interact(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack) {
             if (canIncrementFluidLevel(state)) {
                 if (!world.isClient) {
                     Item item = stack.getItem();
@@ -255,9 +249,9 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
                     world.emitGameEvent(null, GameEvent.FLUID_PLACE, pos);
                 }
 
-                return ItemActionResult.SUCCESS;
+                return ActionResult.SUCCESS;
             } else {
-                return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+                return ActionResult.PASS;
             }
         }
     }

@@ -15,7 +15,6 @@
     "e"
   ],
   "result": {
-    "count": 1,
-    "id": "peaceful-items:wither_effigy"
+    "item": "peaceful-items:wither_effigy"
   }
 }

@@ -24,7 +24,6 @@
     "g"
   ],
   "result": {
-    "count": 1,
-    "id": "peaceful-items:dragon_effigy"
+    "item": "peaceful-items:dragon_effigy"
   }
 }

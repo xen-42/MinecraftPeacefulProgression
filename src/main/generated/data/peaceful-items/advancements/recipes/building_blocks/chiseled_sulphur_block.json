@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "peaceful-items:chiseled_sulphur_block"
+            "items": [
+              "peaceful-items:chiseled_sulphur_block"
+            ]
           }
         ]
       },
@@ -15,7 +17,9 @@
       "conditions": {
         "items": [
           {
-            "items": "peaceful-items:sulphur_block"
+            "items": [
+              "peaceful-items:sulphur_block"
+            ]
           }
         ]
       },

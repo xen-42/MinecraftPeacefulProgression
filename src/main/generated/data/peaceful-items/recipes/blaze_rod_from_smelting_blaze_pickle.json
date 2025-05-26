@@ -7,7 +7,5 @@
   "ingredient": {
     "item": "peaceful-items:blaze_pickle"
   },
-  "result": {
-    "id": "minecraft:blaze_rod"
-  }
+  "result": "minecraft:blaze_rod"
 }

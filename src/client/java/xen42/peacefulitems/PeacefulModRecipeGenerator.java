@@ -35,7 +35,7 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
     private final CompletableFuture<RegistryWrapper.WrapperLookup> registryLookupFuture;
     
     public PeacefulModRecipeGenerator(FabricDataOutput generator, CompletableFuture<WrapperLookup> registriesFuture) {
-        super(generator, registriesFuture);
+        super(generator);
         registryLookupFuture = registriesFuture;
     }
 
@@ -152,7 +152,7 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
 
                 offerTo(createShapeless(RecipeCategory.MISC, Items.ROTTEN_FLESH)
                     .input(PeacefulModItems.SULPHUR)
-                    .input(ItemTags.MEAT)
+                    .input(PeacefulModTags.ItemTags.MEAT)
                     .criterion(hasItem(PeacefulModItems.SULPHUR), conditionsFromItem(PeacefulModItems.SULPHUR))
                     , exporter);
 
@@ -181,7 +181,6 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         , exporter);
 
                 offerSmelting(List.of(PeacefulModBlocks.BLAZE_PICKLE), RecipeCategory.MISC, Items.BLAZE_ROD, 0.45f, 200, PeacefulModBlocks.BLAZE_PICKLE.getName().toString());
-                offerSmelting(List.of(PeacefulModBlocks.BREEZE_CORAL), RecipeCategory.MISC, Items.BREEZE_ROD, 0.45f, 200, PeacefulModBlocks.BREEZE_CORAL.getName().toString());
                 
                 offerSmelting(List.of(PeacefulModItems.CLAM), RecipeCategory.FOOD, PeacefulModItems.COOKED_CLAM, 0.35f, 200, PeacefulModItems.CLAM.getName().toString());
 
@@ -193,11 +192,6 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                 offerTo(createShapeless(RecipeCategory.MISC, Items.ORANGE_DYE, 1)
                         .input(PeacefulModBlocks.BLAZE_PICKLE)
                         .criterion(hasItem(PeacefulModBlocks.BLAZE_PICKLE), conditionsFromItem(PeacefulModBlocks.BLAZE_PICKLE))
-                        , exporter);
-
-                offerTo(createShapeless(RecipeCategory.MISC, Items.GRAY_DYE, 1)
-                        .input(PeacefulModBlocks.BREEZE_CORAL)
-                        .criterion(hasItem(PeacefulModBlocks.BREEZE_CORAL), conditionsFromItem(PeacefulModBlocks.BREEZE_CORAL))
                         , exporter);
 
                 offerTo(createShapeless(RecipeCategory.MISC, Items.PHANTOM_MEMBRANE, 2)

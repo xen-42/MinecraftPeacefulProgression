@@ -149,12 +149,7 @@ public class PeacefulModBlocks {
 	);
 
 	
-	public static final BlazePickleBlock BREEZE_CORAL = (BreezeCoralBlock)register(
-		"breeze_coral",
-		BreezeCoralBlock::new,
-		AbstractBlock.Settings.create().mapColor(MapColor.GRAY).sounds(BlockSoundGroup.NETHER_WART).nonOpaque().pistonBehavior(PistonBehavior.DESTROY).luminance(state -> 3 + 3 * (Integer)state.get(SeaPickleBlock.PICKLES)).requires(FeatureFlags.UPDATE_1_21),
-		true
-	);
+
 
 	public static final EffigyAltarBlock EFFIGY_ALTAR = (EffigyAltarBlock)register(
 		"effigy_altar", EffigyAltarBlock::new, AbstractBlock.Settings.copy(Blocks.STONE).nonOpaque(), true);

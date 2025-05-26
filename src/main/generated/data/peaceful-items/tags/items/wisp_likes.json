@@ -1,17 +1,18 @@
 {
+  "replace": false,
   "values": [
-    {
-      "id": "#c:foods/cooked_fishes",
-      "required": false
-    },
-    {
-      "id": "#c:foods/cooked_meats",
-      "required": false
-    },
-    {
-      "id": "#c:foods/vegetables",
-      "required": false
-    },
+    "minecraft:cooked_cod",
+    "minecraft:cooked_salmon",
+    "minecraft:cooked_beef",
+    "minecraft:cooked_porkchop",
+    "minecraft:cooked_chicken",
+    "minecraft:cooked_rabbit",
+    "minecraft:cooked_mutton",
+    "minecraft:carrot",
+    "minecraft:golden_carrot",
+    "minecraft:potato",
+    "minecraft:beetroot",
+    "peaceful-items:cooked_clam_meat",
     "peaceful-items:sulphur",
     "minecraft:quartz",
     "minecraft:gold_nugget"

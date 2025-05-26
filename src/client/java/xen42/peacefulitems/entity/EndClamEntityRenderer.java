@@ -2,6 +2,7 @@ package xen42.peacefulitems.entity;
 
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.render.entity.feature.VillagerHeldItemFeatureRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 import xen42.peacefulitems.PeacefulMod;
@@ -18,5 +19,12 @@ public class EndClamEntityRenderer extends MobEntityRenderer<EndClamEntity, EndC
     @Override
     public Identifier getTexture(EndClamEntity state) {
         return Identifier.of(PeacefulMod.MOD_ID, "textures/entity/end_clam/end_clam.png");
+    }
+
+    @Override
+    public void scale(EndClamEntity state, MatrixStack matrixStack, float f) {
+        var scaleFactor = state.getScaleFactor();
+        matrixStack.scale(scaleFactor, scaleFactor, scaleFactor);
+        super.scale(state, matrixStack, f);
     }
 }

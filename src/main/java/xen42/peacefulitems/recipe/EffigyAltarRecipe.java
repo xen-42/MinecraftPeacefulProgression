@@ -19,17 +19,18 @@ import it.unimi.dsi.fastutil.chars.CharArraySet;
 import it.unimi.dsi.fastutil.chars.CharSet;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.PacketCodecs;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.encoding.VarInts;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RawShapedRecipe;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.book.RecipeBookCategory;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
+import net.minecraft.util.Util;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.world.World;
@@ -114,7 +115,7 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 		return this.raw.matches(input);
 	}
 
-	public ItemStack craft(EffigyAltarRecipeInput input, RegistryWrapper.WrapperLookup wrapperLookup) {
+	public ItemStack craft(EffigyAltarRecipeInput input, DynamicRegistryManager registryManager) {
 		return this.result.copy();
 	}
 
@@ -135,43 +136,35 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 	}
 
 	public static class Serializer implements RecipeSerializer<EffigyAltarRecipe> {
-		public static final MapCodec<EffigyAltarRecipe> CODEC = RecordCodecBuilder.mapCodec(
+		public static final Codec<EffigyAltarRecipe> CODEC = RecordCodecBuilder.create(
 			instance -> instance.group(
 					Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group),
 					RawRecipe.CODEC.forGetter(recipe -> recipe.raw),
-					ItemStack.VALIDATED_CODEC.fieldOf("result").forGetter(recipe -> recipe.result),
+					ItemStack.RECIPE_RESULT_CODEC.fieldOf("result").forGetter(recipe -> recipe.result),
 					Codec.INT.optionalFieldOf("cost").forGetter(EffigyAltarRecipe::getBoxedCost)
 				)
 				.apply(instance, EffigyAltarRecipe::new)
 		);
-		public static final PacketCodec<RegistryByteBuf, EffigyAltarRecipe> PACKET_CODEC = PacketCodec.ofStatic(
-				EffigyAltarRecipe.Serializer::write, EffigyAltarRecipe.Serializer::read
-		);
 
 		@Override
-		public MapCodec<EffigyAltarRecipe> codec() {
+		public Codec<EffigyAltarRecipe> codec() {
 			return CODEC;
 		}
 
-		@Deprecated
-		@Override
-		public PacketCodec<RegistryByteBuf, EffigyAltarRecipe> packetCodec() {
-			return PACKET_CODEC;
-		}
-
-		private static EffigyAltarRecipe read(RegistryByteBuf buf) {
+		public EffigyAltarRecipe read(PacketByteBuf buf) {
 			String string = buf.readString();
-			RawRecipe rawRecipe = RawRecipe.PACKET_CODEC.decode(buf);
-			ItemStack result = ItemStack.PACKET_CODEC.decode(buf);
-			Optional<Integer> cost = PacketCodecs.optional(PacketCodecs.INTEGER).decode(buf);
+			RawRecipe rawRecipe = RawRecipe.readFromBuf(buf);
+			ItemStack result = buf.readItemStack();
+			var value = buf.readVarInt();
+			OptionalInt cost = value == 0 ? OptionalInt.empty() : OptionalInt.of(value - 1);
 			return new EffigyAltarRecipe(string, rawRecipe, result, cost);
 		}
 
-		private static void write(RegistryByteBuf buf, EffigyAltarRecipe recipe) {
+		public void write(PacketByteBuf buf, EffigyAltarRecipe recipe) {
 			buf.writeString(recipe.group);
-			RawRecipe.PACKET_CODEC.encode(buf, recipe.raw);
-			ItemStack.PACKET_CODEC.encode(buf, recipe.result);
-			PacketCodecs.optional(PacketCodecs.INTEGER).encode(buf, recipe.getBoxedCost());
+			recipe.raw.writeToBuf(buf);
+			buf.writeItemStack(recipe.result());
+			buf.writeVarInt(recipe.cost.isPresent() ? recipe.cost.getAsInt() + 1 : 0);
 		}
 	}
 	
@@ -185,17 +178,16 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 				RawRecipe::fromData,
 				recipe -> (DataResult<RawRecipe.Data>)recipe.data.map(DataResult::success).orElseGet(() -> DataResult.error(() -> "Cannot encode unpacked recipe"))
 			);
-		public static final PacketCodec<RegistryByteBuf, RawRecipe> PACKET_CODEC = PacketCodec.of(RawRecipe::writeToBuf, RawRecipe::readFromBuf);
 
-		private void writeToBuf(RegistryByteBuf buf) {
+		public void writeToBuf(PacketByteBuf buf) {
 			for (Ingredient ingredient : this.ingredients) {
-				Ingredient.PACKET_CODEC.encode(buf, ingredient);
+				ingredient.write(buf);
 			}
 		}
 
-		private static RawRecipe readFromBuf(RegistryByteBuf buf) {
+		public static RawRecipe readFromBuf(PacketByteBuf buf) {
 			DefaultedList<Ingredient> defaultedList = DefaultedList.ofSize((MAX_WIDTH_AND_HEIGHT * MAX_WIDTH_AND_HEIGHT) - MAX_WIDTH_END, Ingredient.EMPTY);
-			defaultedList.replaceAll(ingredient -> Ingredient.PACKET_CODEC.decode(buf));
+			defaultedList.replaceAll(ingredient -> Ingredient.fromPacket(buf));
 			return new RawRecipe(defaultedList, Optional.empty());
 		}
 		
@@ -222,7 +214,7 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 	
 		public static RawRecipe create(Map<Character, Ingredient> key, List<String> pattern) {
 			RawRecipe.Data data = new RawRecipe.Data(key, pattern);
-			return fromData(data).getOrThrow();
+			return Util.getResult(fromData(data), IllegalArgumentException::new);
 		}
 	
 		private static DataResult<RawRecipe> fromData(RawRecipe.Data data) {
@@ -403,7 +395,7 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 	}
 
 	@Override
-	public ItemStack getResult(WrapperLookup registriesLookup) {
+	public ItemStack getResult(DynamicRegistryManager registryManager) {
 		return result();
 	}
 }

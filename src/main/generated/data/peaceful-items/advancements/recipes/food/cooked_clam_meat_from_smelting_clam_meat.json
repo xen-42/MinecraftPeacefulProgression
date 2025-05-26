@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "peaceful-items:clam_meat"
+            "items": [
+              "peaceful-items:clam_meat"
+            ]
           }
         ]
       },

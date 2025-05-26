@@ -1,15 +1,18 @@
 {
+  "replace": false,
   "values": [
+    "minecraft:cod",
+    "minecraft:salmon",
+    "minecraft:tropical_fish",
+    "minecraft:pufferfish",
+    "minecraft:beef",
+    "minecraft:porkchop",
+    "minecraft:chicken",
+    "minecraft:rabbit",
+    "minecraft:mutton",
+    "peaceful-items:clam_meat",
     {
       "id": "#c:guano",
-      "required": false
-    },
-    {
-      "id": "#c:foods/raw_fishes",
-      "required": false
-    },
-    {
-      "id": "#c:foods/raw_meats",
       "required": false
     }
   ]

@@ -7,7 +7,5 @@
   "ingredient": {
     "item": "peaceful-items:clam_meat"
   },
-  "result": {
-    "id": "peaceful-items:cooked_clam_meat"
-  }
+  "result": "peaceful-items:cooked_clam_meat"
 }

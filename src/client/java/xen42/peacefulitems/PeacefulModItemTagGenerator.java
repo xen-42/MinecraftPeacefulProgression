@@ -3,8 +3,10 @@ package xen42.peacefulitems;
 import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.ItemTagProvider;
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
+import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.BlockTags;
@@ -42,22 +44,27 @@ public class PeacefulModItemTagGenerator extends ItemTagProvider {
 
 		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.SEEDS)
 			.add(PeacefulModItems.FLAX);
-		this.getOrCreateTagBuilder(ItemTags.CHICKEN_FOOD)
-			.add(PeacefulModItems.FLAX);
-		this.getOrCreateTagBuilder(ItemTags.PARROT_FOOD)
-			.add(PeacefulModItems.FLAX);
 		this.getOrCreateTagBuilder(ItemTags.VILLAGER_PLANTABLE_SEEDS)
 			.add(PeacefulModItems.FLAX);
 		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.CROPS)
 			.add(PeacefulModItems.FLAX);
 		this.getOrCreateTagBuilder(ConventionalItemTags.CLUSTERS)
 			.add(PeacefulModItems.SULPHUR);
-		this.getOrCreateTagBuilder(ConventionalItemTags.FOOD_POISONING_FOODS)
-			.add(PeacefulModItems.CLAM);
-		this.getOrCreateTagBuilder(ConventionalItemTags.COOKED_FISHES_FOODS)
+		this.getOrCreateTagBuilder(ConventionalItemTags.FOODS)
+			.add(PeacefulModItems.FLAX)
+			.add(PeacefulModItems.CLAM)
 			.add(PeacefulModItems.COOKED_CLAM);
-		this.getOrCreateTagBuilder(ConventionalItemTags.RAW_FISHES_FOODS)
-			.add(PeacefulModItems.CLAM);
+		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.MEAT)
+			.add(Items.BEEF)
+			.add(Items.COOKED_BEEF)
+			.add(Items.CHICKEN)
+			.add(Items.COOKED_CHICKEN)
+			.add(Items.MUTTON)
+			.add(Items.COOKED_MUTTON)
+			.add(Items.PORKCHOP)
+			.add(Items.COOKED_PORKCHOP)
+			.add(Items.RABBIT)
+			.add(Items.COOKED_RABBIT);
 		
 		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.EFFIGIES)
 			.add(PeacefulModItems.DRAGON_EFFIGY)
@@ -69,22 +76,34 @@ public class PeacefulModItemTagGenerator extends ItemTagProvider {
 			.add(PeacefulModItems.GUANO)
 			.addOptional(Identifier.of("jaizmod", "guano"));
 		
-		this.getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE)
-			.add(PeacefulModItems.CAPE);
-		this.getOrCreateTagBuilder(ItemTags.EQUIPPABLE_ENCHANTABLE)
-			.add(PeacefulModItems.CAPE);
-		
 		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.WISP_LIKES)
-			.addOptionalTag(ConventionalItemTags.COOKED_FISHES_FOODS)
-			.addOptionalTag(ConventionalItemTags.COOKED_MEATS_FOODS)
-			.addOptionalTag(ConventionalItemTags.VEGETABLES_FOODS)
+			.add(Items.COOKED_COD)
+			.add(Items.COOKED_SALMON)
+			.add(Items.COOKED_BEEF)
+			.add(Items.COOKED_PORKCHOP)
+			.add(Items.COOKED_CHICKEN)
+			.add(Items.COOKED_RABBIT)
+			.add(Items.COOKED_MUTTON)
+			.add(Items.CARROT)
+			.add(Items.GOLDEN_CARROT)
+			.add(Items.POTATO)
+			.add(Items.BEETROOT)
+			.add(PeacefulModItems.COOKED_CLAM)
 			.add(PeacefulModItems.SULPHUR)
 			.add(Items.QUARTZ)
 			.add(Items.GOLD_NUGGET);
 
 		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.WISP_DISLIKES)
-			.addOptionalTag(PeacefulModTags.ItemTags.GUANO)
-			.addOptionalTag(ConventionalItemTags.RAW_FISHES_FOODS)
-			.addOptionalTag(ConventionalItemTags.RAW_MEATS_FOODS);
+			.add(Items.COD)
+			.add(Items.SALMON)
+			.add(Items.TROPICAL_FISH)
+			.add(Items.PUFFERFISH)
+			.add(Items.BEEF)
+			.add(Items.PORKCHOP)
+			.add(Items.CHICKEN)
+			.add(Items.RABBIT)
+			.add(Items.MUTTON)
+			.add(PeacefulModItems.CLAM)
+			.addOptionalTag(PeacefulModTags.ItemTags.GUANO);
 	}
 }

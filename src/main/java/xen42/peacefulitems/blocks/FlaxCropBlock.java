@@ -55,7 +55,7 @@ public class FlaxCropBlock extends CropBlock {
 
     // Stop random ticking if its the second highest age but has a top block
 	@Override
-	protected void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+	public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (state.get(AGE) == this.getMaxAge() - 1 && world.getBlockState(pos.up()).isOf(this)) {
             return;
         }
@@ -110,7 +110,7 @@ public class FlaxCropBlock extends CropBlock {
     }
  
     @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return AGE_TO_SHAPE[getAge(state)];
     }
 }

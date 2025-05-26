@@ -8,21 +8,22 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.BrushableBlock;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.entity.SpawnLocationTypes;
 import net.minecraft.entity.SpawnRestriction;
+import net.minecraft.entity.SpawnRestriction.Location;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.item.Items;
+import net.minecraft.loot.LootManager;
 import net.minecraft.loot.LootPool;
+import net.minecraft.loot.LootTable;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.LootFunction;
 import net.minecraft.loot.function.LootingEnchantLootFunction;
@@ -36,6 +37,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.resource.ResourceManager;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
@@ -98,13 +100,13 @@ public class PeacefulMod implements ModInitializer {
 	public static final EntityType<GhastlingEntity> GHASTLING_ENTITY = Registry.register(
 		Registries.ENTITY_TYPE, 
 		Identifier.of(MOD_ID, "ghastling"), 
-		EntityType.Builder.create(GhastlingEntity::new, SpawnGroup.AMBIENT).dimensions(0.5f, 1.5f).build(GHASTLING_ENTITY_KEY.toString()));
+		EntityType.Builder.create(GhastlingEntity::new, SpawnGroup.AMBIENT).setDimensions(0.5f, 1.5f).build(GHASTLING_ENTITY_KEY.toString()));
 
 	public static final RegistryKey<EntityType<?>> END_CLAM_ENTITY_KEY = RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(MOD_ID,"end_clam"));
 	public static final EntityType<EndClamEntity> END_CLAM_ENTITY = Registry.register(
 		Registries.ENTITY_TYPE, 
 		Identifier.of(MOD_ID, "end_clam"), 
-		EntityType.Builder.create(EndClamEntity::new, SpawnGroup.AMBIENT).dimensions(0.5f, 0.3f).build(END_CLAM_ENTITY_KEY.toString()));
+		EntityType.Builder.create(EndClamEntity::new, SpawnGroup.AMBIENT).setDimensions(0.5f, 0.3f).build(END_CLAM_ENTITY_KEY.toString()));
 
 	public static final Identifier EFFIGY_PARTICLE_PAYLOAD = Identifier.of(MOD_ID, "effigy_particle_payload");
 
@@ -148,41 +150,39 @@ public class PeacefulMod implements ModInitializer {
 		var clamBiomes = BiomeSelectors.includeByKey(BiomeKeys.WARPED_FOREST).or(BiomeSelectors.foundInTheEnd());
 
 		BiomeModifications.addSpawn(ghastlingBiomes, SpawnGroup.AMBIENT, GHASTLING_ENTITY, 100, 2, 3);
-		SpawnRestriction.register(GHASTLING_ENTITY, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, GhastlingEntity::isValidSpawn);
+		SpawnRestriction.register(GHASTLING_ENTITY, Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, GhastlingEntity::isValidSpawn);
 
 		BiomeModifications.addSpawn(clamBiomes, SpawnGroup.AMBIENT, END_CLAM_ENTITY, 100, 1, 1);
-		SpawnRestriction.register(END_CLAM_ENTITY, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EndClamEntity::isValidSpawn);
+		SpawnRestriction.register(END_CLAM_ENTITY, Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EndClamEntity::isValidSpawn);
 
-		PayloadTypeRegistry.playS2C().register(EffigyParticlePayload.ID, EffigyParticlePayload.CODEC);
-
-		LootTableEvents.MODIFY.register((key, tableBuilder, source) -> {
-			if (key.getValue().equals(Identifier.of("minecraft", "archaeology/ocean_ruin_cold"))) {
+		LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
+			if (id.equals(Identifier.of("minecraft", "archaeology/ocean_ruin_cold"))) {
 				tableBuilder.modifyPools(pool -> {
 					pool.with(ItemEntry.builder(Items.TRIDENT).weight(1));
 				});
 			}
-			if (key.getValue().equals(Identifier.of("minecraft", "archaeology/ocean_ruin_warm"))) {
+			if (id.equals(Identifier.of("minecraft", "archaeology/ocean_ruin_warm"))) {
 				tableBuilder.modifyPools(pool -> {
 					pool.with(ItemEntry.builder(Items.PRISMARINE_SHARD).weight(1));
 					pool.with(ItemEntry.builder(Items.PRISMARINE_CRYSTALS).weight(1));
 				});
 			}
-			if (key.getValue().equals(Identifier.of("minecraft", "chests/simple_dungeon"))) {
+			if (id.equals(Identifier.of("minecraft", "chests/simple_dungeon"))) {
 				tableBuilder.modifyPools(pool -> {
 					pool.with(ItemEntry.builder(Items.ZOMBIE_HEAD).weight(1));
 					pool.with(ItemEntry.builder(Items.CREEPER_HEAD).weight(1));
 				});
 			}
-			if (key.getValue().equals(Identifier.of("minecraft", "chests/ruined_portal")) ||
-				key.getValue().equals(Identifier.of("minecraft", "chests/nether_bridge"))) {
+			if (id.equals(Identifier.of("minecraft", "chests/ruined_portal")) ||
+				id.equals(Identifier.of("minecraft", "chests/nether_bridge"))) {
 				tableBuilder.modifyPools(pool -> {
 					pool.with(ItemEntry.builder(Items.PIGLIN_HEAD).weight(1));
 				});
 			}
-			if (key.getValue().equals(Identifier.of("minecraft", "entities/cod")) ||
-				key.getValue().equals(Identifier.of("minecraft", "entities/salmon")) ||
-				key.getValue().equals(Identifier.of("minecraft", "entities/salmon")) ||
-				key.getValue().equals(Identifier.of("minecraft", "entities/tropical_fish"))
+			if (id.equals(Identifier.of("minecraft", "entities/cod")) ||
+				id.equals(Identifier.of("minecraft", "entities/salmon")) ||
+				id.equals(Identifier.of("minecraft", "entities/salmon")) ||
+				id.equals(Identifier.of("minecraft", "entities/tropical_fish"))
 				) {
 				tableBuilder.pool(LootPool.builder()
 					.rolls(ConstantLootNumberProvider.create(0.25f))

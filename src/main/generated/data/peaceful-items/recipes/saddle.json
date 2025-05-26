@@ -17,7 +17,6 @@
     "ZYZ"
   ],
   "result": {
-    "count": 1,
-    "id": "minecraft:saddle"
+    "item": "minecraft:saddle"
   }
 }
