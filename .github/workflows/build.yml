@@ -15,10 +15,15 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      - name: Set up JDK 21
+      - name: Read java version from gradle.properties
+        id: read-java-version
+        run: |
+          java_version=$(grep '^java_version=' gradle.properties | cut -d'=' -f2)
+          echo "java_version=$java_version" >> $GITHUB_OUTPUT
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: 21
+          java-version: ${{ steps.read-java-version.outputs.java_version }}
           distribution: 'microsoft'
           cache: gradle
       - name: Loom Cache
