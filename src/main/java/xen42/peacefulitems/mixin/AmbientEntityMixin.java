@@ -12,7 +12,7 @@ import net.minecraft.entity.player.PlayerEntity;
 @Mixin(AmbientEntity.class)
 public class AmbientEntityMixin {
     // Has to be done here because this method actually defines the method whereas BatEntity doesnt change it
-    @Inject(at = @At("RETURN"), method = "canBeLeashed", cancellable = true)
+    @Inject(at = @At("RETURN"), method = "canBeLeashedBy", cancellable = true)
     public void canBeLeashedBy(PlayerEntity player, CallbackInfoReturnable<Boolean> info) {
 		var entity = ((AmbientEntity)(Object)this);
         if (entity instanceof BatEntity) {
