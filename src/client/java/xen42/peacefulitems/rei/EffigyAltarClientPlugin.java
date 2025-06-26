@@ -12,15 +12,20 @@ import me.shedaniel.rei.plugin.client.BuiltinClientPlugin;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.EntityType;
+import net.minecraft.fluid.FlowableFluid;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.village.raid.Raid;
 import xen42.peacefulitems.PeacefulMod;
 import xen42.peacefulitems.PeacefulModBlocks;
+import xen42.peacefulitems.PeacefulModFluids;
 import xen42.peacefulitems.PeacefulModItems;
 import xen42.peacefulitems.recipe.EffigyAltarRecipeDisplay;
 import xen42.peacefulitems.screen.EffigyAltarHandledScreen;
@@ -60,6 +65,9 @@ public class EffigyAltarClientPlugin implements REIClientPlugin {
 		registerInformation(PeacefulModBlocks.EFFIGY_ALTAR.asItem(), "dungeon");
 		
 		// Effigy
+		Text dragon_effigy = Text.translatable(Items.DRAGON_BREATH.getTranslationKey() + ".dragon_effigy_information");
+		registerInformation(Items.DRAGON_BREATH, dragon_effigy);
+		registerInformation(PeacefulModFluids.DRAGON_BREATH, dragon_effigy);
 		registerInformation(Items.NETHER_STAR, "wither_effigy");
 		
 		// Elder Effigy
@@ -120,6 +128,7 @@ public class EffigyAltarClientPlugin implements REIClientPlugin {
 				EntryStacks.of(item),
 				Text.translatable(item.getTranslationKey()),
 				(list) -> {
+					PeacefulMod.LOGGER.info(item.getTranslationKey() + "." + prefix + "_information");
 					list.add(Text.translatable(item.getTranslationKey() + "." + prefix + "_information"));
 					return list;
 				});
@@ -130,6 +139,19 @@ public class EffigyAltarClientPlugin implements REIClientPlugin {
 				EntryStacks.of(item),
 				Text.translatable(item.getTranslationKey()),
 				(list) -> {
+					PeacefulMod.LOGGER.info(((TranslatableTextContent)information.getContent()).getKey());
+					list.add(information);
+					return list;
+				});
+	}
+
+	private static void registerInformation(Fluid fluid, Text information) {
+		RegistryKey<Fluid> key = fluid.getRegistryEntry().registryKey();
+		BuiltinClientPlugin.getInstance().registerInformation(
+				EntryStacks.of(fluid),
+				Text.translatable("block." + key.getValue().getNamespace() + "." + key.getValue().getPath()),
+				(list) -> {
+					PeacefulMod.LOGGER.info(((TranslatableTextContent)information.getContent()).getKey());
 					list.add(information);
 					return list;
 				});
