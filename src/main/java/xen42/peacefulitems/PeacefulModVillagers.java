@@ -120,7 +120,7 @@ public class PeacefulModVillagers {
             factories.add((entity, random) -> RandomDisc(entity, random));
 		});
 
-		TradeOfferHelper.registerWanderingTraderOffers(0, factories -> {
+		TradeOfferHelper.registerWanderingTraderOffers(1, factories -> {
             factories.add((entity, random) -> new TradeOffer(
 				new ItemStack(Items.EMERALD, 5),
 				new ItemStack(Items.TRIAL_KEY, 1), 12, 20, 0.05f));
