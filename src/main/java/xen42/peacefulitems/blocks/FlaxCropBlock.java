@@ -78,6 +78,10 @@ public class FlaxCropBlock extends CropBlock {
         if (!state.canPlaceAt(world, pos) && !world.getBlockState(pos.down()).isOf(this)) {
             return Blocks.AIR.getDefaultState();
         }
+        else if (world.getBlockState(pos.up()).isAir() && state.get(AGE) == MAX_AGE - 1) {
+            var newState = PeacefulModBlocks.FLAX_CROP.getDefaultState().with(AGE, this.getMaxAge() - 2);
+            ((World)world).setBlockState(pos, newState);
+        }
         return state;
     }
 
@@ -100,7 +104,7 @@ public class FlaxCropBlock extends CropBlock {
     public void applyGrowth(World world, BlockPos pos, BlockState state) {
         int j;
         int i = this.getAge(state) + this.getGrowthAmount(world);
-        if (i > (j = this.getMaxAge() - 1)) {
+        if (i > (j = this.getMaxAge() - 1) - 1) {
             i = j;
             if (world.getBlockState(pos.up()).isAir()) {
                 world.setBlockState(pos.up(), PeacefulModBlocks.FLAX_CROP.getDefaultState().with(AGE, this.getMaxAge()));
