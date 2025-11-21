@@ -28,13 +28,13 @@ public class FlaxCropBlock extends CropBlock {
 
     private static final VoxelShape[] AGE_TO_SHAPE = new VoxelShape[] {
             Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D),
-            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 3.0D, 16.0D),
             Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D),
-            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 5.0D, 16.0D),
-            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D),
+            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D),
+            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 13.0D, 16.0D),
             Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D),
             Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D),
-            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)
+            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D),
+            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D)
         };
  
     public FlaxCropBlock(AbstractBlock.Settings settings) {
@@ -56,6 +56,11 @@ public class FlaxCropBlock extends CropBlock {
     // Stop random ticking if its the second highest age but has a top block
 	@Override
 	public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        // Bug where somehow blocks can spawn on top of paths, forcefully make sure these break
+        if (world.getBlockState(pos.down()).isOf(Blocks.DIRT_PATH)) {
+            world.setBlockState(pos, Blocks.AIR.getDefaultState());
+            return;
+        }
         if (state.get(AGE) == this.getMaxAge() - 1 && world.getBlockState(pos.up()).isOf(this)) {
             return;
         }
