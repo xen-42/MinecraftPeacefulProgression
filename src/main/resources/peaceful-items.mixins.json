@@ -18,6 +18,7 @@
 		"EndPortalBlockMixin",
 		"EnderDragonFight_Invoker",
 		"SoulFireBlockMixin",
-		"FireworkRocketItemMixin"
+		"FireworkRocketItemMixin",
+		"BoneMealItemMixin"
 	]
 }
