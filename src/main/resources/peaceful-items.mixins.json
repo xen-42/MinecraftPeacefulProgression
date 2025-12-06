@@ -20,6 +20,7 @@
 		"EnderDragonFight_Invoker",
 		"SoulFireBlockMixin",
 		"FireworkRocketItemMixin",
-		"BoneMealItemMixin"
+		"BoneMealItemMixin",
+		"MinecraftServerMixin"
 	]
 }
