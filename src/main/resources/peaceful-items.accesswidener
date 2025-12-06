@@ -10,3 +10,6 @@ accessible field net/minecraft/block/entity/BrushableBlockEntity item Lnet/minec
 accessible field net/minecraft/world/poi/PointOfInterestTypes POI_STATES_TO_TYPE Ljava/util/Map;
 accessible field net/minecraft/recipe/FireworkStarRecipe TYPE_MODIFIER_MAP Ljava/util/Map;
 mutable field net/minecraft/recipe/FireworkStarRecipe TYPE_MODIFIER_MAP Ljava/util/Map;
+
+accessible field net/minecraft/server/world/ServerWorld spawners Ljava/util/List;
+mutable field net/minecraft/server/world/ServerWorld spawners Ljava/util/List;
