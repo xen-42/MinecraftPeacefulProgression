@@ -128,6 +128,7 @@ public class PeacefulMod implements ModInitializer {
 
 		LOGGER.info("Loading Peaceful Mod!");
 
+		PeacefulModEvents.onInitialize();
 		PeacefulModItems.initialize();
 		PeacefulModBlocks.initialize();
 		PeacefulModFluids.initialize();
