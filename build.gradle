@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.11-SNAPSHOT'
+	id 'fabric-loom' version '1.14-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -38,6 +38,17 @@ repositories {
             includeGroup "maven.modrinth"
         }
     }
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "Cassian's Maven"
+				url = uri("https://maven.cassian.cc")
+			}
+		}
+		filter {
+			includeGroupAndSubgroups("cc.cassian")
+		}
+	}
 }
 
 loom {
@@ -83,9 +94,13 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
-    // EIV (Extended Item View)
-    modCompileOnly("maven.modrinth:eiv:${eiv_version}-fabric")
-    modLocalRuntime("maven.modrinth:eiv:${eiv_version}-fabric")
+    // RRV (Extended Item View)
+	modCompileOnly("cc.cassian.rrv:reliable-recipe-viewer-fabric:${rrv_version}+${minecraft_version}") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
+	modRuntimeOnly("cc.cassian.rrv:reliable-recipe-viewer-fabric:${rrv_version}+${minecraft_version}") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
 
 }
 

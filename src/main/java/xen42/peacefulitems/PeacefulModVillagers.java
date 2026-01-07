@@ -22,6 +22,7 @@ import net.minecraft.registry.tag.InstrumentTags;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.StructureTags;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -67,21 +68,21 @@ public class PeacefulModVillagers {
 		// 0.05 is a "low" price modifier. High is 0.2
 		// I think level 1 is Novice, level 5 is Master
 		TradeOfferHelper.registerVillagerOffers(VillagerProfession.CLERIC, 1, factories -> {
-			factories.add((entity, random) -> new TradeOffer(
+			factories.add((world,entity, random) -> new TradeOffer(
 				new TradedItem(Items.EMERALD, 1),
 				new ItemStack(Items.SPIDER_EYE, 3), 12, 1, 0.05f));
 		});
 
 		// Identical trade to wheat
 		TradeOfferHelper.registerVillagerOffers(VillagerProfession.FARMER, 1, factories -> {
-			factories.add((entity, random) -> new TradeOffer(
+			factories.add((world,entity, random) -> new TradeOffer(
 				new TradedItem(PeacefulModItems.FLAX, 20),
 				new ItemStack(Items.EMERALD, 1), 16, 2, 0.05f));
 		});
 
 		// Identical trade to rabbit hide
 		TradeOfferHelper.registerVillagerOffers(VillagerProfession.LEATHERWORKER, 3, factories -> {
-			factories.add((entity, random) -> new TradeOffer(
+			factories.add((world,entity, random) -> new TradeOffer(
 				new TradedItem(PeacefulModItems.BAT_WING, 9),
 				new ItemStack(Items.EMERALD, 1), 12, 20, 0.05f));
 		});
@@ -89,38 +90,38 @@ public class PeacefulModVillagers {
         // CUSTOM VILLAGER
         TradeOfferHelper.registerVillagerOffers(DJ_VILLAGER_KEY, 1, factories -> {
 			// Same as librarian
-            factories.add((entity, random) -> new TradeOffer(
+            factories.add((world,entity, random) -> new TradeOffer(
 				new TradedItem(Items.PAPER, 24),
 				new ItemStack(Items.EMERALD, 1), 16, 2, 0.05f));
-            factories.add((entity, random) -> new TradeOffer(
+            factories.add((world,entity, random) -> new TradeOffer(
                 new TradedItem(Items.STRING, 12),
                 new ItemStack(Items.EMERALD, 1), 16, 2, 0.05f));
 		});
 
         TradeOfferHelper.registerVillagerOffers(DJ_VILLAGER_KEY, 2, factories -> {
-            factories.add((entity, random) -> new TradeOffer(
+            factories.add((world,entity, random) -> new TradeOffer(
 				new TradedItem(Items.EMERALD, 2),
 				new ItemStack(Blocks.NOTE_BLOCK, 1), 12, 5, 0.05f));
-            factories.add((entity, random) -> RandomHorn(entity, random));
+            factories.add((world,entity, random) -> RandomHorn(entity, random));
 		});
 
         TradeOfferHelper.registerVillagerOffers(DJ_VILLAGER_KEY, 3, factories -> {
-            factories.add((entity, random) -> new TradeOffer(
+            factories.add((world,entity, random) -> new TradeOffer(
 				new TradedItem(Items.EMERALD, 6),
 				new ItemStack(Blocks.JUKEBOX, 1), 12, 20, 0.05f));
-            factories.add((entity, random) -> RandomDisc(entity, random));
+            factories.add((world,entity, random) -> RandomDisc(world, entity, random));
 		});
 
         TradeOfferHelper.registerVillagerOffers(DJ_VILLAGER_KEY, 4, factories -> {
-            factories.add((entity, random) -> new TradeOffer(
+            factories.add((world,entity, random) -> new TradeOffer(
 				new TradedItem(Items.EMERALD, 12),
 				new ItemStack(Blocks.BELL, 1), 12, 20, 0.05f));
-            factories.add((entity, random) -> RandomDisc(entity, random));
+            factories.add((world,entity, random) -> RandomDisc(world, entity, random));
 		});
 
         TradeOfferHelper.registerVillagerOffers(DJ_VILLAGER_KEY, 5, factories -> {
-            factories.add((entity, random) -> RandomHorn(entity, random));
-            factories.add((entity, random) -> RandomDisc(entity, random));
+            factories.add((world,entity, random) -> RandomHorn(entity, random));
+            factories.add((world,entity, random) -> RandomDisc(world, entity, random));
 		});
 
 		TradeOfferHelper.registerWanderingTraderOffers(builder -> {
@@ -151,26 +152,26 @@ public class PeacefulModVillagers {
 		
 		TradeOfferHelper.registerVillagerOffers(VillagerProfession.CARTOGRAPHER, 3, factories -> {
 			// Map to altar
-			factories.add((entity, random) -> SellMap(entity, random, 10,
+			factories.add((world,entity, random) -> SellMap(world, entity, random, 10,
 				PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, MapDecorationTypes.TARGET_X, 4, 15));
 			
 			// Map to trail ruin
-			factories.add((entity, random) -> SellMap(entity, random, 10,
+			factories.add((world,entity, random) -> SellMap(world, entity, random, 10,
 				PeacefulModTags.StructureTags.TRAIL_RUINS, MapDecorationTypes.TARGET_X, 12, 10));
 			
 			// Map to ocean ruin
-			factories.add((entity, random) -> SellMap(entity, random, 10,
+			factories.add((world, entity, random) -> SellMap(world, entity, random, 10,
 				StructureTags.OCEAN_RUIN, MapDecorationTypes.TARGET_X, 12, 10));
 		});
     }
     
-    private static TradeOffer SellMap(Entity entity, Random random, int price, TagKey<Structure> structure, RegistryEntry<MapDecorationType> decoration, int maxUses, int experience) {
+    private static TradeOffer SellMap(ServerWorld world, Entity entity, Random random, int price, TagKey<Structure> structure, RegistryEntry<MapDecorationType> decoration, int maxUses, int experience) {
     	return new SellMapFactory(price, structure, 
     		"filled_map." + structure.id().getNamespace() + "." + structure.id().getPath(),
-    		decoration, maxUses, experience).create(entity, random);
+    		decoration, maxUses, experience).create(world, entity, random);
     }
 
-    private static TradeOffer RandomDisc(Entity entity, Random random) {
+    private static TradeOffer RandomDisc(ServerWorld world, Entity entity, Random random) {
         var item = entity.getEntityWorld().getRegistryManager().getOrThrow(RegistryKeys.ITEM).getRandomEntry(ItemTags.CREEPER_DROP_MUSIC_DISCS, random).get();
         return new TradeOffer(
             new TradedItem(Items.EMERALD, 24),
@@ -195,7 +196,7 @@ public class PeacefulModVillagers {
 		}
 
 		@Override
-		public TradeOffer create(Entity arg0, Random arg1) {
+		public TradeOffer create(ServerWorld world, Entity arg0, Random arg1) {
 			return _tradeOffer.copy();
 		}
 	}

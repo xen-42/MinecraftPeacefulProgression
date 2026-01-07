@@ -1,19 +1,20 @@
-package xen42.peacefulitems.eiv;
+package xen42.peacefulitems.rrv;
 
-import de.crafty.eiv.common.api.recipe.IEivRecipeViewType;
-import de.crafty.eiv.common.api.recipe.IEivViewRecipe;
-import de.crafty.eiv.common.recipe.inventory.RecipeViewMenu;
-import de.crafty.eiv.common.recipe.inventory.SlotContent;
+
+import cc.cassian.rrv.api.recipe.ReliableClientRecipe;
+import cc.cassian.rrv.api.recipe.ReliableClientRecipeType;
+import cc.cassian.rrv.common.recipe.inventory.RecipeViewMenu;
+import cc.cassian.rrv.common.recipe.inventory.SlotContent;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class EffigyAltarViewRecipe implements IEivViewRecipe {
+public class EffigyAltarClientRecipe implements ReliableClientRecipe {
 
     private final ArrayList<SlotContent> ingredients;
     private final SlotContent result;
 
-    public EffigyAltarViewRecipe(EffigyAltarServerRecipe recipe) {
+    public EffigyAltarClientRecipe(EffigyAltarServerRecipe recipe) {
         this.ingredients = new ArrayList<>();
         recipe.getIngredients().forEach(ingredient -> {
             if (ingredient.isPresent()) {
@@ -27,8 +28,8 @@ public class EffigyAltarViewRecipe implements IEivViewRecipe {
     }
 
     @Override
-    public IEivRecipeViewType getViewType() {
-        return EffigyAltarViewType.INSTANCE;
+    public ReliableClientRecipeType getViewType() {
+        return EffigyAltarClientRecipeType.INSTANCE;
     }
 
     @Override

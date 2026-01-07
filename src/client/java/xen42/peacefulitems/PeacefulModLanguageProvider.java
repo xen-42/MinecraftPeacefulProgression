@@ -12,8 +12,9 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.StructureTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.village.VillagerProfession;
-import net.minecraft.world.GameRules;
 import net.minecraft.world.gen.structure.Structure;
+import net.minecraft.world.rule.GameRule;
+import net.minecraft.world.rule.GameRules;
 
 public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider {
     public PeacefulModLanguageProvider(FabricDataOutput output, String languageCode, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
@@ -52,11 +53,11 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			}
 		}
 		
-		public void add(GameRules.Key<?> key, String value) {
+		public void add(GameRule<?> key, String value) {
 			add(key.getTranslationKey(), value);
 		}
 		
-		public void add(GameRules.Key<?> key, String title, String description) {
+		public void add(GameRule<?> key, String title, String description) {
 			add(key.getTranslationKey(), title);
 			add(key.getTranslationKey() + ".description", description);
 		}

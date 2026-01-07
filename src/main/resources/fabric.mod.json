@@ -31,9 +31,9 @@
 		"rei_common": [
 			"xen42.peacefulitems.rei.EffigyAltarServerPlugin"
 		],
-        "eiv": [
-          "xen42.peacefulitems.eiv.PeacefulProgressionClientEIVPlugin",
-          "xen42.peacefulitems.eiv.PeacefulProgressionServerEIVPlugin"
+        "rrv": [
+          "xen42.peacefulitems.rrv.PeacefulProgressionClientRRVPlugin",
+          "xen42.peacefulitems.rrv.PeacefulProgressionServerRRVPlugin"
         ]
 	},
 	"mixins": [

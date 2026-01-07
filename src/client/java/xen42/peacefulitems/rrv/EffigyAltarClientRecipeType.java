@@ -1,7 +1,7 @@
-package xen42.peacefulitems.eiv;
+package xen42.peacefulitems.rrv;
 
-import de.crafty.eiv.common.api.recipe.IEivRecipeViewType;
-import de.crafty.eiv.common.recipe.inventory.RecipeViewMenu;
+import cc.cassian.rrv.api.recipe.ReliableClientRecipeType;
+import cc.cassian.rrv.common.recipe.inventory.RecipeViewMenu;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -11,9 +11,9 @@ import java.util.List;
 
 import static xen42.peacefulitems.PeacefulMod.MOD_ID;
 
-public class EffigyAltarViewType implements IEivRecipeViewType {
+public class EffigyAltarClientRecipeType implements ReliableClientRecipeType {
 
-    public static final EffigyAltarViewType INSTANCE = new EffigyAltarViewType();
+    public static final EffigyAltarClientRecipeType INSTANCE = new EffigyAltarClientRecipeType();
 
     @Override
     public Text getDisplayName() {
