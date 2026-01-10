@@ -11,7 +11,7 @@ public class PeacefulProgressionClientRRVPlugin implements ReliableRecipeViewerP
     public void onIntegrationInitialize() {
 
         // register all the client recipes
-        ItemView.registerClientRecipeWrapper(EffigyAltarServerRecipe.TYPE, modRecipe -> {
+        ItemView.addClientRecipeWrapper(EffigyAltarServerRecipe.TYPE, modRecipe -> {
             return Collections.singletonList(new EffigyAltarClientRecipe(modRecipe));
         });
     }
