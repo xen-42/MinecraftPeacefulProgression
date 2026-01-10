@@ -32,9 +32,11 @@
 			"xen42.peacefulitems.rei.EffigyAltarServerPlugin"
 		],
         "rrv": [
-          "xen42.peacefulitems.rrv.PeacefulProgressionClientRRVPlugin",
           "xen42.peacefulitems.rrv.PeacefulProgressionServerRRVPlugin"
-        ]
+        ],
+		"rrv_client": [
+			"xen42.peacefulitems.rrv.PeacefulProgressionClientRRVPlugin"
+		]
 	},
 	"mixins": [
 		"peaceful-items.mixins.json",
