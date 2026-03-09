@@ -5,6 +5,8 @@ import cc.cassian.rrv.api.recipe.ReliableClientRecipe;
 import cc.cassian.rrv.api.recipe.ReliableClientRecipeType;
 import cc.cassian.rrv.common.recipe.inventory.RecipeViewMenu;
 import cc.cassian.rrv.common.recipe.inventory.SlotContent;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import xen42.peacefulitems.screen.EffigyAltarHandledScreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,5 +51,27 @@ public class EffigyAltarClientRecipe implements ReliableClientRecipe {
     @Override
     public List<SlotContent> getResults() {
         return List.of(result);
+    }
+
+    @Override
+    public boolean supportsItemTransfer() {
+        return true;
+    }
+
+    @Override
+    public List<Class<? extends HandledScreen<?>>> getTransferClasses() {
+        return List.of(EffigyAltarHandledScreen.class);
+    }
+
+    @Override
+    public void mapRecipeItems(RecipeTransferMap map, HandledScreen<?> screen) {
+        map.linkSlots(0, 1);
+        map.linkSlots(1, 2);
+        map.linkSlots(2, 3);
+        map.linkSlots(3, 4);
+        map.linkSlots(4, 5);
+        map.linkSlots(5, 6);
+        map.linkSlots(6, 7);
+        map.linkSlots(7, 8);
     }
 }

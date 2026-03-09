@@ -22,17 +22,17 @@ public class EffigyAltarClientRecipeType implements ReliableClientRecipeType {
 
     @Override
     public int getDisplayWidth() {
-        return 150;
+        return 134;
     }
 
     @Override
     public int getDisplayHeight() {
-        return 75;
+        return 57;
     }
 
     @Override
     public Identifier getGuiTexture() {
-        return Identifier.of(MOD_ID, "textures/gui/effigy_altar_eiv.png");
+        return Identifier.of(MOD_ID, "textures/gui/effigy_altar_rrv.png");
     }
 
     @Override
@@ -43,17 +43,17 @@ public class EffigyAltarClientRecipeType implements ReliableClientRecipeType {
     @Override
     public void placeSlots(RecipeViewMenu.SlotDefinition builder) {
         //ingredients
-        builder.addItemSlot(0, 11, 13);
-        builder.addItemSlot(1, 29, 13);
-        builder.addItemSlot(2, 47, 13);
-        builder.addItemSlot(3, 11, 31);
-        builder.addItemSlot(4, 29, 31);
-        builder.addItemSlot(5, 47, 31);
-        builder.addItemSlot(6, 29, 49);
+        builder.addItemSlot(0, 2, 2);
+        builder.addItemSlot(1, 20, 2);
+        builder.addItemSlot(2, 38, 2);
+        builder.addItemSlot(3, 2, 20);
+        builder.addItemSlot(4, 20, 20);
+        builder.addItemSlot(5, 38, 20);
+        builder.addItemSlot(6, 20, 38);
         //brimstone
-        builder.addItemSlot(7, 78, 41);
+        builder.addItemSlot(7, 69, 30);
         //output
-        builder.addItemSlot(8, 121, 18);
+        builder.addItemSlot(8, 112, 6);
     }
 
     @Override
