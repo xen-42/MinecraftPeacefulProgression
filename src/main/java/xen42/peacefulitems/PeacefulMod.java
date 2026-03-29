@@ -5,8 +5,7 @@ import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
-import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
-import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
+import net.fabricmc.fabric.api.gamerule.v1.GameRuleBuilder;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -40,15 +39,14 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.GameRules;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
-import net.minecraft.world.GameRules.BooleanRule;
-import net.minecraft.world.GameRules.Category;
 import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import net.minecraft.world.gen.structure.Structure;
+import net.minecraft.world.rule.GameRule;
+import net.minecraft.world.rule.GameRuleCategory;
 import xen42.peacefulitems.entities.EndClamEntity;
 import xen42.peacefulitems.entities.GhastlingEntity;
 import xen42.peacefulitems.payloads.EffigyParticlePayload;
@@ -97,12 +95,12 @@ public class PeacefulMod implements ModInitializer {
 	public static int BatGrowUpTicks = 5 * 60 * 20; // Normal mobs its 20 minutes but I feel like bats can grow up fast maybe idk!
 	public static int BatBreedingCooldown = 5 * 60 * 20;
 
-	public static final GameRules.Key<BooleanRule> ENABLE_ENDER_DRAGON_FIGHT_PEACEFUL =
-		GameRuleRegistry.register("enableEnderDragonFightPeaceful", Category.MOBS, GameRuleFactory.createBooleanRule(false));
-	public static final GameRules.Key<BooleanRule> ENABLE_SUPER_HEALING_PEACEFUL =
-		GameRuleRegistry.register("enableSuperHealingPeaceful", Category.PLAYER, GameRuleFactory.createBooleanRule(true));
-	public static final GameRules.Key<BooleanRule> ENABLE_STARVING_PEACEFUL =
-		GameRuleRegistry.register("enableStarvingPeaceful", Category.PLAYER, GameRuleFactory.createBooleanRule(false));
+	public static final GameRule<Boolean> ENABLE_ENDER_DRAGON_FIGHT_PEACEFUL =
+		GameRuleBuilder.forBoolean(false).category(GameRuleCategory.MOBS).buildAndRegister(Identifier.of(MOD_ID, "enable_ender_dragon_fight_peaceful"));
+	public static final GameRule<Boolean> ENABLE_SUPER_HEALING_PEACEFUL =
+			GameRuleBuilder.forBoolean(true).category(GameRuleCategory.PLAYER).buildAndRegister(Identifier.of(MOD_ID, "enable_super_healing_peaceful"));
+	public static final GameRule<Boolean> ENABLE_STARVING_PEACEFUL =
+			GameRuleBuilder.forBoolean(false).category(GameRuleCategory.MOBS).buildAndRegister(Identifier.of(MOD_ID, "enable_starving_peaceful"));
 
 	public static final RegistryKey<EntityType<?>> GHASTLING_ENTITY_KEY = RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(MOD_ID,"ghastling"));
 	public static final EntityType<GhastlingEntity> GHASTLING_ENTITY = Registry.register(

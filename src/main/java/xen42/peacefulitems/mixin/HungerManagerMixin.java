@@ -1,5 +1,6 @@
 package xen42.peacefulitems.mixin;
 
+import net.minecraft.world.rule.GameRules;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -9,7 +10,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.GameRules;
 import xen42.peacefulitems.PeacefulMod;
 
 @Mixin(HungerManager.class)
@@ -34,9 +34,9 @@ public class HungerManagerMixin {
             return;
         }
 
-        var turboHeal = player.getEntityWorld().getGameRules().getBoolean(PeacefulMod.ENABLE_SUPER_HEALING_PEACEFUL);
-        var canStarve = player.getEntityWorld().getGameRules().getBoolean(PeacefulMod.ENABLE_STARVING_PEACEFUL);
-        var canHeal = player.getEntityWorld().getGameRules().getBoolean(GameRules.NATURAL_REGENERATION);
+        var turboHeal = player.getEntityWorld().getGameRules().getValue(PeacefulMod.ENABLE_SUPER_HEALING_PEACEFUL);
+        var canStarve = player.getEntityWorld().getGameRules().getValue(PeacefulMod.ENABLE_STARVING_PEACEFUL);
+        var canHeal = player.getEntityWorld().getGameRules().getValue(GameRules.NATURAL_HEALTH_REGENERATION);
         var hungerManager = (HungerManager) ((Object) this);
         
         // Do the basic not peaceful thing

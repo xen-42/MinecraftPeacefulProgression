@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.11-SNAPSHOT'
+	id 'fabric-loom' version '1.15-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -27,17 +27,28 @@ repositories {
 		name = 'Roughly Enough Items'
 		url = "https://maven.shedaniel.me"
 	}
-    exclusiveContent {
-        forRepository {
-            maven {
-                name = "Modrinth"
-                url = "https://api.modrinth.com/maven"
-            }
-        }
-        filter {
-            includeGroup "maven.modrinth"
-        }
-    }
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "Modrinth"
+				url = "https://api.modrinth.com/maven"
+			}
+		}
+		filter {
+			includeGroup "maven.modrinth"
+		}
+	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "Cassian's Maven"
+				url = uri("https://maven.cassian.cc")
+			}
+		}
+		filter {
+			includeGroupAndSubgroups("cc.cassian")
+		}
+	}
 }
 
 loom {
@@ -76,16 +87,24 @@ dependencies {
 
 	// REI (RoughlyEnoughItems)
 	modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}") {
-        exclude(group: "net.fabricmc.fabric-api")
-    }
+		exclude(group: "net.fabricmc.fabric-api")
+	}
 	// modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
 	modCompileOnly("me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${rei_version}"){
-        exclude(group: "net.fabricmc.fabric-api")
-    }
+		exclude(group: "net.fabricmc.fabric-api")
+	}
 
-    // EIV (Extended Item View)
-    modCompileOnly("maven.modrinth:eiv:${eiv_version}-fabric")
-    modLocalRuntime("maven.modrinth:eiv:${eiv_version}-fabric")
+	  // EIV (Extended Item View)
+	modCompileOnly("maven.modrinth:eiv:${eiv_version}-fabric")
+	modLocalRuntime("maven.modrinth:eiv:${eiv_version}-fabric")
+
+	// RRV (Extended Item View)
+	modCompileOnly("cc.cassian.rrv:reliable-recipe-viewer-fabric:${rrv_version}+${minecraft_version}") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
+	modRuntimeOnly("cc.cassian.rrv:reliable-recipe-viewer-fabric:${rrv_version}+${minecraft_version}") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
 
 }
 

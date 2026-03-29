@@ -31,11 +31,11 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.gen.structure.StructureKeys;
+import net.minecraft.world.rule.GameRules;
 import xen42.peacefulitems.PeacefulMod;
 import xen42.peacefulitems.PeacefulModTags;
 
@@ -83,12 +83,12 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
         // Instead of breeding like normal they duplicate
         // Also handle crying
         var item = player.getStackInHand(hand);
-        if (!getEntityWorld().isClient() && getBreedingAge() == 0 && canEat()) {
+        if (getEntityWorld() instanceof ServerWorld serverWorld && getBreedingAge() == 0 && canEat()) {
             if (isBreedingItem(item)) {
                 setBreedingAge(6000);
                 eat(player, hand, item);
                 playEatSound();
-                if (getEntityWorld().getServer().getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
+                if (serverWorld.getGameRules().getValue(GameRules.DO_MOB_LOOT)) {
                     getEntityWorld().spawnEntity(new ExperienceOrbEntity(getEntityWorld(), getX(), getY(), getZ(), getRandom().nextInt(7) + 1));
                 }
                 playSound(SoundEvents.ENTITY_GHAST_AMBIENT, 0.5f, (random.nextFloat() - random.nextFloat()) * 0.2f + 1.3f);

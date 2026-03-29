@@ -83,11 +83,11 @@ public class EffigyAltarRecipeBookWidget extends RecipeBookWidget<EffigyAltarScr
 	}
 
 	@Override
-	protected void setBookButtonTexture() {
-		this.toggleCraftableButton.setTextures(TEXTURES);
+	protected ButtonTextures getBookButtonTextures() {
+		return TEXTURES;
 	}
 
-    @Override
+	@Override
 	protected Text getToggleCraftableButtonText() {
 		return TOGGLE_CRAFTABLE_TEXT;
 	}

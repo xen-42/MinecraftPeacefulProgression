@@ -22,8 +22,8 @@ import net.minecraft.storage.WriteView;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypeFilter;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.GameRules;
 import net.minecraft.world.event.GameEvent;
+import net.minecraft.world.rule.GameRules;
 import xen42.peacefulitems.PeacefulMod;
 import xen42.peacefulitems.PeacefulModItems;
 import xen42.peacefulitems.entities.BatHelper;
@@ -84,7 +84,7 @@ public class BatEntityMixin {
 		} else {
 			List<Entity> list = bat.getEntityWorld().getOtherEntities(bat, bat.getBoundingBox(), EntityPredicates.canBePushedBy(bat));
 			if (!list.isEmpty()) {
-				int i = serverWorld.getGameRules().getInt(GameRules.MAX_ENTITY_CRAMMING);
+				int i = serverWorld.getGameRules().getValue(GameRules.MAX_ENTITY_CRAMMING);
 				if (i > 0 && list.size() > i - 1 && random.nextInt(4) == 0) {
 					int j = 0;
 
@@ -135,7 +135,7 @@ public class BatEntityMixin {
 						baby.refreshPositionAndAngles(bat.getX(), bat.getY(), bat.getZ(), 0.0f, 0.0f);
 						world.spawnEntityAndPassengers(baby);
 						world.sendEntityStatus(bat, EntityStatuses.ADD_BREEDING_PARTICLES);
-						if (world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
+						if (world.getGameRules().getValue(GameRules.DO_MOB_LOOT)) {
 							world.spawnEntity(new ExperienceOrbEntity(world, bat.getParticleX(1.0), bat.getRandomBodyY() + 0.5, bat.getParticleZ(1.0), bat.getRandom().nextInt(7) + 1));
 						}
 						for (int i = 0; i < 7; ++i) {

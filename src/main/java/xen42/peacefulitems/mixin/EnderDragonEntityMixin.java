@@ -17,7 +17,7 @@ public abstract class EnderDragonEntityMixin {
         var dragon = (EnderDragonEntity)((Object)this);
         if (dragon.getEntityWorld() instanceof ServerWorld serverWorld &&
             serverWorld.getDifficulty() == Difficulty.PEACEFUL &&
-            !serverWorld.getGameRules().getBoolean(PeacefulMod.ENABLE_ENDER_DRAGON_FIGHT_PEACEFUL))
+            !serverWorld.getGameRules().getValue(PeacefulMod.ENABLE_ENDER_DRAGON_FIGHT_PEACEFUL))
         {
             dragon.discard();
         } 
