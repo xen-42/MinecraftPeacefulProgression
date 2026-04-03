@@ -24,6 +24,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.predicate.entity.LocationPredicate;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -110,6 +111,7 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
                 playEatSound();
                 // Count this as hurting them so they run from you
                 this.damage((ServerWorld)getWorld(), getWorld().getDamageSources().playerAttack(player), 0f);
+                PeacefulMod.GHASTLING_TEAR_CRITERIA.trigger((ServerPlayerEntity)player, this);
                 return (ActionResult)ActionResult.SUCCESS_SERVER;
             }
         }

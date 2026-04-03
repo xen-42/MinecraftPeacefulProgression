@@ -1,6 +1,5 @@
 package xen42.peacefulitems.mixin;
 
-import java.util.Random;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -21,8 +20,6 @@ import net.minecraft.util.math.Vec3d;
 
 @Mixin(PandaEntity.class)
 public class PandaEntityMixin {
-	private static final Random random = new Random();
-
     @Inject(at = @At("HEAD"), method = "sneeze", cancellable = true)
 	private void sneeze(CallbackInfo info) {
 		var panda = ((PandaEntity)(Object)this);
@@ -35,11 +32,11 @@ public class PandaEntityMixin {
         // Base game pandas have a 1 in 700 chance of dropping slime
         // Bump that up to 3 (technically theres a 1 in 2100 chance now that they drop two at once)
         // Also make it spawn near their face
-        if (!panda.getWorld().isClient() && random.nextInt(3) == 0) {
+        if (!panda.getWorld().isClient() && panda.getRandom().nextInt(3) == 0) {
             var item = panda.dropItem((ServerWorld)panda.getWorld(), Items.SLIME_BALL);
             item.setPosition(nosePos);
             // Play a sound so you know it happened
-            panda.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0f, (random.nextFloat() - random.nextFloat()) * 0.2f + 1.0f);
+            panda.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0f, (panda.getRandom().nextFloat() - panda.getRandom().nextFloat()) * 0.2f + 1.0f);
         }
 
         // For adult pandas we pitch shift down the sound so we will just call the method stuff ourselves
