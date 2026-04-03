@@ -1,0 +1,33 @@
+{
+  "parent": "peaceful-items:find_effigy_altar_dungeon",
+  "criteria": {
+    "has_raid_effigy": {
+      "conditions": {
+        "items": [
+          {
+            "items": "peaceful-items:raid_effigy"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.peaceful_items.raid_effigy.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "peaceful-items:raid_effigy"
+    },
+    "title": {
+      "translate": "advancements.peaceful_items.raid_effigy.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_raid_effigy"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

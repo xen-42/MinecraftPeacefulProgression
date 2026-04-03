@@ -29,6 +29,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import xen42.peacefulitems.recipe.EffigyAltarRecipeJsonBuilder;
 
@@ -86,7 +87,15 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .criterion(hasItem(input), conditionsFromItem(input))
                         , exporter, convertBetween(output, input) + "_stonecutting");
             }
-            
+
+            public static String hasTag(TagKey<Item> tag) {
+                return "has_" + getTagPath(tag);
+            }
+
+            public static String getTagPath(TagKey<Item> tag) {
+                return tag.id().getPath();
+            }
+
             public final <T extends AbstractCookingRecipe> void fixedOfferMultipleOptions(
             		RecipeSerializer<T> serializer,
                     List<ItemConvertible> inputs,
@@ -120,13 +129,13 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .input(PeacefulModTags.ItemTags.GUANO) 
                         .input(PeacefulModItems.SULPHUR) 
                         .criterion(hasItem(Items.CHARCOAL), conditionsFromItem(Items.CHARCOAL))
-                        .criterion(hasItem(PeacefulModItems.GUANO), conditionsFromTag(PeacefulModTags.ItemTags.GUANO))
+                        .criterion(hasTag(PeacefulModTags.ItemTags.GUANO), conditionsFromTag(PeacefulModTags.ItemTags.GUANO))
                         .criterion(hasItem(PeacefulModItems.SULPHUR), conditionsFromItem(PeacefulModItems.SULPHUR))
                         , exporter);
                 
                 offerTo(createShapeless(RecipeCategory.MISC, Items.PURPLE_DYE, 1)
                         .input(PeacefulModTags.ItemTags.GUANO)
-                        .criterion(hasItem(PeacefulModItems.GUANO), conditionsFromTag(PeacefulModTags.ItemTags.GUANO))
+                        .criterion(hasTag(PeacefulModTags.ItemTags.GUANO), conditionsFromTag(PeacefulModTags.ItemTags.GUANO))
                         , exporter);
 
                 offerTo(createShaped(RecipeCategory.MISC, PeacefulModBlocks.SULPHUR_BLOCK)
@@ -263,7 +272,7 @@ public class PeacefulModRecipeGenerator extends FabricRecipeProvider {
                         .input('e', Items.EMERALD)
                         .input('g', Items.IRON_INGOT)
                         // Advancement that gives the recipe
-                        .criterion(hasItem(PeacefulModItems.GUANO), conditionsFromTag(PeacefulModTags.ItemTags.GUANO))
+                        .criterion(hasTag(PeacefulModTags.ItemTags.GUANO), conditionsFromTag(PeacefulModTags.ItemTags.GUANO))
                         .criterion(hasItem(Items.EMERALD), conditionsFromItem(Items.EMERALD))
                         .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
                         .offerTo(exporter);
