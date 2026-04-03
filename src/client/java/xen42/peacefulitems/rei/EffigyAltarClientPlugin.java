@@ -151,9 +151,6 @@ public class EffigyAltarClientPlugin implements REIClientPlugin {
 		registerInformation(Items.CREEPER_HEAD, head_key);
 		registerInformation(Items.PIGLIN_HEAD, head_key);
 		registerInformation(Items.ZOMBIE_HEAD, head_key);
-		
-		// Resin
-		registerInformation(Items.RESIN_CLUMP, "strip_pale_oak");
 	}
 	
 	private static void registerInformation(Item item, String prefix) {
