@@ -182,7 +182,7 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addAdvancement("blaze_rod", "Into Fire", "Smelt a Blaze Coral into a Blaze Rod");
 			translationBuilder.addAdvancement("sniffer_breeze", "Whispers in the Gravel", "Let a Sniffer dig up a Breeze Coral");
 			translationBuilder.addAdvancement("breeze_rod", "Into Wind", "Smelt a Breeze Coral into a Breeze Rod");
-			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine Bones from Fossil Ore");
+			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine or brush Bones from Fossil Ore");
 			translationBuilder.addAdvancement("strip_resin", "Sap Tap", "Strip a Pale Oak Log to get a Resin Clump");
 
 			translationBuilder.addInformation(PeacefulModBlocks.EFFIGY_ALTAR.asItem(), "dungeon", 
@@ -365,7 +365,7 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addAdvancement("blaze_rod", "Into Fire", "Smelt a Blaze Coral into a Blaze Rod");
 			translationBuilder.addAdvancement("sniffer_breeze", "Whispers in the Gravel", "Let a Sniffer dig up a Breeze Coral");
 			translationBuilder.addAdvancement("breeze_rod", "Into Wind", "Smelt a Breeze Coral into a Breeze Rod");
-			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine Bones from Fossil Ore");
+			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine or brush Bones from Fossil Ore");
 			translationBuilder.addAdvancement("strip_resin", "Sap Tap", "Strip a Pale Oak Log to get a Resin Clump");
 
 			translationBuilder.addInformation(PeacefulModBlocks.EFFIGY_ALTAR.asItem(), "dungeon", 
@@ -507,7 +507,7 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addAdvancement("blaze_rod", "Into Fire", "Smelt a Blaze Coral into a Blaze Rod");
 			translationBuilder.addAdvancement("sniffer_breeze", "Whispers in the Gravel", "Let a Sniffer dig up a Breeze Coral");
 			translationBuilder.addAdvancement("breeze_rod", "Into Wind", "Smelt a Breeze Coral into a Breeze Rod");
-			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine Bones from Fossil Ore");
+			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine or brush Bones from Fossil Ore");
 			translationBuilder.addAdvancement("strip_resin", "Sap Tap", "Strip a Pale Oak Log to get a Resin Clump");
 
 			translationBuilder.addInformation(PeacefulModBlocks.EFFIGY_ALTAR.asItem(), "dungeon", 
