@@ -2,38 +2,47 @@ package xen42.peacefulitems.criterion;
 
 import java.util.Optional;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.google.gson.JsonObject;
 
 import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.advancement.criterion.AbstractCriterion;
+import net.minecraft.advancement.criterion.AbstractCriterionConditions;
 import net.minecraft.loot.context.LootContext;
+import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
 import net.minecraft.predicate.entity.EntityPredicate;
 import net.minecraft.predicate.entity.LootContextPredicate;
-import net.minecraft.predicate.entity.LootContextPredicateValidator;
 import net.minecraft.server.network.ServerPlayerEntity;
 import xen42.peacefulitems.PeacefulMod;
 import xen42.peacefulitems.entities.GhastlingEntity;
 
 public class GhastlingTearCriterion extends AbstractCriterion<GhastlingTearCriterion.Conditions> {
-    @Override
-    public Codec<GhastlingTearCriterion.Conditions> getConditionsCodec() {
-        return GhastlingTearCriterion.Conditions.CODEC;
-    }
+	@Override
+	public GhastlingTearCriterion.Conditions conditionsFromJson(
+		JsonObject object, Optional<LootContextPredicate> player, AdvancementEntityPredicateDeserializer deserializer
+	) {
+		Optional<LootContextPredicate> entity = EntityPredicate.contextPredicateFromJson(object, "entity", deserializer);
+		return new GhastlingTearCriterion.Conditions(player, entity);
+	}
 
     public void trigger(ServerPlayerEntity player, GhastlingEntity entity) {
         LootContext lootContext = EntityPredicate.createAdvancementEntityLootContext(player, entity);
         this.trigger(player, conditions -> conditions.test(lootContext));
     }
 
-    public record Conditions(Optional<LootContextPredicate> player, Optional<LootContextPredicate> entity) implements AbstractCriterion.Conditions {
-        public static final Codec<GhastlingTearCriterion.Conditions> CODEC = RecordCodecBuilder.create(
-            instance -> instance.group(
-                    EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("player").forGetter(GhastlingTearCriterion.Conditions::player),
-                    EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("entity").forGetter(GhastlingTearCriterion.Conditions::entity)
-                )
-                .apply(instance, GhastlingTearCriterion.Conditions::new)
-        );
+	public static class Conditions extends AbstractCriterionConditions {
+		private final Optional<LootContextPredicate> entity;
+
+		public Conditions(
+			Optional<LootContextPredicate> playerPredicate,
+			Optional<LootContextPredicate> entityPredicate
+		) {
+			super(playerPredicate);
+			this.entity = entityPredicate;
+		}
+
+		public static AdvancementCriterion<GhastlingTearCriterion.Conditions> any() {
+            return PeacefulMod.GHASTLING_TEAR_CRITERIA.create(new GhastlingTearCriterion.Conditions(Optional.empty(), Optional.empty()));
+		}
 
         public static AdvancementCriterion<GhastlingTearCriterion.Conditions> create(Optional<LootContextPredicate> entity) {
             return PeacefulMod.GHASTLING_TEAR_CRITERIA.create(new GhastlingTearCriterion.Conditions(Optional.empty(), entity));
@@ -43,10 +52,11 @@ public class GhastlingTearCriterion extends AbstractCriterion<GhastlingTearCrite
             return !this.entity.isPresent() || ((LootContextPredicate)this.entity.get()).test(entity);
         }
 
-        @Override
-        public void validate(LootContextPredicateValidator validator) {
-            AbstractCriterion.Conditions.super.validate(validator);
-            validator.validateEntityPredicate(this.entity, ".entity");
-        }
+		@Override
+		public JsonObject toJson() {
+			JsonObject jsonObject = super.toJson();
+			this.entity.ifPresent(lootContextPredicate -> jsonObject.add("entity", lootContextPredicate.toJson()));
+			return jsonObject;
+		}
     }
 }

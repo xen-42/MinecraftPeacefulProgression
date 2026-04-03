@@ -17,12 +17,16 @@
     }
   },
   "display": {
+    "announce_to_chat": true,
     "description": {
       "translate": "advancements.peaceful_items.wisp_tear.description"
     },
+    "frame": "task",
+    "hidden": false,
     "icon": {
       "item": "minecraft:ghast_tear"
     },
+    "show_toast": true,
     "title": {
       "translate": "advancements.peaceful_items.wisp_tear.title"
     }

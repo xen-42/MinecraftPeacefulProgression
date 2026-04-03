@@ -1,15 +1,19 @@
 package xen42.peacefulitems.criterion;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.Optional;
+
+import com.google.gson.JsonObject;
+
 import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.advancement.criterion.AbstractCriterion;
+import net.minecraft.advancement.criterion.AbstractCriterionConditions;
+import net.minecraft.advancement.criterion.BredAnimalsCriterion;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.loot.context.LootContext;
+import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
 import net.minecraft.predicate.entity.EntityPredicate;
 import net.minecraft.predicate.entity.LootContextPredicate;
-import net.minecraft.predicate.entity.LootContextPredicateValidator;
 import net.minecraft.server.network.ServerPlayerEntity;
 import xen42.peacefulitems.PeacefulMod;
 
@@ -17,8 +21,13 @@ import org.jetbrains.annotations.Nullable;
 
 public class BredBatsCriterion extends AbstractCriterion<BredBatsCriterion.Conditions> {
 	@Override
-	public Codec<BredBatsCriterion.Conditions> getConditionsCodec() {
-		return BredBatsCriterion.Conditions.CODEC;
+	public BredBatsCriterion.Conditions conditionsFromJson(
+		JsonObject object, Optional<LootContextPredicate> player, AdvancementEntityPredicateDeserializer deserializer
+	) {
+		Optional<LootContextPredicate> parent = EntityPredicate.contextPredicateFromJson(object, "parent", deserializer);
+		Optional<LootContextPredicate> partner = EntityPredicate.contextPredicateFromJson(object, "partner", deserializer);
+		Optional<LootContextPredicate> child = EntityPredicate.contextPredicateFromJson(object, "child", deserializer);
+		return new BredBatsCriterion.Conditions(player, parent, partner, child);
 	}
 
 	public void trigger(ServerPlayerEntity player, BatEntity parent, BatEntity partner, @Nullable BatEntity child) {
@@ -28,21 +37,30 @@ public class BredBatsCriterion extends AbstractCriterion<BredBatsCriterion.Condi
 		this.trigger(player, conditions -> conditions.matches(lootContext, lootContext2, lootContext3));
 	}
 
-	public record Conditions(
-		Optional<LootContextPredicate> player, Optional<LootContextPredicate> parent, Optional<LootContextPredicate> partner, Optional<LootContextPredicate> child
-	) implements AbstractCriterion.Conditions {
-		public static final Codec<BredBatsCriterion.Conditions> CODEC = RecordCodecBuilder.create(
-			instance -> instance.group(
-					EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("player").forGetter(BredBatsCriterion.Conditions::player),
-					EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("parent").forGetter(BredBatsCriterion.Conditions::parent),
-					EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("partner").forGetter(BredBatsCriterion.Conditions::partner),
-					EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("child").forGetter(BredBatsCriterion.Conditions::child)
-				)
-				.apply(instance, BredBatsCriterion.Conditions::new)
-		);
+	public static class Conditions extends AbstractCriterionConditions {
+		private final Optional<LootContextPredicate> parent;
+		private final Optional<LootContextPredicate> partner;
+		private final Optional<LootContextPredicate> child;
+
+		public Conditions(
+			Optional<LootContextPredicate> playerPredicate,
+			Optional<LootContextPredicate> parentPredicate,
+			Optional<LootContextPredicate> partnerPredicate,
+			Optional<LootContextPredicate> childPredicate
+		) {
+			super(playerPredicate);
+			this.parent = parentPredicate;
+			this.partner = partnerPredicate;
+			this.child = childPredicate;
+		}
 
 		public static AdvancementCriterion<BredBatsCriterion.Conditions> any() {
-			return PeacefulMod.BRED_BATS_CRITERIA.create(new BredBatsCriterion.Conditions(Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty()));
+			return PeacefulMod.BRED_BATS_CRITERIA
+				.create(
+					new BredBatsCriterion.Conditions(
+						Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty()
+					)
+				);
 		}
 
 		public static AdvancementCriterion<BredBatsCriterion.Conditions> create(EntityPredicate.Builder child) {
@@ -80,11 +98,12 @@ public class BredBatsCriterion extends AbstractCriterion<BredBatsCriterion.Condi
 		}
 
 		@Override
-		public void validate(LootContextPredicateValidator validator) {
-			AbstractCriterion.Conditions.super.validate(validator);
-			validator.validateEntityPredicate(this.parent, ".parent");
-			validator.validateEntityPredicate(this.partner, ".partner");
-			validator.validateEntityPredicate(this.child, ".child");
+		public JsonObject toJson() {
+			JsonObject jsonObject = super.toJson();
+			this.parent.ifPresent(lootContextPredicate -> jsonObject.add("parent", lootContextPredicate.toJson()));
+			this.partner.ifPresent(lootContextPredicate -> jsonObject.add("partner", lootContextPredicate.toJson()));
+			this.child.ifPresent(lootContextPredicate -> jsonObject.add("child", lootContextPredicate.toJson()));
+			return jsonObject;
 		}
 	}
 }

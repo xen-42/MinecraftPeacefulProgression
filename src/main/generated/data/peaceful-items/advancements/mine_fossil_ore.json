@@ -27,12 +27,16 @@
     }
   },
   "display": {
+    "announce_to_chat": true,
     "description": {
       "translate": "advancements.peaceful_items.mine_fossil_ore.description"
     },
+    "frame": "task",
+    "hidden": false,
     "icon": {
       "item": "peaceful-items:fossil_ore"
     },
+    "show_toast": true,
     "title": {
       "translate": "advancements.peaceful_items.mine_fossil_ore.title"
     }

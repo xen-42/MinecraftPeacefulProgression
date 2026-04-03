@@ -15,13 +15,16 @@
     }
   },
   "display": {
+    "announce_to_chat": true,
     "description": {
       "translate": "advancements.peaceful_items.wither_effigy.description"
     },
     "frame": "goal",
+    "hidden": false,
     "icon": {
       "item": "peaceful-items:wither_effigy"
     },
+    "show_toast": true,
     "title": {
       "translate": "advancements.peaceful_items.wither_effigy.title"
     }
