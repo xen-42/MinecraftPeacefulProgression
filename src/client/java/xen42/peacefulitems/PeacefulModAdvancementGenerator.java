@@ -210,7 +210,6 @@ public class PeacefulModAdvancementGenerator extends FabricAdvancementProvider {
                         GhastlingTearCriterion.Conditions.create(Optional.of(
                                 EntityPredicate.contextPredicateFromEntityPredicate(
                                         EntityPredicate.Builder.create().type(
-                                                registryLookup.getOrThrow(RegistryKeys.ENTITY_TYPE),
                                                 PeacefulMod.GHASTLING_ENTITY
                                         )
                                 )
