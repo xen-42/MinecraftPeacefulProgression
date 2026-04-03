@@ -101,7 +101,14 @@ public class EffigyAltarClientPlugin implements REIClientPlugin {
 		// Panda
 		registerInformation(Items.SLIME_BALL, "sneeze");
 		
-		// Bat
+		// Frog
+		Text froglight = Text.translatable(Items.MAGMA_CREAM.getTranslationKey() + ".frog_information");
+		registerInformation(Items.MAGMA_CREAM, froglight);
+		registerInformation(Blocks.OCHRE_FROGLIGHT.asItem(), froglight);
+		registerInformation(Blocks.PEARLESCENT_FROGLIGHT.asItem(), froglight);
+		registerInformation(Blocks.VERDANT_FROGLIGHT.asItem(), froglight);
+		
+		// Wisp
 		registerInformation(Items.GHAST_TEAR, "wisp");
 		
 		// Bat

@@ -182,6 +182,9 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addInformation(Items.SLIME_BALL, "sneeze", 
 			    "Dropped when a panda sneezes (can be triggered with a brush)."
 			);
+			translationBuilder.addInformation(Items.MAGMA_CREAM, "frog", 
+			    "Frogs can eat dropped magma cream items to produce froglights when in the Nether."
+			);
 			translationBuilder.addInformation(Items.GHAST_TEAR, "wisp", 
 			    "Produced by Wisps when fed guano."
 			);
@@ -334,6 +337,9 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addInformation(Items.SLIME_BALL, "sneeze", 
 			    "Dropped when a panda sneezes (can be triggered with a brush)."
 			);
+			translationBuilder.addInformation(Items.MAGMA_CREAM, "frog", 
+			    "Frogs can eat dropped magma cream items to produce froglights when in the Nether."
+			);
 			translationBuilder.addInformation(Items.GHAST_TEAR, "wisp", 
 			    "Produced by Wisps when fed guano."
 			);
@@ -444,6 +450,9 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			);
 			translationBuilder.addInformation(Items.SLIME_BALL, "sneeze", 
 			    "Dropped when a panda sneezes (can be triggered with a brush)."
+			);
+			translationBuilder.addInformation(Items.MAGMA_CREAM, "frog", 
+			    "Frogs can eat dropped magma cream items to produce froglights when in the Nether."
 			);
 			translationBuilder.addInformation(Items.GHAST_TEAR, "wisp", 
 			    "Produced by Wisps when fed guano."

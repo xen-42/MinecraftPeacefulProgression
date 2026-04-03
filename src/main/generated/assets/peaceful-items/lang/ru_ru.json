@@ -30,6 +30,7 @@
   "gamerule.enableSuperHealingPeaceful": "Включить быстрое восстановление здоровья на мирной сложности",
   "item.minecraft.dragon_breath.dragon_effigy_information": "Use a Dragon Effigy on a cauldron to fill it with dragon breath, then bottle it.",
   "item.minecraft.ghast_tear.wisp_information": "Produced by Wisps when fed guano.",
+  "item.minecraft.magma_cream.frog_information": "Frogs can eat dropped magma cream items to produce froglights when in the Nether.",
   "item.minecraft.nether_star.wither_effigy_information": "Obtained by using a Wither Effigy.",
   "item.minecraft.slime_ball.sneeze_information": "Dropped when a panda sneezes (can be triggered with a brush).",
   "item.peaceful-items.bat_wing": "Крыло летучей мыши",
