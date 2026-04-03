@@ -1,0 +1,26 @@
+{
+  "parent": "peaceful-items:root",
+  "criteria": {
+    "bred_bats": {
+      "trigger": "peaceful-items:bred_bats"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.peaceful_items.breed_a_bat.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:melon_slice"
+    },
+    "title": {
+      "translate": "advancements.peaceful_items.breed_a_bat.title"
+    }
+  },
+  "requirements": [
+    [
+      "bred_bats"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

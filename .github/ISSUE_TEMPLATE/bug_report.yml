@@ -1,0 +1,40 @@
+name: Bug Report
+description: File a bug report
+labels: ["bug"]
+assignees:
+  - MegaPiggy
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What Happened?
+      description: Please describe what happened
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What was supposed to happen?
+      description: If applicable, describe what should have happened instead.
+    validations:
+      required: false
+  - type: dropdown
+    id: gameVersion
+    validations:
+      required: true
+    attributes:
+      label: Game Version
+      description: The current version of Minecraft that you are playing on.
+      multiple: true
+      options:
+        - 1.21.5
+        - 1.21.4
+        - 1.21.3
+        - 1.21.2
+        - 1.21.1
+        - 1.21.0
+        - 1.20.6
+        - 1.20.5
+        - 1.20.4
+        - 1.20.2
+        - 1.20.1
