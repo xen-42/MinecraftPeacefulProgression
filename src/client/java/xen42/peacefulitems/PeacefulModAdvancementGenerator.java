@@ -263,36 +263,6 @@ public class PeacefulModAdvancementGenerator extends FabricAdvancementProvider {
                 .criterion("blaze_rod", InventoryChangedCriterion.Conditions.items(Items.BLAZE_ROD))
                 .build(exporter, "nether/obtain_blaze_rod");
 
-        AdvancementEntry sniffer_breeze = build(Advancement.Builder.create()
-                .display(
-                        PeacefulModBlocks.BREEZE_CORAL,
-                        Text.translatable("advancements.peaceful_items.sniffer_breeze.title"),
-                        Text.translatable("advancements.peaceful_items.sniffer_breeze.description"),
-                        null,
-                        AdvancementFrame.TASK,
-                        true,
-                        true,
-                        false
-                )
-                .parent(root)
-                .criterion("has_breeze_coral", InventoryChangedCriterion.Conditions.items(PeacefulModBlocks.BREEZE_CORAL))
-                , exporter, "sniffer_breeze");
-
-        AdvancementEntry breeze_rod = build(Advancement.Builder.create()
-                .display(
-                        Items.BREEZE_ROD,
-                        Text.translatable("advancements.peaceful_items.breeze_rod.title"),
-                        Text.translatable("advancements.peaceful_items.breeze_rod.description"),
-                        null,
-                        AdvancementFrame.TASK,
-                        true,
-                        true,
-                        false
-                )
-                .parent(sniffer_breeze)
-                .criterion("has_breeze_rod", InventoryChangedCriterion.Conditions.items(Items.BREEZE_ROD))
-                , exporter, "breeze_rod");
-
         AdvancementEntry mine_fossil_ore = build(Advancement.Builder.create()
                 .display(
                         PeacefulModBlocks.FOSSIL_ORE,

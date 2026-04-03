@@ -128,7 +128,6 @@ public class EffigyAltarClientPlugin implements REIClientPlugin {
 		registerInformation(Items.PRISMARINE_CRYSTALS, sand);
 		Text gravel = Text.translatable(Blocks.GRAVEL.getTranslationKey() + ".sniffer_information");
 		registerInformation(Blocks.GRAVEL.asItem(), gravel);
-		registerInformation(PeacefulModBlocks.BREEZE_CORAL.asItem(), gravel);
 		registerInformation(Items.FLINT, gravel);
 		
 		// Fossil
