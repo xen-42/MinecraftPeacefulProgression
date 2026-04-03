@@ -5,7 +5,11 @@ import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityType;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
@@ -73,6 +77,18 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 
 		public void addFilledMap(TagKey<Structure> structure, String value) {
 			add("filled_map." + structure.id().getNamespace() + "." + structure.id().getPath(), value);
+		}
+		
+		private String getInformationKey(String translationKey, String prefix) {
+			return translationKey + "." + prefix + "_information";
+		}
+
+		public void addInformation(Item item, String prefix, String value) {
+			add(getInformationKey(item.getTranslationKey(), prefix), value);
+		}
+
+		public void addInformation(EntityType<?> entity, String prefix, String value) {
+			add(getInformationKey(entity.getTranslationKey(), prefix), value);
 		}
 	}
 	
@@ -144,6 +160,46 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addTags("Soul Soil Ores In Ground", PeacefulModTags.ItemTags.ORES_IN_GROUND_SOUL_SOIL, PeacefulModTags.BlockTags.ORES_IN_GROUND_SOUL_SOIL);
 			translationBuilder.addTags("Fossil Ores", PeacefulModTags.ItemTags.FOSSIL_ORES, PeacefulModTags.ItemTags.FOSSIL_ORES_C, PeacefulModTags.BlockTags.FOSSIL_ORES, PeacefulModTags.BlockTags.FOSSIL_ORES_C);
 			translationBuilder.addTags("Brimstone Ores", PeacefulModTags.ItemTags.SULPHUR_ORES, PeacefulModTags.ItemTags.SULPHUR_ORES_C, PeacefulModTags.ItemTags.SULFUR_ORES, PeacefulModTags.BlockTags.SULPHUR_ORES, PeacefulModTags.BlockTags.SULPHUR_ORES_C, PeacefulModTags.BlockTags.SULFUR_ORES);
+
+			translationBuilder.addInformation(PeacefulModBlocks.EFFIGY_ALTAR.asItem(), "dungeon", 
+			    "Found in Effigy Altar dungeon structures. Cartographers sell maps to locate them."
+			);
+			translationBuilder.addInformation(Items.DRAGON_BREATH, "dragon_effigy", 
+			    "Use a Dragon Effigy on a cauldron to fill it with dragon breath, then bottle it."
+			);
+			translationBuilder.addInformation(Items.NETHER_STAR, "wither_effigy", 
+			    "Obtained by using a Wither Effigy."
+			);
+			translationBuilder.addInformation(PeacefulModItems.GUARDIAN_EFFIGY, "drop", 
+				"Obtained by using a Elder Effigy."
+			);
+			translationBuilder.addInformation(PeacefulModItems.RAID_EFFIGY, "drop", 
+			    "Obtained by using a Raid Effigy."
+			);
+			translationBuilder.addInformation(PeacefulMod.END_CLAM_ENTITY, "drop", 
+			    "Items can be found inside Enderclam shells. Swap items or kill it to get loot."
+			);
+			translationBuilder.addInformation(Items.SLIME_BALL, "sneeze", 
+			    "Dropped when a panda sneezes (can be triggered with a brush)."
+			);
+			translationBuilder.addInformation(Items.GHAST_TEAR, "wisp", 
+			    "Produced by Wisps when fed guano."
+			);
+			translationBuilder.addInformation(PeacefulModItems.GUANO, "bat", 
+			    "Dropped randomly by bats."
+			);
+			translationBuilder.addInformation(Blocks.SOUL_SAND.asItem(), "sniffer", 
+			    "Sniffers can dig up items from soul sand/soil."
+			);
+			translationBuilder.addInformation(Blocks.SAND.asItem(), "sniffer", 
+			    "Sniffers can dig up items from sand."
+			);
+			translationBuilder.addInformation(Blocks.GRAVEL.asItem(), "sniffer", 
+			    "Sniffers can dig up items from gravel."
+			);
+			translationBuilder.addInformation(PeacefulModBlocks.FOSSIL_ORE.asItem(), "brush", 
+			    "Use a brush on Fossil Ore to extract bones."
+			);
 		}
 	}
 	
@@ -256,6 +312,46 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addTags("地下灵魂土矿石", PeacefulModTags.ItemTags.ORES_IN_GROUND_SOUL_SOIL, PeacefulModTags.BlockTags.ORES_IN_GROUND_SOUL_SOIL);
 			translationBuilder.addTags("化石矿石", PeacefulModTags.ItemTags.FOSSIL_ORES, PeacefulModTags.ItemTags.FOSSIL_ORES_C, PeacefulModTags.BlockTags.FOSSIL_ORES, PeacefulModTags.BlockTags.FOSSIL_ORES_C);
 			translationBuilder.addTags("硫磺矿石", PeacefulModTags.ItemTags.SULPHUR_ORES, PeacefulModTags.ItemTags.SULPHUR_ORES_C, PeacefulModTags.ItemTags.SULFUR_ORES, PeacefulModTags.BlockTags.SULPHUR_ORES, PeacefulModTags.BlockTags.SULPHUR_ORES_C, PeacefulModTags.BlockTags.SULFUR_ORES);
+
+			translationBuilder.addInformation(PeacefulModBlocks.EFFIGY_ALTAR.asItem(), "dungeon", 
+			    "Found in Effigy Altar dungeon structures. Cartographers sell maps to locate them."
+			);
+			translationBuilder.addInformation(Items.DRAGON_BREATH, "dragon_effigy", 
+			    "Use a Dragon Effigy on a cauldron to fill it with dragon breath, then bottle it."
+			);
+			translationBuilder.addInformation(Items.NETHER_STAR, "wither_effigy", 
+			    "Obtained by using a Wither Effigy."
+			);
+			translationBuilder.addInformation(PeacefulModItems.GUARDIAN_EFFIGY, "drop", 
+				"Obtained by using a Elder Effigy."
+			);
+			translationBuilder.addInformation(PeacefulModItems.RAID_EFFIGY, "drop", 
+			    "Obtained by using a Raid Effigy."
+			);
+			translationBuilder.addInformation(PeacefulMod.END_CLAM_ENTITY, "drop", 
+			    "Items can be found inside Enderclam shells. Swap items or kill it to get loot."
+			);
+			translationBuilder.addInformation(Items.SLIME_BALL, "sneeze", 
+			    "Dropped when a panda sneezes (can be triggered with a brush)."
+			);
+			translationBuilder.addInformation(Items.GHAST_TEAR, "wisp", 
+			    "Produced by Wisps when fed guano."
+			);
+			translationBuilder.addInformation(PeacefulModItems.GUANO, "bat", 
+			    "Dropped randomly by bats."
+			);
+			translationBuilder.addInformation(Blocks.SOUL_SAND.asItem(), "sniffer", 
+			    "Sniffers can dig up items from soul sand/soil."
+			);
+			translationBuilder.addInformation(Blocks.SAND.asItem(), "sniffer", 
+			    "Sniffers can dig up items from sand."
+			);
+			translationBuilder.addInformation(Blocks.GRAVEL.asItem(), "sniffer", 
+			    "Sniffers can dig up items from gravel."
+			);
+			translationBuilder.addInformation(PeacefulModBlocks.FOSSIL_ORE.asItem(), "brush", 
+			    "Use a brush on Fossil Ore to extract bones."
+			);
 		}
 	}
 	
@@ -327,6 +423,46 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addTags("Руды почвы душ в земле", PeacefulModTags.ItemTags.ORES_IN_GROUND_SOUL_SOIL, PeacefulModTags.BlockTags.ORES_IN_GROUND_SOUL_SOIL);
 			translationBuilder.addTags("Окаменелости", PeacefulModTags.ItemTags.FOSSIL_ORES, PeacefulModTags.ItemTags.FOSSIL_ORES_C, PeacefulModTags.BlockTags.FOSSIL_ORES, PeacefulModTags.BlockTags.FOSSIL_ORES_C);
 			translationBuilder.addTags("Серные руды", PeacefulModTags.ItemTags.SULPHUR_ORES, PeacefulModTags.ItemTags.SULPHUR_ORES_C, PeacefulModTags.ItemTags.SULFUR_ORES, PeacefulModTags.BlockTags.SULPHUR_ORES, PeacefulModTags.BlockTags.SULPHUR_ORES_C, PeacefulModTags.BlockTags.SULFUR_ORES);
+
+			translationBuilder.addInformation(PeacefulModBlocks.EFFIGY_ALTAR.asItem(), "dungeon", 
+			    "Found in Effigy Altar dungeon structures. Cartographers sell maps to locate them."
+			);
+			translationBuilder.addInformation(Items.DRAGON_BREATH, "dragon_effigy", 
+			    "Use a Dragon Effigy on a cauldron to fill it with dragon breath, then bottle it."
+			);
+			translationBuilder.addInformation(Items.NETHER_STAR, "wither_effigy", 
+			    "Obtained by using a Wither Effigy."
+			);
+			translationBuilder.addInformation(PeacefulModItems.GUARDIAN_EFFIGY, "drop", 
+				"Obtained by using a Elder Effigy."
+			);
+			translationBuilder.addInformation(PeacefulModItems.RAID_EFFIGY, "drop", 
+			    "Obtained by using a Raid Effigy."
+			);
+			translationBuilder.addInformation(PeacefulMod.END_CLAM_ENTITY, "drop", 
+			    "Items can be found inside Enderclam shells. Swap items or kill it to get loot."
+			);
+			translationBuilder.addInformation(Items.SLIME_BALL, "sneeze", 
+			    "Dropped when a panda sneezes (can be triggered with a brush)."
+			);
+			translationBuilder.addInformation(Items.GHAST_TEAR, "wisp", 
+			    "Produced by Wisps when fed guano."
+			);
+			translationBuilder.addInformation(PeacefulModItems.GUANO, "bat", 
+			    "Dropped randomly by bats."
+			);
+			translationBuilder.addInformation(Blocks.SOUL_SAND.asItem(), "sniffer", 
+			    "Sniffers can dig up items from soul sand/soil."
+			);
+			translationBuilder.addInformation(Blocks.SAND.asItem(), "sniffer", 
+			    "Sniffers can dig up items from sand."
+			);
+			translationBuilder.addInformation(Blocks.GRAVEL.asItem(), "sniffer", 
+			    "Sniffers can dig up items from gravel."
+			);
+			translationBuilder.addInformation(PeacefulModBlocks.FOSSIL_ORE.asItem(), "brush", 
+			    "Use a brush on Fossil Ore to extract bones."
+			);
 		}
 	}
 }

@@ -109,16 +109,20 @@ public class EffigyAltarClientPlugin implements REIClientPlugin {
 		
 		// Sniffer
 		Text soul_sand = Text.translatable(Blocks.SOUL_SAND.getTranslationKey() + ".sniffer_information");
+		registerInformation(Blocks.SOUL_SAND.asItem(), soul_sand);
+		registerInformation(Blocks.SOUL_SOIL.asItem(), soul_sand);
 		registerInformation(Items.WITHER_SKELETON_SKULL, soul_sand);
 		registerInformation(Items.SKELETON_SKULL, soul_sand);
 		registerInformation(Items.WITHER_ROSE, soul_sand);
 		registerInformation(PeacefulModBlocks.BLAZE_PICKLE.asItem(), soul_sand);
 		registerInformation(Items.BONE, soul_sand);
 		Text sand = Text.translatable(Blocks.SAND.getTranslationKey() + ".sniffer_information");
+		registerInformation(Blocks.SAND.asItem(), sand);
 		registerInformation(Items.NAUTILUS_SHELL, sand);
 		registerInformation(Items.PRISMARINE_SHARD, sand);
 		registerInformation(Items.PRISMARINE_CRYSTALS, sand);
 		Text gravel = Text.translatable(Blocks.GRAVEL.getTranslationKey() + ".sniffer_information");
+		registerInformation(Blocks.GRAVEL.asItem(), gravel);
 		registerInformation(PeacefulModBlocks.BREEZE_CORAL.asItem(), gravel);
 		registerInformation(Items.FLINT, gravel);
 		
