@@ -121,6 +121,13 @@ public class EffigyAltarClientPlugin implements REIClientPlugin {
 		Text gravel = Text.translatable(Blocks.GRAVEL.getTranslationKey() + ".sniffer_information");
 		registerInformation(PeacefulModBlocks.BREEZE_CORAL.asItem(), gravel);
 		registerInformation(Items.FLINT, gravel);
+		
+		// Fossil
+		Text brush = Text.translatable(PeacefulModBlocks.FOSSIL_ORE.getTranslationKey() + ".brush_information");
+		registerInformation(Items.BRUSH, brush);
+		registerInformation(PeacefulModBlocks.FOSSIL_ORE.asItem(), brush);
+		registerInformation(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE.asItem(), brush);
+		registerInformation(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE.asItem(), brush);
 	}
 	
 	private static void registerInformation(Item item, String prefix) {
