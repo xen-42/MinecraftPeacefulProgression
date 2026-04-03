@@ -209,6 +209,9 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addInformation(Items.CREEPER_HEAD, "dungeon_chest", 
 			    "Can be found in dungeon and Effigy Altar dungeon chests."
 			);
+			translationBuilder.addInformation(Items.RESIN_CLUMP, "strip_pale_oak", 
+			    "Stripping pale oak logs drops resin."
+			);
 		}
 	}
 	
@@ -370,6 +373,9 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addInformation(Items.CREEPER_HEAD, "dungeon_chest", 
 			    "Can be found in dungeon and Effigy Altar dungeon chests."
 			);
+			translationBuilder.addInformation(Items.RESIN_CLUMP, "strip_pale_oak", 
+			    "Stripping pale oak logs drops resin."
+			);
 		}
 	}
 	
@@ -489,6 +495,9 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			);
 			translationBuilder.addInformation(Items.CREEPER_HEAD, "dungeon_chest", 
 			    "Can be found in dungeon and Effigy Altar dungeon chests."
+			);
+			translationBuilder.addInformation(Items.RESIN_CLUMP, "strip_pale_oak", 
+			    "Stripping pale oak logs drops resin."
 			);
 		}
 	}
