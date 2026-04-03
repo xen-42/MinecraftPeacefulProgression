@@ -43,7 +43,7 @@ public class PeacefulModAdvancementGenerator extends FabricAdvancementProvider {
                         PeacefulModBlocks.SULPHUR_BLOCK,
                         Text.translatable("advancements.peaceful_items.root.title"),
                         Text.translatable("advancements.peaceful_items.root.description"),
-                        Identifier.of(PeacefulMod.MOD_ID, "gui/advancements/backgrounds/root"),
+                        Identifier.of(PeacefulMod.MOD_ID, "textures/gui/advancements/backgrounds/root.png"),
                         AdvancementFrame.TASK,
                         false,
                         false,
