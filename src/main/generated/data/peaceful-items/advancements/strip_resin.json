@@ -1,0 +1,33 @@
+{
+  "parent": "peaceful-items:root",
+  "criteria": {
+    "has_resin_clump": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:resin_clump"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.peaceful_items.strip_resin.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:resin_clump"
+    },
+    "title": {
+      "translate": "advancements.peaceful_items.strip_resin.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_resin_clump"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
