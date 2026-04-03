@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "peaceful-items:raid_effigy"
+            "items": [
+              "peaceful-items:raid_effigy"
+            ]
           }
         ]
       },
@@ -17,8 +19,7 @@
       "translate": "advancements.peaceful_items.raid_effigy.description"
     },
     "icon": {
-      "count": 1,
-      "id": "peaceful-items:raid_effigy"
+      "item": "peaceful-items:raid_effigy"
     },
     "title": {
       "translate": "advancements.peaceful_items.raid_effigy.title"

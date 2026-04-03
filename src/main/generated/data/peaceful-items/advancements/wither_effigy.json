@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "peaceful-items:wither_effigy"
+            "items": [
+              "peaceful-items:wither_effigy"
+            ]
           }
         ]
       },
@@ -18,8 +20,7 @@
     },
     "frame": "goal",
     "icon": {
-      "count": 1,
-      "id": "peaceful-items:wither_effigy"
+      "item": "peaceful-items:wither_effigy"
     },
     "title": {
       "translate": "advancements.peaceful_items.wither_effigy.title"
