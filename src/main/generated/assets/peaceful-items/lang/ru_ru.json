@@ -43,6 +43,7 @@
   "tag.block.c.ores_in_ground.soul_soil": "Руды почвы душ в земле",
   "tag.block.peaceful-items.fossil_ores": "Окаменелости",
   "tag.block.peaceful-items.sulphur_ores": "Серные руды",
+  "tag.item.c.guano": "Гуано",
   "tag.item.c.ore_bearing_ground.soul_soil": "Рудоносная почва душ",
   "tag.item.c.ores.fossil": "Окаменелости",
   "tag.item.c.ores.sulfur": "Серные руды",
@@ -51,6 +52,8 @@
   "tag.item.peaceful-items.effigies": "Тотемы",
   "tag.item.peaceful-items.fossil_ores": "Окаменелости",
   "tag.item.peaceful-items.sulphur_ores": "Серные руды",
+  "tag.item.peaceful-items.wisp_dislikes": "Отвращения души",
+  "tag.item.peaceful-items.wisp_likes": "Предпочтения души",
   "tag.worldgen.structure.minecraft.ocean_ruin": "Подводные руины",
   "tag.worldgen.structure.peaceful-items.effigy_altar_dungeon": "Алтари тотемов",
   "tag.worldgen.structure.peaceful-items.trail_ruins": "Руины троп"

@@ -133,7 +133,10 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.add(PeacefulMod.ENABLE_SUPER_HEALING_PEACEFUL, "Enable super healing in peaceful");
 			translationBuilder.add(PeacefulMod.ENABLE_ENDER_DRAGON_FIGHT_PEACEFUL, "Enable Ender Dragon fight in peaceful");
 
+			translationBuilder.add(PeacefulModTags.ItemTags.GUANO, "Guano");
 			translationBuilder.add(PeacefulModTags.ItemTags.EFFIGIES, "Effigies");
+			translationBuilder.add(PeacefulModTags.ItemTags.WISP_LIKES, "Wisp Likes");
+			translationBuilder.add(PeacefulModTags.ItemTags.WISP_DISLIKES, "Wisp Dislikes");
 			translationBuilder.add(PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, "Effigy Altar Dungeon");
 			translationBuilder.add(PeacefulModTags.StructureTags.TRAIL_RUINS, "Trail Ruins");
 			translationBuilder.add(StructureTags.OCEAN_RUIN, "Ocean Ruin");
@@ -242,7 +245,10 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.add(PeacefulMod.ENABLE_SUPER_HEALING_PEACEFUL, "启用和平中的超级生命恢复");
 			translationBuilder.add(PeacefulMod.ENABLE_ENDER_DRAGON_FIGHT_PEACEFUL, "启用和平中的末影龙");
 
+			translationBuilder.add(PeacefulModTags.ItemTags.GUANO, "粪便");
 			translationBuilder.add(PeacefulModTags.ItemTags.EFFIGIES, "塑像");
+			translationBuilder.add(PeacefulModTags.ItemTags.WISP_LIKES, "小精灵的喜欢之物");
+			translationBuilder.add(PeacefulModTags.ItemTags.WISP_DISLIKES, "小精灵的厌恶之物");
 			translationBuilder.add(PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, "塑像祭坛");
 			translationBuilder.add(PeacefulModTags.StructureTags.TRAIL_RUINS, "古迹废墟");
 			translationBuilder.add(StructureTags.OCEAN_RUIN, "海底废墟");
@@ -310,7 +316,10 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.add(PeacefulMod.ENABLE_SUPER_HEALING_PEACEFUL, "Включить быстрое восстановление здоровья на мирной сложности");
 			translationBuilder.add(PeacefulMod.ENABLE_ENDER_DRAGON_FIGHT_PEACEFUL, "Включить битву с драконом на мирной сложности");
 
+			translationBuilder.add(PeacefulModTags.ItemTags.GUANO, "Гуано");
 			translationBuilder.add(PeacefulModTags.ItemTags.EFFIGIES, "Тотемы");
+			translationBuilder.add(PeacefulModTags.ItemTags.WISP_LIKES, "Предпочтения души");
+			translationBuilder.add(PeacefulModTags.ItemTags.WISP_DISLIKES, "Отвращения души");
 			translationBuilder.add(PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, "Алтари тотемов");
 			translationBuilder.add(PeacefulModTags.StructureTags.TRAIL_RUINS, "Руины троп");
 			translationBuilder.add(StructureTags.OCEAN_RUIN, "Подводные руины");
