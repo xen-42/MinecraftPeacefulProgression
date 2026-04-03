@@ -203,6 +203,12 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addInformation(PeacefulModBlocks.FOSSIL_ORE.asItem(), "brush", 
 			    "Use a brush on Fossil Ore to extract bones."
 			);
+			translationBuilder.addInformation(EntityType.WANDERING_TRADER, "key_head", 
+			    "Can be sold by a Wandering Trader."
+			);
+			translationBuilder.addInformation(Items.CREEPER_HEAD, "dungeon_chest", 
+			    "Can be found in dungeon and Effigy Altar dungeon chests."
+			);
 		}
 	}
 	
@@ -358,6 +364,12 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addInformation(PeacefulModBlocks.FOSSIL_ORE.asItem(), "brush", 
 			    "Use a brush on Fossil Ore to extract bones."
 			);
+			translationBuilder.addInformation(EntityType.WANDERING_TRADER, "key_head", 
+			    "Can be sold by a Wandering Trader."
+			);
+			translationBuilder.addInformation(Items.CREEPER_HEAD, "dungeon_chest", 
+			    "Can be found in dungeon and Effigy Altar dungeon chests."
+			);
 		}
 	}
 	
@@ -471,6 +483,12 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			);
 			translationBuilder.addInformation(PeacefulModBlocks.FOSSIL_ORE.asItem(), "brush", 
 			    "Use a brush on Fossil Ore to extract bones."
+			);
+			translationBuilder.addInformation(EntityType.WANDERING_TRADER, "key_head", 
+			    "Can be sold by a Wandering Trader."
+			);
+			translationBuilder.addInformation(Items.CREEPER_HEAD, "dungeon_chest", 
+			    "Can be found in dungeon and Effigy Altar dungeon chests."
 			);
 		}
 	}

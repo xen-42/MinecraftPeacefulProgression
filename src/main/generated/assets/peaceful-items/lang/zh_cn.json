@@ -1,4 +1,5 @@
 {
+  "block.minecraft.creeper_head.dungeon_chest_information": "Can be found in dungeon and Effigy Altar dungeon chests.",
   "block.minecraft.gravel.sniffer_information": "Sniffers can dig up items from gravel.",
   "block.minecraft.sand.sniffer_information": "Sniffers can dig up items from sand.",
   "block.minecraft.soul_sand.sniffer_information": "Sniffers can dig up items from soul sand/soil.",
@@ -18,6 +19,7 @@
   "block.peaceful-items.sulphur_slab": "硫磺台阶",
   "block.peaceful-items.sulphur_stairs": "硫磺楼梯",
   "block.peaceful-items.sulphur_wall": "硫磺围墙",
+  "entity.minecraft.wandering_trader.key_head_information": "Can be sold by a Wandering Trader.",
   "entity.peaceful-items.end_clam": "末影蛤",
   "entity.peaceful-items.end_clam.drop_information": "Items can be found inside Enderclam shells. Swap items or kill it to get loot.",
   "entity.peaceful-items.ghastling": "小精灵",

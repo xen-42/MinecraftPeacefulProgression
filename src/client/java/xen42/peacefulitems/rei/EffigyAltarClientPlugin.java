@@ -139,6 +139,20 @@ public class EffigyAltarClientPlugin implements REIClientPlugin {
 		registerInformation(PeacefulModBlocks.FOSSIL_ORE.asItem(), brush);
 		registerInformation(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE.asItem(), brush);
 		registerInformation(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE.asItem(), brush);
+		
+		// Wandering Trader
+		Text wandering_trader_key = Text.translatable(EntityType.WANDERING_TRADER.getTranslationKey() + ".key_head_information");
+		registerInformation(Items.TRIAL_KEY, wandering_trader_key);
+		registerInformation(Items.OMINOUS_TRIAL_KEY, wandering_trader_key);
+		registerInformation(Items.ZOMBIE_HEAD, wandering_trader_key);
+		registerInformation(Items.CREEPER_HEAD, wandering_trader_key);
+		registerInformation(Items.PIGLIN_HEAD, wandering_trader_key);
+		
+		// Dungeon Chest
+		Text head_key = Text.translatable(Items.CREEPER_HEAD.getTranslationKey() + ".dungeon_chest_information");
+		registerInformation(Items.CREEPER_HEAD, head_key);
+		registerInformation(Items.PIGLIN_HEAD, head_key);
+		registerInformation(Items.ZOMBIE_HEAD, head_key);
 	}
 	
 	private static void registerInformation(Item item, String prefix) {
