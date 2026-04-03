@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "peaceful-items:dragon_effigy"
+            "items": [
+              "peaceful-items:dragon_effigy"
+            ]
           }
         ]
       },
@@ -18,8 +20,7 @@
     },
     "frame": "goal",
     "icon": {
-      "count": 1,
-      "id": "peaceful-items:dragon_effigy"
+      "item": "peaceful-items:dragon_effigy"
     },
     "title": {
       "translate": "advancements.peaceful_items.dragon_effigy.title"

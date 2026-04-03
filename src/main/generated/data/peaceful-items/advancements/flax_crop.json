@@ -18,8 +18,7 @@
       "translate": "advancements.peaceful_items.flax_crop.description"
     },
     "icon": {
-      "count": 1,
-      "id": "peaceful-items:flax"
+      "item": "peaceful-items:flax"
     },
     "title": {
       "translate": "advancements.peaceful_items.flax_crop.title"

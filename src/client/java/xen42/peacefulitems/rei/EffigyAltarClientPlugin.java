@@ -76,8 +76,7 @@ public class EffigyAltarClientPlugin implements REIClientPlugin {
 		
 		// Raid Effigy
 		Text raid_effigy = Text.translatable(PeacefulModItems.RAID_EFFIGY.getTranslationKey() + ".drop_information");
-		registerInformation(Items.OMINOUS_BOTTLE, raid_effigy);
-		registerInformation(Raid.getOminousBanner(registryManager.getWrapperOrThrow(RegistryKeys.BANNER_PATTERN)).getItem(), raid_effigy);
+		registerInformation(Raid.getOminousBanner().getItem(), raid_effigy);
 		registerInformation(Items.CROSSBOW, raid_effigy);
 		registerInformation(Items.SADDLE, raid_effigy);
 		registerInformation(Items.IRON_AXE, raid_effigy);
@@ -139,8 +138,6 @@ public class EffigyAltarClientPlugin implements REIClientPlugin {
 		
 		// Wandering Trader
 		Text wandering_trader_key = Text.translatable(EntityType.WANDERING_TRADER.getTranslationKey() + ".key_head_information");
-		registerInformation(Items.TRIAL_KEY, wandering_trader_key);
-		registerInformation(Items.OMINOUS_TRIAL_KEY, wandering_trader_key);
 		registerInformation(Items.ZOMBIE_HEAD, wandering_trader_key);
 		registerInformation(Items.CREEPER_HEAD, wandering_trader_key);
 		registerInformation(Items.PIGLIN_HEAD, wandering_trader_key);
