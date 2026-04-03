@@ -2,6 +2,7 @@
   "parent": "peaceful-items:root",
   "criteria": {
     "bred_bats": {
+      "conditions": {},
       "trigger": "peaceful-items:bred_bats"
     }
   },

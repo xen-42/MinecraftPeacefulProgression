@@ -12,21 +12,30 @@ import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
+import net.minecraft.predicate.entity.AdvancementEntityPredicateSerializer;
 import net.minecraft.predicate.entity.EntityPredicate;
 import net.minecraft.predicate.entity.LootContextPredicate;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
 import xen42.peacefulitems.PeacefulMod;
 
 import org.jetbrains.annotations.Nullable;
 
 public class BredBatsCriterion extends AbstractCriterion<BredBatsCriterion.Conditions> {
+	public static final Identifier ID = Identifier.of(PeacefulMod.MOD_ID, "bred_bats");
+
+	@Override
+	public Identifier getId() {
+		return ID;
+	}
+
 	@Override
 	public BredBatsCriterion.Conditions conditionsFromJson(
-		JsonObject object, Optional<LootContextPredicate> player, AdvancementEntityPredicateDeserializer deserializer
+		JsonObject object, LootContextPredicate player, AdvancementEntityPredicateDeserializer deserializer
 	) {
-		Optional<LootContextPredicate> parent = EntityPredicate.contextPredicateFromJson(object, "parent", deserializer);
-		Optional<LootContextPredicate> partner = EntityPredicate.contextPredicateFromJson(object, "partner", deserializer);
-		Optional<LootContextPredicate> child = EntityPredicate.contextPredicateFromJson(object, "child", deserializer);
+		LootContextPredicate parent = EntityPredicate.contextPredicateFromJson(object, "parent", deserializer);
+		LootContextPredicate partner = EntityPredicate.contextPredicateFromJson(object, "partner", deserializer);
+		LootContextPredicate child = EntityPredicate.contextPredicateFromJson(object, "child", deserializer);
 		return new BredBatsCriterion.Conditions(player, parent, partner, child);
 	}
 
@@ -38,71 +47,53 @@ public class BredBatsCriterion extends AbstractCriterion<BredBatsCriterion.Condi
 	}
 
 	public static class Conditions extends AbstractCriterionConditions {
-		private final Optional<LootContextPredicate> parent;
-		private final Optional<LootContextPredicate> partner;
-		private final Optional<LootContextPredicate> child;
+		private final LootContextPredicate parent;
+		private final LootContextPredicate partner;
+		private final LootContextPredicate child;
 
 		public Conditions(
-			Optional<LootContextPredicate> playerPredicate,
-			Optional<LootContextPredicate> parentPredicate,
-			Optional<LootContextPredicate> partnerPredicate,
-			Optional<LootContextPredicate> childPredicate
+			LootContextPredicate playerPredicate,
+			LootContextPredicate parentPredicate,
+			LootContextPredicate partnerPredicate,
+			LootContextPredicate childPredicate
 		) {
-			super(playerPredicate);
+			super(ID, playerPredicate);
 			this.parent = parentPredicate;
 			this.partner = partnerPredicate;
 			this.child = childPredicate;
 		}
 
-		public static AdvancementCriterion<BredBatsCriterion.Conditions> any() {
-			return PeacefulMod.BRED_BATS_CRITERIA
-				.create(
-					new BredBatsCriterion.Conditions(
-						Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty()
-					)
-				);
+		public static BredBatsCriterion.Conditions any() {
+			return new BredBatsCriterion.Conditions(LootContextPredicate.EMPTY, LootContextPredicate.EMPTY, LootContextPredicate.EMPTY, LootContextPredicate.EMPTY);
 		}
 
-		public static AdvancementCriterion<BredBatsCriterion.Conditions> create(EntityPredicate.Builder child) {
-			return PeacefulMod.BRED_BATS_CRITERIA
-				.create(
-					new BredBatsCriterion.Conditions(
-						Optional.empty(), Optional.empty(), Optional.empty(), Optional.of(EntityPredicate.contextPredicateFromEntityPredicate(child))
-					)
-				);
+		public static BredBatsCriterion.Conditions create(EntityPredicate.Builder child) {
+			return new BredBatsCriterion.Conditions(
+				LootContextPredicate.EMPTY, LootContextPredicate.EMPTY, LootContextPredicate.EMPTY, EntityPredicate.asLootContextPredicate(child.build())
+			);
 		}
 
-		public static AdvancementCriterion<BredBatsCriterion.Conditions> create(
-			Optional<EntityPredicate> parent, Optional<EntityPredicate> partner, Optional<EntityPredicate> child
-		) {
-			return PeacefulMod.BRED_BATS_CRITERIA
-				.create(
-					new BredBatsCriterion.Conditions(
-						Optional.empty(),
-						EntityPredicate.contextPredicateFromEntityPredicate(parent),
-						EntityPredicate.contextPredicateFromEntityPredicate(partner),
-						EntityPredicate.contextPredicateFromEntityPredicate(child)
-					)
-				);
+		public static BredBatsCriterion.Conditions create(EntityPredicate parent, EntityPredicate partner, EntityPredicate child) {
+			return new BredBatsCriterion.Conditions(
+				LootContextPredicate.EMPTY,
+				EntityPredicate.asLootContextPredicate(parent),
+				EntityPredicate.asLootContextPredicate(partner),
+				EntityPredicate.asLootContextPredicate(child)
+			);
 		}
 
 		public boolean matches(LootContext parentContext, LootContext partnerContext, @Nullable LootContext childContext) {
-			return !this.child.isPresent() || childContext != null && ((LootContextPredicate)this.child.get()).test(childContext)
-				? parentMatches(this.parent, parentContext) && parentMatches(this.partner, partnerContext)
-					|| parentMatches(this.parent, partnerContext) && parentMatches(this.partner, parentContext)
+			return this.child == LootContextPredicate.EMPTY || childContext != null && this.child.test(childContext)
+				? this.parent.test(parentContext) && this.partner.test(partnerContext) || this.parent.test(partnerContext) && this.partner.test(parentContext)
 				: false;
 		}
 
-		private static boolean parentMatches(Optional<LootContextPredicate> parent, LootContext parentContext) {
-			return parent.isEmpty() || ((LootContextPredicate)parent.get()).test(parentContext);
-		}
-
 		@Override
-		public JsonObject toJson() {
-			JsonObject jsonObject = super.toJson();
-			this.parent.ifPresent(lootContextPredicate -> jsonObject.add("parent", lootContextPredicate.toJson()));
-			this.partner.ifPresent(lootContextPredicate -> jsonObject.add("partner", lootContextPredicate.toJson()));
-			this.child.ifPresent(lootContextPredicate -> jsonObject.add("child", lootContextPredicate.toJson()));
+		public JsonObject toJson(AdvancementEntityPredicateSerializer predicateSerializer) {
+			JsonObject jsonObject = super.toJson(predicateSerializer);
+			jsonObject.add("parent", this.parent.toJson(predicateSerializer));
+			jsonObject.add("partner", this.partner.toJson(predicateSerializer));
+			jsonObject.add("child", this.child.toJson(predicateSerializer));
 			return jsonObject;
 		}
 	}
