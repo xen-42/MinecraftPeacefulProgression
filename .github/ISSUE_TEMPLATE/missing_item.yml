@@ -1,0 +1,14 @@
+name: Missing Item
+description: Is there an item we missed?
+labels: ["missing item"]
+body:
+  - type: input
+    id: missing-item
+    attributes:
+      label: Missing Item
+      description: What is the item we missed?
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Implementation
+      description: How do you think we should add this to the mod?
