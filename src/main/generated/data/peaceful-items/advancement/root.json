@@ -13,7 +13,7 @@
   },
   "display": {
     "announce_to_chat": false,
-    "background": "peaceful-items:gui/advancements/backgrounds/root",
+    "background": "peaceful-items:textures/gui/advancements/backgrounds/root.png",
     "description": {
       "translate": "advancements.peaceful_items.root.description"
     },
