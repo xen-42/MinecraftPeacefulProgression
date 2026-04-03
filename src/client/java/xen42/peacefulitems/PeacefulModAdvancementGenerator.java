@@ -310,21 +310,6 @@ public class PeacefulModAdvancementGenerator extends FabricAdvancementProvider {
                 .criterion("has_bone", InventoryChangedCriterion.Conditions.items(Items.BONE))
                 .criterion("has_bone_meal", InventoryChangedCriterion.Conditions.items(Items.BONE_MEAL))
                 , exporter, "mine_fossil_ore");
-
-        AdvancementEntry strip_resin = build(Advancement.Builder.create()
-                .display(
-                        Items.RESIN_CLUMP,
-                        Text.translatable("advancements.peaceful_items.strip_resin.title"),
-                        Text.translatable("advancements.peaceful_items.strip_resin.description"),
-                        null,
-                        AdvancementFrame.TASK,
-                        true,
-                        true,
-                        false
-                )
-                .parent(root)
-                .criterion("has_resin_clump", InventoryChangedCriterion.Conditions.items(Items.RESIN_CLUMP))
-                , exporter, "strip_resin");
     }
     
     public AdvancementEntry build(Advancement.Builder builder, Consumer<AdvancementEntry> exporter, String id) {
