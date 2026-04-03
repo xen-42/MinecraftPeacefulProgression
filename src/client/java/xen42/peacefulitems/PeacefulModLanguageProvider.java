@@ -349,6 +349,25 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addTags("化石矿石", PeacefulModTags.ItemTags.FOSSIL_ORES, PeacefulModTags.ItemTags.FOSSIL_ORES_C, PeacefulModTags.BlockTags.FOSSIL_ORES, PeacefulModTags.BlockTags.FOSSIL_ORES_C);
 			translationBuilder.addTags("硫磺矿石", PeacefulModTags.ItemTags.SULPHUR_ORES, PeacefulModTags.ItemTags.SULPHUR_ORES_C, PeacefulModTags.ItemTags.SULFUR_ORES, PeacefulModTags.BlockTags.SULPHUR_ORES, PeacefulModTags.BlockTags.SULPHUR_ORES_C, PeacefulModTags.BlockTags.SULFUR_ORES);
 
+			translationBuilder.addAdvancement("root", "Peaceful Progression", "A better way to be peaceful");
+			translationBuilder.addAdvancement("find_effigy_altar_dungeon", "Altar to None", "Enter an Effigy Altar Dungeon");
+			translationBuilder.addAdvancement("dragon_effigy", "Echo of the End", "Craft an effigy of the Ender Dragon");
+			translationBuilder.addAdvancement("wither_effigy", "A Grim Reminder", "Craft an effigy of the Wither");
+			translationBuilder.addAdvancement("guardian_effigy", "From the Depths", "Craft an effigy of the Elder Guardian");
+			translationBuilder.addAdvancement("raid_effigy", "Sound the Horn", "Craft an effigy of a village raid");
+			translationBuilder.addAdvancement("totem_of_undying", "Fail-Safe", "Craft a Totem of Undying at an Effigy Altar");
+			translationBuilder.addAdvancement("flax_crop", "Delicate Threads", "Plant flax seeds");
+			translationBuilder.addAdvancement("breed_a_bat", "Love at First Bite", "Breed two bats using melon slices");
+			translationBuilder.addAdvancement("wisp_tear", "Tears by Force", "Feed guano to a Wisp");
+			translationBuilder.addAdvancement("end_clam_pearl", "By Hand or By Heart", "Get an Ender Pearl from an Enderclam");
+			translationBuilder.addAdvancement("brimstone", "Awakening Flame", "Find Brimstone in the Soul Sand Valleys");
+			translationBuilder.addAdvancement("sniffer_blaze", "Cinders in the Soil", "Let a Sniffer dig up a Blaze Coral");
+			translationBuilder.addAdvancement("blaze_rod", "Into Fire", "Smelt a Blaze Coral into a Blaze Rod");
+			translationBuilder.addAdvancement("sniffer_breeze", "Whispers in the Gravel", "Let a Sniffer dig up a Breeze Coral");
+			translationBuilder.addAdvancement("breeze_rod", "Into Wind", "Smelt a Breeze Coral into a Breeze Rod");
+			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine Bones from Fossil Ore");
+			translationBuilder.addAdvancement("strip_resin", "Sap Tap", "Strip a Pale Oak Log to get a Resin Clump");
+
 			translationBuilder.addInformation(PeacefulModBlocks.EFFIGY_ALTAR.asItem(), "dungeon", 
 			    "Found in Effigy Altar dungeon structures. Cartographers sell maps to locate them."
 			);
@@ -471,6 +490,25 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addTags("Руды почвы душ в земле", PeacefulModTags.ItemTags.ORES_IN_GROUND_SOUL_SOIL, PeacefulModTags.BlockTags.ORES_IN_GROUND_SOUL_SOIL);
 			translationBuilder.addTags("Окаменелости", PeacefulModTags.ItemTags.FOSSIL_ORES, PeacefulModTags.ItemTags.FOSSIL_ORES_C, PeacefulModTags.BlockTags.FOSSIL_ORES, PeacefulModTags.BlockTags.FOSSIL_ORES_C);
 			translationBuilder.addTags("Серные руды", PeacefulModTags.ItemTags.SULPHUR_ORES, PeacefulModTags.ItemTags.SULPHUR_ORES_C, PeacefulModTags.ItemTags.SULFUR_ORES, PeacefulModTags.BlockTags.SULPHUR_ORES, PeacefulModTags.BlockTags.SULPHUR_ORES_C, PeacefulModTags.BlockTags.SULFUR_ORES);
+
+			translationBuilder.addAdvancement("root", "Peaceful Progression", "A better way to be peaceful");
+			translationBuilder.addAdvancement("find_effigy_altar_dungeon", "Altar to None", "Enter an Effigy Altar Dungeon");
+			translationBuilder.addAdvancement("dragon_effigy", "Echo of the End", "Craft an effigy of the Ender Dragon");
+			translationBuilder.addAdvancement("wither_effigy", "A Grim Reminder", "Craft an effigy of the Wither");
+			translationBuilder.addAdvancement("guardian_effigy", "From the Depths", "Craft an effigy of the Elder Guardian");
+			translationBuilder.addAdvancement("raid_effigy", "Sound the Horn", "Craft an effigy of a village raid");
+			translationBuilder.addAdvancement("totem_of_undying", "Fail-Safe", "Craft a Totem of Undying at an Effigy Altar");
+			translationBuilder.addAdvancement("flax_crop", "Delicate Threads", "Plant flax seeds");
+			translationBuilder.addAdvancement("breed_a_bat", "Love at First Bite", "Breed two bats using melon slices");
+			translationBuilder.addAdvancement("wisp_tear", "Tears by Force", "Feed guano to a Wisp");
+			translationBuilder.addAdvancement("end_clam_pearl", "By Hand or By Heart", "Get an Ender Pearl from an Enderclam");
+			translationBuilder.addAdvancement("brimstone", "Awakening Flame", "Find Brimstone in the Soul Sand Valleys");
+			translationBuilder.addAdvancement("sniffer_blaze", "Cinders in the Soil", "Let a Sniffer dig up a Blaze Coral");
+			translationBuilder.addAdvancement("blaze_rod", "Into Fire", "Smelt a Blaze Coral into a Blaze Rod");
+			translationBuilder.addAdvancement("sniffer_breeze", "Whispers in the Gravel", "Let a Sniffer dig up a Breeze Coral");
+			translationBuilder.addAdvancement("breeze_rod", "Into Wind", "Smelt a Breeze Coral into a Breeze Rod");
+			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine Bones from Fossil Ore");
+			translationBuilder.addAdvancement("strip_resin", "Sap Tap", "Strip a Pale Oak Log to get a Resin Clump");
 
 			translationBuilder.addInformation(PeacefulModBlocks.EFFIGY_ALTAR.asItem(), "dungeon", 
 			    "Found in Effigy Altar dungeon structures. Cartographers sell maps to locate them."
