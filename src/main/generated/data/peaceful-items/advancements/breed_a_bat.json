@@ -10,8 +10,7 @@
       "translate": "advancements.peaceful_items.breed_a_bat.description"
     },
     "icon": {
-      "count": 1,
-      "id": "minecraft:melon_slice"
+      "item": "minecraft:melon_slice"
     },
     "title": {
       "translate": "advancements.peaceful_items.breed_a_bat.title"

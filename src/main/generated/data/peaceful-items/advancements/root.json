@@ -4,7 +4,9 @@
       "conditions": {
         "items": [
           {
-            "items": "minecraft:crafting_table"
+            "items": [
+              "minecraft:crafting_table"
+            ]
           }
         ]
       },
@@ -18,8 +20,7 @@
       "translate": "advancements.peaceful_items.root.description"
     },
     "icon": {
-      "count": 1,
-      "id": "peaceful-items:sulphur_block"
+      "item": "peaceful-items:sulphur_block"
     },
     "show_toast": false,
     "title": {
