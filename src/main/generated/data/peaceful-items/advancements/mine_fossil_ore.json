@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "minecraft:bone"
+            "items": [
+              "minecraft:bone"
+            ]
           }
         ]
       },
@@ -15,7 +17,9 @@
       "conditions": {
         "items": [
           {
-            "items": "minecraft:bone_meal"
+            "items": [
+              "minecraft:bone_meal"
+            ]
           }
         ]
       },
@@ -27,8 +31,7 @@
       "translate": "advancements.peaceful_items.mine_fossil_ore.description"
     },
     "icon": {
-      "count": 1,
-      "id": "peaceful-items:fossil_ore"
+      "item": "peaceful-items:fossil_ore"
     },
     "title": {
       "translate": "advancements.peaceful_items.mine_fossil_ore.title"

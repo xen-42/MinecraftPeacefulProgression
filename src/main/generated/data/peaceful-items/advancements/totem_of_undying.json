@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "minecraft:totem_of_undying"
+            "items": [
+              "minecraft:totem_of_undying"
+            ]
           }
         ]
       },
@@ -17,8 +19,7 @@
       "translate": "advancements.peaceful_items.totem_of_undying.description"
     },
     "icon": {
-      "count": 1,
-      "id": "minecraft:totem_of_undying"
+      "item": "minecraft:totem_of_undying"
     },
     "title": {
       "translate": "advancements.peaceful_items.totem_of_undying.title"

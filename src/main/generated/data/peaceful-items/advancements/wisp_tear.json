@@ -21,8 +21,7 @@
       "translate": "advancements.peaceful_items.wisp_tear.description"
     },
     "icon": {
-      "count": 1,
-      "id": "minecraft:ghast_tear"
+      "item": "minecraft:ghast_tear"
     },
     "title": {
       "translate": "advancements.peaceful_items.wisp_tear.title"

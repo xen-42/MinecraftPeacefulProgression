@@ -24,8 +24,8 @@ import xen42.peacefulitems.criterion.BredBatsCriterion;
 import xen42.peacefulitems.criterion.GhastlingTearCriterion;
 
 public class PeacefulModAdvancementGenerator extends FabricAdvancementProvider {
-    public PeacefulModAdvancementGenerator(FabricDataOutput generator, CompletableFuture<WrapperLookup> registriesFuture) {
-        super(generator, registriesFuture);
+    public PeacefulModAdvancementGenerator(FabricDataOutput generator) {
+        super(generator);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class PeacefulModAdvancementGenerator extends FabricAdvancementProvider {
 
     @SuppressWarnings("unused")
     @Override
-    public void generateAdvancement(WrapperLookup registryLookup, Consumer<AdvancementEntry> exporter) {
+    public void generateAdvancement(Consumer<AdvancementEntry> exporter) {
         AdvancementEntry root = build(Advancement.Builder.create()
                 .display(
                         PeacefulModBlocks.SULPHUR_BLOCK,
