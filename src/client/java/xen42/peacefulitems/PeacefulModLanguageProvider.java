@@ -180,8 +180,6 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addAdvancement("brimstone", "Awakening Flame", "Find Brimstone in the Soul Sand Valleys");
 			translationBuilder.addAdvancement("sniffer_blaze", "Cinders in the Soil", "Let a Sniffer dig up a Blaze Coral");
 			translationBuilder.addAdvancement("blaze_rod", "Into Fire", "Smelt a Blaze Coral into a Blaze Rod");
-			translationBuilder.addAdvancement("sniffer_breeze", "Whispers in the Gravel", "Let a Sniffer dig up a Breeze Coral");
-			translationBuilder.addAdvancement("breeze_rod", "Into Wind", "Smelt a Breeze Coral into a Breeze Rod");
 			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine or brush Bones from Fossil Ore");
 
 			translationBuilder.addInformation(PeacefulModBlocks.EFFIGY_ALTAR.asItem(), "dungeon", 
@@ -359,8 +357,6 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addAdvancement("brimstone", "Awakening Flame", "Find Brimstone in the Soul Sand Valleys");
 			translationBuilder.addAdvancement("sniffer_blaze", "Cinders in the Soil", "Let a Sniffer dig up a Blaze Coral");
 			translationBuilder.addAdvancement("blaze_rod", "Into Fire", "Smelt a Blaze Coral into a Blaze Rod");
-			translationBuilder.addAdvancement("sniffer_breeze", "Whispers in the Gravel", "Let a Sniffer dig up a Breeze Coral");
-			translationBuilder.addAdvancement("breeze_rod", "Into Wind", "Smelt a Breeze Coral into a Breeze Rod");
 			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine or brush Bones from Fossil Ore");
 
 			translationBuilder.addInformation(PeacefulModBlocks.EFFIGY_ALTAR.asItem(), "dungeon", 
@@ -497,8 +493,6 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addAdvancement("brimstone", "Awakening Flame", "Find Brimstone in the Soul Sand Valleys");
 			translationBuilder.addAdvancement("sniffer_blaze", "Cinders in the Soil", "Let a Sniffer dig up a Blaze Coral");
 			translationBuilder.addAdvancement("blaze_rod", "Into Fire", "Smelt a Blaze Coral into a Blaze Rod");
-			translationBuilder.addAdvancement("sniffer_breeze", "Whispers in the Gravel", "Let a Sniffer dig up a Breeze Coral");
-			translationBuilder.addAdvancement("breeze_rod", "Into Wind", "Smelt a Breeze Coral into a Breeze Rod");
 			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine or brush Bones from Fossil Ore");
 
 			translationBuilder.addInformation(PeacefulModBlocks.EFFIGY_ALTAR.asItem(), "dungeon", 
