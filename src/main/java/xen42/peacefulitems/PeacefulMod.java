@@ -10,6 +10,8 @@ import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.advancement.criterion.Criterion;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.BrushableBlock;
 import net.minecraft.entity.EntityType;
@@ -90,7 +92,7 @@ public class PeacefulMod implements ModInitializer {
 	public static final TrackedData<Integer> BAT_BREEDING_COOLDOWN = DataTracker.registerData(BatEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	public static int BatGrowUpTicks = 5 * 60 * 20; // Normal mobs its 20 minutes but I feel like bats can grow up fast maybe idk!
 	public static int BatBreedingCooldown = 5 * 60 * 20;
-	public static final BredBatsCriterion BRED_BATS_CRITERIA = Registry.register(Registries.CRITERION, Identifier.of(MOD_ID, "bred_bats"), new BredBatsCriterion());
+	public static final BredBatsCriterion BRED_BATS_CRITERIA = registerCriterion(Identifier.of(MOD_ID, "bred_bats"), new BredBatsCriterion());
 
 	public static final GameRules.Key<BooleanRule> ENABLE_ENDER_DRAGON_FIGHT_PEACEFUL =
 		GameRuleRegistry.register("enableEnderDragonFightPeaceful", Category.MOBS, GameRuleFactory.createBooleanRule(false));
@@ -104,7 +106,7 @@ public class PeacefulMod implements ModInitializer {
 		Registries.ENTITY_TYPE, 
 		Identifier.of(MOD_ID, "ghastling"), 
 		EntityType.Builder.create(GhastlingEntity::new, SpawnGroup.AMBIENT).setDimensions(0.5f, 1.5f).build(GHASTLING_ENTITY_KEY.toString()));
-	public static final GhastlingTearCriterion GHASTLING_TEAR_CRITERIA = Registry.register(Registries.CRITERION, Identifier.of(MOD_ID, "ghastling_tear"), new GhastlingTearCriterion());
+	public static final GhastlingTearCriterion GHASTLING_TEAR_CRITERIA = registerCriterion(Identifier.of(MOD_ID, "ghastling_tear"), new GhastlingTearCriterion());
 
 	public static final RegistryKey<EntityType<?>> END_CLAM_ENTITY_KEY = RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(MOD_ID,"end_clam"));
 	public static final EntityType<EndClamEntity> END_CLAM_ENTITY = Registry.register(
@@ -123,6 +125,14 @@ public class PeacefulMod implements ModInitializer {
 		Registries.SOUND_EVENT,
 		Identifier.of(MOD_ID, "item.bottle.empty_dragonbreath"),
 		SoundEvent.of(Identifier.of(MOD_ID, "item.bottle.empty_dragonbreath")));
+	
+	public static <T extends Criterion<?>> T registerCriterion(Identifier identifier, T criterion) {
+		if (Criteria.VALUES.putIfAbsent(identifier, criterion) != null) {
+			throw new IllegalArgumentException("Duplicate criterion id " + identifier);
+		} else {
+			return criterion;
+		}
+	}
 
 	@Override
 	public void onInitialize() {

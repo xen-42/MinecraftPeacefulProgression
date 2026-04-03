@@ -15,13 +15,16 @@
     }
   },
   "display": {
+    "announce_to_chat": true,
     "description": {
       "translate": "advancements.peaceful_items.end_clam_pearl.description"
     },
     "frame": "goal",
+    "hidden": false,
     "icon": {
       "item": "minecraft:ender_pearl"
     },
+    "show_toast": true,
     "title": {
       "translate": "advancements.peaceful_items.end_clam_pearl.title"
     }

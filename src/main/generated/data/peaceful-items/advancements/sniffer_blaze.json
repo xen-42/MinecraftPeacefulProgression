@@ -15,12 +15,16 @@
     }
   },
   "display": {
+    "announce_to_chat": true,
     "description": {
       "translate": "advancements.peaceful_items.sniffer_blaze.description"
     },
+    "frame": "task",
+    "hidden": false,
     "icon": {
       "item": "peaceful-items:blaze_pickle"
     },
+    "show_toast": true,
     "title": {
       "translate": "advancements.peaceful_items.sniffer_blaze.title"
     }

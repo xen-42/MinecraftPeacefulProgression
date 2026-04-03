@@ -19,12 +19,16 @@
     }
   },
   "display": {
+    "announce_to_chat": true,
     "title": {
       "translate": "advancements.peaceful_items.find_effigy_altar_dungeon.title"
     },
     "description": {
       "translate": "advancements.peaceful_items.find_effigy_altar_dungeon.description"
     },
+    "frame": "task",
+    "hidden": false,
+    "show_toast": true,
     "icon": {
       "count": 1,
       "id": "peaceful-items:effigy_altar"

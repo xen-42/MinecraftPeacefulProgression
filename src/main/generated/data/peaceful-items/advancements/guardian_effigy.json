@@ -15,12 +15,16 @@
     }
   },
   "display": {
+    "announce_to_chat": true,
     "description": {
       "translate": "advancements.peaceful_items.guardian_effigy.description"
     },
+    "frame": "task",
+    "hidden": false,
     "icon": {
       "item": "peaceful-items:guardian_effigy"
     },
+    "show_toast": true,
     "title": {
       "translate": "advancements.peaceful_items.guardian_effigy.title"
     }
