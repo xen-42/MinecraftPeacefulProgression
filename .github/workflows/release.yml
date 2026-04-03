@@ -130,6 +130,7 @@ jobs:
 
           dependencies: |
             fabric-api(required){modrinth:P7dR8mSH}{curseforge:306612}
+            rei(optional){modrinth:nfn13YXA}{curseforge:310111}
 
           retry-attempts: 2
           retry-delay: 10000
