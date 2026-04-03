@@ -1,0 +1,33 @@
+{
+  "parent": "peaceful-items:sniffer_blaze",
+  "criteria": {
+    "blaze_rod": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:blaze_rod"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.peaceful_items.blaze_rod.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:blaze_rod"
+    },
+    "title": {
+      "translate": "advancements.nether.obtain_blaze_rod.title"
+    }
+  },
+  "requirements": [
+    [
+      "blaze_rod"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
