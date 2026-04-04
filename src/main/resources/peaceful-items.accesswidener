@@ -14,3 +14,6 @@ accessible field net/minecraft/client/gui/screen/recipebook/RecipeBookWidget gho
 accessible class net/minecraft/client/gui/screen/recipebook/GhostRecipe$CyclingItem
 accessible field net/minecraft/client/gui/screen/recipebook/GhostRecipe items Lit/unimi/dsi/fastutil/objects/Reference2ObjectMap;
 accessible field net/minecraft/client/gui/screen/ingame/RecipeBookScreen recipeBook Lnet/minecraft/client/gui/screen/recipebook/RecipeBookWidget;
+
+accessible field net/minecraft/server/world/ServerWorld spawners Ljava/util/List;
+mutable field net/minecraft/server/world/ServerWorld spawners Ljava/util/List;

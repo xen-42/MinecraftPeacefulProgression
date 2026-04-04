@@ -28,13 +28,13 @@ public class FlaxCropBlock extends CropBlock {
 
     private static final VoxelShape[] AGE_TO_SHAPE = new VoxelShape[] {
             Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D),
-            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 3.0D, 16.0D),
             Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D),
-            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 5.0D, 16.0D),
-            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D),
+            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D),
+            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 13.0D, 16.0D),
             Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D),
             Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D),
-            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)
+            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D),
+            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D)
         };
  
     public FlaxCropBlock(AbstractBlock.Settings settings) {
@@ -55,7 +55,12 @@ public class FlaxCropBlock extends CropBlock {
 
     // Stop random ticking if its the second highest age but has a top block
 	@Override
-	protected void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+	public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        // Bug where somehow blocks can spawn on top of paths, forcefully make sure these break
+        if (world.getBlockState(pos.down()).isOf(Blocks.DIRT_PATH)) {
+            world.setBlockState(pos, Blocks.AIR.getDefaultState());
+            return;
+        }
         if (state.get(AGE) == this.getMaxAge() - 1 && world.getBlockState(pos.up()).isOf(this)) {
             return;
         }
@@ -72,6 +77,10 @@ public class FlaxCropBlock extends CropBlock {
     public BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView view, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
         if (!state.canPlaceAt(world, pos) && !world.getBlockState(pos.down()).isOf(this)) {
             return Blocks.AIR.getDefaultState();
+        }
+        else if (world.getBlockState(pos.up()).isAir() && state.get(AGE) == MAX_AGE - 1) {
+            var newState = PeacefulModBlocks.FLAX_CROP.getDefaultState().with(AGE, this.getMaxAge() - 2);
+            ((World)world).setBlockState(pos, newState);
         }
         return state;
     }
@@ -95,7 +104,7 @@ public class FlaxCropBlock extends CropBlock {
     public void applyGrowth(World world, BlockPos pos, BlockState state) {
         int j;
         int i = this.getAge(state) + this.getGrowthAmount(world);
-        if (i > (j = this.getMaxAge() - 1)) {
+        if (i > (j = this.getMaxAge() - 1) - 1) {
             i = j;
             if (world.getBlockState(pos.up()).isAir()) {
                 world.setBlockState(pos.up(), PeacefulModBlocks.FLAX_CROP.getDefaultState().with(AGE, this.getMaxAge()));

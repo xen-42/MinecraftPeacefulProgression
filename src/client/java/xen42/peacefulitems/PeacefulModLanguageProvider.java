@@ -5,7 +5,11 @@ import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityType;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
@@ -74,6 +78,23 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 		public void addFilledMap(TagKey<Structure> structure, String value) {
 			add("filled_map." + structure.id().getNamespace() + "." + structure.id().getPath(), value);
 		}
+
+		public void addAdvancement(String path, String title, String description) {
+			add("advancements.peaceful_items." + path + ".title", title);
+			add("advancements.peaceful_items." + path + ".description", description);
+		}
+
+		private String getInformationKey(String translationKey, String prefix) {
+			return translationKey + "." + prefix + "_information";
+		}
+
+		public void addInformation(Item item, String prefix, String value) {
+			add(getInformationKey(item.getTranslationKey(), prefix), value);
+		}
+
+		public void addInformation(EntityType<?> entity, String prefix, String value) {
+			add(getInformationKey(entity.getTranslationKey(), prefix), value);
+		}
 	}
 	
 	public static class English extends PeacefulModLanguageProvider {
@@ -133,7 +154,10 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.add(PeacefulMod.ENABLE_SUPER_HEALING_PEACEFUL, "Enable super healing in peaceful");
 			translationBuilder.add(PeacefulMod.ENABLE_ENDER_DRAGON_FIGHT_PEACEFUL, "Enable Ender Dragon fight in peaceful");
 
+			translationBuilder.add(PeacefulModTags.ItemTags.GUANO, "Guano");
 			translationBuilder.add(PeacefulModTags.ItemTags.EFFIGIES, "Effigies");
+			translationBuilder.add(PeacefulModTags.ItemTags.WISP_LIKES, "Wisp Likes");
+			translationBuilder.add(PeacefulModTags.ItemTags.WISP_DISLIKES, "Wisp Dislikes");
 			translationBuilder.add(PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, "Effigy Altar Dungeon");
 			translationBuilder.add(PeacefulModTags.StructureTags.TRAIL_RUINS, "Trail Ruins");
 			translationBuilder.add(StructureTags.OCEAN_RUIN, "Ocean Ruin");
@@ -141,6 +165,77 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addTags("Soul Soil Ores In Ground", PeacefulModTags.ItemTags.ORES_IN_GROUND_SOUL_SOIL, PeacefulModTags.BlockTags.ORES_IN_GROUND_SOUL_SOIL);
 			translationBuilder.addTags("Fossil Ores", PeacefulModTags.ItemTags.FOSSIL_ORES, PeacefulModTags.ItemTags.FOSSIL_ORES_C, PeacefulModTags.BlockTags.FOSSIL_ORES, PeacefulModTags.BlockTags.FOSSIL_ORES_C);
 			translationBuilder.addTags("Brimstone Ores", PeacefulModTags.ItemTags.SULPHUR_ORES, PeacefulModTags.ItemTags.SULPHUR_ORES_C, PeacefulModTags.ItemTags.SULFUR_ORES, PeacefulModTags.BlockTags.SULPHUR_ORES, PeacefulModTags.BlockTags.SULPHUR_ORES_C, PeacefulModTags.BlockTags.SULFUR_ORES);
+
+			translationBuilder.addAdvancement("root", "Peaceful Progression", "A better way to be peaceful");
+			translationBuilder.addAdvancement("find_effigy_altar_dungeon", "Altar to None", "Enter an Effigy Altar Dungeon");
+			translationBuilder.addAdvancement("dragon_effigy", "Echo of the End", "Craft an effigy of the Ender Dragon");
+			translationBuilder.addAdvancement("wither_effigy", "A Grim Reminder", "Craft an effigy of the Wither");
+			translationBuilder.addAdvancement("guardian_effigy", "From the Depths", "Craft an effigy of the Elder Guardian");
+			translationBuilder.addAdvancement("raid_effigy", "Sound the Horn", "Craft an effigy of a village raid");
+			translationBuilder.addAdvancement("totem_of_undying", "Fail-Safe", "Craft a Totem of Undying at an Effigy Altar");
+			translationBuilder.addAdvancement("flax_crop", "Delicate Threads", "Plant flax seeds");
+			translationBuilder.addAdvancement("breed_a_bat", "Love at First Bite", "Breed two bats using melon slices");
+			translationBuilder.addAdvancement("wisp_tear", "Tears by Force", "Feed guano to a Wisp");
+			translationBuilder.addAdvancement("end_clam_pearl", "By Hand or By Heart", "Get an Ender Pearl from an Enderclam");
+			translationBuilder.addAdvancement("brimstone", "Awakening Flame", "Find Brimstone in the Soul Sand Valleys");
+			translationBuilder.addAdvancement("sniffer_blaze", "Cinders in the Soil", "Let a Sniffer dig up a Blaze Coral");
+			translationBuilder.addAdvancement("blaze_rod", "Into Fire", "Smelt a Blaze Coral into a Blaze Rod");
+			translationBuilder.addAdvancement("sniffer_breeze", "Whispers in the Gravel", "Let a Sniffer dig up a Breeze Coral");
+			translationBuilder.addAdvancement("breeze_rod", "Into Wind", "Smelt a Breeze Coral into a Breeze Rod");
+			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine or brush Bones from Fossil Ore");
+			translationBuilder.addAdvancement("strip_resin", "Sap Tap", "Strip a Pale Oak Log to get a Resin Clump");
+
+			translationBuilder.addInformation(PeacefulModBlocks.EFFIGY_ALTAR.asItem(), "dungeon", 
+			    "Found in Effigy Altar dungeon structures. Cartographers sell maps to locate them."
+			);
+			translationBuilder.addInformation(Items.DRAGON_BREATH, "dragon_effigy", 
+			    "Use a Dragon Effigy on a cauldron to fill it with dragon breath, then bottle it."
+			);
+			translationBuilder.addInformation(Items.NETHER_STAR, "wither_effigy", 
+			    "Obtained by using a Wither Effigy."
+			);
+			translationBuilder.addInformation(PeacefulModItems.GUARDIAN_EFFIGY, "drop", 
+				"Obtained by using a Elder Effigy."
+			);
+			translationBuilder.addInformation(PeacefulModItems.RAID_EFFIGY, "drop", 
+			    "Obtained by using a Raid Effigy."
+			);
+			translationBuilder.addInformation(PeacefulMod.END_CLAM_ENTITY, "drop", 
+			    "Items can be found inside Enderclam shells. Swap items or kill it to get loot."
+			);
+			translationBuilder.addInformation(Items.SLIME_BALL, "sneeze", 
+			    "Dropped when a panda sneezes (can be triggered with a brush)."
+			);
+			translationBuilder.addInformation(Items.MAGMA_CREAM, "frog", 
+			    "Frogs can eat dropped magma cream items to produce froglights when in the Nether."
+			);
+			translationBuilder.addInformation(Items.GHAST_TEAR, "wisp", 
+			    "Produced by Wisps when fed guano."
+			);
+			translationBuilder.addInformation(PeacefulModItems.GUANO, "bat", 
+			    "Dropped randomly by bats."
+			);
+			translationBuilder.addInformation(Blocks.SOUL_SAND.asItem(), "sniffer", 
+			    "Sniffers can dig up items from soul sand/soil."
+			);
+			translationBuilder.addInformation(Blocks.SAND.asItem(), "sniffer", 
+			    "Sniffers can dig up items from sand."
+			);
+			translationBuilder.addInformation(Blocks.GRAVEL.asItem(), "sniffer", 
+			    "Sniffers can dig up items from gravel."
+			);
+			translationBuilder.addInformation(PeacefulModBlocks.FOSSIL_ORE.asItem(), "brush", 
+			    "Use a brush on Fossil Ore to extract bones."
+			);
+			translationBuilder.addInformation(EntityType.WANDERING_TRADER, "key_head", 
+			    "Can be sold by a Wandering Trader."
+			);
+			translationBuilder.addInformation(Items.CREEPER_HEAD, "dungeon_chest", 
+			    "Can be found in dungeon and Effigy Altar dungeon chests."
+			);
+			translationBuilder.addInformation(Items.RESIN_CLUMP, "strip_pale_oak", 
+			    "Stripping pale oak logs drops resin."
+			);
 		}
 	}
 	
@@ -242,7 +337,10 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.add(PeacefulMod.ENABLE_SUPER_HEALING_PEACEFUL, "启用和平中的超级生命恢复");
 			translationBuilder.add(PeacefulMod.ENABLE_ENDER_DRAGON_FIGHT_PEACEFUL, "启用和平中的末影龙");
 
+			translationBuilder.add(PeacefulModTags.ItemTags.GUANO, "粪便");
 			translationBuilder.add(PeacefulModTags.ItemTags.EFFIGIES, "塑像");
+			translationBuilder.add(PeacefulModTags.ItemTags.WISP_LIKES, "小精灵的喜欢之物");
+			translationBuilder.add(PeacefulModTags.ItemTags.WISP_DISLIKES, "小精灵的厌恶之物");
 			translationBuilder.add(PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, "塑像祭坛");
 			translationBuilder.add(PeacefulModTags.StructureTags.TRAIL_RUINS, "古迹废墟");
 			translationBuilder.add(StructureTags.OCEAN_RUIN, "海底废墟");
@@ -250,6 +348,77 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addTags("地下灵魂土矿石", PeacefulModTags.ItemTags.ORES_IN_GROUND_SOUL_SOIL, PeacefulModTags.BlockTags.ORES_IN_GROUND_SOUL_SOIL);
 			translationBuilder.addTags("化石矿石", PeacefulModTags.ItemTags.FOSSIL_ORES, PeacefulModTags.ItemTags.FOSSIL_ORES_C, PeacefulModTags.BlockTags.FOSSIL_ORES, PeacefulModTags.BlockTags.FOSSIL_ORES_C);
 			translationBuilder.addTags("硫磺矿石", PeacefulModTags.ItemTags.SULPHUR_ORES, PeacefulModTags.ItemTags.SULPHUR_ORES_C, PeacefulModTags.ItemTags.SULFUR_ORES, PeacefulModTags.BlockTags.SULPHUR_ORES, PeacefulModTags.BlockTags.SULPHUR_ORES_C, PeacefulModTags.BlockTags.SULFUR_ORES);
+
+			translationBuilder.addAdvancement("root", "Peaceful Progression", "A better way to be peaceful");
+			translationBuilder.addAdvancement("find_effigy_altar_dungeon", "Altar to None", "Enter an Effigy Altar Dungeon");
+			translationBuilder.addAdvancement("dragon_effigy", "Echo of the End", "Craft an effigy of the Ender Dragon");
+			translationBuilder.addAdvancement("wither_effigy", "A Grim Reminder", "Craft an effigy of the Wither");
+			translationBuilder.addAdvancement("guardian_effigy", "From the Depths", "Craft an effigy of the Elder Guardian");
+			translationBuilder.addAdvancement("raid_effigy", "Sound the Horn", "Craft an effigy of a village raid");
+			translationBuilder.addAdvancement("totem_of_undying", "Fail-Safe", "Craft a Totem of Undying at an Effigy Altar");
+			translationBuilder.addAdvancement("flax_crop", "Delicate Threads", "Plant flax seeds");
+			translationBuilder.addAdvancement("breed_a_bat", "Love at First Bite", "Breed two bats using melon slices");
+			translationBuilder.addAdvancement("wisp_tear", "Tears by Force", "Feed guano to a Wisp");
+			translationBuilder.addAdvancement("end_clam_pearl", "By Hand or By Heart", "Get an Ender Pearl from an Enderclam");
+			translationBuilder.addAdvancement("brimstone", "Awakening Flame", "Find Brimstone in the Soul Sand Valleys");
+			translationBuilder.addAdvancement("sniffer_blaze", "Cinders in the Soil", "Let a Sniffer dig up a Blaze Coral");
+			translationBuilder.addAdvancement("blaze_rod", "Into Fire", "Smelt a Blaze Coral into a Blaze Rod");
+			translationBuilder.addAdvancement("sniffer_breeze", "Whispers in the Gravel", "Let a Sniffer dig up a Breeze Coral");
+			translationBuilder.addAdvancement("breeze_rod", "Into Wind", "Smelt a Breeze Coral into a Breeze Rod");
+			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine or brush Bones from Fossil Ore");
+			translationBuilder.addAdvancement("strip_resin", "Sap Tap", "Strip a Pale Oak Log to get a Resin Clump");
+
+			translationBuilder.addInformation(PeacefulModBlocks.EFFIGY_ALTAR.asItem(), "dungeon", 
+			    "Found in Effigy Altar dungeon structures. Cartographers sell maps to locate them."
+			);
+			translationBuilder.addInformation(Items.DRAGON_BREATH, "dragon_effigy", 
+			    "Use a Dragon Effigy on a cauldron to fill it with dragon breath, then bottle it."
+			);
+			translationBuilder.addInformation(Items.NETHER_STAR, "wither_effigy", 
+			    "Obtained by using a Wither Effigy."
+			);
+			translationBuilder.addInformation(PeacefulModItems.GUARDIAN_EFFIGY, "drop", 
+				"Obtained by using a Elder Effigy."
+			);
+			translationBuilder.addInformation(PeacefulModItems.RAID_EFFIGY, "drop", 
+			    "Obtained by using a Raid Effigy."
+			);
+			translationBuilder.addInformation(PeacefulMod.END_CLAM_ENTITY, "drop", 
+			    "Items can be found inside Enderclam shells. Swap items or kill it to get loot."
+			);
+			translationBuilder.addInformation(Items.SLIME_BALL, "sneeze", 
+			    "Dropped when a panda sneezes (can be triggered with a brush)."
+			);
+			translationBuilder.addInformation(Items.MAGMA_CREAM, "frog", 
+			    "Frogs can eat dropped magma cream items to produce froglights when in the Nether."
+			);
+			translationBuilder.addInformation(Items.GHAST_TEAR, "wisp", 
+			    "Produced by Wisps when fed guano."
+			);
+			translationBuilder.addInformation(PeacefulModItems.GUANO, "bat", 
+			    "Dropped randomly by bats."
+			);
+			translationBuilder.addInformation(Blocks.SOUL_SAND.asItem(), "sniffer", 
+			    "Sniffers can dig up items from soul sand/soil."
+			);
+			translationBuilder.addInformation(Blocks.SAND.asItem(), "sniffer", 
+			    "Sniffers can dig up items from sand."
+			);
+			translationBuilder.addInformation(Blocks.GRAVEL.asItem(), "sniffer", 
+			    "Sniffers can dig up items from gravel."
+			);
+			translationBuilder.addInformation(PeacefulModBlocks.FOSSIL_ORE.asItem(), "brush", 
+			    "Use a brush on Fossil Ore to extract bones."
+			);
+			translationBuilder.addInformation(EntityType.WANDERING_TRADER, "key_head", 
+			    "Can be sold by a Wandering Trader."
+			);
+			translationBuilder.addInformation(Items.CREEPER_HEAD, "dungeon_chest", 
+			    "Can be found in dungeon and Effigy Altar dungeon chests."
+			);
+			translationBuilder.addInformation(Items.RESIN_CLUMP, "strip_pale_oak", 
+			    "Stripping pale oak logs drops resin."
+			);
 		}
 	}
 	
@@ -310,7 +479,10 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.add(PeacefulMod.ENABLE_SUPER_HEALING_PEACEFUL, "Включить быстрое восстановление здоровья на мирной сложности");
 			translationBuilder.add(PeacefulMod.ENABLE_ENDER_DRAGON_FIGHT_PEACEFUL, "Включить битву с драконом на мирной сложности");
 
+			translationBuilder.add(PeacefulModTags.ItemTags.GUANO, "Гуано");
 			translationBuilder.add(PeacefulModTags.ItemTags.EFFIGIES, "Тотемы");
+			translationBuilder.add(PeacefulModTags.ItemTags.WISP_LIKES, "Предпочтения души");
+			translationBuilder.add(PeacefulModTags.ItemTags.WISP_DISLIKES, "Отвращения души");
 			translationBuilder.add(PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, "Алтари тотемов");
 			translationBuilder.add(PeacefulModTags.StructureTags.TRAIL_RUINS, "Руины троп");
 			translationBuilder.add(StructureTags.OCEAN_RUIN, "Подводные руины");
@@ -318,6 +490,77 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addTags("Руды почвы душ в земле", PeacefulModTags.ItemTags.ORES_IN_GROUND_SOUL_SOIL, PeacefulModTags.BlockTags.ORES_IN_GROUND_SOUL_SOIL);
 			translationBuilder.addTags("Окаменелости", PeacefulModTags.ItemTags.FOSSIL_ORES, PeacefulModTags.ItemTags.FOSSIL_ORES_C, PeacefulModTags.BlockTags.FOSSIL_ORES, PeacefulModTags.BlockTags.FOSSIL_ORES_C);
 			translationBuilder.addTags("Серные руды", PeacefulModTags.ItemTags.SULPHUR_ORES, PeacefulModTags.ItemTags.SULPHUR_ORES_C, PeacefulModTags.ItemTags.SULFUR_ORES, PeacefulModTags.BlockTags.SULPHUR_ORES, PeacefulModTags.BlockTags.SULPHUR_ORES_C, PeacefulModTags.BlockTags.SULFUR_ORES);
+
+			translationBuilder.addAdvancement("root", "Peaceful Progression", "A better way to be peaceful");
+			translationBuilder.addAdvancement("find_effigy_altar_dungeon", "Altar to None", "Enter an Effigy Altar Dungeon");
+			translationBuilder.addAdvancement("dragon_effigy", "Echo of the End", "Craft an effigy of the Ender Dragon");
+			translationBuilder.addAdvancement("wither_effigy", "A Grim Reminder", "Craft an effigy of the Wither");
+			translationBuilder.addAdvancement("guardian_effigy", "From the Depths", "Craft an effigy of the Elder Guardian");
+			translationBuilder.addAdvancement("raid_effigy", "Sound the Horn", "Craft an effigy of a village raid");
+			translationBuilder.addAdvancement("totem_of_undying", "Fail-Safe", "Craft a Totem of Undying at an Effigy Altar");
+			translationBuilder.addAdvancement("flax_crop", "Delicate Threads", "Plant flax seeds");
+			translationBuilder.addAdvancement("breed_a_bat", "Love at First Bite", "Breed two bats using melon slices");
+			translationBuilder.addAdvancement("wisp_tear", "Tears by Force", "Feed guano to a Wisp");
+			translationBuilder.addAdvancement("end_clam_pearl", "By Hand or By Heart", "Get an Ender Pearl from an Enderclam");
+			translationBuilder.addAdvancement("brimstone", "Awakening Flame", "Find Brimstone in the Soul Sand Valleys");
+			translationBuilder.addAdvancement("sniffer_blaze", "Cinders in the Soil", "Let a Sniffer dig up a Blaze Coral");
+			translationBuilder.addAdvancement("blaze_rod", "Into Fire", "Smelt a Blaze Coral into a Blaze Rod");
+			translationBuilder.addAdvancement("sniffer_breeze", "Whispers in the Gravel", "Let a Sniffer dig up a Breeze Coral");
+			translationBuilder.addAdvancement("breeze_rod", "Into Wind", "Smelt a Breeze Coral into a Breeze Rod");
+			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine or brush Bones from Fossil Ore");
+			translationBuilder.addAdvancement("strip_resin", "Sap Tap", "Strip a Pale Oak Log to get a Resin Clump");
+
+			translationBuilder.addInformation(PeacefulModBlocks.EFFIGY_ALTAR.asItem(), "dungeon", 
+			    "Found in Effigy Altar dungeon structures. Cartographers sell maps to locate them."
+			);
+			translationBuilder.addInformation(Items.DRAGON_BREATH, "dragon_effigy", 
+			    "Use a Dragon Effigy on a cauldron to fill it with dragon breath, then bottle it."
+			);
+			translationBuilder.addInformation(Items.NETHER_STAR, "wither_effigy", 
+			    "Obtained by using a Wither Effigy."
+			);
+			translationBuilder.addInformation(PeacefulModItems.GUARDIAN_EFFIGY, "drop", 
+				"Obtained by using a Elder Effigy."
+			);
+			translationBuilder.addInformation(PeacefulModItems.RAID_EFFIGY, "drop", 
+			    "Obtained by using a Raid Effigy."
+			);
+			translationBuilder.addInformation(PeacefulMod.END_CLAM_ENTITY, "drop", 
+			    "Items can be found inside Enderclam shells. Swap items or kill it to get loot."
+			);
+			translationBuilder.addInformation(Items.SLIME_BALL, "sneeze", 
+			    "Dropped when a panda sneezes (can be triggered with a brush)."
+			);
+			translationBuilder.addInformation(Items.MAGMA_CREAM, "frog", 
+			    "Frogs can eat dropped magma cream items to produce froglights when in the Nether."
+			);
+			translationBuilder.addInformation(Items.GHAST_TEAR, "wisp", 
+			    "Produced by Wisps when fed guano."
+			);
+			translationBuilder.addInformation(PeacefulModItems.GUANO, "bat", 
+			    "Dropped randomly by bats."
+			);
+			translationBuilder.addInformation(Blocks.SOUL_SAND.asItem(), "sniffer", 
+			    "Sniffers can dig up items from soul sand/soil."
+			);
+			translationBuilder.addInformation(Blocks.SAND.asItem(), "sniffer", 
+			    "Sniffers can dig up items from sand."
+			);
+			translationBuilder.addInformation(Blocks.GRAVEL.asItem(), "sniffer", 
+			    "Sniffers can dig up items from gravel."
+			);
+			translationBuilder.addInformation(PeacefulModBlocks.FOSSIL_ORE.asItem(), "brush", 
+			    "Use a brush on Fossil Ore to extract bones."
+			);
+			translationBuilder.addInformation(EntityType.WANDERING_TRADER, "key_head", 
+			    "Can be sold by a Wandering Trader."
+			);
+			translationBuilder.addInformation(Items.CREEPER_HEAD, "dungeon_chest", 
+			    "Can be found in dungeon and Effigy Altar dungeon chests."
+			);
+			translationBuilder.addInformation(Items.RESIN_CLUMP, "strip_pale_oak", 
+			    "Stripping pale oak logs drops resin."
+			);
 		}
 	}
 }

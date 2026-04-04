@@ -114,6 +114,7 @@ public class PeacefulModItems {
     public static final Item WITHER_EFFIGY = register("wither_effigy", (settings) -> 
         new EffigyItem(settings, "wither_effigy", (ServerPlayerEntity user) -> {
             user.dropItem(user.getEntityWorld(), Items.NETHER_STAR);
+            PeacefulModEvents.WITHER_TOTEM_USE_EVENT.invoker().onUse(user);
         }, SoundEvents.ENTITY_WITHER_DEATH),
         new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
 
@@ -131,6 +132,8 @@ public class PeacefulModItems {
             user.dropStack(world, new ItemStack(Items.PRISMARINE_CRYSTALS, user.getRandom().nextBetween(2, 12)));
             user.dropStack(world, new ItemStack(Items.PRISMARINE_SHARD, user.getRandom().nextBetween(2, 8)));
 
+            PeacefulModEvents.GUARDIAN_TOTEM_USE_EVENT.invoker().onUse(user);
+
         }, SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE),
         new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
     
@@ -139,6 +142,8 @@ public class PeacefulModItems {
             ServerWorld end = user.getEntityWorld().getServer().getWorld(World.END);
             var fight = end.getEnderDragonFight();
             ((EnderDragonFight_Invoker)fight).invokeGenerateNewEndGateway();
+
+            PeacefulModEvents.DRAGON_TOTEM_USE_EVENT.invoker().onUse(user);
         }, SoundEvents.ENTITY_ENDER_DRAGON_DEATH), new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
 
     public static final Item RAID_EFFIGY = register("raid_effigy", (settings) -> 
@@ -174,6 +179,8 @@ public class PeacefulModItems {
             user.dropStack(world, new ItemStack(Items.SUGAR, user.getRandom().nextBetween(1, 12)));
             user.dropStack(world, new ItemStack(Items.SPIDER_EYE, user.getRandom().nextBetween(1, 12)));
             user.dropStack(world, new ItemStack(Items.GLASS_BOTTLE, user.getRandom().nextBetween(1, 12)));
+
+            PeacefulModEvents.RAID_TOTEM_USE_EVENT.invoker().onUse(user);
         }, SoundEvents.EVENT_RAID_HORN), new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
 
     public static final Item CLAM = register("clam_meat", Item::new, 

@@ -51,7 +51,7 @@
 		"fabric-api": "*"
 	},
 	"suggests": {
-		"roughlyenoughitems": ">=19.0.806"
+		"roughlyenoughitems": ">=21.9.812"
 	},
 	"breaks": {
 		"jeb": "*"

@@ -23,23 +23,30 @@ public class EffigyAltarHandledScreen extends RecipeBookScreen<EffigyAltarScreen
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
         int i = this.x;
         int j = (this.height - this.backgroundHeight) / 2;
-        context.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, i, j, 0.0F, 0.0F,
+        context.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, i, j, 0.0F, 0.0F, 
             this.backgroundWidth, this.backgroundHeight, 256, 256);
-        
+    }
+
+    @Override
+    protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
+        super.drawForeground(context, mouseX, mouseY);
+
+        int i = this.backgroundWidth - 8;
+        int j = 68;
         if (handler.hasOutput() || recipeBookWidget.isShowingGhostRecipes()) {
             var cost = recipeBookWidget.isShowingGhostRecipes()
             		? ClientData.getGhostXPCost()
             		: handler.getOutputXPCost();
             if (cost > 0) {
                 var string = Text.translatable("container.repair.cost", new Object[] { Integer.valueOf(cost) });;
-                int colour = 8453920;
+                int colour = -8323296;
                 if (!handler.canTake(cost)) {
-                    colour = 16736352;
+                    colour = -40864;
                 }
                 
-                int k = i + 166 - this.textRenderer.getWidth(string);
-                context.fill(k - 2, j + 71 - 6, i + this.backgroundWidth - 8, j + 81 - 2, 1325400064);
-                context.drawTextWithShadow(this.textRenderer, string, k, j + 72 - 4, colour);
+                int k = i - this.textRenderer.getWidth(string) - 2;
+                context.fill(k - 2, j - 3, i, j + 11, 1325400064);
+                context.drawTextWithShadow(this.textRenderer, string, k, j, colour);
             }
         }
     }

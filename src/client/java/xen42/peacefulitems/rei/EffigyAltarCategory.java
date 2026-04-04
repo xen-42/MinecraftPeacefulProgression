@@ -69,7 +69,7 @@ public class EffigyAltarCategory implements DisplayCategory<EffigyAltarREIDispla
 				int endX = startPoint.x + 102 + 26;
 				int x = endX - font.getWidth(component) - 2;
 				graphics.fill(x - 2, startPoint.y + 56, endX, startPoint.y + 56 + 12, 0x4f000000);
-				graphics.drawTextWithShadow(font, component, x, startPoint.y + 56 + 2, 0x80ff20);
+				graphics.drawTextWithShadow(font, component, x, startPoint.y + 56 + 2, 0xff80ff20);
 			}));
 		}
 		return widgets;

@@ -76,15 +76,7 @@ public class PeacefulModItemTagGenerator extends ItemTagProvider {
 			.add(PeacefulModItems.CAPE);
 		this.valueLookupBuilder(ItemTags.EQUIPPABLE_ENCHANTABLE)
 			.add(PeacefulModItems.CAPE);
-
-        this.valueLookupBuilder(PeacefulModTags.ItemTags.WISP_LIKES)
-                .addOptionalTag(ConventionalItemTags.COOKED_FISH_FOODS)
-                .addOptionalTag(ConventionalItemTags.COOKED_MEAT_FOODS)
-                .addOptionalTag(ConventionalItemTags.VEGETABLE_FOODS)
-                .add(PeacefulModItems.SULPHUR)
-                .add(Items.QUARTZ)
-                .add(Items.GOLD_NUGGET);
-
+		
 		this.valueLookupBuilder(PeacefulModTags.ItemTags.WISP_LIKES)
 			.addOptionalTag(ConventionalItemTags.COOKED_FISH_FOODS)
             .addOptionalTag(ConventionalItemTags.COOKED_MEAT_FOODS)
