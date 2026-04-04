@@ -14,7 +14,7 @@ import net.minecraft.server.WorldGenerationProgressListener;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeKeys;
-import net.minecraft.world.spawner.Spawner;
+import net.minecraft.world.spawner.SpecialSpawner;
 import xen42.peacefulitems.CustomSpawner;
 import xen42.peacefulitems.PeacefulMod;
 
@@ -26,7 +26,7 @@ public class MinecraftServerMixin {
         MinecraftServer server = (MinecraftServer) (Object) this;
 
         ServerWorld nether = server.getWorld(World.NETHER);
-        var spawners = new ArrayList<Spawner>();
+        var spawners = new ArrayList<SpecialSpawner>();
         spawners.addAll(nether.spawners);
         spawners.add(new CustomSpawner(PeacefulMod.END_CLAM_ENTITY).setBiome(BiomeSelectors.includeByKey(BiomeKeys.WARPED_FOREST)).setMaxCount(10)); 
         nether.spawners = spawners;
