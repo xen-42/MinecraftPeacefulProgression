@@ -158,7 +158,7 @@ public class EffigyAltarClientPlugin implements REIClientPlugin {
 				EntryStacks.of(item),
 				Text.translatable(item.getTranslationKey()),
 				(list) -> {
-					PeacefulMod.LOGGER.info(item.getTranslationKey() + "." + prefix + "_information");
+					//PeacefulMod.LOGGER.info(item.getTranslationKey() + "." + prefix + "_information");
 					list.add(Text.translatable(item.getTranslationKey() + "." + prefix + "_information"));
 					return list;
 				});
@@ -169,7 +169,7 @@ public class EffigyAltarClientPlugin implements REIClientPlugin {
 				EntryStacks.of(item),
 				Text.translatable(item.getTranslationKey()),
 				(list) -> {
-					PeacefulMod.LOGGER.info(((TranslatableTextContent)information.getContent()).getKey());
+					//PeacefulMod.LOGGER.info(((TranslatableTextContent)information.getContent()).getKey());
 					list.add(information);
 					return list;
 				});
@@ -181,7 +181,7 @@ public class EffigyAltarClientPlugin implements REIClientPlugin {
 				EntryStacks.of(fluid),
 				Text.translatable("block." + key.getValue().getNamespace() + "." + key.getValue().getPath()),
 				(list) -> {
-					PeacefulMod.LOGGER.info(((TranslatableTextContent)information.getContent()).getKey());
+					//PeacefulMod.LOGGER.info(((TranslatableTextContent)information.getContent()).getKey());
 					list.add(information);
 					return list;
 				});
