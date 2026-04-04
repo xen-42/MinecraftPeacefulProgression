@@ -42,7 +42,7 @@
 	"accessWidener": "peaceful-items.accesswidener",
 	"depends": {
 		"fabricloader": ">=0.16.10",
-		"minecraft": "~1.21.6",
+		"minecraft": "~1.21.7",
 		"java": ">=21",
 		"fabric-api": "*"
 	},
