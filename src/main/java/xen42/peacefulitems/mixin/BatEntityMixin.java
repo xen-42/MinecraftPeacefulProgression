@@ -156,6 +156,7 @@ public class BatEntityMixin {
 
 						if (player != null && player instanceof ServerPlayerEntity serverPlayer && serverPlayer.getEntityWorld().getServer() != null) {
 							serverPlayer.incrementStat(Stats.ANIMALS_BRED);
+							PeacefulMod.BRED_BATS_CRITERIA.trigger(serverPlayer, bat, mate, baby);
 							// Grant the player the "The Parrots and the Bats" advancement
 							AdvancementEntry parrotsAndBats = serverPlayer.getEntityWorld().getServer().getAdvancementLoader().get(Identifier.ofVanilla("husbandry/breed_an_animal"));
 							if (parrotsAndBats != null)
@@ -182,20 +183,20 @@ public class BatEntityMixin {
 	}
 
 	@Inject(at = @At("TAIL"), method = "writeCustomData")
-	public void writeCustomDataToNbt(WriteView view, CallbackInfo ci) {
+	public void writeCustomData(WriteView nbt, CallbackInfo info) {
 		var bat = ((BatEntity)(Object)this);
 
-		view.putBoolean("IsBaby", bat.getDataTracker().get(PeacefulMod.BAT_IS_BABY));
-		view.putInt("BreedingTicks", bat.getDataTracker().get(PeacefulMod.BAT_BREEDING_TICKS));
-		view.putInt("BreedingCooldown", bat.getDataTracker().get(PeacefulMod.BAT_BREEDING_COOLDOWN));
+		nbt.putBoolean("IsBaby", bat.getDataTracker().get(PeacefulMod.BAT_IS_BABY));
+		nbt.putInt("BreedingTicks", bat.getDataTracker().get(PeacefulMod.BAT_BREEDING_TICKS));
+		nbt.putInt("BreedingCooldown", bat.getDataTracker().get(PeacefulMod.BAT_BREEDING_COOLDOWN));
 	}
 
 	@Inject(at = @At("TAIL"), method = "readCustomData")
-	public void readCustomDataFromNbt(ReadView view, CallbackInfo ci) {
+	public void readCustomData(ReadView nbt, CallbackInfo info) {
 		var bat = ((BatEntity)(Object)this);
 
-		bat.getDataTracker().set(PeacefulMod.BAT_IS_BABY, view.getBoolean("IsBaby", false));
-		bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_TICKS, view.getInt("BreedingTicks", 0));
-		bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_COOLDOWN, view.getInt("BreedingCooldown", 0));
+		bat.getDataTracker().set(PeacefulMod.BAT_IS_BABY, nbt.getBoolean("IsBaby", false));
+		bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_TICKS, nbt.getInt("BreedingTicks", 0));
+		bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_COOLDOWN, nbt.getInt("BreedingCooldown", 0));
 	}
 }
