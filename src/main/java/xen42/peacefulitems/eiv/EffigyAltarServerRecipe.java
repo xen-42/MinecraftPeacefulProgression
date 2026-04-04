@@ -40,7 +40,7 @@ public class EffigyAltarServerRecipe implements IEivServerRecipe {
     public void loadFromTag(NbtCompound tag) {
         this.ingredients = EivTagUtil.readList(tag, "ingredients", (nbtCompound)-> Optional.ofNullable(EivTagUtil.readIngredient(nbtCompound)));
         this.result = EivTagUtil.decodeItemStackOnClient(tag.getCompound("result").orElseGet(NbtCompound::new));
-        this.cost = tag.getInt("experience", 5);
+        this.cost = tag.getInt("cost", 5);
     }
 
     @Override
