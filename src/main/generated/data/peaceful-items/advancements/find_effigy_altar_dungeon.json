@@ -9,7 +9,7 @@
             "entity": "this",
             "predicate": {
               "location": {
-                "structures": "peaceful-items:effigy_altar_dungeon"
+                "structure": "peaceful-items:effigy_altar_dungeon"
               }
             }
           }
@@ -30,8 +30,7 @@
     "hidden": false,
     "show_toast": true,
     "icon": {
-      "count": 1,
-      "id": "peaceful-items:effigy_altar"
+      "item": "peaceful-items:effigy_altar"
     }
   },
   "requirements": [

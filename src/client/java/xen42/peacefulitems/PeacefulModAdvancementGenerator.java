@@ -11,9 +11,11 @@ import net.minecraft.advancement.AdvancementFrame;
 import net.minecraft.advancement.CriterionMerger;
 import net.minecraft.advancement.criterion.InventoryChangedCriterion;
 import net.minecraft.advancement.criterion.ItemCriterion;
+import net.minecraft.advancement.criterion.TickCriterion;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
 import net.minecraft.predicate.entity.EntityPredicate;
+import net.minecraft.predicate.entity.LocationPredicate;
 import net.minecraft.predicate.item.ItemPredicate;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
@@ -65,8 +67,7 @@ public class PeacefulModAdvancementGenerator extends FabricAdvancementProvider {
                 .criterion("placed_flax_crop", ItemCriterion.Conditions.createPlacedBlock(PeacefulModBlocks.FLAX_CROP))
                 , exporter, "flax_crop");
         
-        // Moved to JSON because it doesn't allow you to access structures that are from resources
-        /*Advancement findEffigyAltarDungeon = build(Advancement.Builder.create()
+        Advancement findEffigyAltarDungeon = build(Advancement.Builder.create()
                 .display(
                         PeacefulModBlocks.EFFIGY_ALTAR,
                         Text.translatable("advancements.peaceful_items.find_effigy_altar_dungeon.title"),
@@ -79,12 +80,11 @@ public class PeacefulModAdvancementGenerator extends FabricAdvancementProvider {
                 )
                 .parent(root)
                 .criterion("in_effigy_altar_dungeon", TickCriterion.Conditions.createLocation(
-                        LocationPredicate.Builder.createStructure(
-                                registryLookup.getOrThrow(RegistryKeys.STRUCTURE).getOrThrow(PeacefulMod.EFFIGY_ALTAR_DUNGEON_KEY)//.getOrThrow(StructureKeys.ANCIENT_CITY)
-                        )
+                        LocationPredicate.Builder.create().feature(
+                        		PeacefulMod.EFFIGY_ALTAR_DUNGEON_KEY
+                        ).build()
                 ))
-                , exporter, "find_effigy_altar_dungeon");*/
-        Advancement findEffigyAltarDungeon = buildWithoutExport(Advancement.Builder.create().parent(root), "find_effigy_altar_dungeon");
+                , exporter, "find_effigy_altar_dungeon");
 
         Advancement dragon_effigy = build(Advancement.Builder.create()
                 .display(
