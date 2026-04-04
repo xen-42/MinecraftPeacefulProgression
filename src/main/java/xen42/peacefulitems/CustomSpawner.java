@@ -116,23 +116,23 @@ public class CustomSpawner implements SpecialSpawner {
     }
 
 	@Override
-	public int spawn(ServerWorld world, boolean spawnMonsters, boolean spawnAnimals) {
-        if (isHostile && (!spawnMonsters || world.getDifficulty() == Difficulty.PEACEFUL)) return 0;
-        if (!isHostile && !spawnAnimals) return 0;
-        if (!world.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING)) return 0;
-        if (disableDuringDragonFight && !world.getAliveEnderDragons().isEmpty()) return 0;
+	public void spawn(ServerWorld world, boolean spawnMonsters, boolean spawnAnimals) {
+        if (isHostile && (!spawnMonsters || world.getDifficulty() == Difficulty.PEACEFUL)) return;
+        if (!isHostile && !spawnAnimals) return;
+        if (!world.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING)) return;
+        if (disableDuringDragonFight && !world.getAliveEnderDragons().isEmpty()) return;
 
         Random random = world.random;
 
         cooldown--;
-        if (cooldown > 0) return 0;
+        if (cooldown > 0) return;
         cooldown = random.nextBetween(minCooldown, maxCooldown);
 
         List<? extends PlayerEntity> players = world.getPlayers();
-        if (players.isEmpty()) return 0;
+        if (players.isEmpty()) return;
 
         PlayerEntity player = players.get(random.nextInt(players.size()));
-        if (player.isSpectator()) return 0;
+        if (player.isSpectator()) return;
 
         int xOffset = random.nextBetween(minSpawnDistance, maxSpawnDistance) * (random.nextBoolean() ? -1 : 1);
         int zOffset = random.nextBetween(minSpawnDistance, maxSpawnDistance) * (random.nextBoolean() ? -1 : 1);
@@ -147,12 +147,12 @@ public class CustomSpawner implements SpecialSpawner {
         var chunk = world.getChunk(chunkX, chunkZ, ChunkStatus.FULL, false);
         if (chunk == null) {
             PeacefulMod.LOGGER.info("[CustomSpawner] Target chunk is not loaded");
-            return 0;
+            return;
         }
 
         if (!world.isRegionLoaded(basePos.getX() - regionCheckRadius, basePos.getZ() - regionCheckRadius, basePos.getX() + regionCheckRadius, basePos.getZ() + regionCheckRadius)) {
             PeacefulMod.LOGGER.info("[CustomSpawner] Area is not loaded");
-            return 0;
+            return;
         }
 
         var minY = world.getBottomY();
@@ -166,7 +166,7 @@ public class CustomSpawner implements SpecialSpawner {
         int mobCount = world.getEntitiesByClass(MobEntity.class, chunkBox, e -> e.getType() == this.type).size();
         if (mobCount >= maxCount) {
             PeacefulMod.LOGGER.info("[CustomSpawner] Too many already exist in chunk: {}/{}", mobCount, maxCount);
-            return 0;
+            return;
         }
 
         int spawned = 0;
@@ -188,8 +188,6 @@ public class CustomSpawner implements SpecialSpawner {
 
             offsetRandomly(basePos, random);
         }
-
-        return spawned;
 	}
 	
 	private static void offsetRandomly(BlockPos.Mutable pos, Random random) {
