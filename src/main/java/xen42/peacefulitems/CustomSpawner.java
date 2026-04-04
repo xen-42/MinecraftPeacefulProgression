@@ -121,7 +121,7 @@ public class CustomSpawner implements Spawner {
                         );
                         int mobCount = world.getEntitiesByClass(MobEntity.class, chunkBox, e -> e.getType() == this.type).size();
 
-                        PeacefulMod.LOGGER.info("Trying to spawn " + type.getName());
+                        PeacefulMod.LOGGER.info("Trying to spawn " + type.getName().getString());
 
                         if (mobCount > maxCount) {
                             PeacefulMod.LOGGER.info("Too many already exist");
