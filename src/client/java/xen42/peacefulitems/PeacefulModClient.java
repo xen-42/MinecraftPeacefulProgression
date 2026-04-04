@@ -12,6 +12,7 @@ import net.minecraft.client.render.BlockRenderLayer;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.block.entity.BrushableBlockEntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactories;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
@@ -39,10 +40,10 @@ public class PeacefulModClient implements ClientModInitializer {
 		Identifier dragonBreathTexture = Identifier.of(PeacefulMod.MOD_ID, "dragon_breath").withPrefixedPath("block/");
 		FluidRenderHandlerRegistry.INSTANCE.register(PeacefulModFluids.DRAGON_BREATH, new SimpleFluidRenderHandler(dragonBreathTexture, dragonBreathTexture));
 		
-		EntityRendererRegistry.register(PeacefulMod.GHASTLING_ENTITY, context -> new GhastlingEntityRenderer(context)); 
+		EntityRendererFactories.register(PeacefulMod.GHASTLING_ENTITY, context -> new GhastlingEntityRenderer(context));
 		EntityModelLayerRegistry.registerModelLayer(MODEL_GHASTLING_LAYER, GhastlingEntityModel::getTexturedModelData);
 
-		EntityRendererRegistry.register(PeacefulMod.END_CLAM_ENTITY, context -> new EndClamEntityRenderer(context));
+        EntityRendererFactories.register(PeacefulMod.END_CLAM_ENTITY, context -> new EndClamEntityRenderer(context));
 		EntityModelLayerRegistry.registerModelLayer(MODEL_END_CLAM_LAYER, EndClamEntityModel::getTexturedModelData);
 
 		HandledScreens.register(PeacefulMod.EFFIGY_ALTAR_SCREEN_HANDLER, EffigyAltarHandledScreen::new);

@@ -2,6 +2,7 @@ package xen42.peacefulitems.entity;
 
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.util.math.MatrixStack;
@@ -15,7 +16,7 @@ public class EndClamHeldItemFeatureRenderer extends FeatureRenderer<EndClamEntit
     }
 
     @Override
-    public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, EndClamEntityRenderState state, float limbAngle, float limbDistance) {
+    public void render(MatrixStack matrices, OrderedRenderCommandQueue queue, int light, EndClamEntityRenderState state, float limbAngle, float limbDistance) {
         var itemRenderState = state.itemRenderState;
 		if (!itemRenderState.isEmpty()) {
 
@@ -25,7 +26,7 @@ public class EndClamHeldItemFeatureRenderer extends FeatureRenderer<EndClamEntit
             // They're upsidedown for some reason
             matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(180f-33f));
             matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(this.getContextModel().clam.roll));
-			itemRenderState.render(matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV);
+			itemRenderState.render(matrices, queue, light, OverlayTexture.DEFAULT_UV, state.outlineColor);
 			matrices.pop();
 		}
     }

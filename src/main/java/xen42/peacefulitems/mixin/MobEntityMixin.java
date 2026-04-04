@@ -36,7 +36,7 @@ public class MobEntityMixin {
         if ((Object)this instanceof FrogEntity) {
             info.cancel();
 
-            if (!world.isClient && world.getRegistryKey() == World.NETHER) {
+            if (!world.isClient() && world.getRegistryKey() == World.NETHER) {
                 var frog = (FrogEntity)((Object)this);
                 if (item.getStack().isOf(Items.MAGMA_CREAM)) {
                     var variant = (RegistryKey<FrogVariant>)frog.getVariant().getKey().orElse(null);
@@ -49,7 +49,7 @@ public class MobEntityMixin {
                     }
     
                     frog.playSound(SoundEvents.ENTITY_FROG_EAT);
-                    frog.getWorld().playSoundFromEntity(null, frog, SoundEvents.ENTITY_FROG_EAT, SoundCategory.NEUTRAL, 1.0f, 1.0f);
+                    frog.getEntityWorld().playSoundFromEntity(null, frog, SoundEvents.ENTITY_FROG_EAT, SoundCategory.NEUTRAL, 1.0f, 1.0f);
                     frog.setPose(EntityPose.USING_TONGUE);
                     frog.lookAtEntity(item, 180, 180);
                     frog.tryAttack(world, item);
@@ -82,7 +82,7 @@ public class MobEntityMixin {
                     double d = bat.getRandom().nextGaussian() * 0.02;
                     double e = bat.getRandom().nextGaussian() * 0.02;
                     double f = bat.getRandom().nextGaussian() * 0.02;
-                    bat.getWorld().addParticleClient(ParticleTypes.HEART, bat.getParticleX(1.0), bat.getRandomBodyY() + 0.5, bat.getParticleZ(1.0), d, e, f);
+                    bat.getEntityWorld().addParticleClient(ParticleTypes.HEART, bat.getParticleX(1.0), bat.getRandomBodyY() + 0.5, bat.getParticleZ(1.0), d, e, f);
                 }
                 // 40 seconds I think?
                 bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_TICKS, 40*20);

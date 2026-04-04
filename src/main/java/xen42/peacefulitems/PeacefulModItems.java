@@ -96,9 +96,9 @@ public class PeacefulModItems {
                 if (result == ActionResult.SUCCESS)
                 {
                     // Grant the player the "A Seedy Place" advancement
-                    if (context.getPlayer() instanceof ServerPlayerEntity player && player.getServer() != null)
+                    if (context.getPlayer() instanceof ServerPlayerEntity player && player.getEntityWorld().getServer() != null)
                     {
-                    	AdvancementEntry seedyPlace = player.getServer().getAdvancementLoader().get(Identifier.ofVanilla("husbandry/plant_seed"));
+                    	AdvancementEntry seedyPlace = player.getEntityWorld().getServer().getAdvancementLoader().get(Identifier.ofVanilla("husbandry/plant_seed"));
                         if (seedyPlace != null)
                         {
                         	String first = seedyPlace.value().criteria().keySet().iterator().next();
@@ -109,20 +109,18 @@ public class PeacefulModItems {
                 return result;
             }
         }, new Item.Settings().food(new FoodComponent(2, 1, false)));
-    public static final Item GHASTLING_SPAWN_EGG = register("ghastling_spawn_egg", (settings) -> 
-        new DispensibleSpawnEggItem(PeacefulMod.GHASTLING_ENTITY, settings), new Item.Settings());
-    public static final Item END_CLAM_SPAWN_EGG = register("end_clam_spawn_egg", (settings) -> 
-        new DispensibleSpawnEggItem(PeacefulMod.END_CLAM_ENTITY, settings), new Item.Settings());
+    public static final Item GHASTLING_SPAWN_EGG = register("ghastling_spawn_egg", DispensibleSpawnEggItem::new, new Item.Settings().spawnEgg(PeacefulMod.GHASTLING_ENTITY));
+    public static final Item END_CLAM_SPAWN_EGG = register("end_clam_spawn_egg", DispensibleSpawnEggItem::new, new Item.Settings().spawnEgg(PeacefulMod.END_CLAM_ENTITY));
     public static final Item WITHER_EFFIGY = register("wither_effigy", (settings) -> 
         new EffigyItem(settings, "wither_effigy", (ServerPlayerEntity user) -> {
-            user.dropItem(user.getWorld(), Items.NETHER_STAR);
+            user.dropItem(user.getEntityWorld(), Items.NETHER_STAR);
             PeacefulModEvents.WITHER_TOTEM_USE_EVENT.invoker().onUse(user);
         }, SoundEvents.ENTITY_WITHER_DEATH),
         new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
 
     public static final Item GUARDIAN_EFFIGY = register("guardian_effigy", (settings) -> 
         new EffigyItem(settings, "guardian_effigy", (ServerPlayerEntity user) -> { 
-            var world = user.getWorld();
+            var world = user.getEntityWorld();
 
             user.dropItem(world, Blocks.SPONGE);
             if (user.getRandom().nextFloat() < 0.2) {
@@ -141,7 +139,7 @@ public class PeacefulModItems {
     
     public static final Item DRAGON_EFFIGY = register("dragon_effigy", (settings) -> 
         new EffigyItem(settings, "dragon_effigy", (ServerPlayerEntity user) -> {
-            ServerWorld end = user.getServer().getWorld(World.END);
+            ServerWorld end = user.getEntityWorld().getServer().getWorld(World.END);
             var fight = end.getEnderDragonFight();
             ((EnderDragonFight_Invoker)fight).invokeGenerateNewEndGateway();
 
@@ -153,7 +151,7 @@ public class PeacefulModItems {
             user.addStatusEffect(new StatusEffectInstance(StatusEffects.HERO_OF_THE_VILLAGE, 48000, 1, false, false, true));
             Criteria.HERO_OF_THE_VILLAGE.trigger(user);
             var r = user.getRandom().nextFloat();
-            var world = user.getWorld();
+            var world = user.getEntityWorld();
             // Bunch of different raid drops excluding Totem of Undying
             if (r < 0.5) {
                 user.dropItem(world, Items.OMINOUS_BOTTLE);

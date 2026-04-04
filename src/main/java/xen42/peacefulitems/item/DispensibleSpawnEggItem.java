@@ -1,5 +1,7 @@
 package xen42.peacefulitems.item;
 
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.entity.TypedEntityData;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.DispenserBlock;
@@ -21,7 +23,7 @@ public class DispensibleSpawnEggItem extends SpawnEggItem {
             @Override
             public ItemStack dispenseSilently(BlockPointer source, ItemStack stack) {
                 Direction direction = source.state().get(DispenserBlock.FACING);
-                EntityType<?> entityType = ((SpawnEggItem) stack.getItem()).getEntityType(source.world().getRegistryManager(), stack);
+                EntityType<?> entityType = ((SpawnEggItem) stack.getItem()).getEntityType(stack);
                 
                 try {
                     entityType.spawnFromItemStack(source.world(), stack, null, source.pos().offset(direction), SpawnReason.DISPENSER, direction != Direction.UP, false);
@@ -37,13 +39,14 @@ public class DispensibleSpawnEggItem extends SpawnEggItem {
         };
     }
     
-    public DispensibleSpawnEggItem(EntityType<? extends MobEntity> entityType, Settings properties) {
-        this(entityType, properties, createDispenseItemBehavior());
+    public DispensibleSpawnEggItem(Settings properties) {
+        this(properties, createDispenseItemBehavior());
     }
     
-    public DispensibleSpawnEggItem(EntityType<? extends MobEntity> entityType, Settings properties,
+    public DispensibleSpawnEggItem(Settings properties,
                                     @Nullable DispenserBehavior dispenseItemBehavior) {
-        super(entityType, properties);
+        super(properties);
+        TypedEntityData<EntityType<?>> entityType = this.getComponents().get(DataComponentTypes.ENTITY_DATA);
         SpawnEggItem.SPAWN_EGGS.remove(entityType);
         if (dispenseItemBehavior != null) {
             DispenserBlock.registerBehavior(this, dispenseItemBehavior);

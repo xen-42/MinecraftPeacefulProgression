@@ -171,7 +171,7 @@ public class PeacefulModVillagers {
     }
 
     private static TradeOffer RandomDisc(Entity entity, Random random) {
-        var item = entity.getWorld().getRegistryManager().getOrThrow(RegistryKeys.ITEM).getRandomEntry(ItemTags.CREEPER_DROP_MUSIC_DISCS, random).get();
+        var item = entity.getEntityWorld().getRegistryManager().getOrThrow(RegistryKeys.ITEM).getRandomEntry(ItemTags.CREEPER_DROP_MUSIC_DISCS, random).get();
         return new TradeOffer(
             new TradedItem(Items.EMERALD, 24),
             new ItemStack(item, 1), 1, 30, 0.05f);
@@ -179,7 +179,7 @@ public class PeacefulModVillagers {
 
 	private static TradeOffer RandomHorn(Entity entity, Random random) {
 		var tag = random.nextBoolean() ? InstrumentTags.SCREAMING_GOAT_HORNS : InstrumentTags.REGULAR_GOAT_HORNS;
-		var horn = entity.getWorld().getRegistryManager().getOrThrow(RegistryKeys.INSTRUMENT).getRandomEntry(tag, random)
+		var horn = entity.getEntityWorld().getRegistryManager().getOrThrow(RegistryKeys.INSTRUMENT).getRandomEntry(tag, random)
 			.map(registryEntry -> GoatHornItem.getStackForInstrument(Items.GOAT_HORN, registryEntry))
 			.orElseGet(() -> new ItemStack(Items.GOAT_HORN));
 		return new TradeOffer(

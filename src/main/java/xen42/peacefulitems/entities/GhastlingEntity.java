@@ -84,33 +84,33 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
         // Instead of breeding like normal they duplicate
         // Also handle crying
         var item = player.getStackInHand(hand);
-        if (!getWorld().isClient && getBreedingAge() == 0 && canEat()) {
+        if (!getEntityWorld().isClient() && getBreedingAge() == 0 && canEat()) {
             if (isBreedingItem(item)) {
                 setBreedingAge(6000);
                 eat(player, hand, item);
                 playEatSound();
-                if (getWorld().getServer().getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
-                    getWorld().spawnEntity(new ExperienceOrbEntity(getWorld(), getX(), getY(), getZ(), getRandom().nextInt(7) + 1));
+                if (getEntityWorld().getServer().getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
+                    getEntityWorld().spawnEntity(new ExperienceOrbEntity(getEntityWorld(), getX(), getY(), getZ(), getRandom().nextInt(7) + 1));
                 }
                 playSound(SoundEvents.ENTITY_GHAST_AMBIENT, 0.5f, (random.nextFloat() - random.nextFloat()) * 0.2f + 1.3f);
 
-                var baby = PeacefulMod.GHASTLING_ENTITY.create(getWorld(), SpawnReason.BREEDING);
+                var baby = PeacefulMod.GHASTLING_ENTITY.create(getEntityWorld(), SpawnReason.BREEDING);
                 baby.refreshPositionAndAngles(getX(), getY(), getZ(), 0.0f, 0.0f);
-                getWorld().spawnEntity(baby);
+                getEntityWorld().spawnEntity(baby);
                 baby.setBreedingAge(6000);
 
                 return (ActionResult)ActionResult.SUCCESS_SERVER;
             }
             else if (item.isIn(PeacefulModTags.ItemTags.WISP_DISLIKES)) {
-                var tear = dropItem((ServerWorld)getWorld(), Items.GHAST_TEAR);
-                tear.setPosition(getPos());
+                var tear = dropItem((ServerWorld)getEntityWorld(), Items.GHAST_TEAR);
+                tear.setPosition(getEntityPos());
                 playSound(SoundEvents.ENTITY_GHAST_WARN, 0.5f, (random.nextFloat() - random.nextFloat()) * 0.2f + 1.3f);
                 // Treating this as breeding for the sake of having a timer and stuff
                 setBreedingAge(6000);
                 eat(player, hand, item);
                 playEatSound();
                 // Count this as hurting them so they run from you
-                this.damage((ServerWorld)getWorld(), getWorld().getDamageSources().playerAttack(player), 0f);
+                this.damage((ServerWorld)getEntityWorld(), getEntityWorld().getDamageSources().playerAttack(player), 0f);
                 PeacefulMod.GHASTLING_TEAR_CRITERIA.trigger((ServerPlayerEntity)player, this);
                 return (ActionResult)ActionResult.SUCCESS_SERVER;
             }

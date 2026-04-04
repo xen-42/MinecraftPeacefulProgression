@@ -19,11 +19,11 @@ import net.minecraft.world.World;
 @Mixin(EndPortalBlock.class)
 public class EndPortalBlockMixin {
     @Inject(at = @At("HEAD"), method = "onEntityCollision", cancellable = true)
-    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, CallbackInfo info) {
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, CallbackInfo ci) {
         // Grant the player the "Free the End" advancement
-    	if (entity.canUsePortals(false) && !world.isClient && world.getRegistryKey() == World.END && entity instanceof ServerPlayerEntity player && player.getServer() != null)
+    	if (entity.canUsePortals(false) && !world.isClient() && world.getRegistryKey() == World.END && entity instanceof ServerPlayerEntity player && player.getEntityWorld().getServer() != null)
         {
-    		AdvancementEntry freeTheEnd = player.getServer().getAdvancementLoader().get(Identifier.ofVanilla("end/kill_dragon"));
+    		AdvancementEntry freeTheEnd = player.getEntityWorld().getServer().getAdvancementLoader().get(Identifier.ofVanilla("end/kill_dragon"));
     		if (freeTheEnd != null)
     		{
     			String first = freeTheEnd.value().criteria().keySet().iterator().next();

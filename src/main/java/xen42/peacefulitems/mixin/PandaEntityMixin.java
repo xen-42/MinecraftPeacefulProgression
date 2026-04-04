@@ -32,8 +32,8 @@ public class PandaEntityMixin {
         // Base game pandas have a 1 in 700 chance of dropping slime
         // Bump that up to 3 (technically theres a 1 in 2100 chance now that they drop two at once)
         // Also make it spawn near their face
-        if (!panda.getWorld().isClient() && panda.getRandom().nextInt(3) == 0) {
-            var item = panda.dropItem((ServerWorld)panda.getWorld(), Items.SLIME_BALL);
+        if (!panda.getEntityWorld().isClient() && panda.getRandom().nextInt(3) == 0) {
+            var item = panda.dropItem((ServerWorld)panda.getEntityWorld(), Items.SLIME_BALL);
             item.setPosition(nosePos);
             // Play a sound so you know it happened
             panda.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0f, (panda.getRandom().nextFloat() - panda.getRandom().nextFloat()) * 0.2f + 1.0f);
@@ -44,7 +44,7 @@ public class PandaEntityMixin {
         if (!panda.isBaby()) {
             panda.playSound(SoundEvents.ENTITY_PANDA_SNEEZE, 1.0f, 0.7f);
             var vel = panda.getVelocity();
-            panda.getWorld().addParticleClient(ParticleTypes.SNEEZE, nosePos.x, nosePos.y, nosePos.z, vel.x, 0.0, vel.z);
+            panda.getEntityWorld().addParticleClient(ParticleTypes.SNEEZE, nosePos.x, nosePos.y, nosePos.z, vel.x, 0.0, vel.z);
         
             info.cancel();
         }

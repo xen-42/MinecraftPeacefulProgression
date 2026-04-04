@@ -15,7 +15,7 @@ public abstract class EnderDragonEntityMixin {
     @Inject(at = @At("HEAD"), method = "checkDespawn")
     public void checkDespawn(CallbackInfo info) {
         var dragon = (EnderDragonEntity)((Object)this);
-        if (dragon.getWorld() instanceof ServerWorld serverWorld && 
+        if (dragon.getEntityWorld() instanceof ServerWorld serverWorld && 
             serverWorld.getDifficulty() == Difficulty.PEACEFUL &&
             !serverWorld.getGameRules().getBoolean(PeacefulMod.ENABLE_ENDER_DRAGON_FIGHT_PEACEFUL))
         {

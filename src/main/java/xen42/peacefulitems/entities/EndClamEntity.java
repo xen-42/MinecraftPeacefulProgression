@@ -99,7 +99,7 @@ public class EndClamEntity extends AmbientEntity {
             this.teleportRandomly();
         }
 
-        if (!this.getWorld().isClient) {
+        if (!this.getEntityWorld().isClient()) {
             this.getDataTracker().set(WAS_JUST_HIT, true);
         }
 
@@ -116,12 +116,12 @@ public class EndClamEntity extends AmbientEntity {
         super.tick();
 
         // Only yawn when the idle animation has the mouth closed
-        if (!getWorld().isClient) {
+        if (!getEntityWorld().isClient()) {
             if (idleAnimationState.isRunning() && idleAnimationState.getTimeInMilliseconds(this.age) % 4000 == 0 && this.getRandom().nextBoolean()
-                    && this.getWorld().getTime() > _lastYawn + 40) {
+                    && this.getEntityWorld().getTime() > _lastYawn + 40) {
                 this.getDataTracker().set(IS_YAWNING, true);
                 this.playSound(SoundEvents.ENTITY_SHULKER_OPEN);
-                _lastYawn = this.getWorld().getTime();
+                _lastYawn = this.getEntityWorld().getTime();
             }
         }
 
@@ -139,7 +139,7 @@ public class EndClamEntity extends AmbientEntity {
             idleAnimationState.start(this.age);
         }
         else if (this.getDataTracker().get(WAS_JUST_HIT) && !hitAnimationState.isRunning()) {
-            _revertToIdleTick = getWorld().getTime() + (long)(0.6f * 20);
+            _revertToIdleTick = getEntityWorld().getTime() + (long)(0.6f * 20);
 
             this.getDataTracker().set(IS_YAWNING, false);
             this.getDataTracker().set(IS_OPENING, false);
@@ -152,7 +152,7 @@ public class EndClamEntity extends AmbientEntity {
             hitAnimationState.start(this.age);
         }
         else if (this.getDataTracker().get(IS_OPENING) && !openAnimationState.isRunning()) {
-            _revertToIdleTick = getWorld().getTime() + (long)(2f * 20);
+            _revertToIdleTick = getEntityWorld().getTime() + (long)(2f * 20);
 
             this.getDataTracker().set(WAS_JUST_HIT, false);
             this.getDataTracker().set(IS_YAWNING, false);
@@ -165,7 +165,7 @@ public class EndClamEntity extends AmbientEntity {
             openAnimationState.start(this.age);
         }
         else if (this.getDataTracker().get(IS_YAWNING) && !yawnAnimationState.isRunning()) {
-            _revertToIdleTick = getWorld().getTime() + (long)(5f * 20);
+            _revertToIdleTick = getEntityWorld().getTime() + (long)(5f * 20);
 
             this.getDataTracker().set(WAS_JUST_HIT, false);
             this.getDataTracker().set(IS_OPENING, false);
@@ -178,7 +178,7 @@ public class EndClamEntity extends AmbientEntity {
             yawnAnimationState.start(this.age);
         }
 
-        if (!this.getWorld().isClient && this.getWorld().getTime() > _revertToIdleTick) {
+        if (!this.getEntityWorld().isClient() && this.getEntityWorld().getTime() > _revertToIdleTick) {
             this.getDataTracker().set(WAS_JUST_HIT, false);
             this.getDataTracker().set(IS_YAWNING, false);
             this.getDataTracker().set(IS_OPENING, false);
@@ -186,7 +186,7 @@ public class EndClamEntity extends AmbientEntity {
     }
 
     protected boolean teleportRandomly() {
-        if (getWorld().isClient()) {
+        if (getEntityWorld().isClient()) {
             return false; 
         } 
 
@@ -210,8 +210,8 @@ public class EndClamEntity extends AmbientEntity {
         BlockState blockState, downBlockState;
         boolean flag = false;
         do {
-            blockState = getWorld().getBlockState(blockPos);
-            downBlockState = getWorld().getBlockState(blockPos.down());
+            blockState = getEntityWorld().getBlockState(blockPos);
+            downBlockState = getEntityWorld().getBlockState(blockPos.down());
             var isBlockValid = blockState.isAir();
             var isGroundValid = !downBlockState.isAir();
             if (isBlockValid && isGroundValid) {
@@ -220,18 +220,18 @@ public class EndClamEntity extends AmbientEntity {
             }
             blockPos.move(Direction.DOWN);
         }
-        while(blockPos.getY() - 1 > getWorld().getBottomY());
+        while(blockPos.getY() - 1 > getEntityWorld().getBottomY());
 
         if (!flag) {
             return false;
         }
 
-        var oldPosition = this.getPos();
+        var oldPosition = this.getEntityPos();
         var successfulTeleport = teleport(blockPos.getX(), blockPos.getY(), blockPos.getZ(), true); 
         if (successfulTeleport) {
-            getWorld().emitGameEvent(GameEvent.TELEPORT, getPos(), GameEvent.Emitter.of(this)); 
+            getEntityWorld().emitGameEvent(GameEvent.TELEPORT, getEntityPos(), GameEvent.Emitter.of(this)); 
             if (!isSilent()) {
-                getWorld().playSound(null, oldPosition.x, oldPosition.y, oldPosition.z, SoundEvents.ENTITY_ENDERMAN_TELEPORT, getSoundCategory(), 1.0F, 1.0F);
+                getEntityWorld().playSound(null, oldPosition.x, oldPosition.y, oldPosition.z, SoundEvents.ENTITY_ENDERMAN_TELEPORT, getSoundCategory(), 1.0F, 1.0F);
                 playSound(SoundEvents.ENTITY_ENDERMAN_TELEPORT, 1.0F, 1.0F);
             } 
         } 
@@ -241,8 +241,8 @@ public class EndClamEntity extends AmbientEntity {
     @Override
     public void tickMovement() {
         super.tickMovement();
-        if ((getWorld()).isClient && getEquippedStack(EquipmentSlot.MAINHAND).isOf(Items.ENDER_PEARL)) {
-            getWorld().addParticleClient((ParticleEffect)ParticleTypes.PORTAL, 
+        if ((getEntityWorld()).isClient() && getEquippedStack(EquipmentSlot.MAINHAND).isOf(Items.ENDER_PEARL)) {
+            getEntityWorld().addParticleClient((ParticleEffect)ParticleTypes.PORTAL, 
                 getParticleX(0.25D), 
                 getRandomBodyY() + 0.25D, 
                 getParticleZ(0.25D), 
@@ -257,12 +257,12 @@ public class EndClamEntity extends AmbientEntity {
         ItemStack itemStack = itemEntity.getStack();
         if (!this.getDataTracker().get(IS_OPENING)) {
             if (!getEquippedStack(EquipmentSlot.MAINHAND).isEmpty()) {
-                if (!getWorld().isClient) {
-                    var thrownItem = new ItemEntity(getWorld(), getX() + (getRotationVector()).x, getY() + 1.0D, getZ() + (getRotationVector()).z, 
+                if (!getEntityWorld().isClient()) {
+                    var thrownItem = new ItemEntity(getEntityWorld(), getX() + (getRotationVector()).x, getY() + 1.0D, getZ() + (getRotationVector()).z, 
                         getEquippedStack(EquipmentSlot.MAINHAND));
                     thrownItem.setPickupDelay(40);
                     thrownItem.setThrower(this);
-                    getWorld().spawnEntity(thrownItem);
+                    getEntityWorld().spawnEntity(thrownItem);
                 }
             }
 
@@ -277,7 +277,7 @@ public class EndClamEntity extends AmbientEntity {
             sendPickup(itemEntity, itemStack.getCount());
             itemEntity.discard();
 
-            if(!this.getWorld().isClient) {
+            if(!this.getEntityWorld().isClient()) {
                 this.getDataTracker().set(IS_OPENING, true);
                 this.playSound(SoundEvents.ENTITY_SHULKER_OPEN);
             }
@@ -285,8 +285,8 @@ public class EndClamEntity extends AmbientEntity {
     }
 
     private void dropItem(ItemStack stack) {
-        var itemEntity = new ItemEntity(getWorld(), getX(), getY(), getZ(), stack);
-        getWorld().spawnEntity(itemEntity);
+        var itemEntity = new ItemEntity(getEntityWorld(), getX(), getY(), getZ(), stack);
+        getEntityWorld().spawnEntity(itemEntity);
     }
 
     @Override

@@ -30,13 +30,13 @@ public class HungerManagerMixin {
     @Inject(at = @At("HEAD"), method = "update", cancellable = true)
     private void update(ServerPlayerEntity player, CallbackInfo info)
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-        if (player.getWorld().getDifficulty() != Difficulty.PEACEFUL) {
+        if (player.getEntityWorld().getDifficulty() != Difficulty.PEACEFUL) {
             return;
         }
 
-        var turboHeal = player.getWorld().getGameRules().getBoolean(PeacefulMod.ENABLE_SUPER_HEALING_PEACEFUL);
-        var canStarve = player.getWorld().getGameRules().getBoolean(PeacefulMod.ENABLE_STARVING_PEACEFUL);
-        var canHeal = player.getWorld().getGameRules().getBoolean(GameRules.NATURAL_REGENERATION);
+        var turboHeal = player.getEntityWorld().getGameRules().getBoolean(PeacefulMod.ENABLE_SUPER_HEALING_PEACEFUL);
+        var canStarve = player.getEntityWorld().getGameRules().getBoolean(PeacefulMod.ENABLE_STARVING_PEACEFUL);
+        var canHeal = player.getEntityWorld().getGameRules().getBoolean(GameRules.NATURAL_REGENERATION);
         var hungerManager = (HungerManager) ((Object) this);
         
         // Do the basic not peaceful thing
@@ -81,7 +81,7 @@ public class HungerManagerMixin {
                 ++this.foodTickTimer;
                 if (this.foodTickTimer >= 80) {
                     if (canStarve) {
-                        player.damage(player.getWorld(), player.getDamageSources().starve(), 1.0F);
+                        player.damage(player.getEntityWorld(), player.getDamageSources().starve(), 1.0F);
                     }
 
                     this.foodTickTimer = 0;

@@ -28,12 +28,12 @@ public class SnifferEntityMixin {
     public void dropSeeds(CallbackInfo info) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         var sniffer = ((SnifferEntity)(Object)this);
 
-        if (sniffer.getWorld() instanceof ServerWorld serverWorld && sniffer.getDataTracker().get(FINISH_DIG_TIME) == sniffer.age) {
+        if (sniffer.getEntityWorld() instanceof ServerWorld serverWorld && sniffer.getDataTracker().get(FINISH_DIG_TIME) == sniffer.age) {
 
-            var digLocation = sniffer.getPos().add(sniffer.getRotationVecClient().multiply(2.25));
+            var digLocation = sniffer.getEntityPos().add(sniffer.getRotationVecClient().multiply(2.25));
             var blockPos = BlockPos.ofFloored(digLocation.getX(), sniffer.getY() + 0.2F, digLocation.getZ());
 
-            var blockState = sniffer.getWorld().getBlockState(blockPos.down());
+            var blockState = sniffer.getEntityWorld().getBlockState(blockPos.down());
 
             Item customDrop = null;
             var r = sniffer.getRandom().nextFloat();
@@ -77,7 +77,7 @@ public class SnifferEntityMixin {
             // Replacing the base game implementation with our custom drops if needed
             if (customDrop != null) {
                 var itemStack = new ItemStack(customDrop);
-                ItemEntity itemEntity = new ItemEntity(sniffer.getWorld(), blockPos.getX(), blockPos.getY(), blockPos.getZ(), itemStack);
+                ItemEntity itemEntity = new ItemEntity(sniffer.getEntityWorld(), blockPos.getX(), blockPos.getY(), blockPos.getZ(), itemStack);
                 itemEntity.setToDefaultPickupDelay();
                 serverWorld.spawnEntity(itemEntity);
 

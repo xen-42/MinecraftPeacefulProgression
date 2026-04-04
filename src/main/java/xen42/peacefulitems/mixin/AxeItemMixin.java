@@ -32,7 +32,7 @@ public class AxeItemMixin {
         if (!shouldCancelStripAttempt(context)) {
             var state = world.getBlockState(blockPos);
             if (state.isOf(Blocks.PALE_OAK_LOG) && !world.isClient()) {
-                var offset = playerEntity.getPos().subtract(blockPos.toCenterPos()).normalize();
+                var offset = playerEntity.getEntityPos().subtract(blockPos.toCenterPos()).normalize();
                 var dropPos = offset.add(blockPos.toCenterPos());
                 var itemEntity = new ItemEntity(world, dropPos.getX(), dropPos.getY(), dropPos.getZ(), new ItemStack(Items.RESIN_CLUMP));
                 world.spawnEntity(itemEntity);

@@ -435,7 +435,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
         public void onTakeItem(PlayerEntity player, ItemStack stack) {
             this.onCrafted(stack);
             EffigyAltarRecipeInput recipeInput = EffigyAltarRecipeInput.create(this.input.getHeldStacks());
-            DefaultedList<ItemStack> defaultedList = this.getRecipeRemainders(recipeInput, player.getWorld());
+            DefaultedList<ItemStack> defaultedList = this.getRecipeRemainders(recipeInput, player.getEntityWorld());
 
             this.handler.context.run((world, pos) -> {
                 if (!player.isInCreativeMode()) {
@@ -531,7 +531,7 @@ public class EffigyAltarScreenHandler extends AbstractRecipeScreenHandler {
 
         public boolean matches(RecipeEntry<EffigyAltarRecipe> entry) {
             return entry.value()
-                .matches(EffigyAltarRecipeInput.create(EffigyAltarScreenHandler.this.inventory.getHeldStacks()), getPlayer().getWorld());
+                .matches(EffigyAltarRecipeInput.create(EffigyAltarScreenHandler.this.inventory.getHeldStacks()), getPlayer().getEntityWorld());
         }
 
         private AbstractRecipeScreenHandler.PostFillAction tryFill(RecipeEntry<EffigyAltarRecipe> recipe, RecipeFinder finder) {

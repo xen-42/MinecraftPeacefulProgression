@@ -116,9 +116,9 @@ public class CustomSpawner implements SpecialSpawner {
     }
 
 	@Override
-	public void spawn(ServerWorld world, boolean spawnMonsters, boolean spawnAnimals) {
+	public void spawn(ServerWorld world, boolean spawnMonsters) {
         if (isHostile && (!spawnMonsters || world.getDifficulty() == Difficulty.PEACEFUL)) return;
-        if (!isHostile && !spawnAnimals) return;
+        //if (!isHostile && !spawnAnimals) return;
         if (!world.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING)) return;
         if (disableDuringDragonFight && !world.getAliveEnderDragons().isEmpty()) return;
 

@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.minecraft.entity.EntityType;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.WorldGenerationProgressListener;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeKeys;
@@ -22,7 +21,7 @@ import xen42.peacefulitems.PeacefulMod;
 public class MinecraftServerMixin {
     // This is what makes the nether also superflat
 	@Inject(at = @At("RETURN"), method = "createWorlds")
-    private void createWorlds(WorldGenerationProgressListener listener, CallbackInfo info) {
+    private void createWorlds(CallbackInfo info) {
         MinecraftServer server = (MinecraftServer) (Object) this;
 
         ServerWorld nether = server.getWorld(World.NETHER);

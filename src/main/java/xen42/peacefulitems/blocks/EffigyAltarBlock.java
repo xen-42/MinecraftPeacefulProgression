@@ -38,7 +38,7 @@ public class EffigyAltarBlock extends Block {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (!world.isClient) {
+        if (!world.isClient()) {
             player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
         }
         return ActionResult.SUCCESS;

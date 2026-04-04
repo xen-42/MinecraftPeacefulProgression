@@ -2,6 +2,8 @@ package xen42.peacefulitems.blocks;
 
 import java.util.Map;
 
+import net.minecraft.particle.DragonBreathParticleEffect;
+import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
 
 import com.mojang.serialization.MapCodec;
@@ -61,7 +63,7 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
     
     public static void spawnDragonBreathCloud(World world, BlockPos pos, float radius, int duration) {
         AreaEffectCloudEntity areaEffectCloudEntity = new AreaEffectCloudEntity(world, pos.toBottomCenterPos().getX(), pos.toBottomCenterPos().getY(), pos.toBottomCenterPos().getZ());
-        areaEffectCloudEntity.setParticleType(ParticleTypes.DRAGON_BREATH);
+        areaEffectCloudEntity.setParticleType(DragonBreathParticleEffect.of(ParticleTypes.DRAGON_BREATH, 1));
         areaEffectCloudEntity.setRadius(radius);
         areaEffectCloudEntity.setDuration(duration);
         areaEffectCloudEntity.setRadiusGrowth((7.0f - areaEffectCloudEntity.getRadius()) / (float) areaEffectCloudEntity.getDuration());
@@ -106,7 +108,7 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
     }
 
     @Override
-    protected int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+    protected int getComparatorOutput(BlockState state, World world, BlockPos pos, Direction direction) {
         return state.get(LEVEL)*4;
     }
 
@@ -194,7 +196,7 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
     public static class FillFromEffigyBehavior implements CauldronBehavior {
         @Override
         public ActionResult interact(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack) { 
-            if (!world.isClient) {
+            if (!world.isClient()) {
                 Item item = stack.getItem();
                 player.setStackInHand(hand, ItemUsage.exchangeStack(stack, player, ItemStack.EMPTY));
                 player.incrementStat(Stats.USE_CAULDRON);
@@ -211,7 +213,7 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
     public static class FillFromBottleBehavior implements CauldronBehavior {
         @Override
         public ActionResult interact(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack) { 
-            if (!world.isClient) {
+            if (!world.isClient()) {
                 Item item = stack.getItem();
                 player.setStackInHand(hand, ItemUsage.exchangeStack(stack, player, new ItemStack(Items.GLASS_BOTTLE)));
                 player.incrementStat(Stats.USE_CAULDRON);
@@ -228,7 +230,7 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
     public static class DecrementFluidLevelBehavior implements CauldronBehavior {
         @Override
         public ActionResult interact(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack) {
-            if (!world.isClient) {
+            if (!world.isClient()) {
                 Item item = stack.getItem();
                 player.setStackInHand(hand, ItemUsage.exchangeStack(stack, player, new ItemStack(Items.DRAGON_BREATH)));
                 player.incrementStat(Stats.USE_CAULDRON);
@@ -246,7 +248,7 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
         @Override
         public ActionResult interact(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack) {
             if (canIncrementFluidLevel(state)) {
-                if (!world.isClient) {
+                if (!world.isClient()) {
                     Item item = stack.getItem();
                     player.setStackInHand(hand, ItemUsage.exchangeStack(stack, player, new ItemStack(Items.GLASS_BOTTLE)));
                     player.incrementStat(Stats.USE_CAULDRON);
