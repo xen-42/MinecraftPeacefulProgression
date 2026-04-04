@@ -235,7 +235,6 @@ public class EffigyAltarRecipe implements Recipe<EffigyAltarRecipeInput> {
 					}
 
 					charSet.remove(c);
-					PeacefulMod.LOGGER.info("" + (l + i * k));
 					defaultedList.set(l + i * k, ingredient);
 				}
 			}
