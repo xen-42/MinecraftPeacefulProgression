@@ -115,14 +115,14 @@ public class PeacefulModItems {
         new DispensibleSpawnEggItem(PeacefulMod.END_CLAM_ENTITY, settings), new Item.Settings());
     public static final Item WITHER_EFFIGY = register("wither_effigy", (settings) -> 
         new EffigyItem(settings, "wither_effigy", (ServerPlayerEntity user) -> {
-            user.dropItem(user.getServerWorld(), Items.NETHER_STAR);
+            user.dropItem(user.getWorld(), Items.NETHER_STAR);
             PeacefulModEvents.WITHER_TOTEM_USE_EVENT.invoker().onUse(user);
         }, SoundEvents.ENTITY_WITHER_DEATH),
         new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON));
 
     public static final Item GUARDIAN_EFFIGY = register("guardian_effigy", (settings) -> 
         new EffigyItem(settings, "guardian_effigy", (ServerPlayerEntity user) -> { 
-            var world = user.getServerWorld();
+            var world = user.getWorld();
 
             user.dropItem(world, Blocks.SPONGE);
             if (user.getRandom().nextFloat() < 0.2) {
@@ -153,7 +153,7 @@ public class PeacefulModItems {
             user.addStatusEffect(new StatusEffectInstance(StatusEffects.HERO_OF_THE_VILLAGE, 48000, 1, false, false, true));
             Criteria.HERO_OF_THE_VILLAGE.trigger(user);
             var r = user.getRandom().nextFloat();
-            var world = user.getServerWorld();
+            var world = user.getWorld();
             // Bunch of different raid drops excluding Totem of Undying
             if (r < 0.5) {
                 user.dropItem(world, Items.OMINOUS_BOTTLE);

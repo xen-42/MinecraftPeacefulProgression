@@ -20,7 +20,7 @@ public class PeacefulModBlockTagGenerator extends BlockTagProvider {
     
     @Override
     protected void configure(WrapperLookup wrapperLookup) {
-        this.getOrCreateTagBuilder(BlockTags.SOUL_FIRE_BASE_BLOCKS)
+        this.valueLookupBuilder(BlockTags.SOUL_FIRE_BASE_BLOCKS)
             .add(PeacefulModBlocks.SULPHUR_BLOCK)
             .add(PeacefulModBlocks.SULPHUR_STAIRS)
             .add(PeacefulModBlocks.SULPHUR_SLAB)
@@ -29,7 +29,7 @@ public class PeacefulModBlockTagGenerator extends BlockTagProvider {
             .add(PeacefulModBlocks.SULPHUR_ORE)
             .add(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE);
         
-        this.getOrCreateTagBuilder(BlockTags.INFINIBURN_OVERWORLD)
+        this.valueLookupBuilder(BlockTags.INFINIBURN_OVERWORLD)
             .add(PeacefulModBlocks.SULPHUR_BLOCK)
             .add(PeacefulModBlocks.SULPHUR_STAIRS)
             .add(PeacefulModBlocks.SULPHUR_SLAB)
@@ -38,13 +38,13 @@ public class PeacefulModBlockTagGenerator extends BlockTagProvider {
             .add(PeacefulModBlocks.SULPHUR_ORE)
             .add(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE);
         
-        this.getOrCreateTagBuilder(BlockTags.SOUL_SPEED_BLOCKS)
+        this.valueLookupBuilder(BlockTags.SOUL_SPEED_BLOCKS)
             .add(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE);
         
-        this.getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
+        this.valueLookupBuilder(BlockTags.AXE_MINEABLE)
             .add(PeacefulModBlocks.FLAX_CROP); // similar to other crops
         
-        this.getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
+        this.valueLookupBuilder(BlockTags.PICKAXE_MINEABLE)
             .add(PeacefulModBlocks.SULPHUR_BLOCK)
             .add(PeacefulModBlocks.SULPHUR_STAIRS)
             .add(PeacefulModBlocks.SULPHUR_SLAB)
@@ -53,71 +53,71 @@ public class PeacefulModBlockTagGenerator extends BlockTagProvider {
             .add(PeacefulModBlocks.FOSSIL_ORE)
             .add(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE);
         
-        this.getOrCreateTagBuilder(BlockTags.SHOVEL_MINEABLE)
+        this.valueLookupBuilder(BlockTags.SHOVEL_MINEABLE)
             .add(PeacefulModBlocks.SULPHUR_ORE)
             .add(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE);
         
-        this.getOrCreateTagBuilder(BlockTags.SNIFFER_DIGGABLE_BLOCK)
+        this.valueLookupBuilder(BlockTags.SNIFFER_DIGGABLE_BLOCK)
             .add(Blocks.SAND)
             .add(Blocks.GRAVEL)
             .add(Blocks.SOUL_SAND)
             .add(Blocks.SOUL_SOIL);
 
-        this.getOrCreateTagBuilder(BlockTags.CROPS)
+        this.valueLookupBuilder(BlockTags.CROPS)
             .add(PeacefulModBlocks.FLAX_CROP);
         
-        this.getOrCreateTagBuilder(BlockTags.MAINTAINS_FARMLAND)
+        this.valueLookupBuilder(BlockTags.MAINTAINS_FARMLAND)
             .add(PeacefulModBlocks.FLAX_CROP);
         
-        this.getOrCreateTagBuilder(ConventionalBlockTags.VILLAGER_JOB_SITES)
+        this.valueLookupBuilder(ConventionalBlockTags.VILLAGER_JOB_SITES)
             .add(Blocks.JUKEBOX);
         
-        this.getOrCreateTagBuilder(ConventionalBlockTags.CLUSTERS)
+        this.valueLookupBuilder(ConventionalBlockTags.CLUSTERS)
             .add(PeacefulModBlocks.SULPHUR_CLUSTER);
         
-        this.getOrCreateTagBuilder(ConventionalBlockTags.STORAGE_BLOCKS)
+        this.valueLookupBuilder(ConventionalBlockTags.STORAGE_BLOCKS)
             .add(PeacefulModBlocks.SULPHUR_BLOCK);
         
-        this.getOrCreateTagBuilder(PeacefulModTags.BlockTags.SULPHUR_ORES)
+        this.valueLookupBuilder(PeacefulModTags.BlockTags.SULPHUR_ORES)
             .add(PeacefulModBlocks.SULPHUR_ORE);
         
-        this.getOrCreateTagBuilder(PeacefulModTags.BlockTags.SULPHUR_ORES_C)
+        this.valueLookupBuilder(PeacefulModTags.BlockTags.SULPHUR_ORES_C)
             .addOptionalTag(PeacefulModTags.BlockTags.SULPHUR_ORES);
         
-        this.getOrCreateTagBuilder(PeacefulModTags.BlockTags.SULFUR_ORES)
+        this.valueLookupBuilder(PeacefulModTags.BlockTags.SULFUR_ORES)
             .addOptionalTag(PeacefulModTags.BlockTags.SULPHUR_ORES);
 
-        this.getOrCreateTagBuilder(BlockTags.STAIRS)
+        this.valueLookupBuilder(BlockTags.STAIRS)
             .add(PeacefulModBlocks.SULPHUR_STAIRS);
         
-        this.getOrCreateTagBuilder(BlockTags.SLABS)
+        this.valueLookupBuilder(BlockTags.SLABS)
             .add(PeacefulModBlocks.SULPHUR_SLAB);
         
-        this.getOrCreateTagBuilder(BlockTags.WALLS)
+        this.valueLookupBuilder(BlockTags.WALLS)
             .add(PeacefulModBlocks.SULPHUR_WALL);
         
-        this.getOrCreateTagBuilder(PeacefulModTags.BlockTags.FOSSIL_ORES)
+        this.valueLookupBuilder(PeacefulModTags.BlockTags.FOSSIL_ORES)
             .add(PeacefulModBlocks.FOSSIL_ORE)
             .add(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE)
             .add(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE);
         
-        this.getOrCreateTagBuilder(PeacefulModTags.BlockTags.FOSSIL_ORES_C)
+        this.valueLookupBuilder(PeacefulModTags.BlockTags.FOSSIL_ORES_C)
             .addOptionalTag(PeacefulModTags.BlockTags.FOSSIL_ORES);
 
-        this.getOrCreateTagBuilder(ConventionalBlockTags.ORES)
+        this.valueLookupBuilder(ConventionalBlockTags.ORES)
             .addOptionalTag(PeacefulModTags.BlockTags.SULPHUR_ORES)
             .addOptionalTag(PeacefulModTags.BlockTags.FOSSIL_ORES);
         
-        this.getOrCreateTagBuilder(PeacefulModTags.BlockTags.ORE_BEARING_GROUND_SOUL_SOIL)
+        this.valueLookupBuilder(PeacefulModTags.BlockTags.ORE_BEARING_GROUND_SOUL_SOIL)
             .add(Blocks.SOUL_SOIL);
         
-        this.getOrCreateTagBuilder(ConventionalBlockTags.ORES_IN_GROUND_STONE)
+        this.valueLookupBuilder(ConventionalBlockTags.ORES_IN_GROUND_STONE)
             .add(PeacefulModBlocks.FOSSIL_ORE);
         
-        this.getOrCreateTagBuilder(ConventionalBlockTags.ORES_IN_GROUND_DEEPSLATE)
+        this.valueLookupBuilder(ConventionalBlockTags.ORES_IN_GROUND_DEEPSLATE)
             .add(PeacefulModBlocks.DEEPSLATE_FOSSIL_ORE);
         
-        this.getOrCreateTagBuilder(PeacefulModTags.BlockTags.ORES_IN_GROUND_SOUL_SOIL)
+        this.valueLookupBuilder(PeacefulModTags.BlockTags.ORES_IN_GROUND_SOUL_SOIL)
             .add(PeacefulModBlocks.SULPHUR_ORE)
             .add(PeacefulModBlocks.SOUL_SOIL_FOSSIL_ORE);
 
@@ -125,7 +125,7 @@ public class PeacefulModBlockTagGenerator extends BlockTagProvider {
         this.aliasGroup("ores/sulfur").add(PeacefulModTags.BlockTags.SULFUR_ORES);
         this.aliasGroup("ores/fossil").add(PeacefulModTags.BlockTags.FOSSIL_ORES);
         
-        this.getOrCreateTagBuilder(BlockTags.CAULDRONS)
+        this.valueLookupBuilder(BlockTags.CAULDRONS)
 	        .add(PeacefulModBlocks.DRAGON_BREATH_CAULDRON);
     }
 }

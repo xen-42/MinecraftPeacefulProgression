@@ -1,13 +1,14 @@
 package xen42.peacefulitems;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
+import net.minecraft.client.render.BlockRenderLayer;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.block.entity.BrushableBlockEntityRenderer;
@@ -30,8 +31,8 @@ public class PeacefulModClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		BlockRenderLayerMap.INSTANCE.putBlock(PeacefulModBlocks.SULPHUR_CLUSTER, RenderLayer.getCutout());
-		BlockRenderLayerMap.INSTANCE.putBlock(PeacefulModBlocks.FLAX_CROP, RenderLayer.getCutout());
+		BlockRenderLayerMap.putBlock(PeacefulModBlocks.SULPHUR_CLUSTER, BlockRenderLayer.CUTOUT);
+		BlockRenderLayerMap.putBlock(PeacefulModBlocks.FLAX_CROP, BlockRenderLayer.CUTOUT);
 		
 		BlockEntityRendererFactories.register(PeacefulModBlocks.FOSSIL_ORE_ENTITY, BrushableBlockEntityRenderer::new);
 		

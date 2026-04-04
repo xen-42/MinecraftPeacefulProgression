@@ -21,7 +21,7 @@ public class PeacefulModPOITagGenerator extends FabricTagProvider<PointOfInteres
 
     @Override
     protected void configure(WrapperLookup registries) {
-        getOrCreateTagBuilder(PointOfInterestTypeTags.ACQUIRABLE_JOB_SITE)
+        builder(PointOfInterestTypeTags.ACQUIRABLE_JOB_SITE)
             .add(PeacefulModVillagers.JUKEBOX_KEY);
     }
 }

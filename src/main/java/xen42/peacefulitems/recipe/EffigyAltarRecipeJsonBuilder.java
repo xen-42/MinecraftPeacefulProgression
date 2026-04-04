@@ -60,7 +60,7 @@ public class EffigyAltarRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 	}
 
 	public EffigyAltarRecipeJsonBuilder input(Character c, TagKey<Item> tag) {
-		return this.input(c, Ingredient.fromTag(this.registryLookup.getOrThrow(tag)));
+		return this.input(c, Ingredient.ofTag(this.registryLookup.getOrThrow(tag)));
 	}
 
 	public EffigyAltarRecipeJsonBuilder input(Character c, ItemConvertible item) {

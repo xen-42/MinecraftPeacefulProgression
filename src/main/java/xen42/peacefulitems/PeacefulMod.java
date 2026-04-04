@@ -174,7 +174,7 @@ public class PeacefulMod implements ModInitializer {
 		PayloadTypeRegistry.playS2C().register(GhostRecipeCostResponse.PAYLOAD_ID, GhostRecipeCostResponse.CODEC);
 		PayloadTypeRegistry.playC2S().register(GhostRecipeCostRequest.PAYLOAD_ID, GhostRecipeCostRequest.CODEC);
 		ServerPlayNetworking.registerGlobalReceiver(GhostRecipeCostRequest.PAYLOAD_ID, (payload, context) -> {
-			int cost = EffigyAltarScreenHandler.getXPCost(context.player().getServerWorld(), payload.ghostInputs());
+			int cost = EffigyAltarScreenHandler.getXPCost(context.player().getWorld(), payload.ghostInputs());
 			ServerPlayNetworking.send(context.player(), new GhostRecipeCostResponse(cost));
 		});
 

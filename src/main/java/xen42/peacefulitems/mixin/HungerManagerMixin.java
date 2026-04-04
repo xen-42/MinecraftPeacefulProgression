@@ -34,9 +34,9 @@ public class HungerManagerMixin {
             return;
         }
 
-        var turboHeal = player.getServerWorld().getGameRules().getBoolean(PeacefulMod.ENABLE_SUPER_HEALING_PEACEFUL);
-        var canStarve = player.getServerWorld().getGameRules().getBoolean(PeacefulMod.ENABLE_STARVING_PEACEFUL);
-        var canHeal = player.getServerWorld().getGameRules().getBoolean(GameRules.NATURAL_REGENERATION);
+        var turboHeal = player.getWorld().getGameRules().getBoolean(PeacefulMod.ENABLE_SUPER_HEALING_PEACEFUL);
+        var canStarve = player.getWorld().getGameRules().getBoolean(PeacefulMod.ENABLE_STARVING_PEACEFUL);
+        var canHeal = player.getWorld().getGameRules().getBoolean(GameRules.NATURAL_REGENERATION);
         var hungerManager = (HungerManager) ((Object) this);
         
         // Do the basic not peaceful thing
@@ -81,7 +81,7 @@ public class HungerManagerMixin {
                 ++this.foodTickTimer;
                 if (this.foodTickTimer >= 80) {
                     if (canStarve) {
-                        player.damage(player.getServerWorld(), player.getDamageSources().starve(), 1.0F);
+                        player.damage(player.getWorld(), player.getDamageSources().starve(), 1.0F);
                     }
 
                     this.foodTickTimer = 0;

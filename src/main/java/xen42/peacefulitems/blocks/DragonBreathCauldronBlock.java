@@ -100,7 +100,7 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
     
     @Override
     protected void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler) {
-        if (world instanceof ServerWorld serverWorld && this.isEntityTouchingFluid(state, pos, entity)) {
+        if (world instanceof ServerWorld serverWorld) {
             entity.damage(serverWorld, world.getDamageSources().dragonBreath(), 2.5f);
         }
     }

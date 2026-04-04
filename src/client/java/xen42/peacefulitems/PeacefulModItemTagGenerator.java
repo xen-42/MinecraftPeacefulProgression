@@ -40,49 +40,54 @@ public class PeacefulModItemTagGenerator extends ItemTagProvider {
 		this.copy(BlockTags.SLABS, ItemTags.SLABS);
 		this.copy(BlockTags.WALLS, ItemTags.WALLS);
 
-		this.getOrCreateTagBuilder(ConventionalItemTags.SEEDS)
+		this.valueLookupBuilder(ConventionalItemTags.SEEDS)
 			.add(PeacefulModItems.FLAX);
-		this.getOrCreateTagBuilder(ItemTags.CHICKEN_FOOD)
+		this.valueLookupBuilder(ItemTags.CHICKEN_FOOD)
 			.add(PeacefulModItems.FLAX);
-		this.getOrCreateTagBuilder(ItemTags.PARROT_FOOD)
+		this.valueLookupBuilder(ItemTags.PARROT_FOOD)
 			.add(PeacefulModItems.FLAX);
-		this.getOrCreateTagBuilder(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+		this.valueLookupBuilder(ItemTags.VILLAGER_PLANTABLE_SEEDS)
 			.add(PeacefulModItems.FLAX);
-		this.getOrCreateTagBuilder(ConventionalItemTags.CROPS)
+		this.valueLookupBuilder(ConventionalItemTags.CROPS)
 			.add(PeacefulModItems.FLAX);
-		this.getOrCreateTagBuilder(ConventionalItemTags.CLUMPS)
+		this.valueLookupBuilder(ConventionalItemTags.CLUMPS)
 			.add(PeacefulModItems.SULPHUR);
-		this.getOrCreateTagBuilder(ConventionalItemTags.CLUSTERS)
+		this.valueLookupBuilder(ConventionalItemTags.CLUSTERS)
 			.add(PeacefulModItems.SULPHUR);
-		this.getOrCreateTagBuilder(ConventionalItemTags.FOOD_POISONING_FOODS)
+		this.valueLookupBuilder(ConventionalItemTags.FOOD_POISONING_FOODS)
 			.add(PeacefulModItems.CLAM);
-		this.getOrCreateTagBuilder(ConventionalItemTags.COOKED_FISH_FOODS)
+		this.valueLookupBuilder(ConventionalItemTags.COOKED_FISH_FOODS)
 			.add(PeacefulModItems.COOKED_CLAM);
-		this.getOrCreateTagBuilder(ConventionalItemTags.RAW_FISH_FOODS)
+		this.valueLookupBuilder(ConventionalItemTags.RAW_FISH_FOODS)
 			.add(PeacefulModItems.CLAM);
 		
-		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.EFFIGIES)
+		this.valueLookupBuilder(PeacefulModTags.ItemTags.EFFIGIES)
 			.add(PeacefulModItems.DRAGON_EFFIGY)
 			.add(PeacefulModItems.WITHER_EFFIGY)
 			.add(PeacefulModItems.GUARDIAN_EFFIGY)
 			.add(PeacefulModItems.RAID_EFFIGY);
 		
-		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.GUANO)
-			.add(PeacefulModItems.GUANO)
+		this.valueLookupBuilder(PeacefulModTags.ItemTags.GUANO)
+			.add(PeacefulModItems.GUANO);
+        this.getTagBuilder(PeacefulModTags.ItemTags.GUANO)
 			.addOptional(Identifier.of("jaizmod", "guano"));
 		
-		this.getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE)
+		this.valueLookupBuilder(ItemTags.DURABILITY_ENCHANTABLE)
 			.add(PeacefulModItems.CAPE);
-		this.getOrCreateTagBuilder(ItemTags.EQUIPPABLE_ENCHANTABLE)
+		this.valueLookupBuilder(ItemTags.EQUIPPABLE_ENCHANTABLE)
 			.add(PeacefulModItems.CAPE);
 		
-		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.WISP_LIKES)
-			.addOptionalTags(ConventionalItemTags.COOKED_FISH_FOODS, ConventionalItemTags.COOKED_MEAT_FOODS, ConventionalItemTags.VEGETABLE_FOODS)
+		this.valueLookupBuilder(PeacefulModTags.ItemTags.WISP_LIKES)
+			.addOptionalTag(ConventionalItemTags.COOKED_FISH_FOODS)
+            .addOptionalTag(ConventionalItemTags.COOKED_MEAT_FOODS)
+            .addOptionalTag(ConventionalItemTags.VEGETABLE_FOODS)
 			.add(PeacefulModItems.SULPHUR)
 			.add(Items.QUARTZ)
 			.add(Items.GOLD_NUGGET);
 
-		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.WISP_DISLIKES)
-			.addOptionalTags(PeacefulModTags.ItemTags.GUANO, ConventionalItemTags.RAW_FISH_FOODS, ConventionalItemTags.RAW_MEAT_FOODS);
+		this.valueLookupBuilder(PeacefulModTags.ItemTags.WISP_DISLIKES)
+			.addOptionalTag(PeacefulModTags.ItemTags.GUANO)
+            .addOptionalTag(ConventionalItemTags.RAW_FISH_FOODS)
+            .addOptionalTag(ConventionalItemTags.RAW_MEAT_FOODS);
 	}
 }

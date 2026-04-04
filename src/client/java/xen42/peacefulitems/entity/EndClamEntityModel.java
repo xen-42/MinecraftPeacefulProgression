@@ -7,18 +7,27 @@ import net.minecraft.client.model.ModelPartBuilder;
 import net.minecraft.client.model.ModelPartData;
 import net.minecraft.client.model.ModelTransform;
 import net.minecraft.client.model.TexturedModelData;
+import net.minecraft.client.render.entity.animation.Animation;
 import net.minecraft.client.render.entity.model.EntityModel;
 
 public class EndClamEntityModel extends EntityModel<EndClamEntityRenderState> {
 	public final ModelPart clam;
 	public final ModelPart bottom_shell;
 	public final ModelPart top_shell;
+    private final Animation yawn;
+    private final Animation open;
+    private final Animation idle;
+    private final Animation hit;
 
-	protected EndClamEntityModel(ModelPart root) {
+    protected EndClamEntityModel(ModelPart root) {
         super(root);
 		this.clam = root.getChild("clam");
 		this.bottom_shell = this.clam.getChild("bottom_shell");
 		this.top_shell = this.clam.getChild("top_shell");
+        this.yawn = EndClamAnimation.YAWN.createAnimation(root);
+        this.open = EndClamAnimation.OPEN.createAnimation(root);
+        this.idle = EndClamAnimation.IDLE.createAnimation(root);
+        this.hit = EndClamAnimation.HIT.createAnimation(root);
 	}
     
 	@SuppressWarnings("unused")
@@ -48,9 +57,9 @@ public class EndClamEntityModel extends EntityModel<EndClamEntityRenderState> {
 	public void setAngles(EndClamEntityRenderState endClamEntityRenderState) {
 		super.setAngles(endClamEntityRenderState);
 
-		this.animate(endClamEntityRenderState.idleAnimationState, EndClamAnimation.IDLE, endClamEntityRenderState.age, 1.0F);
-		this.animate(endClamEntityRenderState.hitAnimationState, EndClamAnimation.HIT, endClamEntityRenderState.age, 1.0F);
-		this.animate(endClamEntityRenderState.yawnAnimationState, EndClamAnimation.YAWN, endClamEntityRenderState.age, 1.0F);
-		this.animate(endClamEntityRenderState.openAnimationState, EndClamAnimation.OPEN, endClamEntityRenderState.age, 1.0F);
+		this.idle.apply(endClamEntityRenderState.idleAnimationState, endClamEntityRenderState.age, 1.0F);
+		this.hit.apply(endClamEntityRenderState.hitAnimationState, endClamEntityRenderState.age, 1.0F);
+		this.yawn.apply(endClamEntityRenderState.yawnAnimationState, endClamEntityRenderState.age, 1.0F);
+		this.open.apply(endClamEntityRenderState.openAnimationState, endClamEntityRenderState.age, 1.0F);
 	}
 }

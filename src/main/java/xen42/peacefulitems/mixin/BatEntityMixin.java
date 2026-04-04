@@ -17,6 +17,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypeFilter;
 import net.minecraft.util.math.Vec3d;
@@ -180,8 +182,8 @@ public class BatEntityMixin {
 		}
 	}
 
-	@Inject(at = @At("TAIL"), method = "writeCustomDataToNbt")
-	public void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo info) {
+	@Inject(at = @At("TAIL"), method = "writeCustomData")
+	public void writeCustomData(WriteView nbt, CallbackInfo info) {
 		var bat = ((BatEntity)(Object)this);
 
 		nbt.putBoolean("IsBaby", bat.getDataTracker().get(PeacefulMod.BAT_IS_BABY));
@@ -189,12 +191,12 @@ public class BatEntityMixin {
 		nbt.putInt("BreedingCooldown", bat.getDataTracker().get(PeacefulMod.BAT_BREEDING_COOLDOWN));
 	}
 
-	@Inject(at = @At("TAIL"), method = "readCustomDataFromNbt")
-	public void readCustomDataFromNbt(NbtCompound nbt, CallbackInfo info) {
+	@Inject(at = @At("TAIL"), method = "readCustomData")
+	public void readCustomData(ReadView nbt, CallbackInfo info) {
 		var bat = ((BatEntity)(Object)this);
 
-		bat.getDataTracker().set(PeacefulMod.BAT_IS_BABY, nbt.getBoolean("IsBaby").orElse(false));
-		bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_TICKS, nbt.getInt("BreedingTicks").orElse(0));
-		bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_COOLDOWN, nbt.getInt("BreedingCooldown").orElse(0));
+		bat.getDataTracker().set(PeacefulMod.BAT_IS_BABY, nbt.getBoolean("IsBaby", false));
+		bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_TICKS, nbt.getInt("BreedingTicks", 0));
+		bat.getDataTracker().set(PeacefulMod.BAT_BREEDING_COOLDOWN, nbt.getInt("BreedingCooldown", 0));
 	}
 }
