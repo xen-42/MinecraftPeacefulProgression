@@ -162,7 +162,7 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
                 return !this.world.getBlockState(pos.down()).isAir();
             }
         };
-        navigation.setCanOpenDoors(true);
+        navigation.setCanOpenDoors(false);
         navigation.setCanSwim(true);
         navigation.setMaxFollowRange(48f);
         return navigation;
