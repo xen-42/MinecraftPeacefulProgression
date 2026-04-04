@@ -134,6 +134,7 @@ public class PeacefulMod implements ModInitializer {
 
 		LOGGER.info("Loading Peaceful Mod!");
 
+		PeacefulModEvents.onInitialize();
 		PeacefulModItems.initialize();
 		PeacefulModBlocks.initialize();
 		PeacefulModFluids.initialize();
@@ -158,7 +159,8 @@ public class PeacefulMod implements ModInitializer {
 		BiomeModifications.addSpawn(ghastlingBiomes, SpawnGroup.AMBIENT, GHASTLING_ENTITY, 100, 2, 3);
 		SpawnRestriction.register(GHASTLING_ENTITY, Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, GhastlingEntity::isValidSpawn);
 
-		BiomeModifications.addSpawn(clamBiomes, SpawnGroup.AMBIENT, END_CLAM_ENTITY, 100, 1, 1);
+		// Clams don't spawn enough in the Nether so on top of this we do some extra stuff with CustomSpawners
+		BiomeModifications.addSpawn(clamBiomes, SpawnGroup.AMBIENT, END_CLAM_ENTITY, 100, 2, 5);
 		SpawnRestriction.register(END_CLAM_ENTITY, Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EndClamEntity::isValidSpawn);
 
 		LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
