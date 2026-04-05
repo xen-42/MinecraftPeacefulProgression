@@ -22,7 +22,7 @@ import xen42.peacefulitems.PeacefulMod;
 public class MinecraftServerMixin {
     // This is what makes the nether also superflat
 	@Inject(at = @At("RETURN"), method = "createWorlds")
-    private void createWorlds(WorldGenerationProgressListener listener, CallbackInfo info) {
+    private void peacefulprogression_createWorlds(WorldGenerationProgressListener listener, CallbackInfo info) {
         MinecraftServer server = (MinecraftServer) (Object) this;
 
         ServerWorld nether = server.getWorld(World.NETHER);
