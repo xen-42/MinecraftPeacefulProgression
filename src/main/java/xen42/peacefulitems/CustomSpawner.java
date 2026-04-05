@@ -140,18 +140,18 @@ public class CustomSpawner implements Spawner {
         BlockPos.Mutable basePos = player.getBlockPos().mutableCopy().move(xOffset, 0, zOffset);
         
         Identifier entityId = EntityType.getId(type);
-        PeacefulMod.LOGGER.info("[CustomSpawner] Attempting to spawn {} at {}", entityId, basePos.toShortString());
+        PeacefulMod.LOGGER.debug("[CustomSpawner] Attempting to spawn {} at {}", entityId, basePos.toShortString());
 
         int chunkX = MathHelper.floorDiv(basePos.getX(), 16);
         int chunkZ = MathHelper.floorDiv(basePos.getZ(), 16);
         var chunk = world.getChunk(chunkX, chunkZ, ChunkStatus.FULL, false);
         if (chunk == null) {
-            PeacefulMod.LOGGER.info("[CustomSpawner] Target chunk is not loaded");
+            PeacefulMod.LOGGER.debug("[CustomSpawner] Target chunk is not loaded");
             return 0;
         }
 
         if (!world.isRegionLoaded(basePos.getX() - regionCheckRadius, basePos.getZ() - regionCheckRadius, basePos.getX() + regionCheckRadius, basePos.getZ() + regionCheckRadius)) {
-            PeacefulMod.LOGGER.info("[CustomSpawner] Area is not loaded");
+            PeacefulMod.LOGGER.debug("[CustomSpawner] Area is not loaded");
             return 0;
         }
 
@@ -165,7 +165,7 @@ public class CustomSpawner implements Spawner {
 
         int mobCount = world.getEntitiesByClass(MobEntity.class, chunkBox, e -> e.getType() == this.type).size();
         if (mobCount >= maxCount) {
-            PeacefulMod.LOGGER.info("[CustomSpawner] Too many already exist in chunk: {}/{}", mobCount, maxCount);
+            PeacefulMod.LOGGER.debug("[CustomSpawner] Too many already exist in chunk: {}/{}", mobCount, maxCount);
             return 0;
         }
 
@@ -175,12 +175,12 @@ public class CustomSpawner implements Spawner {
         for (int i = 0; i < attempts; i++) {
             BlockPos.Mutable spawnPos = findSpawnPos(world, basePos, random);
             if (spawnPos == null) {
-                PeacefulMod.LOGGER.info("[CustomSpawner] Valid spawn point not found at {}", basePos.toShortString());
+                PeacefulMod.LOGGER.debug("[CustomSpawner] Valid spawn point not found at {}", basePos.toShortString());
                 offsetRandomly(basePos, random);
                 continue;
             }
 
-            PeacefulMod.LOGGER.info("[CustomSpawner] Spawning {} at {}", entityId, spawnPos.toShortString());
+            PeacefulMod.LOGGER.debug("[CustomSpawner] Spawning {} at {}", entityId, spawnPos.toShortString());
 
             if (spawnMob(world, spawnPos, random)) {
                 spawned++;
@@ -253,7 +253,7 @@ public class CustomSpawner implements Spawner {
             );
 
             if (!validBiome) {
-            	PeacefulMod.LOGGER.info("[CustomSpawner] Biome {} is invalid at {}", biomeKey.getValue(), pos.toShortString());
+            	PeacefulMod.LOGGER.debug("[CustomSpawner] Biome {} is invalid at {}", biomeKey.getValue(), pos.toShortString());
             	return false;
             }
         }
