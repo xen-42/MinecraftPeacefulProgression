@@ -136,8 +136,8 @@ public class PeacefulModVillageAdditions {
 			pool.elements.add(piece);
 		}
 
-		List<Pair<StructurePoolElement, Integer>> listOfPieceEntries = new ArrayList<Pair<StructurePoolElement, Integer>>(pool.elementWeights);
+		List<Pair<StructurePoolElement, Integer>> listOfPieceEntries = new ArrayList<Pair<StructurePoolElement, Integer>>(pool.elementCounts);
 		listOfPieceEntries.add(new Pair<>(piece, weight));
-		pool.elementWeights = listOfPieceEntries;
+		pool.elementCounts = listOfPieceEntries;
 	}
 }
