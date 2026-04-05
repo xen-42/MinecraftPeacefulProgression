@@ -157,7 +157,7 @@ public class PeacefulModVillagers {
     }
 
     private static TradeOffer RandomDisc(Entity entity, Random random) {
-        var item = entity.getWorld().getRegistryManager().get(RegistryKeys.ITEM).getOrCreateEntryList(ItemTags.CREEPER_DROP_MUSIC_DISCS).getRandom(random).get();
+        var item = entity.getWorld().getRegistryManager().get(RegistryKeys.ITEM).getOrCreateEntryList(PeacefulModTags.ItemTags.HOSTILE_MUSIC_DISCS).getRandom(random).get();
         return new TradeOffer(
             new ItemStack(Items.EMERALD, 24),
             new ItemStack(item, 1), 1, 30, 0.05f);
