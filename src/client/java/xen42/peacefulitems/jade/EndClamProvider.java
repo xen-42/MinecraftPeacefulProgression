@@ -7,7 +7,7 @@ import snownee.jade.api.IEntityComponentProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.api.ui.IDisplayHelper;
-import snownee.jade.api.ui.IElementHelper;
+import snownee.jade.api.ui.JadeUI;
 import xen42.peacefulitems.PeacefulMod;
 import xen42.peacefulitems.entities.EndClamEntity;
 
@@ -25,7 +25,7 @@ public enum EndClamProvider implements IEntityComponentProvider {
 		if (entity instanceof EndClamEntity endClam) {
 			var containedItem = endClam.getContainedItem();
 			if (!containedItem.isEmpty()) {
-				tooltip.add(IElementHelper.get().smallItem(containedItem));
+				tooltip.add(JadeUI.smallItem(containedItem));
 				tooltip.append(IDisplayHelper.get().stripColor(containedItem.getName()));
 			}
 		}
