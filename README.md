@@ -69,6 +69,6 @@ https://github.com/2xsaiko/mixin-cheatsheet/tree/master
 
 - Ansurfen for the Chinese (Simplified) translation
 - AstardGrimoire for the Russian translation
-- cassiancc for porting to 1.21.10 and EIV integration
+- cassiancc for porting to 1.21.10 and EIV/RRV integration
 - Kaupenjoe and Diamondxr for the Youtube tutorials
 - Everyone who works on Fabric and all the modding framework stuff that's a bunch of work man very cool
