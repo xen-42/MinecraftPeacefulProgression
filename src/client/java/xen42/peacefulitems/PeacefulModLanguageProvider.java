@@ -158,6 +158,7 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.add(PeacefulModTags.ItemTags.EFFIGIES, "Effigies");
 			translationBuilder.add(PeacefulModTags.ItemTags.WISP_LIKES, "Wisp Likes");
 			translationBuilder.add(PeacefulModTags.ItemTags.WISP_DISLIKES, "Wisp Dislikes");
+			translationBuilder.add(PeacefulModTags.ItemTags.HOSTILE_MUSIC_DISCS, "Hostile Music Discs");
 			translationBuilder.add(PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, "Effigy Altar Dungeon");
 			translationBuilder.add(PeacefulModTags.StructureTags.TRAIL_RUINS, "Trail Ruins");
 			translationBuilder.add(StructureTags.OCEAN_RUIN, "Ocean Ruin");
@@ -335,6 +336,7 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.add(PeacefulModTags.ItemTags.EFFIGIES, "塑像");
 			translationBuilder.add(PeacefulModTags.ItemTags.WISP_LIKES, "小精灵的喜欢之物");
 			translationBuilder.add(PeacefulModTags.ItemTags.WISP_DISLIKES, "小精灵的厌恶之物");
+			translationBuilder.add(PeacefulModTags.ItemTags.HOSTILE_MUSIC_DISCS, "Hostile Music Discs");
 			translationBuilder.add(PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, "塑像祭坛");
 			translationBuilder.add(PeacefulModTags.StructureTags.TRAIL_RUINS, "古迹废墟");
 			translationBuilder.add(StructureTags.OCEAN_RUIN, "海底废墟");
@@ -471,6 +473,7 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.add(PeacefulModTags.ItemTags.EFFIGIES, "Тотемы");
 			translationBuilder.add(PeacefulModTags.ItemTags.WISP_LIKES, "Предпочтения души");
 			translationBuilder.add(PeacefulModTags.ItemTags.WISP_DISLIKES, "Отвращения души");
+			translationBuilder.add(PeacefulModTags.ItemTags.HOSTILE_MUSIC_DISCS, "Hostile Music Discs");
 			translationBuilder.add(PeacefulModTags.StructureTags.EFFIGY_ALTAR_DUNGEON, "Алтари тотемов");
 			translationBuilder.add(PeacefulModTags.StructureTags.TRAIL_RUINS, "Руины троп");
 			translationBuilder.add(StructureTags.OCEAN_RUIN, "Подводные руины");
