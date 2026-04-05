@@ -104,6 +104,9 @@ public class PeacefulModItemTagGenerator extends ItemTagProvider {
 			.add(Items.RABBIT)
 			.add(Items.MUTTON)
 			.add(PeacefulModItems.CLAM)
+			.addOptionalTag(PeacefulModTags.ItemTags.CROPS_ONION)
+			.addOptionalTag(PeacefulModTags.ItemTags.FOODS_VEGETABLES_ONION)
+			.addOptionalTag(PeacefulModTags.ItemTags.FOODS_VEGETABLES_ONIONS)
 			.addOptionalTag(PeacefulModTags.ItemTags.GUANO);
 	}
 }
