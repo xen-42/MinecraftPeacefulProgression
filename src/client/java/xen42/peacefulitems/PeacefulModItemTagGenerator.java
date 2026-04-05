@@ -89,5 +89,8 @@ public class PeacefulModItemTagGenerator extends ItemTagProvider {
 			.addOptionalTag(PeacefulModTags.ItemTags.GUANO)
 			.addOptionalTag(ConventionalItemTags.RAW_FISH_FOODS)
 			.addOptionalTag(ConventionalItemTags.RAW_MEAT_FOODS);
+		
+		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.HOSTILE_MUSIC_DISCS)
+			.addOptionalTag(ItemTags.CREEPER_DROP_MUSIC_DISCS);
 	}
 }
