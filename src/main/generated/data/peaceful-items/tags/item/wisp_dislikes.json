@@ -1,6 +1,18 @@
 {
   "values": [
     {
+      "id": "#c:crops/onion",
+      "required": false
+    },
+    {
+      "id": "#c:foods/vegetables/onion",
+      "required": false
+    },
+    {
+      "id": "#c:foods/vegetables/onions",
+      "required": false
+    },
+    {
       "id": "#c:guano",
       "required": false
     },
