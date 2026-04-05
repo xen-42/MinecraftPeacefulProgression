@@ -242,10 +242,18 @@ public class EndClamEntity extends AmbientEntity {
         return successfulTeleport;    
     } 
 
+    public ItemStack getContainedItem() {
+    	return getEquippedStack(EquipmentSlot.MAINHAND);
+    }
+    
+    public void setContainedItem(ItemStack stack) {
+    	equipStack(EquipmentSlot.MAINHAND, stack);
+    }
+
     @Override
     public void tickMovement() {
         super.tickMovement();
-        if ((getWorld()).isClient && getEquippedStack(EquipmentSlot.MAINHAND).isOf(Items.ENDER_PEARL)) {
+        if ((getWorld()).isClient && getContainedItem().isOf(Items.ENDER_PEARL)) {
             getWorld().addParticle((ParticleEffect)ParticleTypes.PORTAL, 
                 getParticleX(0.25D), 
                 getRandomBodyY() + 0.25D, 
@@ -260,10 +268,10 @@ public class EndClamEntity extends AmbientEntity {
     protected void loot(ItemEntity itemEntity) {
         ItemStack itemStack = itemEntity.getStack();
         if (!this.getDataTracker().get(IS_OPENING)) {
-            if (!getEquippedStack(EquipmentSlot.MAINHAND).isEmpty()) {
+            if (!getContainedItem().isEmpty()) {
                 if (!getWorld().isClient) {
                     var thrownItem = new ItemEntity(getWorld(), getX() + (getRotationVector()).x, getY() + 1.0D, getZ() + (getRotationVector()).z, 
-                        getEquippedStack(EquipmentSlot.MAINHAND));
+                        getContainedItem());
                     thrownItem.setPickupDelay(40);
                     thrownItem.setThrower(this);
                     getWorld().spawnEntity(thrownItem);
@@ -276,7 +284,7 @@ public class EndClamEntity extends AmbientEntity {
             }
 
             triggerItemPickedUpByEntityCriteria(itemEntity);
-            equipStack(EquipmentSlot.MAINHAND, itemStack.split(1));
+            setContainedItem(itemStack.split(1));
             updateDropChances(EquipmentSlot.MAINHAND);
             sendPickup(itemEntity, itemStack.getCount());
             itemEntity.discard();
@@ -295,10 +303,10 @@ public class EndClamEntity extends AmbientEntity {
 
     @Override
     protected void drop(ServerWorld world, DamageSource damageSource) {
-        var itemStack = getEquippedStack(EquipmentSlot.MAINHAND);
+        var itemStack = getContainedItem();
         if (!itemStack.isEmpty()) {
             dropStack(itemStack);
-            equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
+            setContainedItem(ItemStack.EMPTY);
         }
         super.drop(world, damageSource);
     }
@@ -319,7 +327,7 @@ public class EndClamEntity extends AmbientEntity {
                 item = Items.GOLD_NUGGET;
             }
 
-            equipStack(EquipmentSlot.MAINHAND, new ItemStack(item));
+            setContainedItem(new ItemStack(item));
         }
         // Face a random direction
         setYaw(this.random.nextFloat() * 360f);
