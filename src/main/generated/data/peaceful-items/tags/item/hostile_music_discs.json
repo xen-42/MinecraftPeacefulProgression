@@ -1,6 +1,7 @@
 {
   "values": [
     "minecraft:music_disc_tears",
+    "minecraft:music_disc_lava_chicken",
     {
       "id": "#minecraft:creeper_drop_music_discs",
       "required": false
