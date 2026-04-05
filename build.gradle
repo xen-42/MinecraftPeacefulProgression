@@ -163,10 +163,10 @@ dependencies {
 	}
 
 	// Jade
-	modCompileOnly("maven.modrinth:jade:${jade_version}+fabric") {
+	modCompileOnly("maven.modrinth:jade:${jade_version}") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
-	modLocalRuntime("maven.modrinth:jade:${jade_version}+fabric") {
+	modLocalRuntime("maven.modrinth:jade:${jade_version}") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 }
