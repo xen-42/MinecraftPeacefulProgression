@@ -39,6 +39,9 @@ public class PeacefulModTags {
 		public static final TagKey<Item> ORES_IN_GROUND_DEEPSLATE = ofItemC("ores_in_ground/deepslate");
         public static final TagKey<Item> SEEDS = ofItemC("seeds");
         public static final TagKey<Item> CROPS = ofItemC("crops");
+		public static final TagKey<Item> CROPS_ONION = ofItemC("crops/onion");
+		public static final TagKey<Item> FOODS_VEGETABLES_ONION = ofItemC("foods/vegetables/onion");
+		public static final TagKey<Item> FOODS_VEGETABLES_ONIONS = ofItemC("foods/vegetables/onions");
 		public static final TagKey<Item> MEAT = ofItemVanilla("meat");
 	}
 	
