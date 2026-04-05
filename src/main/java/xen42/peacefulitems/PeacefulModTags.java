@@ -32,6 +32,10 @@ public class PeacefulModTags {
 		public static final TagKey<Item> GUANO = TagRegistration.ITEM_TAG.registerC("guano");
 		public static final TagKey<Item> WISP_LIKES = ofItem("wisp_likes");
 		public static final TagKey<Item> WISP_DISLIKES = ofItem("wisp_dislikes");
+
+		public static final TagKey<Item> CROPS_ONION = TagRegistration.ITEM_TAG.registerC("crops/onion");
+		public static final TagKey<Item> FOODS_VEGETABLES_ONION = TagRegistration.ITEM_TAG.registerC("foods/vegetables/onion");
+		public static final TagKey<Item> FOODS_VEGETABLES_ONIONS = TagRegistration.ITEM_TAG.registerC("foods/vegetables/onions");
 	}
 	
 	public class StructureTags {
