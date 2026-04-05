@@ -35,6 +35,7 @@ public class PeacefulModTags {
 		public static final TagKey<Item> GUANO = TagRegistration.ITEM_TAG.registerC("guano");
 		public static final TagKey<Item> WISP_LIKES = ofItem("wisp_likes");
 		public static final TagKey<Item> WISP_DISLIKES = ofItem("wisp_dislikes");
+		public static final TagKey<Item> HOSTILE_MUSIC_DISCS = ofItem("hostile_music_discs");
 
 		public static final TagKey<Item> ORES_IN_GROUND_STONE = TagRegistration.ITEM_TAG.registerC("ores_in_ground/stone");
 		public static final TagKey<Item> ORES_IN_GROUND_DEEPSLATE = TagRegistration.ITEM_TAG.registerC("ores_in_ground/deepslate");
