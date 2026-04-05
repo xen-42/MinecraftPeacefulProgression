@@ -108,5 +108,8 @@ public class PeacefulModItemTagGenerator extends ItemTagProvider {
 			.addOptionalTag(PeacefulModTags.ItemTags.FOODS_VEGETABLES_ONION)
 			.addOptionalTag(PeacefulModTags.ItemTags.FOODS_VEGETABLES_ONIONS)
 			.addOptionalTag(PeacefulModTags.ItemTags.GUANO);
+		
+		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.HOSTILE_MUSIC_DISCS)
+			.addOptionalTag(ItemTags.CREEPER_DROP_MUSIC_DISCS);
 	}
 }
