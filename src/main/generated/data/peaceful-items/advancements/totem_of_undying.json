@@ -1,0 +1,38 @@
+{
+  "parent": "peaceful-items:find_effigy_altar_dungeon",
+  "criteria": {
+    "has_totem_of_undying": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:totem_of_undying"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.peaceful_items.totem_of_undying.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "minecraft:totem_of_undying"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.peaceful_items.totem_of_undying.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_totem_of_undying"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

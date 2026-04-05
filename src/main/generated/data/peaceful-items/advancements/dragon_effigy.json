@@ -1,0 +1,38 @@
+{
+  "parent": "peaceful-items:find_effigy_altar_dungeon",
+  "criteria": {
+    "has_dragon_effigy": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "peaceful-items:dragon_effigy"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.peaceful_items.dragon_effigy.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "peaceful-items:dragon_effigy"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.peaceful_items.dragon_effigy.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_dragon_effigy"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

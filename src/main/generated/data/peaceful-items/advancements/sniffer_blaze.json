@@ -1,0 +1,38 @@
+{
+  "parent": "peaceful-items:root",
+  "criteria": {
+    "has_blaze_coral": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "peaceful-items:blaze_pickle"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.peaceful_items.sniffer_blaze.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "peaceful-items:blaze_pickle"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.peaceful_items.sniffer_blaze.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_blaze_coral"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

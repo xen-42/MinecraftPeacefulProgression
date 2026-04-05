@@ -1,0 +1,40 @@
+{
+  "parent": "peaceful-items:root",
+  "criteria": {
+    "wisp_cried": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "peaceful-items:ghastling"
+            }
+          }
+        ]
+      },
+      "trigger": "peaceful-items:ghastling_tear"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.peaceful_items.wisp_tear.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "minecraft:ghast_tear"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.peaceful_items.wisp_tear.title"
+    }
+  },
+  "requirements": [
+    [
+      "wisp_cried"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

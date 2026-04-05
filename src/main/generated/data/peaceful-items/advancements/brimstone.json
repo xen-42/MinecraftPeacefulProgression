@@ -1,0 +1,38 @@
+{
+  "parent": "peaceful-items:root",
+  "criteria": {
+    "has_brimstone": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "peaceful-items:sulphur"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.peaceful_items.brimstone.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "peaceful-items:sulphur"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.peaceful_items.brimstone.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_brimstone"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

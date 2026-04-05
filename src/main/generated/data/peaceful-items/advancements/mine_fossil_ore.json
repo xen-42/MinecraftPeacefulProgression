@@ -1,0 +1,51 @@
+{
+  "parent": "peaceful-items:root",
+  "criteria": {
+    "has_bone": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:bone"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_bone_meal": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:bone_meal"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.peaceful_items.mine_fossil_ore.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "peaceful-items:fossil_ore"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.peaceful_items.mine_fossil_ore.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_bone",
+      "has_bone_meal"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

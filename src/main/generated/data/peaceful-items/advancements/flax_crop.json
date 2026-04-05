@@ -1,0 +1,37 @@
+{
+  "parent": "peaceful-items:root",
+  "criteria": {
+    "placed_flax_crop": {
+      "conditions": {
+        "location": [
+          {
+            "block": "peaceful-items:flax_crop",
+            "condition": "minecraft:block_state_property"
+          }
+        ]
+      },
+      "trigger": "minecraft:placed_block"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.peaceful_items.flax_crop.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "peaceful-items:flax"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.peaceful_items.flax_crop.title"
+    }
+  },
+  "requirements": [
+    [
+      "placed_flax_crop"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

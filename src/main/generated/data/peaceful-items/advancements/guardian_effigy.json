@@ -1,0 +1,38 @@
+{
+  "parent": "peaceful-items:find_effigy_altar_dungeon",
+  "criteria": {
+    "has_guardian_effigy": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "peaceful-items:guardian_effigy"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.peaceful_items.guardian_effigy.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "peaceful-items:guardian_effigy"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.peaceful_items.guardian_effigy.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_guardian_effigy"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

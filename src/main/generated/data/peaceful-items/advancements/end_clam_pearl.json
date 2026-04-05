@@ -1,0 +1,38 @@
+{
+  "parent": "peaceful-items:root",
+  "criteria": {
+    "has_ender_pearl": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:ender_pearl"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.peaceful_items.end_clam_pearl.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "minecraft:ender_pearl"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.peaceful_items.end_clam_pearl.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_ender_pearl"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

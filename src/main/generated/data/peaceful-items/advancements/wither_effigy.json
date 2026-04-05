@@ -1,0 +1,38 @@
+{
+  "parent": "peaceful-items:find_effigy_altar_dungeon",
+  "criteria": {
+    "has_wither_effigy": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "peaceful-items:wither_effigy"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.peaceful_items.wither_effigy.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "peaceful-items:wither_effigy"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.peaceful_items.wither_effigy.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_wither_effigy"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

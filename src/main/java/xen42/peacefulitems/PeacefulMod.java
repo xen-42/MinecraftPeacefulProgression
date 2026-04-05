@@ -10,6 +10,8 @@ import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.advancement.criterion.Criterion;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.BrushableBlock;
 import net.minecraft.entity.EntityType;
@@ -50,6 +52,8 @@ import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import net.minecraft.world.gen.structure.Structure;
+import xen42.peacefulitems.criterion.BredBatsCriterion;
+import xen42.peacefulitems.criterion.GhastlingTearCriterion;
 import xen42.peacefulitems.entities.EndClamEntity;
 import xen42.peacefulitems.entities.GhastlingEntity;
 import xen42.peacefulitems.payloads.EffigyParticlePayload;
@@ -88,6 +92,7 @@ public class PeacefulMod implements ModInitializer {
 	public static final TrackedData<Integer> BAT_BREEDING_COOLDOWN = DataTracker.registerData(BatEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	public static int BatGrowUpTicks = 5 * 60 * 20; // Normal mobs its 20 minutes but I feel like bats can grow up fast maybe idk!
 	public static int BatBreedingCooldown = 5 * 60 * 20;
+	public static final BredBatsCriterion BRED_BATS_CRITERIA = Criteria.register(new BredBatsCriterion());
 
 	public static final GameRules.Key<BooleanRule> ENABLE_ENDER_DRAGON_FIGHT_PEACEFUL =
 		GameRuleRegistry.register("enableEnderDragonFightPeaceful", Category.MOBS, GameRuleFactory.createBooleanRule(false));
@@ -101,6 +106,7 @@ public class PeacefulMod implements ModInitializer {
 		Registries.ENTITY_TYPE, 
 		Identifier.of(MOD_ID, "ghastling"), 
 		EntityType.Builder.create(GhastlingEntity::new, SpawnGroup.AMBIENT).setDimensions(0.5f, 1.5f).build(GHASTLING_ENTITY_KEY.toString()));
+	public static final GhastlingTearCriterion GHASTLING_TEAR_CRITERIA = Criteria.register(new GhastlingTearCriterion());
 
 	public static final RegistryKey<EntityType<?>> END_CLAM_ENTITY_KEY = RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(MOD_ID,"end_clam"));
 	public static final EntityType<EndClamEntity> END_CLAM_ENTITY = Registry.register(
@@ -128,6 +134,7 @@ public class PeacefulMod implements ModInitializer {
 
 		LOGGER.info("Loading Peaceful Mod!");
 
+		PeacefulModEvents.onInitialize();
 		PeacefulModItems.initialize();
 		PeacefulModBlocks.initialize();
 		PeacefulModFluids.initialize();
@@ -152,7 +159,8 @@ public class PeacefulMod implements ModInitializer {
 		BiomeModifications.addSpawn(ghastlingBiomes, SpawnGroup.AMBIENT, GHASTLING_ENTITY, 100, 2, 3);
 		SpawnRestriction.register(GHASTLING_ENTITY, Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, GhastlingEntity::isValidSpawn);
 
-		BiomeModifications.addSpawn(clamBiomes, SpawnGroup.AMBIENT, END_CLAM_ENTITY, 100, 1, 1);
+		// Clams don't spawn enough in the Nether so on top of this we do some extra stuff with CustomSpawners
+		BiomeModifications.addSpawn(clamBiomes, SpawnGroup.AMBIENT, END_CLAM_ENTITY, 100, 2, 5);
 		SpawnRestriction.register(END_CLAM_ENTITY, Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EndClamEntity::isValidSpawn);
 
 		LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {

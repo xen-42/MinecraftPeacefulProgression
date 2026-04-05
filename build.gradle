@@ -27,6 +27,18 @@ repositories {
 		name = 'Roughly Enough Items'
 		url = "https://maven.shedaniel.me"
 	}
+
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "Modrinth"
+				url = "https://api.modrinth.com/maven"
+			}
+		}
+		filter {
+			includeGroup "maven.modrinth"
+		}
+	}
 }
 
 loom {
@@ -40,6 +52,50 @@ loom {
 		}
 	}
 
+	runs {
+		client {
+			client()
+			configName = "Minecraft Client"
+			programArgs "--username", "DevPlayer"
+			runDir("run/client")
+		}
+
+		server {
+			server()
+			configName = "Minecraft Server"
+			runDir("run/server")
+		}
+
+		clientNone {
+			inherit client
+			configName = "Minecraft Client (No Recipe Viewer)"
+			programArgs "--username", "DevPlayer"
+			runDir("run/client")
+		}
+
+		clientRei {
+			inherit client
+			configName = "Minecraft Client (REI)"
+			programArgs "--username", "DevPlayer"
+			runDir("run/client")
+		}
+
+		serverNone {
+			inherit server
+			configName = "Minecraft Server (No Recipe Viewer)"
+			runDir("run/server")
+		}
+
+		serverRei {
+			inherit server
+			configName = "Minecraft Server (REI)"
+			runDir("run/server")
+		}
+	}
+
+	runConfigs.configureEach {
+		ideConfigGenerated = true
+	}
 }
 
 fabricApi {
@@ -48,6 +104,23 @@ fabricApi {
 	}
 }
 
+def requestedTasks = gradle.startParameter.taskNames*.toLowerCase(Locale.ROOT)
+
+// Find the first run task and strip either runclient or runserver from the front
+def taskViewer = requestedTasks
+	.find { it.startsWith("runclient") || it.startsWith("runserver") }
+	?.replaceFirst(/^run(client|server)/, "")
+
+def projectViewer = project.findProperty("recipe_viewer")
+
+def recipeViewer = (
+	(taskViewer != null && !taskViewer.isBlank() ? taskViewer : null)
+	?: projectViewer
+	?: ""
+).toString().toLowerCase(Locale.ROOT)
+
+println "Using recipeViewer = ${recipeViewer}"
+
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -55,26 +128,63 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}+${project.minecraft_version}"
 
 	// Architectury and Cloth Config
-	modApi "dev.architectury:architectury-fabric:${architectury_version}"
+	modApi("dev.architectury:architectury-fabric:${architectury_version}")
 	modApi("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 
-	// REI (RoughlyEnoughItems)
-	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}"
-	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
-	modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${rei_version}"
-	
+	// REI (Roughly Enough Items)
+	modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
+	modCompileOnly("me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${rei_version}") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
+
+	// Which recipe viewer to use at runtime.
+	switch (recipeViewer) {
+		case "rei":
+			modLocalRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}") {
+				exclude group: "net.fabricmc.fabric-api"
+			}
+			break
+
+		case "disabled":
+		case "none":
+		case "":
+			break
+
+		default:
+			println("Unknown recipe viewer specified: ${recipeViewer}. Must be rei, or none.")
+			break
+	}
+
+	// Jade
+	modCompileOnly("maven.modrinth:jade:${jade_version}+fabric") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
+	modLocalRuntime("maven.modrinth:jade:${jade_version}+fabric") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
 }
 
 processResources {
-	inputs.property "version", project.version
+	var replaceProperties = [
+			version				: project.version,
+			java_version		: project.java_version,
+			minecraft_version	: project.minecraft_version,
+			loader_version		: project.loader_version,
+			fabric_version		: project.fabric_version,
+			rei_version			: project.rei_version
+	]
+
+	inputs.properties replaceProperties
 
 	filesMatching("fabric.mod.json") {
-		expand "version": inputs.properties.version
+		expand replaceProperties
 	}
 }
 

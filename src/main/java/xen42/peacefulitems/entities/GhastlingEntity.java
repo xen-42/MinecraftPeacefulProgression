@@ -25,6 +25,7 @@ import net.minecraft.item.Items;
 import net.minecraft.predicate.entity.LocationPredicate;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -109,6 +110,7 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
                 eat(player, hand, item);
                 // Count this as hurting them so they run from you
                 this.damage(getWorld().getDamageSources().playerAttack(player), 0f);
+                PeacefulMod.GHASTLING_TEAR_CRITERIA.trigger((ServerPlayerEntity)player, this);
                 return (ActionResult)ActionResult.SUCCESS;
             }
         }
@@ -157,7 +159,7 @@ public class GhastlingEntity extends AnimalEntity implements Flutterer {
                 return !this.world.getBlockState(pos.down()).isAir();
             }
         };
-        navigation.setCanPathThroughDoors(true);
+        navigation.setCanPathThroughDoors(false);
         navigation.setCanSwim(true);
         return navigation;
     }

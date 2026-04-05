@@ -1,0 +1,30 @@
+{
+  "parent": "peaceful-items:root",
+  "criteria": {
+    "bred_bats": {
+      "conditions": {},
+      "trigger": "peaceful-items:bred_bats"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.peaceful_items.breed_a_bat.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "minecraft:melon_slice"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.peaceful_items.breed_a_bat.title"
+    }
+  },
+  "requirements": [
+    [
+      "bred_bats"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
