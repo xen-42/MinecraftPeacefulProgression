@@ -25,6 +25,9 @@
 		"fabric-datagen": [
 			"xen42.peacefulitems.PeacefulModDataGenerator"
 		],
+		"jade": [
+			"xen42.peacefulitems.jade.PeacefulProgressionJadePlugin"
+		],
 		"rei_client": [
 			"xen42.peacefulitems.rei.EffigyAltarClientPlugin"
 		],
