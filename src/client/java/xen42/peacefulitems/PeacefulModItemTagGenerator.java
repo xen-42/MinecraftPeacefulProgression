@@ -95,6 +95,7 @@ public class PeacefulModItemTagGenerator extends ItemTagProvider {
 		
 		this.valueLookupBuilder(PeacefulModTags.ItemTags.HOSTILE_MUSIC_DISCS)
 			.add(Items.MUSIC_DISC_TEARS)
+			.add(Items.MUSIC_DISC_LAVA_CHICKEN)
 			.addOptionalTag(ItemTags.CREEPER_DROP_MUSIC_DISCS);
 	}
 }
