@@ -83,6 +83,7 @@ public class PeacefulModItemTagGenerator extends ItemTagProvider {
 			.add(Items.GOLD_NUGGET);
 
 		this.getOrCreateTagBuilder(PeacefulModTags.ItemTags.WISP_DISLIKES)
+			.addOptionalTags(PeacefulModTags.ItemTags.CROPS_ONION, PeacefulModTags.ItemTags.FOODS_VEGETABLES_ONION, PeacefulModTags.ItemTags.FOODS_VEGETABLES_ONIONS)
 			.addOptionalTags(PeacefulModTags.ItemTags.GUANO, ConventionalItemTags.RAW_FISH_FOODS, ConventionalItemTags.RAW_MEAT_FOODS);
 	}
 }
