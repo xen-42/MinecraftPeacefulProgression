@@ -1,0 +1,9 @@
+{
+  "values": [
+    "minecraft:music_disc_tears",
+    {
+      "id": "#minecraft:creeper_drop_music_discs",
+      "required": false
+    }
+  ]
+}
