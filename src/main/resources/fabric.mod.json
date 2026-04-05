@@ -41,13 +41,13 @@
 	],
 	"accessWidener": "peaceful-items.accesswidener",
 	"depends": {
-		"fabricloader": ">=0.16.10",
-		"minecraft": "~1.21.6",
-		"java": ">=21",
-		"fabric-api": "*"
+		"fabricloader": ">=${loader_version}",
+		"minecraft": "~${minecraft_version}",
+		"java": ">=${java_version}",
+		"fabric-api": ">=${fabric_version}"
 	},
 	"suggests": {
-		"roughlyenoughitems": ">=20.0.810"
+		"roughlyenoughitems": ">=${rei_version}"
 	},
 	"breaks": {
 		"jeb": "*"
