@@ -15,6 +15,7 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.StructureTags;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.util.Identifier;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.gen.structure.Structure;
@@ -94,6 +95,10 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 
 		public void addInformation(EntityType<?> entity, String prefix, String value) {
 			add(getInformationKey(entity.getTranslationKey(), prefix), value);
+		}
+
+		public void addJadePlugin(Identifier plugin, String value) {
+			add("config.jade.plugin_" + plugin.getNamespace() + "." + plugin.getPath(), value);
 		}
 	}
 	
@@ -182,6 +187,8 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addAdvancement("sniffer_blaze", "Cinders in the Soil", "Let a Sniffer dig up a Blaze Coral");
 			translationBuilder.addAdvancement("blaze_rod", "Into Fire", "Smelt a Blaze Coral into a Blaze Rod");
 			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine or brush Bones from Fossil Ore");
+			
+			translationBuilder.addJadePlugin(PeacefulMod.END_CLAM_ENTITY_ID, "Enderclam");
 
 			translationBuilder.addInformation(PeacefulModBlocks.EFFIGY_ALTAR.asItem(), "dungeon", 
 			    "Found in Effigy Altar dungeon structures. Cartographers sell maps to locate them."
@@ -360,6 +367,8 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addAdvancement("sniffer_blaze", "Cinders in the Soil", "Let a Sniffer dig up a Blaze Coral");
 			translationBuilder.addAdvancement("blaze_rod", "Into Fire", "Smelt a Blaze Coral into a Blaze Rod");
 			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine or brush Bones from Fossil Ore");
+			
+			translationBuilder.addJadePlugin(PeacefulMod.END_CLAM_ENTITY_ID, "末影蛤");
 
 			translationBuilder.addInformation(PeacefulModBlocks.EFFIGY_ALTAR.asItem(), "dungeon", 
 			    "Found in Effigy Altar dungeon structures. Cartographers sell maps to locate them."
@@ -497,6 +506,8 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addAdvancement("sniffer_blaze", "Cinders in the Soil", "Let a Sniffer dig up a Blaze Coral");
 			translationBuilder.addAdvancement("blaze_rod", "Into Fire", "Smelt a Blaze Coral into a Blaze Rod");
 			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine or brush Bones from Fossil Ore");
+			
+			translationBuilder.addJadePlugin(PeacefulMod.END_CLAM_ENTITY_ID, "Эндер-моллюск");
 
 			translationBuilder.addInformation(PeacefulModBlocks.EFFIGY_ALTAR.asItem(), "dungeon", 
 			    "Found in Effigy Altar dungeon structures. Cartographers sell maps to locate them."
