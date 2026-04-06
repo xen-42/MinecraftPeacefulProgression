@@ -27,8 +27,8 @@ import xen42.peacefulitems.payloads.EffigyParticlePayload;
 import xen42.peacefulitems.screen.EffigyAltarHandledScreen;
 
 public class PeacefulModClient implements ClientModInitializer {
-	public static final EntityModelLayer MODEL_GHASTLING_LAYER = new EntityModelLayer(Identifier.of(PeacefulMod.MOD_ID, "ghastling"), "main");
-	public static final EntityModelLayer MODEL_END_CLAM_LAYER = new EntityModelLayer(Identifier.of(PeacefulMod.MOD_ID, "end_clam"), "main");
+	public static final EntityModelLayer MODEL_GHASTLING_LAYER = new EntityModelLayer(PeacefulMod.GHASTLING_ENTITY_ID, "main");
+	public static final EntityModelLayer MODEL_END_CLAM_LAYER = new EntityModelLayer(PeacefulMod.END_CLAM_ENTITY_ID, "main");
 
 	@Override
 	public void onInitializeClient() {
