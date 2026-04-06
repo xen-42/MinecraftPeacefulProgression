@@ -15,6 +15,7 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.StructureTags;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.util.Identifier;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.gen.structure.Structure;
 import net.minecraft.world.rule.GameRule;
@@ -95,6 +96,10 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 
 		public void addInformation(EntityType<?> entity, String prefix, String value) {
 			add(getInformationKey(entity.getTranslationKey(), prefix), value);
+		}
+
+		public void addJadePlugin(Identifier plugin, String value) {
+			add("config.jade.plugin_" + plugin.getNamespace() + "." + plugin.getPath(), value);
 		}
 	}
 	
@@ -186,6 +191,8 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addAdvancement("breeze_rod", "Into Wind", "Smelt a Breeze Coral into a Breeze Rod");
 			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine or brush Bones from Fossil Ore");
 			translationBuilder.addAdvancement("strip_resin", "Sap Tap", "Strip a Pale Oak Log to get a Resin Clump");
+			
+			translationBuilder.addJadePlugin(PeacefulMod.END_CLAM_ENTITY_ID, "Enderclam");
 
 			translationBuilder.addInformation(PeacefulModBlocks.EFFIGY_ALTAR.asItem(), "dungeon", 
 			    "Found in Effigy Altar dungeon structures. Cartographers sell maps to locate them."
@@ -370,6 +377,8 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addAdvancement("breeze_rod", "Into Wind", "Smelt a Breeze Coral into a Breeze Rod");
 			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine or brush Bones from Fossil Ore");
 			translationBuilder.addAdvancement("strip_resin", "Sap Tap", "Strip a Pale Oak Log to get a Resin Clump");
+			
+			translationBuilder.addJadePlugin(PeacefulMod.END_CLAM_ENTITY_ID, "末影蛤");
 
 			translationBuilder.addInformation(PeacefulModBlocks.EFFIGY_ALTAR.asItem(), "dungeon", 
 			    "Found in Effigy Altar dungeon structures. Cartographers sell maps to locate them."
@@ -513,6 +522,8 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addAdvancement("breeze_rod", "Into Wind", "Smelt a Breeze Coral into a Breeze Rod");
 			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine or brush Bones from Fossil Ore");
 			translationBuilder.addAdvancement("strip_resin", "Sap Tap", "Strip a Pale Oak Log to get a Resin Clump");
+			
+			translationBuilder.addJadePlugin(PeacefulMod.END_CLAM_ENTITY_ID, "Эндер-моллюск");
 
 			translationBuilder.addInformation(PeacefulModBlocks.EFFIGY_ALTAR.asItem(), "dungeon", 
 			    "Found in Effigy Altar dungeon structures. Cartographers sell maps to locate them."

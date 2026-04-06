@@ -105,17 +105,19 @@ public class PeacefulMod implements ModInitializer {
 	public static final GameRule<Boolean> ENABLE_STARVING_PEACEFUL =
 			GameRuleBuilder.forBoolean(false).category(GameRuleCategory.MOBS).buildAndRegister(Identifier.of(MOD_ID, "enable_starving_peaceful"));
 
-	public static final RegistryKey<EntityType<?>> GHASTLING_ENTITY_KEY = RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(MOD_ID,"ghastling"));
+	public static final Identifier GHASTLING_ENTITY_ID = Identifier.of(MOD_ID, "ghastling");
+	public static final RegistryKey<EntityType<?>> GHASTLING_ENTITY_KEY = RegistryKey.of(RegistryKeys.ENTITY_TYPE, GHASTLING_ENTITY_ID);
 	public static final EntityType<GhastlingEntity> GHASTLING_ENTITY = Registry.register(
 		Registries.ENTITY_TYPE, 
-		Identifier.of(MOD_ID, "ghastling"), 
+		GHASTLING_ENTITY_ID, 
 		EntityType.Builder.create(GhastlingEntity::new, SpawnGroup.AMBIENT).dimensions(0.5f, 1.5f).build(GHASTLING_ENTITY_KEY));
 	public static final GhastlingTearCriterion GHASTLING_TEAR_CRITERIA = Registry.register(Registries.CRITERION, Identifier.of(MOD_ID, "ghastling_tear"), new GhastlingTearCriterion());
 
-	public static final RegistryKey<EntityType<?>> END_CLAM_ENTITY_KEY = RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(MOD_ID,"end_clam"));
+	public static final Identifier END_CLAM_ENTITY_ID = Identifier.of(MOD_ID, "end_clam");
+	public static final RegistryKey<EntityType<?>> END_CLAM_ENTITY_KEY = RegistryKey.of(RegistryKeys.ENTITY_TYPE, END_CLAM_ENTITY_ID);
 	public static final EntityType<EndClamEntity> END_CLAM_ENTITY = Registry.register(
 		Registries.ENTITY_TYPE, 
-		Identifier.of(MOD_ID, "end_clam"), 
+		END_CLAM_ENTITY_ID, 
 		EntityType.Builder.create(EndClamEntity::new, SpawnGroup.AMBIENT).dimensions(0.5f, 0.3f).build(END_CLAM_ENTITY_KEY));
 
 	public static final Identifier EFFIGY_PARTICLE_PAYLOAD = Identifier.of(MOD_ID, "effigy_particle_payload");
