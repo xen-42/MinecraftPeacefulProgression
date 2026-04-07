@@ -45,6 +45,7 @@ import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.explosion.Explosion;
 import xen42.peacefulitems.PeacefulMod;
 import xen42.peacefulitems.PeacefulModBlocks;
+import xen42.peacefulitems.PeacefulModSounds;
 
 public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
     public static final Map<Item, CauldronBehavior> DRAGON_BREATH_CAULDRON_BEHAVIOR = CauldronBehavior.createMap();
@@ -191,7 +192,7 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
                 player.incrementStat(Stats.USE_CAULDRON);
                 player.incrementStat(Stats.USED.getOrCreateStat(item));
                 world.setBlockState(pos, PeacefulModBlocks.DRAGON_BREATH_CAULDRON.getDefaultState().with(LeveledCauldronBlock.LEVEL, 3));
-                world.playSound(null, pos, PeacefulMod.ITEM_BOTTLE_EMPTY_DRAGONBREATH, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                world.playSound(null, pos, PeacefulModSounds.ITEM_BOTTLE_EMPTY_DRAGONBREATH, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 world.emitGameEvent(null, GameEvent.FLUID_PLACE, pos);
             }
 
@@ -208,7 +209,7 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
                 player.incrementStat(Stats.USE_CAULDRON);
                 player.incrementStat(Stats.USED.getOrCreateStat(item));
                 world.setBlockState(pos, PeacefulModBlocks.DRAGON_BREATH_CAULDRON.getDefaultState());
-                world.playSound(null, pos, PeacefulMod.ITEM_BOTTLE_EMPTY_DRAGONBREATH, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                world.playSound(null, pos, PeacefulModSounds.ITEM_BOTTLE_EMPTY_DRAGONBREATH, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 world.emitGameEvent(null, GameEvent.FLUID_PLACE, pos);
             }
 
@@ -243,7 +244,7 @@ public class DragonBreathCauldronBlock extends LeveledCauldronBlock {
                     player.incrementStat(Stats.USE_CAULDRON);
                     player.incrementStat(Stats.USED.getOrCreateStat(item));
                     incrementFluidLevel(state, world, pos);
-                    world.playSound(null, pos, PeacefulMod.ITEM_BOTTLE_EMPTY_DRAGONBREATH, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    world.playSound(null, pos, PeacefulModSounds.ITEM_BOTTLE_EMPTY_DRAGONBREATH, SoundCategory.BLOCKS, 1.0F, 1.0F);
                     world.emitGameEvent(null, GameEvent.FLUID_PLACE, pos);
                 }
 
