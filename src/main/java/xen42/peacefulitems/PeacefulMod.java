@@ -119,11 +119,6 @@ public class PeacefulMod implements ModInitializer {
 		Identifier.of(MOD_ID, "effigy_altar"),
 		new ScreenHandlerType<EffigyAltarScreenHandler>(EffigyAltarScreenHandler::new, null));
 
-	public static final SoundEvent ITEM_BOTTLE_EMPTY_DRAGONBREATH = Registry.register(
-		Registries.SOUND_EVENT,
-		Identifier.of(MOD_ID, "item.bottle.empty_dragonbreath"),
-		SoundEvent.of(Identifier.of(MOD_ID, "item.bottle.empty_dragonbreath")));
-
 	@Override
 	public void onInitialize() {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
@@ -133,6 +128,7 @@ public class PeacefulMod implements ModInitializer {
 		LOGGER.info("Loading Peaceful Mod!");
 
 		PeacefulModEvents.onInitialize();
+		PeacefulModSounds.initialize();
 		PeacefulModItems.initialize();
 		PeacefulModBlocks.initialize();
 		PeacefulModFluids.initialize();
