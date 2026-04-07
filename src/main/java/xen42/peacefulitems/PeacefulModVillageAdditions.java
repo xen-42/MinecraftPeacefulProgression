@@ -120,7 +120,7 @@ public class PeacefulModVillageAdditions {
 			return;
 		}
 
-		var optionalPH = processorListRegistry.getOptional(RegistryKey.of(RegistryKeys.PROCESSOR_LIST, processorListRL));
+		var optionalPH = processorListRegistry.getEntry(RegistryKey.of(RegistryKeys.PROCESSOR_LIST, processorListRL));
 		if (optionalPH == null) {
 			PeacefulMod.LOGGER.info("Failed to get processor {}", processorListRL);
 			return;
