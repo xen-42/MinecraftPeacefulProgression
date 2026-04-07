@@ -1,6 +1,5 @@
 package xen42.peacefulitems;
 
-import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -15,18 +14,14 @@ import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.function.SetInstrumentLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.InstrumentTags;
 import net.minecraft.util.Identifier;
 
 public class PeacefulModChestLootTableGenerator extends SimpleFabricLootTableProvider {
-	public static final RegistryKey<LootTable> VILLAGE_DJ_CHEST = RegistryKey.of(RegistryKeys.LOOT_TABLE, Identifier.of(PeacefulMod.MOD_ID, "chests/village/village_dj"));
+	public static final Identifier VILLAGE_DJ_CHEST = Identifier.of(PeacefulMod.MOD_ID, "chests/village/village_dj");
 
-	public PeacefulModChestLootTableGenerator(FabricDataOutput dataOutput,
-            CompletableFuture<WrapperLookup> registryLookup) {
-        super(dataOutput, registryLookup, LootContextTypes.CHEST);
+	public PeacefulModChestLootTableGenerator(FabricDataOutput dataOutput) {
+        super(dataOutput, LootContextTypes.CHEST);
     }
 
     @Override
@@ -35,7 +30,7 @@ public class PeacefulModChestLootTableGenerator extends SimpleFabricLootTablePro
     }
 	 
 	@Override
-	public void accept(WrapperLookup registryLookup, BiConsumer<RegistryKey<LootTable>, LootTable.Builder> lootTableBiConsumer) {
+	public void accept(BiConsumer<Identifier, LootTable.Builder> lootTableBiConsumer) {
 		lootTableBiConsumer.accept(VILLAGE_DJ_CHEST, LootTable.builder()
 
 		        // Guaranteed hostile disc
