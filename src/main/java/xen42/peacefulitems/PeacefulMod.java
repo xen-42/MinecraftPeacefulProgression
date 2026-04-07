@@ -122,11 +122,6 @@ public class PeacefulMod implements ModInitializer {
 		Registries.SCREEN_HANDLER,
 		Identifier.of(MOD_ID, "effigy_altar"),
 		new ScreenHandlerType<EffigyAltarScreenHandler>(EffigyAltarScreenHandler::new, null));
-
-	public static final SoundEvent ITEM_BOTTLE_EMPTY_DRAGONBREATH = Registry.register(
-		Registries.SOUND_EVENT,
-		Identifier.of(MOD_ID, "item.bottle.empty_dragonbreath"),
-		SoundEvent.of(Identifier.of(MOD_ID, "item.bottle.empty_dragonbreath")));
 	
 	public static <T extends Criterion<?>> T registerCriterion(Identifier identifier, T criterion) {
 		if (Criteria.VALUES.putIfAbsent(identifier, criterion) != null) {
@@ -145,6 +140,7 @@ public class PeacefulMod implements ModInitializer {
 		LOGGER.info("Loading Peaceful Mod!");
 
 		PeacefulModEvents.onInitialize();
+		PeacefulModSounds.initialize();
 		PeacefulModItems.initialize();
 		PeacefulModBlocks.initialize();
 		PeacefulModFluids.initialize();
