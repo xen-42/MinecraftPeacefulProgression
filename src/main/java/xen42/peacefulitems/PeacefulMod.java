@@ -101,17 +101,19 @@ public class PeacefulMod implements ModInitializer {
 	public static final GameRules.Key<BooleanRule> ENABLE_STARVING_PEACEFUL =
 		GameRuleRegistry.register("enableStarvingPeaceful", Category.PLAYER, GameRuleFactory.createBooleanRule(false));
 
-	public static final RegistryKey<EntityType<?>> GHASTLING_ENTITY_KEY = RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(MOD_ID,"ghastling"));
+	public static final Identifier GHASTLING_ENTITY_ID = Identifier.of(MOD_ID, "ghastling");
+	public static final RegistryKey<EntityType<?>> GHASTLING_ENTITY_KEY = RegistryKey.of(RegistryKeys.ENTITY_TYPE, GHASTLING_ENTITY_ID);
 	public static final EntityType<GhastlingEntity> GHASTLING_ENTITY = Registry.register(
 		Registries.ENTITY_TYPE, 
-		Identifier.of(MOD_ID, "ghastling"), 
+		GHASTLING_ENTITY_ID, 
 		EntityType.Builder.create(GhastlingEntity::new, SpawnGroup.AMBIENT).setDimensions(0.5f, 1.5f).build(GHASTLING_ENTITY_KEY.toString()));
 	public static final GhastlingTearCriterion GHASTLING_TEAR_CRITERIA = Criteria.register(new GhastlingTearCriterion());
 
-	public static final RegistryKey<EntityType<?>> END_CLAM_ENTITY_KEY = RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(MOD_ID,"end_clam"));
+	public static final Identifier END_CLAM_ENTITY_ID = Identifier.of(MOD_ID, "end_clam");
+	public static final RegistryKey<EntityType<?>> END_CLAM_ENTITY_KEY = RegistryKey.of(RegistryKeys.ENTITY_TYPE, END_CLAM_ENTITY_ID);
 	public static final EntityType<EndClamEntity> END_CLAM_ENTITY = Registry.register(
 		Registries.ENTITY_TYPE, 
-		Identifier.of(MOD_ID, "end_clam"), 
+		END_CLAM_ENTITY_ID, 
 		EntityType.Builder.create(EndClamEntity::new, SpawnGroup.AMBIENT).setDimensions(0.5f, 0.3f).build(END_CLAM_ENTITY_KEY.toString()));
 
 	public static final Identifier EFFIGY_PARTICLE_PAYLOAD = Identifier.of(MOD_ID, "effigy_particle_payload");
@@ -120,11 +122,6 @@ public class PeacefulMod implements ModInitializer {
 		Registries.SCREEN_HANDLER,
 		Identifier.of(MOD_ID, "effigy_altar"),
 		new ScreenHandlerType<EffigyAltarScreenHandler>(EffigyAltarScreenHandler::new, null));
-
-	public static final SoundEvent ITEM_BOTTLE_EMPTY_DRAGONBREATH = Registry.register(
-		Registries.SOUND_EVENT,
-		Identifier.of(MOD_ID, "item.bottle.empty_dragonbreath"),
-		SoundEvent.of(Identifier.of(MOD_ID, "item.bottle.empty_dragonbreath")));
 
 	@Override
 	public void onInitialize() {
@@ -135,10 +132,12 @@ public class PeacefulMod implements ModInitializer {
 		LOGGER.info("Loading Peaceful Mod!");
 
 		PeacefulModEvents.onInitialize();
+		PeacefulModSounds.initialize();
 		PeacefulModItems.initialize();
 		PeacefulModBlocks.initialize();
 		PeacefulModFluids.initialize();
 		PeacefulModVillagers.initialize();
+		PeacefulModVillageAdditions.initialize();
 		PeacefulModPotions.initialize();
 
 		BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, FOSSIL_ORE_PLACED_KEY);

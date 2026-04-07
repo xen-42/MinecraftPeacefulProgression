@@ -17,3 +17,7 @@ mutable field net/minecraft/recipe/FireworkStarRecipe TYPE_MODIFIER_MAP Ljava/ut
 
 accessible field net/minecraft/server/world/ServerWorld spawners Ljava/util/List;
 mutable field net/minecraft/server/world/ServerWorld spawners Ljava/util/List;
+
+accessible field net/minecraft/structure/pool/StructurePool elements Lit/unimi/dsi/fastutil/objects/ObjectArrayList;
+accessible field net/minecraft/structure/pool/StructurePool elementCounts Ljava/util/List;
+mutable field net/minecraft/structure/pool/StructurePool elementCounts Ljava/util/List;
