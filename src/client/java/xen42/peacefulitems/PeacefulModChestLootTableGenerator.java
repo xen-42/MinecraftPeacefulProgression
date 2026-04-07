@@ -35,7 +35,7 @@ public class PeacefulModChestLootTableGenerator extends SimpleFabricLootTablePro
     }
 	 
 	@Override
-	public void accept(BiConsumer<RegistryKey<LootTable>, LootTable.Builder> lootTableBiConsumer) {
+	public void accept(WrapperLookup registryLookup, BiConsumer<RegistryKey<LootTable>, LootTable.Builder> lootTableBiConsumer) {
 		lootTableBiConsumer.accept(VILLAGE_DJ_CHEST, LootTable.builder()
 
 		        // Guaranteed hostile disc
