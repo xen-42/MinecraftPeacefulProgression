@@ -117,6 +117,10 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			add(getInformationKey(entity.getTranslationKey(), prefix), value);
 		}
 
+		public void addEmiCategory(Identifier plugin, String value) {
+			add("emi.category." + plugin.getNamespace() + "." + plugin.getPath(), value);
+		}
+
 		public void addJadePlugin(Identifier plugin, String value) {
 			add("config.jade.plugin_" + plugin.getNamespace() + "." + plugin.getPath(), value);
 		}
@@ -206,6 +210,8 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addAdvancement("sniffer_blaze", "Cinders in the Soil", "Let a Sniffer dig up a Blaze Coral");
 			translationBuilder.addAdvancement("blaze_rod", "Into Fire", "Smelt a Blaze Coral into a Blaze Rod");
 			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine or brush Bones from Fossil Ore");
+
+			translationBuilder.addEmiCategory(PeacefulMod.EFFIGY_ALTAR_ID, "Effigy Altar");
 			
 			translationBuilder.addJadePlugin(PeacefulMod.END_CLAM_ENTITY_ID, "Enderclam");
 
@@ -385,6 +391,8 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addAdvancement("sniffer_blaze", "Cinders in the Soil", "Let a Sniffer dig up a Blaze Coral");
 			translationBuilder.addAdvancement("blaze_rod", "Into Fire", "Smelt a Blaze Coral into a Blaze Rod");
 			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine or brush Bones from Fossil Ore");
+
+			translationBuilder.addEmiCategory(PeacefulMod.EFFIGY_ALTAR_ID, "塑像祭坛");
 			
 			translationBuilder.addJadePlugin(PeacefulMod.END_CLAM_ENTITY_ID, "末影蛤");
 
@@ -523,6 +531,8 @@ public abstract class PeacefulModLanguageProvider extends FabricLanguageProvider
 			translationBuilder.addAdvancement("sniffer_blaze", "Cinders in the Soil", "Let a Sniffer dig up a Blaze Coral");
 			translationBuilder.addAdvancement("blaze_rod", "Into Fire", "Smelt a Blaze Coral into a Blaze Rod");
 			translationBuilder.addAdvancement("mine_fossil_ore", "Bone to Pick", "Mine or brush Bones from Fossil Ore");
+
+			translationBuilder.addEmiCategory(PeacefulMod.EFFIGY_ALTAR_ID, "Алтарь тотемов");
 			
 			translationBuilder.addJadePlugin(PeacefulMod.END_CLAM_ENTITY_ID, "Эндер-моллюск");
 
