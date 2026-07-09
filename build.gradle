@@ -166,6 +166,9 @@ dependencies {
 	modCompileOnly("dev.emi:emi-fabric:${emi_version}+${minecraft_version}:api") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
+	modCompileOnly("dev.emi:emi-fabric:${emi_version}+${minecraft_version}") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
 
 	// Which recipe viewer to use at runtime.
 	switch (recipeViewer) {
