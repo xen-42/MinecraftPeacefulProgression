@@ -28,6 +28,9 @@
 		"jade": [
 			"xen42.peacefulitems.jade.PeacefulProgressionJadePlugin"
 		],
+		"emi": [
+			"xen42.peacefulitems.emi.PeacefulProgressionEMIPlugin"
+		],
 		"rei_client": [
 			"xen42.peacefulitems.rei.EffigyAltarClientPlugin"
 		],
