@@ -6,6 +6,14 @@
         "peaceful-items:wither_effigy",
         "peaceful-items:cooked_clam_meat_from_smelting_clam_meat",
         "peaceful-items:dragon_effigy",
-        "peaceful-items:guardian_effigy"
+        "peaceful-items:guardian_effigy",
+        "peaceful-items:totem_of_undying",
+        "peaceful-items:phantom_membrane",
+        "peaceful-items:rotten_flesh",
+        "peaceful-items:blaze_rod_from_smelting_blaze_pickle",
+        "peaceful-items:/world/unique/peaceful-items/dragon_effigy_empty",
+        "peaceful-items:/world/unique/minecraft/dragon_breath_fill",
+        "peaceful-items:/world/unique/peaceful-items/fossil_ore",
+        "emi:/brewing/minecraft/potion/peaceful-items/ectoplasm/minecraft/awkward/peaceful-items/levitation"
     ]
 }
