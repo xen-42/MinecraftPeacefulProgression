@@ -27,7 +27,7 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.recipe.RecipeEntry;
+import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeManager;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.RegistryKeys;
@@ -71,7 +71,7 @@ public class PeacefulProgressionEMIPlugin implements EmiPlugin {
 
 		RecipeManager manager = registry.getRecipeManager();
 
-		for (RecipeEntry<EffigyAltarRecipe> recipe : manager.listAllOfType(PeacefulMod.EFFIGY_ALTAR_RECIPE_TYPE)) {
+		for (EffigyAltarRecipe recipe : manager.listAllOfType(PeacefulMod.EFFIGY_ALTAR_RECIPE_TYPE)) {
 			addRecipeSafe(registry, () -> new EffigyAltarEmiRecipe(recipe), recipe);
 		}
 
@@ -160,11 +160,11 @@ public class PeacefulProgressionEMIPlugin implements EmiPlugin {
 		}
 	}
 
-	private static void addRecipeSafe(EmiRegistry registry, Supplier<EmiRecipe> supplier, RecipeEntry<?> recipe) {
+	private static void addRecipeSafe(EmiRegistry registry, Supplier<EmiRecipe> supplier, Recipe<?> recipe) {
 		try {
 			registry.addRecipe(supplier.get());
 		} catch (Throwable e) {
-			PeacefulMod.LOGGER.warn("Exception thrown when parsing recipe " + recipe.id().toString(), e);
+			PeacefulMod.LOGGER.warn("Exception thrown when parsing recipe " + recipe.getId().toString(), e);
 		}
 	}
 

@@ -10,7 +10,6 @@ import dev.emi.emi.api.render.EmiTexture;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
-import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.util.Identifier;
 import xen42.peacefulitems.recipe.EffigyAltarRecipe;
 
@@ -19,18 +18,10 @@ public class EffigyAltarEmiRecipe implements EmiRecipe {
     private final List<EmiIngredient> input;
     private final List<EmiStack> output;
 
-    public EffigyAltarEmiRecipe(RecipeEntry<EffigyAltarRecipe> recipe) {
-        this.id = recipe.id();
-        this.input = List.of(
-                EmiIngredient.of(recipe.value().getIngredients().get(0)),
-                EmiIngredient.of(recipe.value().getIngredients().get(1)),
-                EmiIngredient.of(recipe.value().getIngredients().get(2)),
-                EmiIngredient.of(recipe.value().getIngredients().get(3)),
-                EmiIngredient.of(recipe.value().getIngredients().get(4)),
-                EmiIngredient.of(recipe.value().getIngredients().get(5)),
-                EmiIngredient.of(recipe.value().getIngredients().get(6)),
-                EmiIngredient.of(recipe.value().getIngredients().get(7)));
-        this.output = List.of(EmiStack.of(recipe.value().result()));
+    public EffigyAltarEmiRecipe(EffigyAltarRecipe recipe) {
+        this.id = recipe.getId();
+        this.input = recipe.getIngredients().stream().map(i -> EmiIngredient.of(i)).toList();
+        this.output = List.of(EmiStack.of(recipe.result()));
     }
 
     @Override
