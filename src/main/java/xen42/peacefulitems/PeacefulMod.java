@@ -71,15 +71,17 @@ public class PeacefulMod implements ModInitializer {
 	
 	public static final RegistryKey<Structure> EFFIGY_ALTAR_DUNGEON_KEY = RegistryKey.of(RegistryKeys.STRUCTURE, Identifier.of(MOD_ID, "effigy_altar_dungeon"));
 
-	public static final RegistryKey<RecipeType<?>> EFFIGY_ALTAR_RECIPE_TYPE_KEY = RegistryKey.of(RegistryKeys.RECIPE_TYPE, Identifier.of(MOD_ID, "effigy_altar"));
-	public static final RecipeType<EffigyAltarRecipe> EFFIGY_ALTAR_RECIPE_TYPE = Registry.register(Registries.RECIPE_TYPE, Identifier.of(MOD_ID, "effigy_altar"), new RecipeType<EffigyAltarRecipe>() {
+	public static final Identifier EFFIGY_ALTAR_ID = Identifier.of(MOD_ID, "effigy_altar");
+
+	public static final RegistryKey<RecipeType<?>> EFFIGY_ALTAR_RECIPE_TYPE_KEY = RegistryKey.of(RegistryKeys.RECIPE_TYPE, EFFIGY_ALTAR_ID);
+	public static final RecipeType<EffigyAltarRecipe> EFFIGY_ALTAR_RECIPE_TYPE = Registry.register(Registries.RECIPE_TYPE, EFFIGY_ALTAR_ID, new RecipeType<EffigyAltarRecipe>() {
 		public String toString() {
 			return "effigy_altar";
 		}
 	});
-	public static final RecipeSerializer<EffigyAltarRecipe> EFFIGY_ALTAR_RECIPE_SERIALIZER = Registry.register(Registries.RECIPE_SERIALIZER, Identifier.of(MOD_ID, "effigy_altar"), new EffigyAltarRecipe.Serializer());
-	public static final RecipeDisplay.Serializer<EffigyAltarRecipeDisplay> EFFIGY_ALTAR_RECIPE_DISPLAY = Registry.register(Registries.RECIPE_DISPLAY, Identifier.of(MOD_ID, "effigy_altar"), EffigyAltarRecipeDisplay.SERIALIZER);
-	public static final RecipeBookCategory EFFIGY_ALTAR_RECIPE_BOOK_CATEGORY = Registry.register(Registries.RECIPE_BOOK_CATEGORY, Identifier.of(MOD_ID, "effigy_altar"), new RecipeBookCategory() {
+	public static final RecipeSerializer<EffigyAltarRecipe> EFFIGY_ALTAR_RECIPE_SERIALIZER = Registry.register(Registries.RECIPE_SERIALIZER, EFFIGY_ALTAR_ID, new EffigyAltarRecipe.Serializer());
+	public static final RecipeDisplay.Serializer<EffigyAltarRecipeDisplay> EFFIGY_ALTAR_RECIPE_DISPLAY = Registry.register(Registries.RECIPE_DISPLAY, EFFIGY_ALTAR_ID, EffigyAltarRecipeDisplay.SERIALIZER);
+	public static final RecipeBookCategory EFFIGY_ALTAR_RECIPE_BOOK_CATEGORY = Registry.register(Registries.RECIPE_BOOK_CATEGORY, EFFIGY_ALTAR_ID, new RecipeBookCategory() {
 		public String toString() {
 			return "EFFIGY_ALTAR";
 		}
@@ -124,7 +126,7 @@ public class PeacefulMod implements ModInitializer {
 
 	public static final ScreenHandlerType<EffigyAltarScreenHandler> EFFIGY_ALTAR_SCREEN_HANDLER = Registry.register(
 		Registries.SCREEN_HANDLER,
-		Identifier.of(MOD_ID, "effigy_altar"),
+		EFFIGY_ALTAR_ID,
 		new ScreenHandlerType<EffigyAltarScreenHandler>(EffigyAltarScreenHandler::new, null));
 
 	@Override
