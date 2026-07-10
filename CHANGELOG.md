@@ -1,3 +1,16 @@
 - Fixed missing musician zombie villager texture
 - Russian translation
 - EIV integration
+- RRV integration
+- Jade integration
+- Added information on certain items to REI
+- Added Advancements
+- Added totem event handler
+- Flax now spawns when you use bonemeal on grass blocks
+- Tears and Lava Chicken can now be bought from a musician
+- Added a DJ House to villages (spawns rarely)
+- Added onions to Wisp dislikes
+- Adjusted Enderclam spawn rates
+- Fixed Wisps thinking they could open doors when they can't
+- Added missing tag translations
+- Other miscellaneous bugs
