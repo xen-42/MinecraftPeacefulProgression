@@ -33,6 +33,11 @@ repositories {
 		url = "https://maven.terraformersmc.com/"
 	}
 
+	maven {
+		name = "JEI"
+		url = "https://dvs1.progwml6.com/files/maven/"
+	}
+
 	exclusiveContent {
 		forRepository {
 			maven {
@@ -92,6 +97,13 @@ loom {
 			runDir("run/client")
 		}
 
+		clientJei {
+			inherit client
+			configName = "Minecraft Client (JEI)"
+			programArgs "--username", "DevPlayer"
+			runDir("run/client")
+		}
+
 		serverNone {
 			inherit server
 			configName = "Minecraft Server (No Recipe Viewer)"
@@ -107,6 +119,12 @@ loom {
 		serverEmi {
 			inherit server
 			configName = "Minecraft Server (EMI)"
+			runDir("run/server")
+		}
+
+		serverJei {
+			inherit server
+			configName = "Minecraft Server (JEI)"
 			runDir("run/server")
 		}
 	}
@@ -170,6 +188,12 @@ dependencies {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 
+	// JEI
+	// Broken with Yarn/Loom because of a remapping issue
+	modCompileOnly("mezz.jei:jei-${project.minecraft_version}-fabric:${project.jei_version}") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
+
 	// Which recipe viewer to use at runtime.
 	switch (recipeViewer) {
 		case "rei":
@@ -184,13 +208,19 @@ dependencies {
 			}
 			break
 
+		case "jei":
+			modLocalRuntime("mezz.jei:jei-${project.minecraft_version}-fabric:${project.jei_version}") {
+				exclude group: "net.fabricmc.fabric-api"
+			}
+			break
+		
 		case "disabled":
 		case "none":
 		case "":
 			break
 
 		default:
-			println("Unknown recipe viewer specified: ${recipeViewer}. Must be rei, emi, or none.")
+			println("Unknown recipe viewer specified: ${recipeViewer}. Must be rei, emi, jei, or none.")
 			break
 	}
 
