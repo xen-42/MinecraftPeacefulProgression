@@ -28,6 +28,11 @@ repositories {
 		url = "https://maven.shedaniel.me"
 	}
 
+	maven {
+		name = "TerraformersMC"
+		url = "https://maven.terraformersmc.com/"
+	}
+
 	exclusiveContent {
 		forRepository {
 			maven {
@@ -80,6 +85,13 @@ loom {
 			runDir("run/client")
 		}
 
+		clientEmi {
+			inherit client
+			configName = "Minecraft Client (EMI)"
+			programArgs "--username", "DevPlayer"
+			runDir("run/client")
+		}
+
 		serverNone {
 			inherit server
 			configName = "Minecraft Server (No Recipe Viewer)"
@@ -89,6 +101,12 @@ loom {
 		serverRei {
 			inherit server
 			configName = "Minecraft Server (REI)"
+			runDir("run/server")
+		}
+
+		serverEmi {
+			inherit server
+			configName = "Minecraft Server (EMI)"
 			runDir("run/server")
 		}
 	}
@@ -144,11 +162,25 @@ dependencies {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 
+	// EMI
+	modCompileOnly("dev.emi:emi-fabric:${emi_version}+${minecraft_version}:api") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
+	modCompileOnly("dev.emi:emi-fabric:${emi_version}+${minecraft_version}") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
+
 	// Which recipe viewer to use at runtime.
 	switch (recipeViewer) {
 		case "rei":
 			modLocalRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}") {
 				exclude group: "net.fabricmc.fabric-api"
+			}
+			break
+
+		case "emi":
+			modLocalRuntime("dev.emi:emi-fabric:${emi_version}+${minecraft_version}") {
+				exclude(group: "net.fabricmc.fabric-api")
 			}
 			break
 
@@ -158,7 +190,7 @@ dependencies {
 			break
 
 		default:
-			println("Unknown recipe viewer specified: ${recipeViewer}. Must be rei, or none.")
+			println("Unknown recipe viewer specified: ${recipeViewer}. Must be rei, emi, or none.")
 			break
 	}
 
