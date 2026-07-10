@@ -169,11 +169,16 @@ public class PeacefulProgressionEMIPlugin implements EmiPlugin {
 	}
 
 	private static void addAnvilRepairRecipe(EmiRegistry registry, Item tool, Item material) {
+		Identifier id = synthetic("anvil/repairing/material", subId(tool) + "/" + subId(material));
 		addRecipeSafe(registry, () -> new EmiAnvilRecipe(
 			EmiStack.of(tool),
-			EmiStack.of(material),
-			synthetic("anvil/repairing/material", subId(tool) + "/" + subId(material))
-		));
+			EmiStack.of(material)
+		) {
+			@Override
+			public Identifier getId() {
+				return id;
+			}
+		});
 	}
 
 	private static EmiRecipe worldRecipe(
