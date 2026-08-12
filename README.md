@@ -26,7 +26,7 @@ Adds new methods to acquire the following drops: Gunpowder, saddles, bones, blaz
 - New crafting recipes for gunpowder, saddles, phantom membranes, and rotten flesh.
 - New generated structure: **Effigy Altar Dungeon**. Level 2 cartographers sell a map to help locate one.
 - New crafting table: **Effigy Altar**. Used to craft Totems of Undying and boss effigies.
-- New items: **Dragon Effigy, Elder Effigy, Wither Effigy, and Raid Effigy**. Using them grants boss drops and XP.
+- New items: **Dragon Effigy, Elder Effigy, Wither Effigy, and Raid Effigy**. Using them grants boss drops.
   - Dragon Effigies open End island portals when used in the End.
   - Using a Dragon Effigy on a cauldron fills it with dragon breath.
 - New equipment: **Cape**, a lesser version of the Elytra that doesn't allow firework boosts.
